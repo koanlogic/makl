@@ -1,0 +1,19 @@
+* Try to configure automatically as many stuff as possible:
+    - toolchain.mk
+    - map.mk
+    - dependencies
+    - features toggling
+
+* split install target in the ordered dep "beforeinstall" "realinstall" 
+  "afterinstall".
+
+* Set the "install" target dependency on "all" explicitly.
+
+* Improve subdir.mk: at present make doesn't stop on error in a subdir. 
+
+* Improve lib.mk to support shared libs (in a portable fashion ...)
+
+* Think about the "configure" way: 
+    - target
+    - features
+    - language
