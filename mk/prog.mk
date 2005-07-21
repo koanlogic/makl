@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.1 2005/07/21 18:00:01 tat Exp $
+# $Id: prog.mk,v 1.1.1.1 2005/07/21 18:00:01 tat Exp $
 #
 # User Variables:
 # - PROG        Program name.

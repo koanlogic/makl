@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.1 2005/07/21 18:00:01 tat Exp $
+# $Id: lib.mk,v 1.1.1.1 2005/07/21 18:00:01 tat Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
