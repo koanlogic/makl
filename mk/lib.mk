@@ -1,15 +1,15 @@
-# $Id: lib.mk,v 1.1 2005/07/21 18:00:01 tat Exp $
+#
+# $Id: lib.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
-# - OBJS        List of object files that compose the library.
+# - SRCS        List of source files that compose the library.
 # - CLEANFILES  Additional files that must be removed on clean target.
 # - CFLAGS      Compiler flags.
 # - LIBOWN, LIBGRP, LIBMODE   Installation credentials.
 #
-# Applicable targets:
-# - all, clean, install.
-#
+# Available targets:
+# - all, clean, install, depend, cleandepend.
 
 OBJS = ${patsubst %.c,%.o,${SRCS}}
 

@@ -1,18 +1,17 @@
 #
-# $Id: prog.mk,v 1.1 2005/07/21 18:00:01 tat Exp $
+# $Id: prog.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
 #
 # User Variables:
 # - PROG        Program name.
-# - OBJS        File objects that build the program.
-# - LDADD       Library dependencies ...
-# - LDFLAGS     ...
+# - SRCS        List of program sources.
+# - LDADD       Library dependencies.
+# - LDFLAGS     Linker flags.
 # - CLEANFILES  Additional clean files.
-# - BIN{OWN,GRP,MODE,DIR} installation path and credentials ...
+# - BIN{OWN,GRP,MODE,DIR} Installation path and credentials.
 # - DESTDIR     Base installation directory.
 #
-# Applicable targets:
-# - all, clean, install 
-#
+# Available targets:
+# - all, clean, install, depend, cleandepend
 
 OBJS = ${patsubst %.c,%.o,${SRCS}}
 
