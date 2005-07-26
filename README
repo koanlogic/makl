@@ -1,0 +1,56 @@
+MaKL is a tool to aid and ease the development of multiplatform C applications.
+
+The MaKL package is a collection of Bourne shell functions (makl cf macros) and
+template GNU Makefiles (makl mk files) which can be used together or separately
+to achieve the following goals:
+
+- Get simpler and less error prone Makefiles.  
+  You just need to set a small number of variables and include the relevant 
+  template Makefiles.
+
+  e.g.:
+
+  PROG = myprog
+  SRCS = main.c aux.c
+  LDADD = ../mylib/mylib.a
+  DPADD = ${LDADD}
+  DESTDIR = /opt/myapp/
+
+  include prog.mk
+
+  Then you can issue GNU make with 'all', 'clean', 'install', 'depend' and 
+  'cleandepend' targets and they will do exactly what you expect.
+ 
+- MaKL is a feature that the user can toggle on/off at will.  
+  Suppose you have written your special case Makefile and you don't want MaKL 
+  to interfere with it: you just don't include MaKL templates and that's it.
+
+- Simple customization and target hacking.
+  If MaKL is not sufficient to your needs and you are familiar with Makefile 
+  writing, you can hack the templates, it's quite simple: they are plain, clean
+  and well documented.  If you feel your modification is worth for others, you 
+  are incouraged to give it back to the MaKL community.
+  
+- Automatic configuration.
+  By including MaKL cf macros, the developer can easily create its configure
+  script.  The cf macros are Bourne shell functions with a very scalable
+  architecture: MaKL provides the basic building block which the developer
+  can combine in order to obtain the needed functionality:
+
+  e.g.
+
+  makl_compile("./build/libxdep.c", "-lx") && makl_set_var("HAVE_LIBX")
+
+  The use of Bourne shell syntax makes them easy to understand, customise, 
+  extend, etc.  Again, if you feel the modifications you've added to the 
+  package are worth for others, you are incouraged to give it back to the 
+  MaKL community.
+
+- Reduce system dependencies.  
+  MaKL package only depends on /bin/sh for makl_cf macros and GNU make for 
+  Makefile templates.
+
+- Mantain the Autotools' phenotype.
+  We want that building and installing a MaKL application from source files 
+  is as simple as typing: ./configure && make install.
+
