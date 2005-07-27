@@ -1,0 +1,3 @@
+# wrap makl_conf_h
+echo >> ${makl_conf_h}
+echo '#endif /* !_CONF_H_ */' >> ${makl_conf_h}
