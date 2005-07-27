@@ -1,18 +1,22 @@
 #
-# $Id: makl_set_var,v 1.4 2005/07/27 17:23:23 tho Exp $
+# $Id: makl_set_var,v 1.5 2005/07/27 18:30:05 tho Exp $
 #
 
 # makl_set_var_h name value
 #
 #   Set 'name' to 'value' in ${makl_conf_h}.
 #   $1 - symbol to set
-#   $2 - value of symbol
+#   $2 - value of symbol (optional)
 #   No return value.
 #
 makl_set_var_h ()
 {
     makl_dbg "setting $1 to $2 in ${makl_conf_h}"
-    echo "#define $1 \"$2\"" >> ${makl_conf_h}
+    if [ -z $2 ]; then
+        echo "#define $1" >> ${makl_conf_h}
+    else    
+        echo "#define $1 \"$2\"" >> ${makl_conf_h}
+    fi    
 }
 
 # makl_set_var_mk name value
