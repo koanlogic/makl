@@ -1,0 +1,44 @@
+___________
+Conventions
+
+Each MaKL public macro has a 'makl_' prefix and reside on a separate file 
+named as the macro name.  Macros with common functionalities can be grouped
+in a single file.  The 'makl.init' script sources all the makl_* files in 
+the makl/cf directory.
+
+__________________
+Bootstrapping MaKL
+
+In order to bootstrap MaKL operations (i.e. to be able to use MaKL macros)
+you have to set the 'makl_dir' environment variable to point to the MaKL 
+installation directory.  This is the only value really *required*: other 
+global variables will be set to sensible defaults by the 'makl.init' script 
+(see the Global variables paragraph).
+
+A typical 'configure' script looks like this:
+
+#!/bin/sh
+
+# initialise MaKL
+. ${makl_dir}/cf/makl.init
+
+# in between makl.init and makl.term makl_ macros can be recalled consistently
+
+# politely quit configure operations
+. ${makl_dir}/cf/makl.term
+ 
+________________
+Global variables
+
+# Must be necessarely set in the environment.
+- makl_dir              -> makl installation top level directory.
+
+# Have default values that can be override in the shell environment
+# These have an "application scope", i.e. are values whose meaning is tied
+# to the development of a single application.
+- makl_debug            -> 'true|on|yes|1' (case insensitive) enables debug
+- makl_makefile_conf    -> application top level GNU make settings
+- makl_conf_h           -> application #defines
+- makl_run_dir          -> where MaKL does all the dirty things
+
+TODO -> define default values for globals.

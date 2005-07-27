@@ -1,0 +1,43 @@
+#
+# $Id: makl.init,v 1.1 2005/07/27 09:05:18 tho Exp $
+#
+
+# read in just once
+if [ -z "${_makl_inited}" ]; then
+
+_makl_inited="YES"
+
+# "makl_dir" is read from the shell env (it's MaKL bootstrap value)
+if [ -z "${makl_dir}" ]; then
+    echo 'makl_dir value must be set in the shell environment'
+    exit 1;
+fi
+
+# set globals to sensible defaults if not already set
+makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
+makl_conf_h="${makl_conf_h:-`pwd`/conf/conf.h}"
+makl_run_dir="${makl_run_dir:-`pwd`/build/.makl.run}"
+
+# source makl cf macros 
+for cfunc in ${makl_dir}/cf/makl_* ; do
+    . $cfunc
+done
+
+makl_dbg_globals
+
+# create (nearly) empty makl_makefile_conf and makl_conf_h
+echo > ${makl_makefile_conf}
+echo '#ifndef _CONF_H_' >  ${makl_conf_h}
+echo '#define _CONF_H_' >> ${makl_conf_h}
+echo >> ${makl_conf_h}
+
+# create the makl run dir, if it doesn't exist
+if [ -d ${makl_run_dir} ]; then
+    makl_dbg "makl_run_dir already in place"
+else
+    mkdir -p ${makl_run_dir} && makl_err 1 "cannot create makl_run_dir"
+fi
+
+# pass the control to the user.
+
+fi

@@ -1,0 +1,45 @@
+# makl_set_var_h name value
+#
+#   Set 'name' to 'value' in ${makl_conf_h}.
+#   $1 - symbol to be set
+#   $2 - value of symbol
+#   No return value.
+#
+makl_set_var_h ()
+{
+    makl_dbg "setting $1 to $2 in ${makl_conf_h}"
+    echo "#define $1 \"$2\"" >> ${makl_conf_h}
+}
+
+# makl_set_var_mk name value
+#
+#   Set 'name' to 'value' in ${makl_makefile_conf}.
+#   $1 - symbol to be set
+#   $2 - value of symbol
+#   No return value.
+#
+makl_set_var_mk ()
+{
+    makl_dbg "setting $1 to $2 in ${makl_makefile_conf}"
+    echo "$1 = \"$2\"" >> ${makl_makefile_conf}
+}
+
+# makl_set_var name value
+#
+#   Set 'name' to 'value' in ${makl_makefile_conf} and ${makl_conf_h}
+#   $1 - symbol to be set
+#   $2 - value of symbol
+#   Return '0' on success, '1' otherwise.
+#
+makl_set_var ()
+{
+    if [ ! "$1" -o -z "$1" ]; then
+        makl_warn "makl_set_var called with no argument"
+        return 1
+    fi
+   
+    makl_set_var_h  $1 $2
+    makl_set_var_mk $1 $2
+
+    return 0
+}
