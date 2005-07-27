@@ -1,0 +1,36 @@
+# makl_libdep id base_dir test_file
+#
+#   Evaluate the dependency
+#   $1 - id
+#   $2 - base directory ("" if not specified)
+#   $3 - test file
+#   Return '0' on success, '1' on failure.
+#
+makl_libdep ()
+{
+    ID=`makl_upper $1`
+
+    if [ ! -z $2 ]; then
+        ldflags="-L$2/lib -l$1"
+        iflags="-I $2/include"
+    else
+        ldflags="-l$1"
+    fi
+
+    # compile and link the test program
+    eval makl_compile $3 ${iflags} ${ldflags}
+    if [ $? -ne 0 ]; then
+        makl_unset_var "HAVE_LIB${ID}"
+        return 1
+    fi
+
+    # set LIBID_CFLAGS and LIBID_LDADD in Makefile.conf
+    makl_set_var_mk "LIB${ID}_CFLAGS" "${iflags}"
+    makl_set_var_mk "LIB${ID}_LDADD" "${ldflags}"
+    makl_set_var_mk "HAVE_LIB${ID}"
+
+    # set HAVE_LIBID in conf.h 
+    makl_set_var_h "HAVE_LIB${ID}"
+
+    return 0
+}

@@ -1,4 +1,4 @@
-# makl_compile c_file c_flags
+# makl_compile c_file c_flags1 ... c_flagsn
 #
 #   Compile c_file with the supplied c_flags
 #   $1 - Pathname of the C file to be compiled 
@@ -10,15 +10,19 @@ makl_compile ()
     if [ ! "$1" ]; then
         makl_err 1 "makl_compile called with no arguments"
     fi
+
+    c_file=$1
+    shift
+    c_flags=$*
    
-    makl_dbg "compiling $1 in ${makl_run_dir} with flags '$2'"
+    makl_dbg "compiling ${c_file} in ${makl_run_dir} with flags ${c_flags}"
 
     (
-        cp $1 ${makl_run_dir}
+        cp ${c_file} ${makl_run_dir}
         cd ${makl_run_dir}
 
         # XXX C Compiler name should be read from toolchain.mk
-        eval cc $2 $1 
+        cc ${c_flags} `basename ${c_file}`
     )
 
     [ $? -ne 0 ] && return 1

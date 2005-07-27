@@ -24,6 +24,19 @@ makl_set_var_mk ()
     echo "$1 = \"$2\"" >> ${makl_makefile_conf}
 }
 
+# makl_add_var_mk name value
+#
+#   Add (+=) 'value' to 'name' in ${makl_makefile_conf}.
+#   $1 - symbol to set
+#   $2 - value to add
+#   No return value.
+#
+makl_add_var_mk ()
+{
+    makl_dbg "adding $1 to $2 in ${makl_makefile_conf}"
+    echo "$1 += \"$2\"" >> ${makl_makefile_conf}
+}
+
 # makl_set_var name value
 #
 #   Set 'name' to 'value' in both ${makl_makefile_conf} and ${makl_conf_h}

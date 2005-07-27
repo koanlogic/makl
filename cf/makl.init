@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.1 2005/07/27 09:05:18 tho Exp $
+# $Id: makl.init,v 1.2 2005/07/27 15:40:35 tho Exp $
 #
 
 # read in just once
@@ -23,6 +23,7 @@ for cfunc in ${makl_dir}/cf/makl_* ; do
     . $cfunc
 done
 
+# show global variables' values
 makl_dbg_globals
 
 # create (nearly) empty makl_makefile_conf and makl_conf_h
@@ -35,7 +36,7 @@ echo >> ${makl_conf_h}
 if [ -d ${makl_run_dir} ]; then
     makl_dbg "makl_run_dir already in place"
 else
-    mkdir -p ${makl_run_dir} && makl_err 1 "cannot create makl_run_dir"
+    mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
 fi
 
 # pass the control to the user.
