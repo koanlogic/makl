@@ -1,3 +1,7 @@
+#
+# $Id: makl_set_var,v 1.4 2005/07/27 17:23:23 tho Exp $
+#
+
 # makl_set_var_h name value
 #
 #   Set 'name' to 'value' in ${makl_conf_h}.

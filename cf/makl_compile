@@ -1,3 +1,7 @@
+#
+# $Id: makl_compile,v 1.3 2005/07/27 17:23:23 tho Exp $
+#
+
 # makl_compile c_file c_flags1 ... c_flagsn
 #
 #   Compile c_file with the supplied c_flags

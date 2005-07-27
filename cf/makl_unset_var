@@ -1,3 +1,7 @@
+#
+# $Id: makl_unset_var,v 1.2 2005/07/27 17:23:23 tho Exp $
+#
+
 # makl_unset_var_h name
 #
 #   Unset 'name' in ${makl_conf_h}.

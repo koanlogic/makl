@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.2 2005/07/27 15:40:35 tho Exp $
+# $Id: makl.init,v 1.3 2005/07/27 17:23:23 tho Exp $
 #
 
 # read in just once
@@ -27,10 +27,8 @@ done
 makl_dbg_globals
 
 # create (nearly) empty makl_makefile_conf and makl_conf_h
-echo > ${makl_makefile_conf}
-echo '#ifndef _CONF_H_' >  ${makl_conf_h}
-echo '#define _CONF_H_' >> ${makl_conf_h}
-echo >> ${makl_conf_h}
+makl_init_makefile_conf
+makl_init_conf_h
 
 # create the makl run dir, if it doesn't exist
 if [ -d ${makl_run_dir} ]; then

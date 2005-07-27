@@ -1,3 +1,7 @@
+#
+# $Id: makl_utils,v 1.4 2005/07/27 17:23:23 tho Exp $
+#
+
 # makl_err exit_code err_string
 #
 #   Print the supplied error string to stderr and bail out with the given 
@@ -53,7 +57,7 @@ makl_dbg_globals ()
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"
 }
 
-# makl_upper "string1" ... "stringn"
+# makl_upper string1 ... stringn
 #
 #   Transform lower into upper case letters.
 #   $* - list of 0 or more strings to be converted
@@ -98,4 +102,37 @@ makl_yesno ()
                 ;;
         esac
     done
+}
+
+# makl_init_makefile_conf
+#
+#   Initialise ${makl_makefile_conf}
+#   No return value.
+#
+makl_init_makefile_conf ()
+{
+    echo > ${makl_makefile_conf}
+}
+
+# makl_term_conf_h
+#
+#   Wrap ${makl_conf_h} 
+#   No return value.
+#
+makl_term_conf_h ()
+{
+    echo >> ${makl_conf_h}
+    echo '#endif /* !_CONF_H_ */' >> ${makl_conf_h}
+}
+
+# makl_init_conf_h
+#
+#   Initialise ${makl_conf_h}
+#   No return value.
+#
+makl_init_conf_h ()
+{
+    echo '#ifndef _CONF_H_' >  ${makl_conf_h}
+    echo '#define _CONF_H_' >> ${makl_conf_h}
+    echo >> ${makl_conf_h}
 }
