@@ -1,0 +1,48 @@
+#
+# $Id: makl_feature,v 1.1 2005/07/27 18:05:39 tho Exp $
+#
+
+# makl_feature_c id c_file c_flags
+#
+#   Feature 'id' is enabled if the compilation of 'c_file' is successful, 
+#   disabled otherwise.
+#   $1 - feature id
+#   $2 - C file to be compiled
+#   $3 - flags supplied to the compiler
+#   No value is returned.
+#
+makl_feature_c ()
+{
+    ID=`makl_upper $1`
+
+    eval makl_compile $2 $3
+    if [ $? -ne 0 ]; then
+        makl_unset_var "HAVE_${ID}"
+        return
+    fi
+
+    # set HAVE_ID in Makefile.conf and conf.h
+    makl_set_var "HAVE_${ID}"
+}
+
+# makl_feature_x id x_file
+#
+#   Feature 'id' is enabled if the execution of 'x_file' is successful, 
+#   disabled otherwise.
+#   $1 - feature id
+#   $2 - file to be executed
+#   No value is returned.
+#
+makl_feature_x ()
+{
+    ID=`makl_upper $1`
+
+    eval $2
+    if [ $? -ne 0 ]; then
+        makl_unset_var "HAVE_${ID}"
+        return
+    fi
+
+    # set HAVE_ID in Makefile.conf and conf.h
+    makl_set_var "HAVE_${ID}"
+}
