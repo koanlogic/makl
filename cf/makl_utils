@@ -53,3 +53,13 @@ makl_dbg_globals ()
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"
 }
 
+# makl_upper "string1" ... "stringn"
+#
+#   Transform lower into upper case letters.
+#   $* - list of 0 or more strings to be converted
+#   No return value.
+#
+makl_upper ()
+{
+   echo $* | tr [a-z] [A-Z]
+}
