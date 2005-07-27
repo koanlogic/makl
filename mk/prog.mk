@@ -1,17 +1,18 @@
 #
-# $Id: prog.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
+# $Id: prog.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
 #
 # User Variables:
 # - PROG        Program name.
-# - SRCS        List of program sources.
-# - LDADD       Library dependencies.
-# - LDFLAGS     Linker flags.
+# - OBJS        File objects that build the program.
+# - LDADD       Library dependencies ...
+# - LDFLAGS     ...
 # - CLEANFILES  Additional clean files.
-# - BIN{OWN,GRP,MODE,DIR} Installation path and credentials.
+# - BIN{OWN,GRP,MODE,DIR} installation path and credentials ...
 # - DESTDIR     Base installation directory.
 #
-# Available targets:
-# - all, clean, install, depend, cleandepend
+# Applicable targets:
+# - all, clean, install, uninstall.
+#
 
 OBJS = ${patsubst %.c,%.o,${SRCS}}
 
@@ -23,9 +24,17 @@ CLEANFILES += ${PROG} ${OBJS}
 clean:
 	rm -f ${CLEANFILES}
 
-install:
+beforeinstall:
+realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${PROG} ${DESTDIR}/${BINDIR}
+	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}
+
+afterinstall:
+install: beforeinstall realinstall afterinstall
+
+uninstall:
+	rm -f ${DESTDIR}${BINDIR}${PROG}
+ 
 
 include map.mk
 include toolchain.mk

@@ -1,5 +1,4 @@
-#
-# $Id: subdir.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
+# $Id: subdir.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -7,11 +6,10 @@
 #               subdirectories.
 #
 # Applicable Targets:
-# - all, clean, install, depend, cleandepend.
+# - all, clean, install, uninstall ...
 
-all clean install depend cleandepend:
+all clean install uninstall depend cleandepend:
 	@for dir in ${SUBDIR} ; do \
-        ${MAKE} -C $${dir} ${MAKECMDGOALS} ; \
-done
-
-# TODO stop on make failure.
+	    ${MAKE} -C $${dir} ${MAKECMDGOALS} ; \
+        [ $$? = 0 ] || exit $$? ; \
+	done

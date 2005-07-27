@@ -1,18 +1,24 @@
 #
-# $Id: incs.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
+# $Id: incs.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
 #
-# User variables:
+# Only define the install target.
+#
 # - INCS        the list of include files to install.
 #
-# Available targets:
-# - Only define the install target (all, clean, depend, cleandepend are NOPs).
 
 all clean depend cleandepend:
 	@echo "nothing to do for ${MAKECMDGOALS} target in ${CURDIR} ..."		
-
-install:
+    
+beforeinstall:
+realinstall:
 	${INSTALL} -o ${INCOWN} -g ${INCGRP} -m ${INCMODE} \
 	    ${INCS} ${DESTDIR}${INCDIR} 
+afterinstall:
+install: beforeinstall realinstall afterinstall
+
+uninstall:
+	rm -f ${DESTDIR}${INCDIR}${INCS}
+    
 
 include map.mk
 include toolchain.mk
