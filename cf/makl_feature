@@ -1,5 +1,5 @@
 #
-# $Id: makl_feature,v 1.1 2005/07/27 18:05:39 tho Exp $
+# $Id: makl_feature,v 1.2 2005/07/28 19:35:22 stewy Exp $
 #
 
 # makl_feature_c id c_file c_flags
@@ -25,6 +25,7 @@ makl_feature_c ()
     makl_set_var "HAVE_${ID}"
 }
 
+
 # makl_feature_x id x_file
 #
 #   Feature 'id' is enabled if the execution of 'x_file' is successful, 
@@ -40,7 +41,7 @@ makl_feature_x ()
     eval $2
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_${ID}"
-        return
+        return 1
     fi
 
     # set HAVE_ID in Makefile.conf and conf.h
