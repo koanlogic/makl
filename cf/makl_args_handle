@@ -1,14 +1,14 @@
 #
-# $Id: makl_args_handle,v 1.1 2005/07/28 19:35:22 stewy Exp $
+# $Id: makl_args_handle,v 1.2 2005/07/29 07:31:50 tho Exp $
 #
 
 
 _makl_help () 
 {
     echo 
-    echo "'makl' - a painless C project configuration tool"
+    echo "'MaKL' - a painless C project configuration tool"
     echo 
-    echo "Usage ./<_configure_scipt> [OPTION] ..."
+    echo "Usage ./<_configure_script> [OPTION] ..."
     echo 
     echo "OPTION can be defined as follows:"
     echo 
@@ -34,8 +34,8 @@ _makl_help ()
     echo "                              with optional FLAGS"
     echo
     echo "* dependencies"
-    echo "  --with-ID=BASE:[TEST]       check for dependency lib ID in BASE dir;"
-    echo "                              optional file TEST to be compiled"
+    echo "  --with-ID=BASE:[TEST]       check for dependency lib ID in BASE 
+    echo "                              dir; optional file TEST to be compiled"
     echo 
 }
 
