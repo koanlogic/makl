@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.3 2005/07/29 07:56:27 tho Exp $
+# $Id: makl_args_handle,v 1.4 2005/07/29 09:32:04 tho Exp $
 #
 
 
@@ -191,14 +191,15 @@ _makl_args_err ()
 
 # Handle an argument
 #
+#   $1 - argument to handle
 _makl_arg_handle ()
 {
-    cmd=`   echo $arg | cut -f3 -d"-"`
-    id=`    echo $arg | cut -f4 -d"-" | cut -f1 -d"="`
-    val=`   echo $arg | cut -s -f2 -d"="`
+    cmd=`   echo $1 | cut -f3 -d"-"`
+    id=`    echo $1 | cut -f4 -d"-" | cut -f1 -d"="`
+    val=`   echo $1 | cut -s -f2 -d"="`
 
-    _makl_$cmd $id "$val"
-    [ $? = 0 ] || _makl_args_err "Undefined command: '$cmd'!"
+    _makl_${cmd} ${id} "${val}"
+    [ $? = 0 ] || _makl_args_err "Undefined command: ${cmd} !"
 }
 
 
@@ -208,13 +209,13 @@ _makl_arg_handle ()
 makl_args_handle()
 {
     for arg in "$@"; do
-        pref=`echo $arg | cut -c1,2`
-        if [ "$arg" = "-h" ]; then
+        pref=`echo ${arg} | cut -c1,2`
+        if [ "${arg}" = "-h" ]; then
             _makl_help
             exit 1
         else 
-            [ $pref = "--" ] || _makl_args_err "Undefined command: '$arg'!"
-            _makl_arg_handle "$arg"
+            [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
+            _makl_arg_handle "${arg}"
         fi
     done
 }
