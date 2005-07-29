@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.2 2005/07/29 07:31:50 tho Exp $
+# $Id: makl_args_handle,v 1.3 2005/07/29 07:56:27 tho Exp $
 #
 
 
@@ -23,7 +23,7 @@ _makl_help ()
     echo "  --unset-VAR             unset VAR in MAKEFILE and CONFFILE"
     echo "  --unset_h-VAR           unset VAR in CONFFILE"
     echo "  --unset_mk-VAR          unset VAR in MAKEFILE"
-    echo "             ,given defaults:"
+    echo "             , given defaults:"
     echo "                              VAL=\"\" if undefined"
     echo "                              MAKEFILE=Makefile.conf"
     echo "                              CONFFILE=conf/conf.h"
@@ -34,7 +34,7 @@ _makl_help ()
     echo "                              with optional FLAGS"
     echo
     echo "* dependencies"
-    echo "  --with-ID=BASE:[TEST]       check for dependency lib ID in BASE 
+    echo "  --with-ID=BASE:[TEST]       check for dependency lib ID in BASE"
     echo "                              dir; optional file TEST to be compiled"
     echo 
 }
@@ -91,11 +91,11 @@ _makl_add_mk ()
 # makl_unset_var wrapper
 # 
 # $1 variable name
-# $2 <must be empty>
+# XXX $2 <must be empty>
 _makl_unset ()
 {
     [ $1 ] || makl_err 1 "makl_unset: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset: too many parameters!"
+#[ ! $2 ] || makl_err 1 "makl_unset: too many parameters!"
 
     makl_unset_var $1 
 }
@@ -104,11 +104,11 @@ _makl_unset ()
 # makl_unset_var_h wrapper
 #
 #   $1 - variable name
-#   $2 <must be empty>
+# XXX $2 <must be empty>
 _makl_unset_h ()
 {
     [ $1 ] || makl_err 1 "makl_unset_h: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset_h: too many parameters!"
+#    [ ! $2 ] || makl_err 1 "makl_unset_h: too many parameters!"
 
     makl_unset_var_h $1
 }
@@ -117,11 +117,11 @@ _makl_unset_h ()
 # makl_unset_var_mk wrapper
 #
 #   $1 - variable name
-#   $2 <must be empty>
+#   XXX $2 <must be empty>
 _makl_unset_mk ()
 {
     [ $1 ] || makl_err 1 "makl_unset_mk: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset_mk: too many parameters!"
+#    [ ! $2 ] || makl_err 1 "makl_unset_mk: too many parameters!"
 
     makl_unset_var_mk $1
 }
@@ -136,7 +136,7 @@ _makl_feat_c ()
     file=`  echo $2 | cut -f1 -d":"`
     flags=` echo $2 | cut -s -f2 -d":"`
 
-    makl_feature_c $1 $file "$flags" 1>/dev/null
+    makl_feature_c $1 ${file} "${flags}" 1>/dev/null
     [ $? = 0 ] || makl_err 2 "makl_feat_c: feature $1 - failed to compile $2" 
 }
 
@@ -164,15 +164,15 @@ _makl_with ()
     base=`  echo $2 | cut -f1 -d":"`
     tst=`   echo $2 | cut -s -f2 -d":"`
 
-    if [ $tst ]; then
-        [ -r $tst ] || makl_err 2 "makl_with: unable to open test file ($tst)!" 
+    if [ ${tst} ]; then
+        [ -r ${tst} ] || makl_err 2 "makl_with: unreadable test file (${tst})!" 
     else
         # try default test file
         tst=`pwd`/build/lib$1.c
-        [ -r $tst ] || makl_err 2 "makl_with: no test file for $1 ($tst)!" 
-    fi    
+        [ -r ${tst} ] || makl_err 2 "makl_with: no test file for $1 (${tst})!" 
+    fi
 
-    makl_libdep $1 $base $tst
+    makl_libdep $1 ${base} ${tst}
 
     return $?
 }
