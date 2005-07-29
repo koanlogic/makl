@@ -1,3 +1,4 @@
+# $Id: README,v 1.2 2005/07/29 09:52:23 tho Exp $
 
 - a .tc file is a list of 'name = value' pairs each of which corresponds to a 
   given toolchain object or to an object parameter (e.g. compiler, compiler

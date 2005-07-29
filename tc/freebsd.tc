@@ -1,3 +1,6 @@
+#
+# tested on FreeBSD 5.*
+#
 CC = cc
 CFLAGS = -O -pipe
 AR = ar

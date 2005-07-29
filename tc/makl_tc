@@ -1,3 +1,7 @@
+#
+# $Id: makl_tc,v 1.2 2005/07/29 09:52:23 tho Exp $
+#
+
 # makl_tc tc_file tc_sh tc_mk
 #
 #   Starting from the template 'tc_file', create a Bourne shell and GNU make
