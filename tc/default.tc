@@ -1,0 +1,16 @@
+#
+# Default toolchain.  Edit to match your platform.
+#
+CC = cc
+CFLAGS = -O -pipe
+AR = ar
+ARFLAGS = rl
+RANLIB = ranlib
+LD = ld 
+LDFLAGS = 
+MKDEP = mkdep
+STRIP = strip
+STRIP_FLAGS = -x
+INSTALL = install
+INSTALL_COPY = -c
+INSTALL_STRIP = -s
