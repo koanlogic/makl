@@ -1,0 +1,14 @@
+CC = cc
+CFLAGS = -O -pipe
+AR = ar
+#ksdkad
+ARFLAGS = rl
+RANLIB = ranlib
+LD = ld 
+LDFLAGS = 
+MKDEP = mkdep
+STRIP = strip
+STRIP_FLAGS = -X
+INSTALL = install
+INSTALL_COPY = -c
+INSTALL_STRIP = -s
