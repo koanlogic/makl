@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.5 2005/07/27 18:05:39 tho Exp $
+# $Id: makl_utils,v 1.6 2005/07/29 12:27:27 tho Exp $
 #
 
 # makl_err exit_code err_string
@@ -51,7 +51,7 @@ makl_warn ()
 #
 makl_dbg_globals ()
 {
-    makl_dbg "makl_dir: ${makl_dir}"
+    makl_dbg "MAKL_DIR: ${MAKL_DIR}"
     makl_dbg "makl_run_dir: ${makl_run_dir}"
     makl_dbg "makl_conf_h: ${makl_conf_h}"
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"

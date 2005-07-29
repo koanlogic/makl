@@ -1,4 +1,4 @@
-# $Id: README,v 1.2 2005/07/29 09:52:23 tho Exp $
+# $Id: README,v 1.3 2005/07/29 12:27:27 tho Exp $
 
 - a .tc file is a list of 'name = value' pairs each of which corresponds to a 
   given toolchain object or to an object parameter (e.g. compiler, compiler
@@ -11,10 +11,10 @@
   needed.
 
 - on MaKL installation the platform should be autodetected and the right 
-  toolchain selected accordingly.  Two files, ${makl_dir}/cf/toolchain.sh and 
-  ${makl_dir}/mk/toolchain.mk are then automatically generated.  Changes to
+  toolchain selected accordingly.  Two files, ${MAKL_DIR}/cf/toolchain.sh and 
+  ${MAKL_DIR}/mk/toolchain.mk are then automatically generated.  Changes to
   the toolchain should always be done in the .tc file and then propagated to
-  .mk and .sh via the 'toolchain' target of the top-level {makl_dir} Makefile.
+  .mk and .sh via the 'toolchain' target of the top-level {MAKL_DIR} Makefile.
   The latter is especially true when you are rolling your own .tc file because
   of a special need (e.g. you're using another compiler, or need to adjust some
   command line flag) or because your platform is not yet supported by MaKL.

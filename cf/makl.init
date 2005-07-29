@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.5 2005/07/29 09:54:44 tho Exp $
+# $Id: makl.init,v 1.6 2005/07/29 12:27:27 tho Exp $
 #
 
 # read in just once
@@ -7,9 +7,9 @@ if [ -z "${_makl_inited}" ]; then
 
 _makl_inited="YES"
 
-# "makl_dir" is read from the shell env (it's MaKL bootstrap value)
-if [ -z "${makl_dir}" ]; then
-    echo "makl_dir value must be set in the shell environment"
+# "MAKL_DIR" is read from the shell env (it's MaKL bootstrap value)
+if [ -z "${MAKL_DIR}" ]; then
+    echo "MAKL_DIR value must be set in the shell environment"
     exit 1
 fi
 
@@ -18,13 +18,13 @@ makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/build/.makl.run}"
 
-if [ ! -r ${makl_dir}/cf/toolchain.sh ]; then
+if [ ! -r ${MAKL_DIR}/cf/toolchain.sh ]; then
     echo "missing toolchain.sh !"
     exit 1
 fi
 
 # source makl cf macros including the toolchain file
-for cfunc in ${makl_dir}/cf/makl_* ${makl_dir}/cf/toolchain.sh ; do
+for cfunc in ${MAKL_DIR}/cf/makl_* ${MAKL_DIR}/cf/toolchain.sh ; do
     . $cfunc
 done
 
