@@ -2,7 +2,7 @@
 # tested on Darwin 6.* and 7.*
 #
 CC = cc
-CFLAGS = -O -pipe
+CFLAGS = -pipe
 AR = ar
 ARFLAGS = rl
 RANLIB = ranlib

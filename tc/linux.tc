@@ -1,10 +1,9 @@
 #
-# tested on FreeBSD 5.*
+# Tested on GNU/Linux 2.6
 #
-CC = cc
+CC = gcc
 CFLAGS = -pipe
 AR = ar
-#ksdkad
 ARFLAGS = rl
 RANLIB = ranlib
 LD = ld 
