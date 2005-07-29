@@ -22,6 +22,10 @@ in
         ;;
 esac        
 
+echo
+echo "MaKL: installing toolchain for platform ${platform}."
+echo
+
 makl_tc ${makl_dir}/tc/${platform}.tc   \
         ${makl_dir}/cf/toolchain.sh     \
         ${makl_dir}/mk/toolchain.mk
