@@ -3,7 +3,13 @@
 # The full path of the cxh "mk" directory is supplied as the sole script 
 # argument.
 
-[ -z "$1" ] && exit 1
+err ()
+{
+    echo "$1"
+    exit 1
+}
+
+[ $# -ne 1 ] && err "$0 <makl_install_dir>"
 
 case `basename $SHELL` in
     csh|tcsh)

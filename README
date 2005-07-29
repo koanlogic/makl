@@ -21,7 +21,7 @@ to achieve the following goals:
   Then you can issue GNU make with 'all', 'clean', 'install', 'depend' and 
   'cleandepend' targets and they will do exactly what you expect.
  
-- MaKL is a feature that the user can toggle on/off at will.  
+- MaKL is a feature that the developer can toggle on/off at will.  
   Suppose you have written your special case Makefile and you don't want MaKL 
   to interfere with it: you just don't include any MaKL templates and that's it.
 
@@ -39,7 +39,7 @@ to achieve the following goals:
 
   e.g.
 
-  makl_compile("./build/libxdep.c", "-lx") && makl_set_var("HAVE_LIBX")
+  makl_compile "./build/libxdep.c", "-lx" && makl_set_var "HAVE_LIBX" 
 
   The use of Bourne shell syntax makes them easy to understand, customise,
   extend, etc.  Again, if you feel the changes you have made to the package
@@ -47,7 +47,7 @@ to achieve the following goals:
   community.
 
 - Reduce system dependencies.
-  The MaKL package only depends on /bin/sh for makl_cf macros and GNU make for 
+  The MaKL package only depends on /bin/sh for cf macros and GNU make for 
   Makefile templates.
 
 - Mantain the Autotools' phenotype.
