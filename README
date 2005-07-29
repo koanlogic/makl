@@ -1,10 +1,14 @@
-MaKL is a tool to aid and ease the development of multiplatform C applications.
+____________
+What is MaKL
 
+MaKL is a tool to aid and ease the development of multiplatform C applications.
 The MaKL package is a collection of Bourne shell functions (makl cf macros) and
 template GNU Makefiles (makl mk files) which can be used together or separately
 to achieve the following goals:
 
-- Get simpler and less error prone Makefiles.  
+__________________________________________
+Get simpler and less error prone Makefiles  
+
   You just need to set a small number of variables and include the relevant 
   template Makefiles.
 
@@ -21,17 +25,23 @@ to achieve the following goals:
   Then you can issue GNU make with 'all', 'clean', 'install', 'uninstall',
   'depend' and 'cleandepend' targets and they will do exactly what you expect.
  
-- MaKL is a feature that the developer can toggle on/off at will.  
+______________________________________________________________
+MaKL is a feature that the developer can toggle on/off at will
+
   Suppose you have written your special case Makefile and you don't want MaKL 
   to interfere with it: you just don't include any MaKL templates and that's it.
 
-- Simple customisation and target hacking.
+_______________________________________
+Simple customisation and target hacking
+
   If MaKL is not sufficient for your needs and you are familiar with Makefile 
   writing, you can hack the templates, it's quite simple: they are plain, clean
   and well documented.  If you feel your modification could be useful to
   others, you are incouraged supply it to the MaKL community.
-  
-- Automatic configuration.
+
+_______________________
+Automatic configuration
+
   By including MaKL cf macros, the developer can easily create his/her configure
   script.  The cf macros are Bourne shell functions with a very scalable
   architecture: MaKL provides some basic building blocks which the developer
@@ -46,11 +56,17 @@ to achieve the following goals:
   can be useful to others, you are incouraged to submit them to the MaKL
   community.
 
-- Reduce system dependencies.
+__________________________
+Reduce system dependencies
+
   The MaKL package only depends on /bin/sh for cf macros and GNU make for 
   Makefile templates.
 
-- Mantain the Autotools' phenotype.
+________________________________
+Mantain the Autotools' phenotype
+
   We want the building and installation processes of a MaKL application from
   source files to be as simple as typing: ./configure && make install.
 
+
+MaKL (c) 2005 - KoanLogic srl
