@@ -16,7 +16,7 @@ echo "In order to use MaKL you need to set a couple of variable in your shell's"
 echo "environment, one is for MaKL itself (MAKL_DIR), the other for GNU make"
 echo "(MAKEFLAGS)."
 echo
-echo For C compatible shell do: 
+echo For C compatible shells do: 
 echo "$" setenv MAKL_DIR \"$1\"
 echo "$" setenv MAKEFLAGS \"-I $1/mk\"
 echo
