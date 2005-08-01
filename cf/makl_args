@@ -1,0 +1,52 @@
+#
+# $Id: makl_args,v 1.1 2005/08/01 08:53:38 stewy Exp $
+#
+
+
+# makl_args_def args_str
+#
+#   Define a command line argument with multp
+#   $@ - argument strings
+#   No return value.
+#
+makl_args_def ()
+{
+    line=""
+    for arg in "$@"; do
+        line="${line}${arg}|"
+    done
+
+    # create file to store instances of option
+    touch ${makl_run_dir}/args_"$1"
+
+    file=${makl_run_dir}/args
+    
+    makl_find "${line}" "${file}"
+    [ $? = 0 ] && return
+
+    echo ${line} >> ${file}
+}
+
+
+# makl_args_add id 
+#
+#   $1 - argument id 
+#   $2 - argument value
+#   $3 - prefix
+#   No return value.
+# 
+makl_args_add ()
+{
+    file=${makl_run_dir}/args_"$1"
+    
+    if [ ! -w ${file} ]; then
+        makl_err 2 "Argument not defined: $1"
+    fi
+    
+    line="$2|$3" 
+    
+    makl_find ${line} ${file}
+    [ $? = 0 ] && return
+    
+    echo ${line} >> ${file}
+}

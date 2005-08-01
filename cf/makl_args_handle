@@ -1,6 +1,7 @@
 #
-# $Id: makl_args_handle,v 1.4 2005/07/29 09:32:04 tho Exp $
+# $Id: makl_args_handle,v 1.5 2005/08/01 08:53:38 stewy Exp $
 #
+
 
 
 _makl_help () 
@@ -8,35 +9,51 @@ _makl_help ()
     echo 
     echo "'MaKL' - a painless C project configuration tool"
     echo 
-    echo "Usage ./<_configure_script> [OPTION] ..."
+    echo "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
     echo 
     echo "OPTION can be defined as follows:"
     echo 
-    echo "* general settings"
-    echo "  --help                      display this help"
+    _makl_help_opts
     echo
-    echo "* setting/unsetting of variables"
-    echo "  --set-VAR=VAL           set VAR to VAL in MAKEFILE and CONFFILE"
-    echo "  --set_h-VAR=VAL         set VAR to VAL in CONFFILE"
-    echo "  --set_mk-VAR=VAL        set VAR to VAL in MAKEFILE"
-    echo "  --add_mk-VAR=VAL        append VAL to VAR in MAKEFILE"
-    echo "  --unset-VAR             unset VAR in MAKEFILE and CONFFILE"
-    echo "  --unset_h-VAR           unset VAR in CONFFILE"
-    echo "  --unset_mk-VAR          unset VAR in MAKEFILE"
-    echo "             , given defaults:"
-    echo "                              VAL=\"\" if undefined"
-    echo "                              MAKEFILE=Makefile.conf"
-    echo "                              CONFFILE=conf/conf.h"
+    echo "Legend:"       
+    echo "  <*>: package-specific options" 
+    echo "  <x>: required dependency" 
+    echo "  < >: optional dependency" 
     echo
-    echo "* enabling of features (execution and compilation)"
-    echo "  --feat_x-ID=FILE            test feature ID by executing FILE"
-    echo "  --feat_c-ID=FILE:[FLAGS]    test feature ID by compiling FILE"
-    echo "                              with optional FLAGS"
-    echo
-    echo "* dependencies"
-    echo "  --with-ID=BASE:[TEST]       check for dependency lib ID in BASE"
-    echo "                              dir; optional file TEST to be compiled"
-    echo 
+}
+
+
+_makl_help_opts() 
+{
+    file=${makl_run_dir}/args 
+    cat ${file} | {
+        while read line; do 
+            id=`echo ${line} | cut -d "|" -f 1`
+            pms=`echo ${line} | cut -d "|" -f 2`
+            dsc=`echo ${line} | cut -d "|" -f 3`
+            echo "--"${id}${pms} $'\t' $'\t' ${dsc}
+            cat ${makl_run_dir}/args_"${id}" | { 
+                while read lin; do
+                    ID=`echo ${lin} | cut -d "|" -f 1`
+                    pfx=`echo ${lin} | cut -d "|" -f 2`
+                    echo "<*>${pfx} --"${id}${pms} | 
+                        sed 's/X/'"${ID}"'/' |
+                        cut -d "=" -f 1
+                done
+            }
+        done
+    }
+}
+
+# _makl_prefix
+#
+#   $2 <must be empty>
+_makl_prefix ()
+{
+    shift -1 &>/dev/null
+    [ ! $2 ] || makl_err 1 "makl_prefix: too many parameters!"
+
+    echo "1: $1, 2: $2"
 }
 
 
@@ -90,12 +107,12 @@ _makl_add_mk ()
 
 # makl_unset_var wrapper
 # 
-# $1 variable name
-# XXX $2 <must be empty>
+#   $1 variable name
+#   $2 <must be empty>
 _makl_unset ()
 {
     [ $1 ] || makl_err 1 "makl_unset: missing variable name!"
-#[ ! $2 ] || makl_err 1 "makl_unset: too many parameters!"
+    [ ! $2 ] || makl_err 1 "makl_unset: too many parameters!"
 
     makl_unset_var $1 
 }
@@ -104,11 +121,11 @@ _makl_unset ()
 # makl_unset_var_h wrapper
 #
 #   $1 - variable name
-# XXX $2 <must be empty>
+#   $2 <must be empty>
 _makl_unset_h ()
 {
     [ $1 ] || makl_err 1 "makl_unset_h: missing variable name!"
-#    [ ! $2 ] || makl_err 1 "makl_unset_h: too many parameters!"
+    [ ! $2 ] || makl_err 1 "makl_unset_h: too many parameters!"
 
     makl_unset_var_h $1
 }
@@ -117,11 +134,11 @@ _makl_unset_h ()
 # makl_unset_var_mk wrapper
 #
 #   $1 - variable name
-#   XXX $2 <must be empty>
+#   $2 <must be empty>
 _makl_unset_mk ()
 {
     [ $1 ] || makl_err 1 "makl_unset_mk: missing variable name!"
-#    [ ! $2 ] || makl_err 1 "makl_unset_mk: too many parameters!"
+    [ ! $2 ] || makl_err 1 "makl_unset_mk: too many parameters!"
 
     makl_unset_var_mk $1
 }
@@ -161,9 +178,10 @@ _makl_with ()
     [ $1 ] || makl_err 1 "makl_with: missing package name!"
     [ $2 ] || makl_err 1 "makl_with: requires value argument!"
 
-    base=`  echo $2 | cut -f1 -d":"`
-    tst=`   echo $2 | cut -s -f2 -d":"`
-
+    id=$1
+    base=`echo $2 | cut -f1 -d":"`
+    tst=`echo $2 | cut -s -f2 -d":"`
+    
     if [ ${tst} ]; then
         [ -r ${tst} ] || makl_err 2 "makl_with: unreadable test file (${tst})!" 
     else
@@ -172,7 +190,12 @@ _makl_with ()
         [ -r ${tst} ] || makl_err 2 "makl_with: no test file for $1 (${tst})!" 
     fi
 
-    makl_libdep $1 ${base} ${tst}
+    makl_libdep ${id} ${base} ${tst}
+
+    # add to list of found libs
+    if [ $? = 0 ]; then
+       makl_req_found "lib" ${id}
+    fi
 
     return $?
 }
@@ -194,12 +217,12 @@ _makl_args_err ()
 #   $1 - argument to handle
 _makl_arg_handle ()
 {
-    cmd=`   echo $1 | cut -f3 -d"-"`
+    cmd=`   echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
     id=`    echo $1 | cut -f4 -d"-" | cut -f1 -d"="`
     val=`   echo $1 | cut -s -f2 -d"="`
 
     _makl_${cmd} ${id} "${val}"
-    [ $? = 0 ] || _makl_args_err "Undefined command: ${cmd} !"
+    [ $? = 0 ] || _makl_args_err "Undefined command: '${cmd}'!"
 }
 
 
@@ -210,12 +233,20 @@ makl_args_handle()
 {
     for arg in "$@"; do
         pref=`echo ${arg} | cut -c1,2`
-        if [ "${arg}" = "-h" ]; then
+        cmd=`echo ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
+        if [ ${arg} = "-h" ]; then
             _makl_help
             exit 1
         else 
             [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
-            _makl_arg_handle "${arg}"
+            if [ ${cmd} = "help" ]; then
+                _makl_help
+                exit 1 
+            else
+                _makl_arg_handle "${arg}"
+            fi
         fi
     done
+
+    _makl_require_check "lib"
 }
