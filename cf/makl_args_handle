@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.5 2005/08/01 08:53:38 stewy Exp $
+# $Id: makl_args_handle,v 1.6 2005/08/01 09:53:17 stewy Exp $
 #
 
 
@@ -173,21 +173,21 @@ _makl_feat_x ()
 #
 # $1 library id
 # $2 value="<base_dir>:[<tst_file>]"
-_makl_with ()
+_makl_lib ()
 {
-    [ $1 ] || makl_err 1 "makl_with: missing package name!"
-    [ $2 ] || makl_err 1 "makl_with: requires value argument!"
+    [ $1 ] || makl_err 1 "makl_lib: missing package name!"
+    [ $2 ] || makl_err 1 "makl_lib: requires value argument!"
 
     id=$1
     base=`echo $2 | cut -f1 -d":"`
     tst=`echo $2 | cut -s -f2 -d":"`
     
     if [ ${tst} ]; then
-        [ -r ${tst} ] || makl_err 2 "makl_with: unreadable test file (${tst})!" 
+        [ -r ${tst} ] || makl_err 2 "makl_lib: unreadable test file (${tst})!" 
     else
         # try default test file
         tst=`pwd`/build/lib$1.c
-        [ -r ${tst} ] || makl_err 2 "makl_with: no test file for $1 (${tst})!" 
+        [ -r ${tst} ] || makl_err 2 "makl_lib: no test file for $1 (${tst})!" 
     fi
 
     makl_libdep ${id} ${base} ${tst}
