@@ -1,0 +1,47 @@
+#
+# $Id: makl.init_args,v 1.1 2005/08/01 08:55:01 stewy Exp $
+#
+
+# general settings
+makl_args_def   "help" \
+                "" \
+                "display this help"
+makl_args_def   "prefix" \
+                "=BASE" \
+                "set BASE directory for installation"
+
+# variable manipulation
+makl_args_def   "set" \
+                "-X=VAL" \
+                "set variable X to VAL in MAKEFILE and CONFFILE"
+makl_args_def   "set_h" \
+                "-X=VAL" \
+                "set variable X to VAL in CONFFILE"
+makl_args_def   "set_mk" \
+                "-X=VAL" \
+                "set variable X to VAL in MAKEFILE"
+makl_args_def   "add_mk" \
+                "-X=VAL" \
+                "append VAL to variable X in MAKEFILE"
+makl_args_def   "unset" \
+                "-X=VAL" \
+                "unset variable X in MAKEFILE and CONFFILE"
+makl_args_def   "unset_h" \
+                "-X=VAL" \
+                "unset variable X in CONFFILE"
+makl_args_def   "unset_mk" \
+                "-X=VAL" \
+                "unset variable X in MAKEFILE"
+
+# feature enabling
+makl_args_def   "feat_x" \
+                "-X=FILE" \
+                "enable feature X by executing file"
+makl_args_def   "feat_c" \
+                "-X=FILE" \
+                "enable feature X by compiling file"
+
+# library dependency
+makl_args_def   "lib" \
+                "-X=BASE:[TEST]" \
+                "set lib X to have BASE dir and optional TEST file"
