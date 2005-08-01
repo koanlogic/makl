@@ -1,0 +1,107 @@
+#
+# $Id: makl_deps,v 1.1 2005/08/01 08:56:57 stewy Exp $
+#
+
+
+# makl_require type id
+#   
+#   Add a required dependency 
+#   $1 - dependency type
+#   $2 - dependency value
+#   No return value.
+#   
+makl_require ()
+{
+    file=${makl_run_dir}/deps_$1.require
+
+    makl_find $2 ${file}
+    [ $? = 0 ] && return
+    
+    echo $2 >> ${file}
+    makl_args_add $1 $2 "<x>"
+}
+
+
+# makl_optional type id
+#   
+#   Add an optional dependency
+#   $1 - dependency type
+#   $2 - dependency value
+#   No return value.
+#   
+makl_optional ()
+{
+    file=${makl_run_dir}/deps_$1.optional
+    
+    makl_find $2 ${file}
+    [ $? = 0 ] && return
+    
+    echo $2 >> ${file}
+    makl_args_add $1 $2 "< >"
+}
+
+
+# makl_req_found type id
+#   
+#   Mark a found dependency
+#   $1 - dependency type
+#   $2 - dependency value
+#   No return value.
+#
+makl_req_found ()
+{
+    file=${makl_run_dir}/deps_$1.found
+
+    makl_find $2 ${file}
+    [ $? = 0 ] && return
+    
+    echo $2 >> ${file}
+}
+
+
+# _makl_require_check type
+#   
+#   Check that "type" dependencies have been fulfilled
+#   $1 - dependency type
+#   
+_makl_require_check ()
+{
+    f_req=${makl_run_dir}/deps_$1.require
+    f_have=${makl_run_dir}/deps_$1.found
+
+    rm -f ${makl_run_dir}/err
+
+    if [ ! -r ${f_req} ]; then
+        return 0
+    fi
+
+    if [ ! -r ${f_have} ]; then
+        deps=`cat ${f_req}`
+        echo "Required $1 not found:"
+        echo ${deps}
+        makl_err 3 "Unfulfilled dependency!" 
+    fi
+    
+    # check that ${f_req} is subset of ${f_have}
+    cat ${f_req} | {
+        while read req; do
+            cat ${f_have} | {
+                found=0
+                while read have; do
+                    if [ ${have} = ${req} ]; then
+                        found=1
+                    fi
+                done
+                if [ ${found} = 0 ]; then
+                    echo "Required $1 not found: ${req}"
+                    touch ${makl_run_dir}/err
+                    break
+                fi
+            }
+        done
+    }
+    
+    if [ -r ${makl_run_dir}/err ]; then
+        makl_err 3 "Unfulfilled dependency!"
+    fi  
+}
