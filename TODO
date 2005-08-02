@@ -1,2 +1,5 @@
 * Set the "install" target dependency on "all" explicitly.
-* Improve lib.mk to support shared libs (in a portable fashion ...)
+* Improve lib.mk to support shared libs: this could be done by splitting 
+  lib.mk into a platform independent staticlib.mk and a platform specific 
+  dynlib.mk to be installed on MaKL setup (pretty much like toolchain files).
+* mkdep for platform missing it (for gcc we could use NetBSD's).
