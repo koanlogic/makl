@@ -1,7 +1,7 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux.tc,v 1.2 2005/08/02 11:14:13 tho Exp $
+# $Id: linux26.tc,v 1.1 2005/08/02 11:19:43 tho Exp $
 
 # cc is GCC 3.3.4
 CC = gcc

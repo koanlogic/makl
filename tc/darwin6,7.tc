@@ -1,7 +1,7 @@
 #
 # tested on Darwin 6.* and 7.*
 #
-# $Id: darwin.tc,v 1.4 2005/08/02 10:40:09 tho Exp $
+# $Id: darwin6,7.tc,v 1.1 2005/08/02 11:19:43 tho Exp $
 
 # cc is GCC 3.3 20030304 (Apple Computer, Inc. build 1495)
 CC = cc
