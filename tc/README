@@ -1,24 +1,26 @@
 _______________
 Toolchain files
 
-  A .tc file is a list of 'name = value' pairs each of which corresponds to a 
+  A .tc file is a list of 'NAME = value' pairs each of which corresponds to a 
   given toolchain object or to an object parameter (e.g. compiler, compiler
   command line arguments, linker, etc).  
-  Lines in a .tc file are either 'name = value' lines, blank lines or comment
-  lines.  Lines beginning with a '#' (i.e. comment lines) and blank lines are 
-  ignored, 'name = value' lines are used to produce the Bourne shell and GNU/P 
-  make compatible toolchain files.  Warning: due to parser limitation if a
-  given name has no value counterpart, a trailing blank after the '=' is still
-  needed.
+  The right side value is optional, e.g. 'LDFLAGS = '.
 
-  On MaKL installation the platform should be autodetected and the right 
+  Lines in a .tc file that refer to toolchain objects MUST begin with a 
+  CAPITALIZED letter.  Only lines beginning with a capitalized letter are 
+  picked up and used to produce the Bourne shell and GNU/P make compatible 
+  toolchain files (in doubt see ../setup/toolchain_setup.sh).
+ 
+  On MaKL installation the platform is (should be) autodetected and the right 
   toolchain selected accordingly.  Two files, ${MAKL_DIR}/cf/toolchain.sh and 
-  ${MAKL_DIR}/mk/toolchain.mk are then automatically generated.  Changes to
-  the toolchain should always be done in the .tc file and then propagated to
-  .mk and .sh via the 'toolchain' target of the top-level {MAKL_DIR} Makefile.
-  The latter is especially true when you are rolling your own .tc file because
-  of a special need (e.g. you're using another compiler, or need to adjust some
-  command line flag) or because your platform is not yet supported by MaKL.
+  ${MAKL_DIR}/mk/toolchain.mk are then automatically generated.  
+ 
+  Changes to the toolchain should always be done in the .tc file and then 
+  propagated to .mk and .sh via the ${MAKL_DIR}/setup/toolchain_setup.sh' 
+  script.  This is especially true when you are rolling your own .tc file 
+  because of a special need (e.g. you're using another compiler, or have to 
+  adjust some command line flags) or because your platform is not yet supported
+  by MaKL.
   
   At present .tc files' list is very limited and coarse grained.  Our goal is
   to add incrementally as much .tc files as possible while our porting 
