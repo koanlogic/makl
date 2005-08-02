@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.6 2005/08/01 09:53:17 stewy Exp $
+# $Id: makl_args_handle,v 1.7 2005/08/02 13:28:24 stewy Exp $
 #
 
 
@@ -16,34 +16,66 @@ _makl_help ()
     _makl_help_opts
     echo
     echo "Legend:"       
-    echo "  <*>: package-specific options" 
-    echo "  <x>: required dependency" 
-    echo "  < >: optional dependency" 
+    echo "  <*>: required dependency" 
+    echo "  <?>: optional dependency" 
+    echo "  < >: unset variable" 
+    echo "  <x>: set variable" 
     echo
 }
 
 
 _makl_help_opts() 
 {
-    file=${makl_run_dir}/args 
-    cat ${file} | {
+    local file_args=${makl_run_dir}/args 
+    local file_types=${makl_run_dir}/args_vars
+
+    # print out arguments
+    cat ${file_args} | {
         while read line; do 
-            id=`echo ${line} | cut -d "|" -f 1`
-            pms=`echo ${line} | cut -d "|" -f 2`
-            dsc=`echo ${line} | cut -d "|" -f 3`
+            local id=`makl_tab_elem "${line}" 1`
+            pms=`makl_tab_elem "${line}" 2`
+            dsc=`makl_tab_elem "${line}" 3`
             echo "--"${id}${pms} $'\t' $'\t' ${dsc}
             cat ${makl_run_dir}/args_"${id}" | { 
                 while read lin; do
-                    ID=`echo ${lin} | cut -d "|" -f 1`
-                    pfx=`echo ${lin} | cut -d "|" -f 2`
-                    echo "<*>${pfx} --"${id}${pms} | 
-                        sed 's/X/'"${ID}"'/' |
-                        cut -d "=" -f 1
+                    ID=`makl_tab_elem "${lin}" 1`
+                    dft=`makl_tab_elem "${lin}" 2`
+                    pfx=`makl_tab_elem "${lin}" 3`
+                    echo "  ${pfx} --${id}${pms},  default: ${dft}" | 
+                        sed 's/X/'"${ID}"'/'
+                done
+            }
+        done
+    }
+    
+    echo
+    echo
+    echo "* Current settings"
+
+    # print out default values
+    cat ${file_types} | {
+        while read line; do
+            echo
+            echo `makl_tab_elem "${line}" 2`:
+            local type=`makl_tab_elem "${line}" 1`
+            cat ${makl_run_dir}/args_vars_${type} | {
+                while read lin; do
+                    local var=`makl_tab_elem "${lin}" 1`
+                    local set=`makl_tab_elem "${lin}" 2`
+                    local val=\"`makl_tab_elem "${lin}" 3`\"
+                    if [ ${set} = 0 ]; then
+                        echo -n $'\t'"< > "
+                        echo "${var}"
+                    else
+                        echo -n $'\t'"<x> "
+                        echo "${var} = ${val}"
+                    fi
                 done
             }
         done
     }
 }
+
 
 # _makl_prefix
 #
@@ -217,9 +249,9 @@ _makl_args_err ()
 #   $1 - argument to handle
 _makl_arg_handle ()
 {
-    cmd=`   echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
-    id=`    echo $1 | cut -f4 -d"-" | cut -f1 -d"="`
-    val=`   echo $1 | cut -s -f2 -d"="`
+    cmd=`echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
+    id=`echo $1 | cut -s -f4 -d"-" | cut -f1 -d"="`
+    val=`echo $1 | cut -s -f2 -d"="`
 
     _makl_${cmd} ${id} "${val}"
     [ $? = 0 ] || _makl_args_err "Undefined command: '${cmd}'!"

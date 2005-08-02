@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.7 2005/08/01 08:56:10 stewy Exp $
+# $Id: makl_utils,v 1.8 2005/08/02 13:28:24 stewy Exp $
 #
 
 # makl_err exit_code err_string
@@ -103,30 +103,6 @@ makl_yesno ()
         esac
     done
 }
-
-
-# makl_find str file
-#   
-#   Check whether str exists in file
-#   $1 - string to be searched
-#   $2 - file name
-#   Return '0' if found, '1' otherwise
-#
-makl_find ()
-{
-    if [ ! -e $2 ]; then
-        return 1
-    fi
-
-    # interpret $1 as fixed string (no special chars)
-    grep -F  "$1" "$2" &> /dev/null
-    if [ $? = 0 ]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
 
 # makl_init_makefile_conf
 #

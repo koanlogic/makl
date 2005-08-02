@@ -1,52 +1,83 @@
 #
-# $Id: makl_args,v 1.1 2005/08/01 08:53:38 stewy Exp $
+# $Id: makl_args,v 1.2 2005/08/02 13:28:24 stewy Exp $
 #
 
 
 # makl_args_def args_str
 #
-#   Define a command line argument with multp
+#   Define a command line argument with multiple strings
 #   $@ - argument strings
 #   No return value.
 #
 makl_args_def ()
 {
-    line=""
-    for arg in "$@"; do
-        line="${line}${arg}|"
-    done
+    local file=${makl_run_dir}/args
+
+    makl_tab_set_row ${file} "$@"
 
     # create file to store instances of option
-    touch ${makl_run_dir}/args_"$1"
-
-    file=${makl_run_dir}/args
-    
-    makl_find "${line}" "${file}"
-    [ $? = 0 ] && return
-
-    echo ${line} >> ${file}
+    touch ${file}_"$1"
 }
 
+# makl_args_vars_def type dsc
+#   
+#   Define variable (var=val) 
+#   $1 - type of variable
+#   $2 - description
+#   No return value.
+#
+makl_args_vars_def ()
+{
+    local file=${makl_run_dir}/args_vars
+    
+    makl_tab_find ${file} $1
+    [ $? = 0 ] && return
+    
+    makl_tab_set_row ${file} $1 "$2"
+
+    # create file to store instances of variable
+    file=${file}_$1
+    touch ${file}
+}
+
+# makl_args_var_set
+#
+#   Set or unset a variable.
+#   $1 - type
+#   $2 - variable name 
+#   $3 - 1:set, 0:unset
+#   $4 - variable value
+#   No return value.
+#
+makl_args_var_set ()
+{
+    local file=${makl_run_dir}/args_vars_$1
+
+    if [ ! -e ${file} ]; then
+        makl_err 2 "Type not defined: $1"
+    fi
+
+    makl_tab_set ${file} "$2" 2 $3
+    makl_tab_set ${file} "$2" 3 $4
+}
 
 # makl_args_add id 
 #
+#   Add an argument instance with given arguments.
 #   $1 - argument id 
 #   $2 - argument value
-#   $3 - prefix
+#   $3 - default value
+#   $4 - prefix
 #   No return value.
 # 
 makl_args_add ()
 {
-    file=${makl_run_dir}/args_"$1"
+    local file=${makl_run_dir}/args_"$1"
     
-    if [ ! -w ${file} ]; then
+    if [ ! -e ${file} ]; then
         makl_err 2 "Argument not defined: $1"
     fi
     
-    line="$2|$3" 
-    
-    makl_find ${line} ${file}
-    [ $? = 0 ] && return
-    
-    echo ${line} >> ${file}
+    makl_tab_set ${file} $2 2 $3
+    makl_tab_set ${file} $2 3 $4
 }

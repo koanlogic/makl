@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.1 2005/08/01 08:56:57 stewy Exp $
+# $Id: makl_deps,v 1.2 2005/08/02 13:28:24 stewy Exp $
 #
 
 
@@ -12,13 +12,15 @@
 #   
 makl_require ()
 {
+    makl_dbg "Adding required $1 dependency: $2"
+
     file=${makl_run_dir}/deps_$1.require
 
-    makl_find $2 ${file}
+    makl_tab_find ${file} $2
     [ $? = 0 ] && return
     
     echo $2 >> ${file}
-    makl_args_add $1 $2 "<x>"
+    makl_args_add $1 $2 "" "<*>"
 }
 
 
@@ -31,13 +33,15 @@ makl_require ()
 #   
 makl_optional ()
 {
+    makl_dbg "Adding optional $1 dependency: $2"
+
     file=${makl_run_dir}/deps_$1.optional
     
-    makl_find $2 ${file}
+    makl_tab_find ${file} $2
     [ $? = 0 ] && return
     
     echo $2 >> ${file}
-    makl_args_add $1 $2 "< >"
+    makl_args_add $1 $2 "" "<?>"
 }
 
 
@@ -52,7 +56,7 @@ makl_req_found ()
 {
     file=${makl_run_dir}/deps_$1.found
 
-    makl_find $2 ${file}
+    makl_tab_find ${file} $2
     [ $? = 0 ] && return
     
     echo $2 >> ${file}

@@ -1,5 +1,5 @@
 #
-# $Id: makl_set_var,v 1.5 2005/07/27 18:30:05 tho Exp $
+# $Id: makl_set_var,v 1.6 2005/08/02 13:28:24 stewy Exp $
 #
 
 # makl_set_var_h name value
@@ -17,6 +17,8 @@ makl_set_var_h ()
     else    
         echo "#define $1 \"$2\"" >> ${makl_conf_h}
     fi    
+
+    makl_args_var_set "var_h" "$1" 1 "$2"
 }
 
 # makl_set_var_mk name value
@@ -30,6 +32,8 @@ makl_set_var_mk ()
 {
     makl_dbg "setting $1 to $2 in ${makl_makefile_conf}"
     echo "$1 = \"$2\"" >> ${makl_makefile_conf}
+
+    makl_args_var_set "var_mk" "$1" 1 "$2"
 }
 
 # makl_add_var_mk name value
@@ -43,6 +47,8 @@ makl_add_var_mk ()
 {
     makl_dbg "adding $1 to $2 in ${makl_makefile_conf}"
     echo "$1 += \"$2\"" >> ${makl_makefile_conf}
+
+    makl_args_var_set "var_mk" "$1" 1 "$2"
 }
 
 # makl_set_var name value
@@ -59,7 +65,7 @@ makl_set_var ()
         return 1
     fi
    
-    makl_set_var_h  $1 $2
+    makl_set_var_h  $1 $2 
     makl_set_var_mk $1 $2
 
     return 0
