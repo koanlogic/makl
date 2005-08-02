@@ -1,5 +1,5 @@
 #
-# $Id: makl.init_args,v 1.1 2005/08/01 08:55:01 stewy Exp $
+# $Id: makl.init_args,v 1.2 2005/08/02 13:28:56 stewy Exp $
 #
 
 # general settings
@@ -32,7 +32,7 @@ makl_args_def   "unset_h" \
 makl_args_def   "unset_mk" \
                 "-X=VAL" \
                 "unset variable X in MAKEFILE"
-
+                
 # feature enabling
 makl_args_def   "feat_x" \
                 "-X=FILE" \
@@ -45,3 +45,7 @@ makl_args_def   "feat_c" \
 makl_args_def   "lib" \
                 "-X=BASE:[TEST]" \
                 "set lib X to have BASE dir and optional TEST file"
+
+
+makl_args_vars_def  "var_h"     "Header variables"
+makl_args_vars_def  "var_mk"    "Makefile variables"
