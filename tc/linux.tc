@@ -1,16 +1,22 @@
 #
 # Tested on GNU/Linux 2.6
 #
+# $Id: linux.tc,v 1.2 2005/08/02 11:14:13 tho Exp $
+
+# cc is GCC 3.3.4
 CC = gcc
 CFLAGS = -pipe
+# ar, ranlib, strip and ld are GNU binutils 2.14.90.0.7 
 AR = ar
 ARFLAGS = rl
 RANLIB = ranlib
 LD = ld 
 LDFLAGS = 
-MKDEP = mkdep
 STRIP = strip
 STRIP_FLAGS = -x
+# install is install (coreutils) 5.2.1
 INSTALL = install
 INSTALL_COPY = -c
 INSTALL_STRIP = -s
+# there is no mkdep here (we could easily add the NetBSD script ...)
+MKDEP = /bin/true

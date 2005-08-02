@@ -9,7 +9,7 @@ Toolchain files
   Lines in a .tc file that refer to toolchain objects MUST begin with a 
   CAPITALIZED letter.  Only lines beginning with a capitalized letter are 
   picked up and used to produce the Bourne shell and GNU/P make compatible 
-  toolchain files (in doubt see ../setup/toolchain_setup.sh).
+  toolchain files (in doubt see makl_tc file).
  
   On MaKL installation the platform is (should be) autodetected and the right 
   toolchain selected accordingly.  Two files, ${MAKL_DIR}/cf/toolchain.sh and 
