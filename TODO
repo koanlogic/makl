@@ -3,3 +3,4 @@
   lib.mk into a platform independent staticlib.mk and a platform specific 
   dynlib.mk to be installed on MaKL setup (pretty much like toolchain files).
 * mkdep for platform missing it (for gcc we could use NetBSD's).
+* add "create hier" to target install.
