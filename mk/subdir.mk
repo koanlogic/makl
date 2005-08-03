@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
+# $Id: subdir.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -6,7 +6,7 @@
 #               subdirectories.
 #
 # Applicable Targets:
-# - all, clean, install, uninstall ...
+# - all, clean, install, uninstall, depend, cleandepend.
 
 all clean install uninstall depend cleandepend:
 	@for dir in ${SUBDIR} ; do \

@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
+# $Id: lib.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -28,14 +28,17 @@ clean:
 	rm -f lib${LIB}.a
 
 beforeinstall:
+	mkdir -p ${LIBDIR} && chown ${LIBOWN}:${LIBGRP} ${LIBDIR}
+
 realinstall:
-	${INSTALL} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.a ${DESTDIR}${LIBDIR}
+	${INSTALL} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} lib${LIB}.a ${LIBDIR}
+
 afterinstall:
+
 install: beforeinstall realinstall afterinstall
 
 uninstall:
-	rm -f ${DESTDIR}${LIBDIR}lib${LIB}.a
+	rm -f ${LIBDIR}/lib${LIB}.a
 
 
 include map.mk

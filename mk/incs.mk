@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
+# $Id: incs.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
 #
 # Only define the install target.
 #
@@ -10,15 +10,19 @@ all clean depend cleandepend:
 	@echo "nothing to do for ${MAKECMDGOALS} target in ${CURDIR} ..."		
     
 beforeinstall:
+	mkdir -p ${INCDIR} && chown ${INCOWN}:${INCGRP} ${INCDIR}
+
 realinstall:
-	${INSTALL} -o ${INCOWN} -g ${INCGRP} -m ${INCMODE} \
-	    ${INCS} ${DESTDIR}${INCDIR} 
+	${INSTALL} -o ${INCOWN} -g ${INCGRP} -m ${INCMODE} ${INCS} ${INCDIR}
+
 afterinstall:
+
 install: beforeinstall realinstall afterinstall
 
 uninstall:
-	rm -f ${DESTDIR}${INCDIR}${INCS}
-    
+	for f in ${INCS}; do \
+	    rm -f ${INCDIR}/$$f; \
+	done
 
 include map.mk
 include toolchain.mk

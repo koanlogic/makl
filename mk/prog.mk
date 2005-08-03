@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.3 2005/07/27 08:35:57 stewy Exp $
+# $Id: prog.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
 #
 # User Variables:
 # - PROG        Program name.
@@ -25,16 +25,18 @@ clean:
 	rm -f ${CLEANFILES}
 
 beforeinstall:
+	mkdir -p ${BINDIR} && chown ${BINOWN}:${BINGRP} ${BINDIR}
+
 realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}
+	    -m ${BINMODE} ${PROG} ${BINDIR}
 
 afterinstall:
+
 install: beforeinstall realinstall afterinstall
 
 uninstall:
-	rm -f ${DESTDIR}${BINDIR}${PROG}
- 
+	rm -f ${BINDIR}/${PROG}
 
 include map.mk
 include toolchain.mk
