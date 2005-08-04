@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
+# $Id: prog.mk,v 1.5 2005/08/04 16:01:14 tho Exp $
 #
 # User Variables:
 # - PROG        Program name.
@@ -25,7 +25,7 @@ clean:
 	rm -f ${CLEANFILES}
 
 beforeinstall:
-	mkdir -p ${BINDIR} && chown ${BINOWN}:${BINGRP} ${BINDIR}
+	${MKINSTALLDIRS} ${BINDIR} && chown ${BINOWN}:${BINGRP} ${BINDIR}
 
 realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \

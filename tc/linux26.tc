@@ -1,7 +1,7 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux26.tc,v 1.1 2005/08/02 11:19:43 tho Exp $
+# $Id: linux26.tc,v 1.2 2005/08/04 16:01:14 tho Exp $
 
 # cc is GCC 3.3.4
 CC = gcc
@@ -18,5 +18,8 @@ STRIP_FLAGS = -x
 INSTALL = install
 INSTALL_COPY = -c
 INSTALL_STRIP = -s
-# there is no mkdep here (we could easily add the NetBSD script ...)
-MKDEP = /bin/true
+# there is no mkdep here
+MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
+# mkinstalldirs is mkdir -p
+MKINSTALLDIRS = /bin/mkdir -p
+

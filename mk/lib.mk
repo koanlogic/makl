@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.4 2005/08/03 19:47:09 tho Exp $
+# $Id: lib.mk,v 1.5 2005/08/04 16:01:14 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -28,7 +28,7 @@ clean:
 	rm -f lib${LIB}.a
 
 beforeinstall:
-	mkdir -p ${LIBDIR} && chown ${LIBOWN}:${LIBGRP} ${LIBDIR}
+	${MKINSTALLDIRS} ${LIBDIR} && chown ${LIBOWN}:${LIBGRP} ${LIBDIR}
 
 realinstall:
 	${INSTALL} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} lib${LIB}.a ${LIBDIR}
