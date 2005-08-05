@@ -1,0 +1,140 @@
+#
+# $Id: makl_var,v 1.1 2005/08/05 13:49:47 stewy Exp $
+#
+
+# makl_set_var_h name value
+#
+#   Set 'name' to 'value' in ${makl_conf_h}.
+#   $1 - symbol to set
+#   $2 - value of symbol (optional)
+#   No return value.
+#
+makl_set_var_h ()
+{
+    makl_var_set "h" "$1" 1 "$2"
+}
+
+# makl_set_var_mk name value
+#
+#   Set 'name' to 'value' in ${makl_makefile_conf}.
+#   $1 - symbol to set
+#   $2 - value of symbol
+#   No return value.
+#
+makl_set_var_mk ()
+{
+    makl_var_set "mk" "$1" 1 "$2"
+}
+
+# makl_add_var_mk name value
+#
+#   Add (+=) 'value' to 'name' in ${makl_makefile_conf}.
+#   $1 - symbol to set
+#   $2 - value to add
+#   No return value.
+#
+makl_add_var_mk ()
+{
+    makl_var_set "mk" "$1" 1 "$2"
+}
+
+# makl_unset_var_h name
+#
+#   Unset 'name' in ${makl_conf_h}.
+#   $1 - symbol to unset
+#   No return value.
+#
+makl_unset_var_h ()
+{
+    makl_var_set "h" "$1" 0 
+}
+
+# makl_unset_var_mk name
+#
+#   Unset 'name' in ${makl_makefile_conf}.
+#   $1 - symbol to unset
+#   No return value.
+#
+makl_unset_var_mk ()
+{
+    makl_dbg "unsetting $1 in ${makl_makefile_conf}"
+
+    makl_var_set "mk" "$1" 0
+}
+
+# makl_unset_var name
+#
+#   Unset 'name' in both ${makl_makefile_conf} and ${makl_conf_h}
+#   $1 - symbol to unset
+#   Return '0' on success, '1' otherwise.
+#
+makl_unset_var ()
+{
+    if [ ! "$1" -o -z "$1" ]; then
+        makl_warn "makl_unset_var called with no argument"
+        return 1
+    fi
+   
+    makl_unset_var_h  $1
+    makl_unset_var_mk $1
+
+    return 0
+}
+
+# makl_set_var name value
+#
+#   Set 'name' to 'value' in both ${makl_makefile_conf} and ${makl_conf_h}
+#   $1 - symbol to set
+#   $2 - value of symbol
+#   No return value.
+#
+makl_set_var ()
+{
+    makl_set_var_h  $1 $2 
+    makl_set_var_mk $1 $2
+}
+
+# makl_set var val
+#
+#   Set internal variable var to val.
+#   $1 - name of variable
+#   $2 - value of variable
+#   No return value.
+#
+makl_set ()
+{
+    makl_var_set "cf" $1 1 $2
+}
+
+# makl_get var
+#
+#   Get the value of an internal variable.
+#   $1 - name of variable
+#   Return value makl_var_get()
+makl_get ()
+{
+    makl_var_get "cf" $1
+
+    return $?
+}
+
+# makl_vars_def type dsc
+#   
+#   Define variable (var=val) 
+#   $1 - type of variable
+#   $2 - description
+#   No return value.
+#
+makl_vars_def ()
+{
+    local file=${makl_run_dir}/vars
+    
+    makl_tab_find ${file} $1
+    [ $? = 0 ] && return
+    
+    makl_tab_set_row ${file} $1 "$2"
+
+    # create file to store instances of variable
+    file=${file}_$1
+    touch ${file}
+}
