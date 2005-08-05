@@ -1,7 +1,29 @@
 #
-# $Id: makl_args,v 1.2 2005/08/02 13:28:24 stewy Exp $
+# $Id: makl_args,v 1.3 2005/08/05 13:47:49 stewy Exp $
 #
 
+#   $1 - id
+#   $2 - pms
+#   $3 - dsc
+#   $4 - ID
+#   $5 - DSC
+#   $6 - pfx
+#   $7 - dft
+makl_args_print () 
+{
+    a=`echo -n "$6  --$1$2" | 
+        sed 's/X/'"$4"'/'`
+
+    if [ -z "$5" ]; then
+        b=`echo "$3" | 
+            sed 's/X/'"$4"'/'`
+    else
+        b=`echo "$3" | 
+            sed 's/X/'"$5"'/'`
+    fi
+
+    echo ${a}"    "${b}
+}
 
 # makl_args_def args_str
 #
@@ -14,33 +36,9 @@ makl_args_def ()
     local file=${makl_run_dir}/args
 
     makl_tab_set_row ${file} "$@"
-
-    # create file to store instances of option
-    touch ${file}_"$1"
 }
 
-# makl_args_vars_def type dsc
-#   
-#   Define variable (var=val) 
-#   $1 - type of variable
-#   $2 - description
-#   No return value.
-#
-makl_args_vars_def ()
-{
-    local file=${makl_run_dir}/args_vars
-    
-    makl_tab_find ${file} $1
-    [ $? = 0 ] && return
-    
-    makl_tab_set_row ${file} $1 "$2"
-
-    # create file to store instances of variable
-    file=${file}_$1
-    touch ${file}
-}
-
-# makl_args_var_set
+# makl_var_set
 #
 #   Set or unset a variable.
 #   $1 - type
@@ -49,16 +47,22 @@ makl_args_vars_def ()
 #   $4 - variable value
 #   No return value.
 #
-makl_args_var_set ()
+makl_var_set ()
 {
-    local file=${makl_run_dir}/args_vars_$1
-
-    if [ ! -e ${file} ]; then
-        makl_err 2 "Type not defined: $1"
-    fi
+    local file=${makl_run_dir}/vars_$1
+    [ -e ${file} ] || touch ${file}
 
     makl_tab_set ${file} "$2" 2 $3
     makl_tab_set ${file} "$2" 3 $4
+}
+
+# get the value of an internal cf variable 
+makl_var_get ()
+{
+    local file=${makl_run_dir}/vars_$1
+    
+    makl_tab_get ${file} $2 3
+    return $?
 }
 
 # makl_args_add id 
@@ -68,16 +72,15 @@ makl_args_var_set ()
 #   $2 - argument value
 #   $3 - default value
 #   $4 - prefix
+#   $5 - arg description
 #   No return value.
 # 
 makl_args_add ()
 {
-    local file=${makl_run_dir}/args_"$1"
+    local file=${makl_run_dir}/args
     
-    if [ ! -e ${file} ]; then
-        makl_err 2 "Argument not defined: $1"
-    fi
-    
-    makl_tab_set ${file} $2 2 $3
-    makl_tab_set ${file} $2 3 $4
+    makl_tab_find ${file} $1 || makl_err 2 "Argument not defined: $1"
+    makl_tab_set ${file}_$1 $2 2 $3 
+    makl_tab_set ${file}_$1 $2 3 $4
+    makl_tab_set ${file}_$1 $2 4 "$5"
 }

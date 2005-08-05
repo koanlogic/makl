@@ -1,9 +1,9 @@
 #
-# $Id: makl_args_handle,v 1.7 2005/08/02 13:28:24 stewy Exp $
+# $Id: makl_args_handle,v 1.8 2005/08/05 13:47:49 stewy Exp $
 #
 
 
-
+# _makl_help
 _makl_help () 
 {
     echo 
@@ -23,59 +23,32 @@ _makl_help ()
     echo
 }
 
-
+# _makl_help_opts
 _makl_help_opts() 
 {
     local file_args=${makl_run_dir}/args 
-    local file_types=${makl_run_dir}/args_vars
-
+    
     # print out arguments
+    [ -e ${file_args} ] && \
     cat ${file_args} | {
         while read line; do 
             local id=`makl_tab_elem "${line}" 1`
             pms=`makl_tab_elem "${line}" 2`
             dsc=`makl_tab_elem "${line}" 3`
-            echo "--"${id}${pms} $'\t' $'\t' ${dsc}
+            [ -e ${makl_run_dir}/args_"${id}" ] && \
             cat ${makl_run_dir}/args_"${id}" | { 
                 while read lin; do
                     ID=`makl_tab_elem "${lin}" 1`
                     dft=`makl_tab_elem "${lin}" 2`
                     pfx=`makl_tab_elem "${lin}" 3`
-                    echo "  ${pfx} --${id}${pms},  default: ${dft}" | 
-                        sed 's/X/'"${ID}"'/'
+                    DSC=`makl_tab_elem "${lin}" 4`
+                    makl_args_print ${id} ${pms} "${dsc}" ${ID} "${DSC}" ${pfx} "${dft}"
                 done
-            }
-        done
-    }
-    
-    echo
-    echo
-    echo "* Current settings"
-
-    # print out default values
-    cat ${file_types} | {
-        while read line; do
-            echo
-            echo `makl_tab_elem "${line}" 2`:
-            local type=`makl_tab_elem "${line}" 1`
-            cat ${makl_run_dir}/args_vars_${type} | {
-                while read lin; do
-                    local var=`makl_tab_elem "${lin}" 1`
-                    local set=`makl_tab_elem "${lin}" 2`
-                    local val=\"`makl_tab_elem "${lin}" 3`\"
-                    if [ ${set} = 0 ]; then
-                        echo -n $'\t'"< > "
-                        echo "${var}"
-                    else
-                        echo -n $'\t'"<x> "
-                        echo "${var} = ${val}"
-                    fi
-                done
-            }
+            } || \
+            echo "--"${id}${pms} $'\t' $'\t' ${dsc}
         done
     }
 }
-
 
 # _makl_prefix
 #
@@ -84,95 +57,50 @@ _makl_prefix ()
 {
     shift -1 &>/dev/null
     [ ! $2 ] || makl_err 1 "makl_prefix: too many parameters!"
-
-    echo "1: $1, 2: $2"
+    
+    makl_set_var_mk "DESTDIR" $1
 }
 
-
-# makl_set_var wrapper
-# 
-#   $1 - variable name
-#   $2 - variable value
-_makl_set ()
+# _makl_dir
+_makl_dir ()
 {
-    [ $1 ] || makl_err 1 "makl_set: missing variable name!"
-
-    makl_set_var $1 $2 
+    [ ! -z $1 ] || _makl_args_err "_makl_dir: Missing variable type!"
+    [ ! -z $2 ] || _makl_args_err "_makl_dir: Missing target directory!"
+      
+    local f_dirs=${makl_run_dir}/args_dir
+    makl_tab_find ${f_dirs} $1
+    
+    [ $? = 0 ] || makl_err 2 "_makl_dir: Bad directory type: $1"
+    
+    makl_set_var_mk `makl_upper $1`"DIR" $2
 }
 
-
-# makl_set_var_h wrapper
-#
-#   $1 - variable name
-#   $2 - variable value
-_makl_set_h ()
+# _makl_print 
+_makl_print ()
 {
-    [ $1 ] || makl_err 1 "makl_set_h: missing variable name!"
+    [ ! -z $1 ] || _makl_args_err "_makl_print: Missing variable type!"
 
-    makl_set_var_h $1 $2  
-}
+    local f_vars=${makl_run_dir}/vars
+    local f_var=${makl_run_dir}/vars_$1
 
+    [ -e ${f_var} ] || makl_err 2 "_makl_print: Invalid variable type: $1"
+    local dsc=`makl_tab_get ${f_vars} $1 2`
+    makl_dbg "printing variables of type: $1 ("${dsc}")" 
 
-# makl_set_var_mk wrapper
-#
-#   $1 - variable name
-#   $2 - variable value 
-_makl_set_mk ()
-{
-    [ $1 ] || makl_err 1 "makl_set_mk: missing variable name!"
-
-    makl_set_var_mk $1 $2  
-}
-
-
-# makl_add_var_mk wrapper
-#
-#   $1 - variable name
-#   $2 - string to append 
-_makl_add_mk ()
-{
-    [ $1 ] || makl_err 1 "makl_add_mk: missing variable name!"
-
-    makl_add_var_mk $1 $2
-}
-
-
-# makl_unset_var wrapper
-# 
-#   $1 variable name
-#   $2 <must be empty>
-_makl_unset ()
-{
-    [ $1 ] || makl_err 1 "makl_unset: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset: too many parameters!"
-
-    makl_unset_var $1 
-}
-
-
-# makl_unset_var_h wrapper
-#
-#   $1 - variable name
-#   $2 <must be empty>
-_makl_unset_h ()
-{
-    [ $1 ] || makl_err 1 "makl_unset_h: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset_h: too many parameters!"
-
-    makl_unset_var_h $1
-}
-
-
-# makl_unset_var_mk wrapper
-#
-#   $1 - variable name
-#   $2 <must be empty>
-_makl_unset_mk ()
-{
-    [ $1 ] || makl_err 1 "makl_unset_mk: missing variable name!"
-    [ ! $2 ] || makl_err 1 "makl_unset_mk: too many parameters!"
-
-    makl_unset_var_mk $1
+    cat ${f_var} | { 
+        while read lin; do
+            local var=`makl_tab_elem "${lin}" 1`
+            local set=`makl_tab_elem "${lin}" 2`
+            local val=\"`makl_tab_elem "${lin}" 3`\"
+            if [ ${set} = 0 ]; then
+                echo -n $'\t'"< > "
+                echo "${var}"
+            else
+                echo -n $'\t'"<x> "
+                echo "${var} = ${val}"
+            fi
+        done
+    }
 }
 
 
@@ -189,7 +117,6 @@ _makl_feat_c ()
     [ $? = 0 ] || makl_err 2 "makl_feat_c: feature $1 - failed to compile $2" 
 }
 
-
 # makl_feature_x wrapper
 # 
 # $1 feature id 
@@ -199,7 +126,6 @@ _makl_feat_x ()
     makl_feature_x $1 $2 1>/dev/null
     [ $? = 0 ] || makl_err 2 "makl_feat_x: feature $1 - failed to execute $2"
 }
-
 
 # makl_libdep wrapper
 #
@@ -232,7 +158,6 @@ _makl_lib ()
     return $?
 }
 
-
 # Print error message followed by usage
 #
 # $1 message
@@ -242,7 +167,6 @@ _makl_args_err ()
     echo
     makl_err 1 $1
 }
-
 
 # Handle an argument
 #
@@ -256,7 +180,6 @@ _makl_arg_handle ()
     _makl_${cmd} ${id} "${val}"
     [ $? = 0 ] || _makl_args_err "Undefined command: '${cmd}'!"
 }
-
 
 # makl_args_handle
 # 

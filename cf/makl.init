@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.7 2005/08/01 08:55:01 stewy Exp $
+# $Id: makl.init,v 1.8 2005/08/05 13:47:49 stewy Exp $
 #
 
 # read in just once
@@ -31,10 +31,6 @@ done
 # show global variables' values
 makl_dbg_globals
 
-# create (nearly) empty makl_makefile_conf and makl_conf_h
-makl_init_makefile_conf
-makl_init_conf_h
-
 # create the makl run dir, if it doesn't exist
 if [ -d ${makl_run_dir} ]; then
     makl_dbg "makl_run_dir already in place"
@@ -44,6 +40,7 @@ fi
 
 # initialise default command line arguments
 . ${MAKL_DIR}/cf/makl.init_args
+. ${MAKL_DIR}/cf/makl.init_vars
 
 # pass the control to the user.
 

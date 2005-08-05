@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.2 2005/08/02 13:28:24 stewy Exp $
+# $Id: makl_deps,v 1.3 2005/08/05 13:47:49 stewy Exp $
 #
 
 
@@ -12,7 +12,7 @@
 #   
 makl_require ()
 {
-    makl_dbg "Adding required $1 dependency: $2"
+    makl_dbg "adding required $1 dependency: $2"
 
     file=${makl_run_dir}/deps_$1.require
 
@@ -20,9 +20,8 @@ makl_require ()
     [ $? = 0 ] && return
     
     echo $2 >> ${file}
-    makl_args_add $1 $2 "" "<*>"
+    makl_args_add $1 $2 "" "<*>" ""
 }
-
 
 # makl_optional type id
 #   
@@ -33,7 +32,7 @@ makl_require ()
 #   
 makl_optional ()
 {
-    makl_dbg "Adding optional $1 dependency: $2"
+    makl_dbg "adding optional $1 dependency: $2"
 
     file=${makl_run_dir}/deps_$1.optional
     
@@ -41,9 +40,8 @@ makl_optional ()
     [ $? = 0 ] && return
     
     echo $2 >> ${file}
-    makl_args_add $1 $2 "" "<?>"
+    makl_args_add $1 $2 "" "<?>" ""
 }
-
 
 # makl_req_found type id
 #   
@@ -61,7 +59,6 @@ makl_req_found ()
     
     echo $2 >> ${file}
 }
-
 
 # _makl_require_check type
 #   

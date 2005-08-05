@@ -1,0 +1,134 @@
+#
+# $Id: makl_utils_tab,v 1.1 2005/08/05 13:47:49 stewy Exp $
+#
+
+
+# makl_tab_find id t id
+#   
+#   Check whether id exists file. 
+#   $1 - table file
+#   $2 - id to be search
+#   Return '0' if found, '1' otherwise.
+#
+makl_tab_find ()
+{
+    [ -e $1 ] || return 1
+
+    grep "^$2" $1 &> /dev/null
+
+    return $?
+}
+
+
+# makl_tab_set t id col value 
+#
+#   Set variable entry with id and at column col to val.
+#   $1 - table file 
+#   $2 - id (row)
+#   $3 - column
+#   $4 - value
+#   No return value.
+#
+makl_tab_set ()
+{ 
+    local line=""
+    local line_n=""
+    local l=""
+    local new=""
+    local i=1
+
+    # create file if doesn't exist
+    [ -e $1 ] || touch $1
+
+    line=`grep "^$2" $1`        
+
+    # if found delete line (get first)
+    if [ $? = 0 ]; then     
+        grep -v "^$2" $1 > $1.tmp
+        mv $1.tmp $1
+    fi
+            
+    # set value in appropriate column
+    while true; do
+        
+        l=`makl_tab_elem "${line}" ${i}` 
+        [ -z "${l}" ] && [ ${i} -gt $3 ] && break
+
+        if [ ${i} = 1 ]; then
+            new=$2
+        elif [ ${i} = $3 ]; then
+            new=$4
+        else
+            new=${l} 
+        fi
+        [ -z "${new}" ] && new=" "
+
+        if [ ${i} = 1 ]; then
+            line_n="${new}"
+        else
+            line_n="${line_n}|${new}"
+        fi
+
+        i=$((i+1))
+    done
+
+    # append new line to end of file
+    echo ${line_n} >> $1
+
+    return 0    
+}
+
+# makl_tab_set_row t args_str
+# 
+#   Set row to given arguments.
+#   $1 - table file
+#   $@ - row values
+#   No return value.
+#
+makl_tab_set_row ()
+{
+    local line=""
+    local file=$1
+    local i=1
+
+    # create file if doesn't exist
+    [ -e $1 ] || touch $1
+
+    shift
+
+    makl_tab_find ${file} $1
+    [ $? = 0 ] && return
+
+    for arg in "$@"; do
+        if [ ${i} = 1 ]; then
+            line="${arg}"
+        else
+            line="${line}|${arg}"
+        fi
+        i=$((i+1))
+    done
+
+    echo ${line} >> ${file}
+}
+
+# get column $3 of element with id $2 in file $1
+makl_tab_get ()
+{
+    local val=`grep "^$2" $1 | cut -s -f $3 -d "|"`
+    local ret=$?
+
+    echo -n ${val}
+    return ${ret}
+}
+
+# makl_tab_elem str idx 
+#   
+#   Outputs element at idx of str.
+#   $1 - string of elements
+#   $2 - index of element
+#   No return value.
+#
+makl_tab_elem ()
+{
+    echo "$1" | cut -s -f $2 -d "|"
+}

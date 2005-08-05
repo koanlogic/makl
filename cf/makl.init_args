@@ -1,37 +1,33 @@
 #
-# $Id: makl.init_args,v 1.2 2005/08/02 13:28:56 stewy Exp $
+# $Id: makl.init_args,v 1.3 2005/08/05 13:47:49 stewy Exp $
 #
 
 # general settings
 makl_args_def   "help" \
                 "" \
                 "display this help"
+
+# target options
 makl_args_def   "prefix" \
                 "=BASE" \
                 "set BASE directory for installation"
+makl_args_def   "dir" \
+                "-X=BASE" \
+                "set BASE directory for X"
+makl_args_add   "dir" "bin"     ""  ""      "binaries"
+makl_args_add   "dir" "inc"     ""  ""      "includes"
+makl_args_add   "dir" "lib"     ""  ""      "libraries"
+makl_args_add   "dir" "share"   ""  ""      "shared data"
+makl_args_add   "dir" "man"     ""  ""      "man pages"
+makl_args_add   "dir" "doc"     ""  ""      "documentation"
 
-# variable manipulation
-makl_args_def   "set" \
-                "-X=VAL" \
-                "set variable X to VAL in MAKEFILE and CONFFILE"
-makl_args_def   "set_h" \
-                "-X=VAL" \
-                "set variable X to VAL in CONFFILE"
-makl_args_def   "set_mk" \
-                "-X=VAL" \
-                "set variable X to VAL in MAKEFILE"
-makl_args_def   "add_mk" \
-                "-X=VAL" \
-                "append VAL to variable X in MAKEFILE"
-makl_args_def   "unset" \
-                "-X=VAL" \
-                "unset variable X in MAKEFILE and CONFFILE"
-makl_args_def   "unset_h" \
-                "-X=VAL" \
-                "unset variable X in CONFFILE"
-makl_args_def   "unset_mk" \
-                "-X=VAL" \
-                "unset variable X in MAKEFILE"
+# variable debugging 
+makl_args_def   "print" \
+                "-X" \
+                "print X variables"
+makl_args_add   "print" "h"     ""  ""  "header"
+makl_args_add   "print" "mk"    ""  ""  "makefile"
+makl_args_add   "print" "cf"    ""  ""  "internal"
                 
 # feature enabling
 makl_args_def   "feat_x" \
@@ -47,5 +43,3 @@ makl_args_def   "lib" \
                 "set lib X to have BASE dir and optional TEST file"
 
 
-makl_args_vars_def  "var_h"     "Header variables"
-makl_args_vars_def  "var_mk"    "Makefile variables"

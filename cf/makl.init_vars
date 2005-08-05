@@ -1,0 +1,12 @@
+#
+# $Id: makl.init_vars,v 1.1 2005/08/05 13:47:49 stewy Exp $
+#
+
+# create variable types
+makl_vars_def       "h"     "Header variables"
+makl_vars_def       "mk"    "Makefile variables"
+makl_vars_def       "cf"    "Internal configuration vars"
+
+# set defaults
+makl_set_var_mk     "DESTDIR"   "/usr/local"
+makl_set            "__noclean__" 0
