@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.1 2005/08/05 13:49:47 stewy Exp $
+# $Id: makl_var,v 1.2 2005/08/09 10:25:31 stewy Exp $
 #
 
 # makl_set_var_h name value
@@ -35,7 +35,8 @@ makl_set_var_mk ()
 #
 makl_add_var_mk ()
 {
-    makl_var_set "mk" "$1" 1 "$2"
+    local add=`makl_get_var_mk "$1"`
+    makl_set_var_mk "$1" "${add}$2"
 }
 
 # makl_unset_var_h name
@@ -116,6 +117,11 @@ makl_get ()
     makl_var_get "cf" $1
 
     return $?
+}
+
+makl_get_var_mk () 
+{
+    makl_var_get "mk" $1
 }
 
 # makl_vars_def type dsc

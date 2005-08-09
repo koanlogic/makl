@@ -1,12 +1,19 @@
 #
-# $Id: makl.init_vars,v 1.1 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl.init_vars,v 1.2 2005/08/09 10:25:31 stewy Exp $
 #
 
-# create variable types
+
+# Create variable types
+
 makl_vars_def       "h"     "Header variables"
 makl_vars_def       "mk"    "Makefile variables"
 makl_vars_def       "cf"    "Internal configuration vars"
 
-# set defaults
+
+# Set defaults
+
+# installation directory 
 makl_set_var_mk     "DESTDIR"   "/usr/local"
+
+# enable cache cleaning
 makl_set            "__noclean__" 0

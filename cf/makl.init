@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.8 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl.init,v 1.9 2005/08/09 10:25:31 stewy Exp $
 #
 
 # read in just once
@@ -39,8 +39,8 @@ else
 fi
 
 # initialise default command line arguments
-. ${MAKL_DIR}/cf/makl.init_args
 . ${MAKL_DIR}/cf/makl.init_vars
+. ${MAKL_DIR}/cf/makl.init_args
 
 # pass the control to the user.
 

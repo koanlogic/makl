@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.1 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl_utils_tab,v 1.2 2005/08/09 10:25:31 stewy Exp $
 #
 
 
@@ -103,6 +103,7 @@ makl_tab_set_row ()
         if [ ${i} = 1 ]; then
             line="${arg}"
         else
+            [ -z "${arg}" ] && arg=" "
             line="${line}|${arg}"
         fi
         i=$((i+1))

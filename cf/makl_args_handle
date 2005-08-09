@@ -1,9 +1,12 @@
 #
-# $Id: makl_args_handle,v 1.8 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl_args_handle,v 1.9 2005/08/09 10:25:31 stewy Exp $
 #
 
 
 # _makl_help
+#
+#   Print out the help menu 
+# 
 _makl_help () 
 {
     echo 
@@ -24,47 +27,74 @@ _makl_help ()
 }
 
 # _makl_help_opts
+#
+#   Print out the options.
+#
 _makl_help_opts() 
 {
     local file_args=${makl_run_dir}/args 
-    
+
     # print out arguments
     [ -e ${file_args} ] && \
     cat ${file_args} | {
         while read line; do 
             local id=`makl_tab_elem "${line}" 1`
-            pms=`makl_tab_elem "${line}" 2`
-            dsc=`makl_tab_elem "${line}" 3`
+            local pms=`makl_tab_elem "${line}" 2`
+            local dft=`makl_tab_elem "${line}" 3`
+            local dsc=`makl_tab_elem "${line}" 4`
             [ -e ${makl_run_dir}/args_"${id}" ] && \
             cat ${makl_run_dir}/args_"${id}" | { 
                 while read lin; do
-                    ID=`makl_tab_elem "${lin}" 1`
-                    dft=`makl_tab_elem "${lin}" 2`
-                    pfx=`makl_tab_elem "${lin}" 3`
-                    DSC=`makl_tab_elem "${lin}" 4`
-                    makl_args_print ${id} ${pms} "${dsc}" ${ID} "${DSC}" ${pfx} "${dft}"
+                    local ID=`makl_tab_elem "${lin}" 1`
+                    local DFT=`makl_tab_elem "${lin}" 2`
+                    local PFX=`makl_tab_elem "${lin}" 3`
+                    local DSC=`makl_tab_elem "${lin}" 4`
+                    makl_args_print "${id}" "${pms}" "${dsc}" "${ID}" \
+                                    "${DFT}" "${PFX}" "${DSC}"
+
                 done
-            } || \
-            echo "--"${id}${pms} $'\t' $'\t' ${dsc}
+            } || {
+                echo -n "--"${id}${pms} $'\t' $'\t' ${dsc}
+                [ "${dft}" = " " ] || echo -n " [${dft}]"
+            }
+            echo
         done
     }
 }
 
-# _makl_prefix
+# _makl_noclean
+# 
+#   Don't clean cache at end of execution.
+#   
+_makl_noclean ()
+{
+    [ $# -gt 1 ] && _makl_args_err "--noclean: Too many arguments"
+
+    makl_set "__noclean__" 1
+}
+
+# _makl_prefix pfx
 #
+#   Set the base installation directory to pfx.
 #   $2 <must be empty>
+#
 _makl_prefix ()
 {
     shift -1 &>/dev/null
-    [ ! $2 ] || makl_err 1 "makl_prefix: too many parameters!"
+    [ ! $2 ] || _makl_args_err "makl_prefix: too many parameters!"
     
     makl_set_var_mk "DESTDIR" $1
 }
 
-# _makl_dir
+# _makl_dir type path
+#
+#   Set directory for specific data type.
+#   $1 - directory type
+#   $2 - directory path
+#
 _makl_dir ()
 {
-    [ ! -z $1 ] || _makl_args_err "_makl_dir: Missing variable type!"
+    [ ! -z $1 ] || _makl_args_err "_makl_dir: Missing directory type!"
     [ ! -z $2 ] || _makl_args_err "_makl_dir: Missing target directory!"
       
     local f_dirs=${makl_run_dir}/args_dir
@@ -75,7 +105,11 @@ _makl_dir ()
     makl_set_var_mk `makl_upper $1`"DIR" $2
 }
 
-# _makl_print 
+# _makl_print type
+#
+#   Print content of a group of variables for debugging purposes.
+#   $1 - variable type
+#
 _makl_print ()
 {
     [ ! -z $1 ] || _makl_args_err "_makl_print: Missing variable type!"
@@ -103,38 +137,48 @@ _makl_print ()
     }
 }
 
-
 # makl_feature_c wrapper
 #
 # $1 feature id
 # $2 file to be compiled
+#
 _makl_feat_c ()
 {
-    file=`  echo $2 | cut -f1 -d":"`
-    flags=` echo $2 | cut -s -f2 -d":"`
+    local f_feat_c=${makl_run_dir}/args_feat_c
+    makl_tab_find ${f_feat_c} $1
+    [ $? = 0 ] || _makl_args_err "_makl_feat_c: Invalid feat_c: $1"
+
+    local file=`  echo $2 | cut -f1 -d":"`
+    local flags=` echo $2 | cut -s -f2 -d":"`
 
     makl_feature_c $1 ${file} "${flags}" 1>/dev/null
-    [ $? = 0 ] || makl_err 2 "makl_feat_c: feature $1 - failed to compile $2" 
+    [ $? = 0 ] || makl_err 2 "_makl_feat_c: feature $1 - failed to compile $2" 
 }
 
 # makl_feature_x wrapper
 # 
-# $1 feature id 
-# $2 file to be executed
+#   $1 - feature id 
+#   $2 - file to be executed
+#
 _makl_feat_x ()
 {
+    local f_feat_x=${makl_run_dir}/args_feat_x
+    makl_tab_find ${f_feat_x} $1
+    [ $? = 0 ] || _makl_args_err "_makl_feat_x: Invalid feat_x: $1"
+    
     makl_feature_x $1 $2 1>/dev/null
     [ $? = 0 ] || makl_err 2 "makl_feat_x: feature $1 - failed to execute $2"
 }
 
 # makl_libdep wrapper
 #
-# $1 library id
-# $2 value="<base_dir>:[<tst_file>]"
+#   $1 - library id
+#   $2 - value="<base_dir>:[<tst_file>]"
+#
 _makl_lib ()
 {
-    [ $1 ] || makl_err 1 "makl_lib: missing package name!"
-    [ $2 ] || makl_err 1 "makl_lib: requires value argument!"
+    [ $1 ] || _makl_args_err "makl_lib: missing package name!"
+    [ $2 ] || _makl_args_err "makl_lib: requires value argument!"
 
     id=$1
     base=`echo $2 | cut -f1 -d":"`
@@ -158,9 +202,11 @@ _makl_lib ()
     return $?
 }
 
-# Print error message followed by usage
+# _makl_args_err
+# 
+#   Print error message followed by usage.
+#   $1 - message
 #
-# $1 message
 _makl_args_err ()
 {
     _makl_help 
@@ -168,9 +214,11 @@ _makl_args_err ()
     makl_err 1 $1
 }
 
-# Handle an argument
+# _makl_args_handle 
 #
+#   Handle an argument.
 #   $1 - argument to handle
+#
 _makl_arg_handle ()
 {
     cmd=`echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
@@ -183,7 +231,9 @@ _makl_arg_handle ()
 
 # makl_args_handle
 # 
+#   Process the configure command-line arguments.
 #   "$@" - command line arguments 
+#
 makl_args_handle()
 {
     for arg in "$@"; do
