@@ -1,9 +1,9 @@
 #
-# $Id: makl_deps,v 1.4 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl_deps,v 1.5 2005/08/30 18:08:04 stewy Exp $
 #
 
 
-# makl_require type id
+# makl_require type id dft
 #   
 #   Add a required dependency 
 #   $1 - dependency type
@@ -24,7 +24,7 @@ makl_require ()
     makl_args_add $1 $2 "$3" "<*>" ""
 }
 
-# makl_optional type id
+# makl_optional type id dft
 #   
 #   Add an optional dependency
 #   $1 - dependency type
@@ -62,9 +62,35 @@ makl_req_found ()
     echo $2 >> ${file}
 }
 
+# _makl_require_lib_def
+#   
+#   Search for required lib in default dirs.
+#   $1 - required lib  
+#   0 on success, 1 on lib not found.
+#
+_makl_require_lib_def ()
+{
+    file=${makl_run_dir}/args
+    
+    str=`makl_tab_get ${file} "lib" 3`
+    val=`makl_tab_var "${str}" "BASE"` 
+    dirs=`echo ${val} | sed 's/:/ /'`
+
+    for dir in ${dirs}; do
+        _makl_lib $1 ${dir}
+        if [ $? = 0 ]; then 
+            return 0
+        else
+            makl_dbg "Failed $1 compilation in ${dir}"
+        fi
+    done 
+
+    return 1
+}
+
 # _makl_require_check type
 #   
-#   Check that "type" dependencies have been fulfilled
+#   Check that "type" dependencies have been fulfilled.
 #   $1 - dependency type
 #   
 _makl_require_check ()
@@ -72,23 +98,18 @@ _makl_require_check ()
     f_req=${makl_run_dir}/deps_$1.require
     f_have=${makl_run_dir}/deps_$1.found
 
-    rm -f ${makl_run_dir}/err
-
     if [ ! -r ${f_req} ]; then
         return 0
     fi
-
     if [ ! -r ${f_have} ]; then
-        deps=`cat ${f_req}`
-        echo "Required $1 not found:"
-        echo ${deps}
-        makl_err 3 "Unfulfilled dependency!" 
+        touch ${f_have}
     fi
-    
-    # check that ${f_req} is subset of ${f_have}
+
+    rm -f ${makl_run_dir}/err
+
     cat ${f_req} | {
         while read req; do
-            cat ${f_have} | {
+            cat ${f_have} 2>/dev/null | {
                 found=0
                 while read have; do
                     if [ ${have} = ${req} ]; then
@@ -96,15 +117,45 @@ _makl_require_check ()
                     fi
                 done
                 if [ ${found} = 0 ]; then
-                    echo "Required $1 not found: ${req}"
-                    touch ${makl_run_dir}/err
-                    break
+                    # look in default directories before panic
+                    makl_dbg "searching for '$1${req}' in default paths" 
+                    case $1 in
+                        lib)
+                            _makl_require_lib_def ${req}
+                            ;;
+                        *) 
+                            ;;
+                    esac
+                    if [ ! $? = 0 ]; then
+                        echo "Required $1 not found: ${req}"
+                        touch ${makl_run_dir}/err
+                        break
+                    fi
                 fi
             }
         done
     }
-    
+   
     if [ -r ${makl_run_dir}/err ]; then
-        makl_err 3 "Unfulfilled dependency!"
+        makl_err 3 "unfulfilled dependency!"
     fi  
+}
+
+# makl_lib_testcode id
+#
+#   Set the test code for library id. Data is read from standard
+#   input.
+#   $1  - library id
+#   No return value.
+#
+makl_lib_testcode ()
+{
+    file=${makl_run_dir}/lib_testcode_$1.c
+
+    # create a clean file
+    [ -r ${file} ] && rm -f ${file}
+
+    while read line; do
+        echo ${line} >> ${file}
+    done
 }

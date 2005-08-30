@@ -1,5 +1,5 @@
 #
-# $Id: makl_compile,v 1.4 2005/07/29 09:54:44 tho Exp $
+# $Id: makl_compile,v 1.5 2005/08/30 18:08:04 stewy Exp $
 #
 
 # makl_compile c_file c_flags1 ... c_flagsn
@@ -22,7 +22,7 @@ makl_compile ()
     makl_dbg "compiling ${c_file} in ${makl_run_dir} with flags ${c_flags}"
 
     (
-        cp ${c_file} ${makl_run_dir}
+        cp ${c_file} ${makl_run_dir} &>/dev/null
         cd ${makl_run_dir}
 
         ${CC} ${c_flags} `basename ${c_file}`

@@ -1,5 +1,5 @@
 #
-# $Id: makl_args,v 1.4 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl_args,v 1.5 2005/08/30 18:08:04 stewy Exp $
 #
 
 # makl_args_print
@@ -12,7 +12,7 @@
 #   $5 - ID
 #   $6 - DSC
 #   $7 - PFX
-#   $8 - dft
+#   No return value.
 #
 makl_args_print () 
 {
@@ -67,11 +67,17 @@ makl_var_set ()
     local file=${makl_run_dir}/vars_$1
     [ -e ${file} ] || touch ${file}
 
-    makl_tab_set ${file} "$2" 2 $3
-    makl_tab_set ${file} "$2" 3 $4
+    makl_tab_set ${file} "$2" 2 "$3"
+    makl_tab_set ${file} "$2" 3 "$4"
 }
 
-# get the value of an internal cf variable 
+# makl_var_get
+# 
+#   Get the value of an internal cf variable.
+#   $1 - type of variable
+#   $2 - variable name 
+#   0 if the element was found, 1 otherwise.
+#
 makl_var_get ()
 {
     local file=${makl_run_dir}/vars_$1

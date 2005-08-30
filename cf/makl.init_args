@@ -1,5 +1,5 @@
 #
-# $Id: makl.init_args,v 1.4 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl.init_args,v 1.5 2005/08/30 18:08:04 stewy Exp $
 #
 
 # general settings
@@ -31,7 +31,7 @@ makl_args_add   "dir" "doc"     "BASE=/usr/local/doc"    "" "documentation"
 # library dependency
 makl_args_def   "lib" \
                 "-X=BASE" \
-                "" \
+                "BASE=/usr/local:/usr" \
                 "set libX to have BASE dir"
 
 # feature enabling

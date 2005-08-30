@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.2 2005/07/27 17:23:23 tho Exp $
+# $Id: makl_libdep,v 1.3 2005/08/30 18:08:04 stewy Exp $
 #
 
 # makl_libdep id base_dir test_file
@@ -14,18 +14,24 @@ makl_libdep ()
 {
     ID=`makl_upper $1`
 
-    if [ ! -z $2 ]; then
-        ldflags="-L$2/lib -l$1"
-        iflags="-I $2/include"
-    else
-        ldflags="-l$1"
-    fi
+    iflags=`makl_get_var_mk LIB${ID}_CFLAGS`
+    [ -z $2 ] || iflags="${iflags} -I $2/include" 
 
+    ldflags=`makl_get_var_mk LIB${ID}_LDADD`
+    [ -z "${ldflags}" ] && ldflags="-l$1"
+    [ -z $2 ] || ldflags="${ldflags} -L$2/lib"
+    
     # compile and link the test program
     eval makl_compile $3 ${iflags} ${ldflags}
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_LIB${ID}"
         return 1
+    fi
+
+    eval ${makl_run_dir}/a.out
+    if [ $? -ne 0 ]; then
+        makl_dbg "Test file execution for lib$1 failed!"
+        return 2 
     fi
 
     # set LIBID_CFLAGS and LIBID_LDADD in Makefile.conf

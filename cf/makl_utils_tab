@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.2 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl_utils_tab,v 1.3 2005/08/30 18:08:04 stewy Exp $
 #
 
 
@@ -18,7 +18,6 @@ makl_tab_find ()
 
     return $?
 }
-
 
 # makl_tab_set t id col value 
 #
@@ -112,7 +111,14 @@ makl_tab_set_row ()
     echo ${line} >> ${file}
 }
 
-# get column $3 of element with id $2 in file $1
+# makl_tab_get t id col
+#
+#   Get column $3 of element with id $2 in file $1
+#   $1 - table file 
+#   $2 - identifier to be retrieved
+#   $3 - target column
+#   0 if the element was found, 1 otherwise.
+#
 makl_tab_get ()
 {
     local val=`grep "^$2" $1 | cut -s -f $3 -d "|"`
@@ -132,4 +138,37 @@ makl_tab_get ()
 makl_tab_elem ()
 {
     echo "$1" | cut -s -f $2 -d "|"
+}
+
+# makl_tab_var str
+#
+#   $1 - input string
+#   $2 - required var
+#   0 if the variable was found, 1 otherwise.
+#
+makl_tab_var ()
+{
+    i=1
+    found=0
+
+    while true; do
+        elem=`echo $1 | cut -f ${i} -d ";"`
+        delim=`echo $1 | cut -s -f ${i} -d ";"`
+        [ -z ${elem} ] && break
+        var=`echo ${elem} | cut -f 1 -d "="`
+        val=`echo ${elem} | cut -f 2 -d "="`
+        if [ ${var} = $2 ] || [ -z ${delim} ]; then
+            found=1
+            echo ${val}
+            break
+        fi
+        # stop if we have no separator
+        i=$((i+1))
+    done
+
+    if [ ${found} = 0 ]; then
+        return 1
+    else
+        return 0
+    fi
 }

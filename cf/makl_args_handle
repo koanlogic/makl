@@ -1,11 +1,12 @@
 #
-# $Id: makl_args_handle,v 1.9 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl_args_handle,v 1.10 2005/08/30 18:08:04 stewy Exp $
 #
 
 
 # _makl_help
 #
-#   Print out the help menu 
+#   Print out the help menu.
+#   No return value.
 # 
 _makl_help () 
 {
@@ -29,6 +30,7 @@ _makl_help ()
 # _makl_help_opts
 #
 #   Print out the options.
+#   No return value.
 #
 _makl_help_opts() 
 {
@@ -65,6 +67,7 @@ _makl_help_opts()
 # _makl_noclean
 # 
 #   Don't clean cache at end of execution.
+#   No return value.
 #   
 _makl_noclean ()
 {
@@ -77,6 +80,7 @@ _makl_noclean ()
 #
 #   Set the base installation directory to pfx.
 #   $2 <must be empty>
+#   No return value.
 #
 _makl_prefix ()
 {
@@ -91,6 +95,7 @@ _makl_prefix ()
 #   Set directory for specific data type.
 #   $1 - directory type
 #   $2 - directory path
+#   No return value.
 #
 _makl_dir ()
 {
@@ -109,6 +114,7 @@ _makl_dir ()
 #
 #   Print content of a group of variables for debugging purposes.
 #   $1 - variable type
+#   No return value.
 #
 _makl_print ()
 {
@@ -137,10 +143,11 @@ _makl_print ()
     }
 }
 
-# makl_feature_c wrapper
+# _makl_feat_c id f
 #
-# $1 feature id
-# $2 file to be compiled
+#   $1 - feature id
+#   $2 - file to be compiled
+#   No return value.
 #
 _makl_feat_c ()
 {
@@ -155,10 +162,11 @@ _makl_feat_c ()
     [ $? = 0 ] || makl_err 2 "_makl_feat_c: feature $1 - failed to compile $2" 
 }
 
-# makl_feature_x wrapper
+# _makl_feat_x id f
 # 
 #   $1 - feature id 
 #   $2 - file to be executed
+#   No return value.
 #
 _makl_feat_x ()
 {
@@ -170,42 +178,45 @@ _makl_feat_x ()
     [ $? = 0 ] || makl_err 2 "makl_feat_x: feature $1 - failed to execute $2"
 }
 
-# makl_libdep wrapper
+# _makl_lib id val
 #
 #   $1 - library id
-#   $2 - value="<base_dir>:[<tst_file>]"
+#   $2 - value=<base_dir>
+#   0 on success, 1 on argument error, 2 on missing test file, 
+#   3 on unsuccessful compilation.
 #
 _makl_lib ()
 {
     [ $1 ] || _makl_args_err "makl_lib: missing package name!"
     [ $2 ] || _makl_args_err "makl_lib: requires value argument!"
 
-    id=$1
-    base=`echo $2 | cut -f1 -d":"`
-    tst=`echo $2 | cut -s -f2 -d":"`
-    
-    if [ ${tst} ]; then
-        [ -r ${tst} ] || makl_err 2 "makl_lib: unreadable test file (${tst})!" 
-    else
-        # try default test file
+    # check for inline code
+    tst=${makl_run_dir}/lib_testcode_$1.c
+    if [ ! -r ${tst} ]; then
         tst=`pwd`/build/lib$1.c
-        [ -r ${tst} ] || makl_err 2 "makl_lib: no test file for $1 (${tst})!" 
-    fi
 
-    makl_libdep ${id} ${base} ${tst}
+        if [ ! -r ${tst} ]; then
+            makl_warn "makl_lib: no test file for $1 (${tst})!" 
+            return 2
+        fi
+    fi
+    
+    makl_libdep $1 $2 ${tst}
 
     # add to list of found libs
     if [ $? = 0 ]; then
-       makl_req_found "lib" ${id}
+        makl_req_found "lib" $1
+        return 0
+    else
+        return 3
     fi
-
-    return $?
 }
 
-# _makl_args_err
+# _makl_args_err msg
 # 
 #   Print error message followed by usage.
 #   $1 - message
+#   No return value.
 #
 _makl_args_err ()
 {
@@ -214,10 +225,11 @@ _makl_args_err ()
     makl_err 1 $1
 }
 
-# _makl_args_handle 
+# _makl_args_handle arg
 #
 #   Handle an argument.
 #   $1 - argument to handle
+#   No return value.
 #
 _makl_arg_handle ()
 {
@@ -226,13 +238,14 @@ _makl_arg_handle ()
     val=`echo $1 | cut -s -f2 -d"="`
 
     _makl_${cmd} ${id} "${val}"
-    [ $? = 0 ] || _makl_args_err "Undefined command: '${cmd}'!"
+    [ $? = 0 ] || _makl_args_err "Failed command: '${cmd}'!"
 }
 
-# makl_args_handle
+# makl_args_handle args ...
 # 
 #   Process the configure command-line arguments.
 #   "$@" - command line arguments 
+#   No return value.
 #
 makl_args_handle()
 {

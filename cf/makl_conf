@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.1 2005/08/05 13:49:47 stewy Exp $
+# $Id: makl_conf,v 1.2 2005/08/30 18:08:04 stewy Exp $
 #
 
 # makl_process_conf
@@ -19,14 +19,14 @@ makl_process_conf ()
     # write vars_mk 
     cat ${f_mk} | {
         while read line; do
-            makl_process_mk ${line}
+            makl_process_mk "${line}"
         done
     }
 
     # write vars_h 
     cat ${f_h} | { 
         while read line; do
-            makl_process_h ${line}
+            makl_process_h "${line}"
         done
     }   
 
@@ -42,9 +42,10 @@ makl_process_conf ()
 #
 makl_process_mk ()
 {
-    local var=`makl_tab_elem $1 1`
-    local set=`makl_tab_elem $1 2`
-    local val=`makl_tab_elem $1 3`
+
+    local var=`makl_tab_elem "$1" 1`
+    local set=`makl_tab_elem "$1" 2`
+    local val=`makl_tab_elem "$1" 3`
 
     if [ ${set} = 1 ]; then
         makl_dbg "setting ${var} to ${val} in ${makl_makefile_conf}"
@@ -60,9 +61,9 @@ makl_process_mk ()
 #
 makl_process_h ()
 {
-    local var=`makl_tab_elem $1 1`
-    local set=`makl_tab_elem $1 2`
-    local val=`makl_tab_elem $1 3`
+    local var=`makl_tab_elem "$1" 1`
+    local set=`makl_tab_elem "$1" 2`
+    local val=`makl_tab_elem "$1" 3`
 
     if [ ${set} = 1 ]; then
         makl_dbg "setting ${var} to ${val} in ${makl_conf_h}"
