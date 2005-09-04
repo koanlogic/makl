@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.9 2005/08/09 10:25:31 stewy Exp $
+# $Id: makl.init,v 1.10 2005/09/04 12:37:53 stewy Exp $
 #
 
 # read in just once
@@ -23,8 +23,10 @@ if [ ! -r ${MAKL_DIR}/cf/toolchain.sh ]; then
     exit 1
 fi
 
-# source makl cf macros including the toolchain file
-for cfunc in ${MAKL_DIR}/cf/makl_* ${MAKL_DIR}/cf/toolchain.sh ; do
+# source makl cf macros including helpers the toolchain file 
+for cfunc in ${MAKL_DIR}/cf/makl_* \
+        ${MAKL_DIR}/cf/helpers/makl_* \
+        ${MAKL_DIR}/cf/toolchain.sh ; do
     . $cfunc
 done
 

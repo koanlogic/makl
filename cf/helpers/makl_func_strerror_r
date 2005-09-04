@@ -1,0 +1,39 @@
+#
+# $Id: makl_func_strerror_r,v 1.1 2005/09/04 12:37:53 stewy Exp $
+#
+
+# makl_func_strerror_r
+#   
+#   Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P if it
+#   returns a char pointer (returns int on some systems).
+#
+makl_func_strerror_r ()
+{
+    # test function compilation 
+    echo "
+        char buf[100];
+        strerror_r(0, buf, sizeof(buf));
+    " | makl_compile_code 1
+
+    if [ $? = 0 ]; then
+        
+        # Determine whether strerror_r returns a char* or an int by forcing a
+        # char* return value with extern() and using isalpha() on the returned string.
+        # A bus error may be caused if the return value is not a string.
+        echo "
+            extern char *strerror_r();
+        
+            int main() {
+                char buf[100];
+                char x = *strerror_r(0, buf, sizeof(buf));
+                return (!isalpha(x));
+            }
+        " | makl_exec_code 0
+
+        if [ $? = 0 ]; then
+            makl_set_var "STRERROR_R_CHAR_P"
+        fi
+
+        makl_set_var "HAVE_STRERROR_R"
+    fi
+}
