@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.5 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl_deps,v 1.6 2005/09/08 17:17:44 stewy Exp $
 #
 
 
@@ -27,22 +27,23 @@ makl_require ()
 # makl_optional type id dft
 #   
 #   Add an optional dependency
-#   $1 - dependency type
-#   $2 - dependency value
-#   $3 - defaults
+#   $1 - 
+#   $2 - dependency type
+#   $3 - dependency value
+#   $4 - defaults
 #   No return value.
 #   
 makl_optional ()
 {
-    makl_dbg "adding optional $1 dependency: $2"
+    makl_dbg "adding optional $2 dependency: $3"
 
-    file=${makl_run_dir}/deps_$1.optional
+    file=${makl_run_dir}/deps_$2.optional
     
-    makl_tab_find ${file} $2
+    makl_tab_find ${file} $3
     [ $? = 0 ] && return
     
-    echo $2 >> ${file}
-    makl_args_add $1 $2 "$3" "<?>" ""
+    echo "$3|$1" >> ${file}
+    makl_args_add $2 $3 "$4" "<?>" ""
 }
 
 # makl_req_found type id
@@ -62,13 +63,13 @@ makl_req_found ()
     echo $2 >> ${file}
 }
 
-# _makl_require_lib_def
+# _makl_search_lib
 #   
-#   Search for required lib in default dirs.
+#   Search for lib in default dirs.
 #   $1 - required lib  
 #   0 on success, 1 on lib not found.
 #
-_makl_require_lib_def ()
+_makl_search_lib ()
 {
     file=${makl_run_dir}/args
     
@@ -96,6 +97,7 @@ _makl_require_lib_def ()
 _makl_require_check ()
 {
     f_req=${makl_run_dir}/deps_$1.require
+    f_opt=${makl_run_dir}/deps_$1.optional
     f_have=${makl_run_dir}/deps_$1.found
 
     if [ ! -r ${f_req} ]; then
@@ -121,7 +123,7 @@ _makl_require_check ()
                     makl_dbg "searching for '$1${req}' in default paths" 
                     case $1 in
                         lib)
-                            _makl_require_lib_def ${req}
+                            _makl_search_lib ${req}
                             ;;
                         *) 
                             ;;
@@ -133,6 +135,25 @@ _makl_require_check ()
                     fi
                 fi
             }
+        done
+    }
+
+    # try to find optional dependencies which are enabled by default   
+    cat ${f_opt} 2>/dev/null | {
+        while read opt; do
+            id=`makl_tab_elem ${opt} 1`
+            makl_dbg "searching for '$1${id}' in default paths" 
+            case $1 in
+                lib)
+                    dft=`makl_tab_elem ${opt} 2`
+                    if [ ${dft} = "1" ]; then
+                        _makl_search_lib ${id}
+                    fi
+                    ;;
+                *) 
+                    ;;
+            esac
+            makl_warn "could not find optional library in default paths"
         done
     }
    

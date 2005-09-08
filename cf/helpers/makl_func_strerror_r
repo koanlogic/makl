@@ -1,5 +1,5 @@
 #
-# $Id: makl_func_strerror_r,v 1.1 2005/09/04 12:37:53 stewy Exp $
+# $Id: makl_func_strerror_r,v 1.2 2005/09/08 17:17:45 stewy Exp $
 #
 
 # makl_func_strerror_r
@@ -31,9 +31,12 @@ makl_func_strerror_r ()
         " | makl_exec_code 0
 
         if [ $? = 0 ]; then
-            makl_set_var "STRERROR_R_CHAR_P"
+            makl_set_var_h "STRERROR_R_CHAR_P"
         fi
 
-        makl_set_var "HAVE_STRERROR_R"
+        makl_set_var_h "HAVE_STRERROR_R"
+
+    else
+        makl_err 2 "failed check on function 'strerror_r'!"
     fi
 }
