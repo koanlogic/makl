@@ -1,9 +1,10 @@
 #
-# $Id: deps.mk,v 1.2 2005/07/26 08:24:19 tho Exp $
+# $Id: deps.mk,v 1.3 2005/09/13 08:01:09 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
-# DPADD     Add libraries to the dependency list.
+# DPADD     Add generic files to the dependency list.
+# LDADD     Add archive files to the dependency list.
 # 
 # Available targets:
 # - depend, broken up into {before,real,after}depend
@@ -23,6 +24,9 @@ afterdepend:
 ifdef PROG
 ifdef DPADD
 	echo ${PROG}: ${DPADD} >> ${DEPENDFILE}
+endif
+ifdef LDADD
+	echo ${PROG}: ${LDADD} >> ${DEPENDFILE}
 endif
 endif
 
