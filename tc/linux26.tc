@@ -1,7 +1,7 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux26.tc,v 1.2 2005/08/04 16:01:14 tho Exp $
+# $Id: linux26.tc,v 1.3 2005/09/14 15:10:35 tho Exp $
 
 # cc is GCC 3.3.4
 CC = gcc
@@ -22,4 +22,5 @@ INSTALL_STRIP = -s
 MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
 # mkinstalldirs is mkdir -p
 MKINSTALLDIRS = /bin/mkdir -p
-
+# Found a SUSE without lorder ...
+LORDER = ${MAKL_DIR}/helpers/lorder

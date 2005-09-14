@@ -16,4 +16,4 @@ INSTALL = install
 INSTALL_COPY = -c
 INSTALL_STRIP = -s
 MKINSTALDIRS = /bin/mkdir -p
-
+LORDER = lorder
