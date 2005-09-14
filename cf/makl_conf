@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.4 2005/09/14 18:28:50 stewy Exp $
+# $Id: makl_conf,v 1.5 2005/09/14 18:32:18 stewy Exp $
 #
 
 # makl_process_conf
@@ -67,6 +67,7 @@ makl_process_h ()
     local val=`makl_tab_elem "$1" 3`
 
     if [ ${set} = 1 ]; then
+        [ "${val}" = "" ] && val="1"
         makl_dbg "setting ${var} to ${val} in ${makl_conf_h}"
         if [ -z ${val} ]; then
             echo "#define ${var}" >> ${makl_conf_h}
