@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.5 2005/09/14 18:32:18 stewy Exp $
+# $Id: makl_conf,v 1.6 2005/09/15 13:10:42 stewy Exp $
 #
 
 # makl_process_conf
@@ -72,7 +72,7 @@ makl_process_h ()
         if [ -z ${val} ]; then
             echo "#define ${var}" >> ${makl_conf_h}
         else    
-            echo "#define ${var} \"${val}\"" >> ${makl_conf_h}
+            echo "#define ${var} ${val}" >> ${makl_conf_h}
         fi    
     else
         makl_dbg "unsetting ${var} in ${makl_conf_h}"

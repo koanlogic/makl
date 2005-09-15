@@ -1,17 +1,28 @@
 #
-# $Id: makl_var,v 1.4 2005/09/08 17:17:44 stewy Exp $
+# $Id: makl_var,v 1.5 2005/09/15 13:10:42 stewy Exp $
 #
 
-# makl_set_var_h name value
+# makl_set_var_h name value isstr
 #
 #   Set 'name' to 'value' in ${makl_conf_h}.
 #   $1 - symbol to set
 #   $2 - value of symbol (optional)
+#   $3 - whether the value is to be interpreted as a string
 #   No return value.
 #
 makl_set_var_h ()
 {
-    makl_var_set "h" "$1" 1 "$2"
+    val=$2
+    [ ${val} ] || val="1"
+    if [ $3 ];  then                #string
+        val="\"${val}\""
+    else                            #integer
+        # check that val is numeric
+        echo ${val} | grep '^-\?[0-9][0-9]*$' >/dev/null
+        [ $? = 0 ] || makl_err 1 "Invalid numeric $1=${val}!"
+    fi
+
+    makl_var_set "h" "$1" 1 ${val}
 }
 
 # makl_set_var_mk name value
@@ -82,17 +93,18 @@ makl_unset_var ()
     return 0
 }
 
-# makl_set_var name value
+# makl_set_var name value isstr
 #
 #   Set 'name' to 'value' in both ${makl_makefile_conf} and ${makl_conf_h}
 #   $1 - symbol to set
 #   $2 - value of symbol
+#   $3 - whether the value is to be interpreted as a string
 #   No return value.
 #
 makl_set_var ()
 {
-    makl_set_var_h  $1 $2 
-    makl_set_var_mk $1 $2
+    makl_set_var_h  $1 $2 $3
+    makl_set_var_mk $1 $2 
 }
 
 # makl_set var val
