@@ -4,7 +4,6 @@
 CC = cc
 CFLAGS = -pipe
 AR = ar
-#ksdkad
 ARFLAGS = rl
 RANLIB = ranlib
 LD = ld 
@@ -15,5 +14,5 @@ STRIP_FLAGS = -x
 INSTALL = install
 INSTALL_COPY = -c
 INSTALL_STRIP = -s
-MKINSTALDIRS = /bin/mkdir -p
+MKINSTALLDIRS = /bin/mkdir -p
 LORDER = lorder
