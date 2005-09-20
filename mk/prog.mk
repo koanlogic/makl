@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.5 2005/08/04 16:01:14 tho Exp $
+# $Id: prog.mk,v 1.6 2005/09/20 08:10:52 tat Exp $
 #
 # User Variables:
 # - PROG        Program name.
@@ -17,7 +17,7 @@
 OBJS = ${patsubst %.c,%.o,${SRCS}}
 
 ${PROG}: ${OBJS}
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${OBJS} ${LDADD}
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${OBJS} ${PRE_LDADD} ${LDADD} ${POST_LDADD}
 
 CLEANFILES += ${PROG} ${OBJS}
 
