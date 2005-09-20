@@ -1,13 +1,10 @@
 #
-# $Id: makl_args_handle,v 1.10 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl_args_handle,v 1.11 2005/09/20 12:44:47 stewy Exp $
 #
 
 
-# _makl_help
-#
-#   Print out the help menu.
-#   No return value.
-# 
+## \brief handler - print out the help menu.
+## 
 _makl_help () 
 {
     echo 
@@ -27,11 +24,8 @@ _makl_help ()
     echo
 }
 
-# _makl_help_opts
-#
-#   Print out the options.
-#   No return value.
-#
+## \brief Print out the options.
+##
 _makl_help_opts() 
 {
     local file_args=${makl_run_dir}/args 
@@ -64,11 +58,8 @@ _makl_help_opts()
     }
 }
 
-# _makl_noclean
-# 
-#   Don't clean cache at end of execution.
-#   No return value.
-#   
+##\brief handler - don't clean cache at end of execution.
+##
 _makl_noclean ()
 {
     [ $# -gt 1 ] && _makl_args_err "--noclean: Too many arguments"
@@ -76,12 +67,10 @@ _makl_noclean ()
     makl_set "__noclean__" 1
 }
 
-# _makl_prefix pfx
-#
-#   Set the base installation directory to pfx.
-#   $2 <must be empty>
-#   No return value.
-#
+##\brief handler - set the base installation directory to pfx.
+##
+##   \param $2 <must be empty>
+##
 _makl_prefix ()
 {
     shift -1 &>/dev/null
@@ -90,13 +79,11 @@ _makl_prefix ()
     makl_set_var_mk "DESTDIR" $1
 }
 
-# _makl_dir type path
-#
-#   Set directory for specific data type.
-#   $1 - directory type
-#   $2 - directory path
-#   No return value.
-#
+##\brief handler - set directory for specific data type.
+##
+##   \param $1 directory type
+##   \param $2 directory path
+##
 _makl_dir ()
 {
     [ ! -z $1 ] || _makl_args_err "_makl_dir: Missing directory type!"
@@ -110,12 +97,10 @@ _makl_dir ()
     makl_set_var_mk `makl_upper $1`"DIR" $2
 }
 
-# _makl_print type
-#
-#   Print content of a group of variables for debugging purposes.
-#   $1 - variable type
-#   No return value.
-#
+##\brief handler - print content of a group of variables.
+##
+##   \param $1 variable type
+##
 _makl_print ()
 {
     [ ! -z $1 ] || _makl_args_err "_makl_print: Missing variable type!"
@@ -143,12 +128,11 @@ _makl_print ()
     }
 }
 
-# _makl_feat_c id f
-#
-#   $1 - feature id
-#   $2 - file to be compiled
-#   No return value.
-#
+##\brief handler - compilation feature
+##
+##   \param $1 feature id
+##   \param $2 file to be compiled
+##
 _makl_feat_c ()
 {
     local f_feat_c=${makl_run_dir}/args_feat_c
@@ -162,12 +146,11 @@ _makl_feat_c ()
     [ $? = 0 ] || makl_err 2 "_makl_feat_c: feature $1 - failed to compile $2" 
 }
 
-# _makl_feat_x id f
-# 
-#   $1 - feature id 
-#   $2 - file to be executed
-#   No return value.
-#
+##\brief handler - executable feature
+## 
+##   \param $1 feature id 
+##   \param $2 file to be executed
+##
 _makl_feat_x ()
 {
     local f_feat_x=${makl_run_dir}/args_feat_x
@@ -178,13 +161,13 @@ _makl_feat_x ()
     [ $? = 0 ] || makl_err 2 "makl_feat_x: feature $1 - failed to execute $2"
 }
 
-# _makl_lib id val
-#
-#   $1 - library id
-#   $2 - value=<base_dir>
-#   0 on success, 1 on argument error, 2 on missing test file, 
-#   3 on unsuccessful compilation.
-#
+##\brief handler - library dependency
+##
+##   \param $1 library id
+##   \param $2 value=<base_dir>
+##   \return 0 on success, 1 on argument error, 2 on missing test file, 
+##   3 on unsuccessful compilation.
+##
 _makl_lib ()
 {
     [ $1 ] || _makl_args_err "makl_lib: missing package name!"
@@ -212,12 +195,10 @@ _makl_lib ()
     fi
 }
 
-# _makl_args_err msg
-# 
-#   Print error message followed by usage.
-#   $1 - message
-#   No return value.
-#
+##\brief Print error message followed by usage.
+##
+##   \param $1 message
+##
 _makl_args_err ()
 {
     _makl_help 
@@ -225,12 +206,10 @@ _makl_args_err ()
     makl_err 1 $1
 }
 
-# _makl_args_handle arg
-#
-#   Handle an argument.
-#   $1 - argument to handle
-#   No return value.
-#
+## \brief Handle an argument.
+## 
+##   \param $1 argument to handle
+##
 _makl_arg_handle ()
 {
     cmd=`echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
@@ -241,12 +220,10 @@ _makl_arg_handle ()
     [ $? = 0 ] || _makl_args_err "Failed command: '${cmd}'!"
 }
 
-# makl_args_handle args ...
-# 
-#   Process the configure command-line arguments.
-#   "$@" - command line arguments 
-#   No return value.
-#
+##\brief Process the configure command-line arguments.
+##
+##   \param "$@" command line arguments 
+##
 makl_args_handle()
 {
     for arg in "$@"; do

@@ -1,16 +1,14 @@
 #
-# $Id: makl_feature,v 1.2 2005/07/28 19:35:22 stewy Exp $
+# $Id: makl_feature,v 1.3 2005/09/20 12:44:47 stewy Exp $
 #
 
-# makl_feature_c id c_file c_flags
-#
-#   Feature 'id' is enabled if the compilation of 'c_file' is successful, 
-#   disabled otherwise.
-#   $1 - feature id
-#   $2 - C file to be compiled
-#   $3 - flags supplied to the compiler
-#   No value is returned.
-#
+##\brief Feature $1 is enabled if the compilation of $2 is successful, 
+##   disabled otherwise.
+## 
+##   \param $1 feature id
+##   \param $2 C file to be compiled
+##   \param $3 flags supplied to the compiler
+##
 makl_feature_c ()
 {
     ID=`makl_upper $1`
@@ -26,14 +24,12 @@ makl_feature_c ()
 }
 
 
-# makl_feature_x id x_file
-#
-#   Feature 'id' is enabled if the execution of 'x_file' is successful, 
-#   disabled otherwise.
-#   $1 - feature id
-#   $2 - file to be executed
-#   No value is returned.
-#
+##\brief Feature 'id' is enabled if the execution of 'x_file' is successful, 
+##   disabled otherwise.
+## 
+##   \param $1 feature id
+##   \param $2 file to be executed
+##
 makl_feature_x ()
 {
     ID=`makl_upper $1`

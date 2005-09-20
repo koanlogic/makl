@@ -1,15 +1,13 @@
 #
-# $Id: makl_utils,v 1.9 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl_utils,v 1.10 2005/09/20 12:44:47 stewy Exp $
 #
 
-# makl_err exit_code err_string
-#
-#   Print the supplied error string to stderr and bail out with the given 
-#   exit code.
-#   $1 - exit code
-#   $2 - error string
-#   No return value.
-#
+##\brief Print the supplied error string to stderr and bail out with the given 
+##   exit code.
+## 
+##   \param $1 exit code
+##   \param $2 error string
+##
 makl_err ()
 {
     local exit_code=$1
@@ -19,13 +17,11 @@ makl_err ()
     exit ${exit_code}
 }
 
-# makl_dbg dbg_string
-#
-#   Print the supplied debug message to stderr if "makl_debug" variable is set
-#   to "true", "yes", "on" or '1'.
-#   $1 - debug string
-#   No return value.
-#
+##\brief Print the supplied debug message to stderr if "makl_debug" variable is set
+##   to "true", "yes", "on" or '1'.
+##
+##   \param $1 debug string
+##
 makl_dbg ()
 {
     case ${makl_debug} in
@@ -35,22 +31,17 @@ makl_dbg ()
     esac
 }
 
-# makl_warn warning_string
-#
-#   Print the supplied warning message to stderr.
-#   $1 - warning string
-#   No return value.
-#
+##\brief Print the supplied warning message to stderr.
+##  
+##   \param $1 warning string
+##
 makl_warn ()
 {
     echo 1>&2 "$0: [wrn]: $*"
 }
 
-# makl_dbg_globals
-#
-#   Print MaKL global variables in use to stderr if 'makl_debug' is set.
-#   No return value.
-#
+##\brief Print MaKL global variables in use to stderr if 'makl_debug' is set.
+##
 makl_dbg_globals ()
 {
     makl_dbg "MAKL_DIR: ${MAKL_DIR}"
@@ -59,33 +50,27 @@ makl_dbg_globals ()
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"
 }
 
-# makl_upper string1 ... stringn
-#
-#   Transform lower into upper case letters.
-#   $* - list of 0 or more strings to be converted
-#   No return value.
-#
+##\brief Transform lower into upper case letters.
+##
+##   \param $* list of 0 or more strings to be converted
+##
 makl_upper ()
 {
    echo $* | tr "[a-z]" "[A-Z]"
 }
 
-# makl_cleanup_rundir
-#
-#   Remove ${makl_run_dir}
-#   No return value.
-#
+##\brief Remove ${makl_run_dir}
+##
 makl_cleanup_rundir ()
 {
     rm -rf ${makl_run_dir}
 }
 
-# makl_yesno question
-#
-#   Present 'question' at terminal and wait the user to answer.
-#   $1 - question string
-#   Return '0' if [yY] was typed, '1' if [nN].
-#
+##\brief Present 'question' at terminal and wait the user to answer.
+##
+##   \param $1 - question string
+##   \return '0' if [yY] was typed, '1' if [nN].
+##
 makl_yesno ()
 {
     echo -n "$1 " 

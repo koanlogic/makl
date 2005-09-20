@@ -1,19 +1,17 @@
 #
-# $Id: makl_args,v 1.5 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl_args,v 1.6 2005/09/20 12:44:47 stewy Exp $
 #
 
-# makl_args_print
-# 
-#   Print out a command-line argument description.
-#   $1 - id
-#   $2 - pms
-#   $3 - DFT
-#   $4 - dsc
-#   $5 - ID
-#   $6 - DSC
-#   $7 - PFX
-#   No return value.
-#
+##\brief Print out a command-line argument description.
+##
+##   \param $1 id
+##   \param $2 pms
+##   \param $3 DFT
+##   \param $4 dsc
+##   \param $5 ID
+##   \param $6 DSC
+##   \param $7 PFX
+##
 makl_args_print () 
 {
     local   id=$1 
@@ -40,12 +38,10 @@ makl_args_print ()
     echo
 }
 
-# makl_args_def args_str
-#
-#   Define a command line argument with multiple strings
-#   $@ - argument strings
-#   No return value.
-#
+##\brief Define a command line argument with multiple strings.
+##
+##   \param $@ argument strings
+##
 makl_args_def ()
 {
     local file=${makl_run_dir}/args
@@ -53,15 +49,13 @@ makl_args_def ()
     makl_tab_set_row ${file} "$@"
 }
 
-# makl_var_set
-#
-#   Set or unset a variable.
-#   $1 - type
-#   $2 - variable name 
-#   $3 - 1:set, 0:unset
-#   $4 - variable value
-#   No return value.
-#
+##\brief Set or unset a variable.
+##
+##   \param $1 type
+##   \param $2 variable name 
+##   \param $3 1:set, 0:unset
+##   \param $4 variable value
+##
 makl_var_set ()
 {
     local file=${makl_run_dir}/vars_$1
@@ -71,13 +65,12 @@ makl_var_set ()
     makl_tab_set ${file} "$2" 3 "$4"
 }
 
-# makl_var_get
-# 
-#   Get the value of an internal cf variable.
-#   $1 - type of variable
-#   $2 - variable name 
-#   0 if the element was found, 1 otherwise.
-#
+##\brief Get the value of an internal cf variable.
+## 
+##   \param $1 type of variable
+##   \param $2 variable name 
+##   \return 0 if the element was found, 1 otherwise.
+##
 makl_var_get ()
 {
     local file=${makl_run_dir}/vars_$1
@@ -86,16 +79,14 @@ makl_var_get ()
     return $?
 }
 
-# makl_args_add id 
-#
-#   Add an argument instance with given arguments.
-#   $1 - argument id 
-#   $2 - argument value
-#   $3 - default value
-#   $4 - prefix
-#   $5 - arg description
-#   No return value.
-# 
+##\brief Add an argument instance with given arguments.
+##
+##   \param $1 argument id 
+##   \param $2 argument value
+##   \param $3 default value
+##   \param $4 prefix
+##   \param $5 arg description
+## 
 makl_args_add ()
 {
     local file=${makl_run_dir}/args

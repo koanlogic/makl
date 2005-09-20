@@ -1,16 +1,14 @@
 #
-# $Id: makl_deps,v 1.6 2005/09/08 17:17:44 stewy Exp $
+# $Id: makl_deps,v 1.7 2005/09/20 12:44:47 stewy Exp $
 #
 
 
-# makl_require type id dft
-#   
-#   Add a required dependency 
-#   $1 - dependency type
-#   $2 - dependency value
-#   $3 - defaults 
-#   No return value.
-#   
+##\brief Add a required dependency.
+##
+##   \param $1 dependency type
+##   \param $2 dependency value
+##   \param $3 defaults 
+##   
 makl_require ()
 {
     makl_dbg "adding required $1 dependency: $2"
@@ -24,15 +22,13 @@ makl_require ()
     makl_args_add $1 $2 "$3" "<*>" ""
 }
 
-# makl_optional type id dft
-#   
-#   Add an optional dependency
-#   $1 - 
-#   $2 - dependency type
-#   $3 - dependency value
-#   $4 - defaults
-#   No return value.
-#   
+##\brief Add an optional dependency.
+##
+##   \param $1 enabled by default
+##   \param $2 dependency type
+##   \param $3 dependency value
+##   \param $4 defaults
+##   
 makl_optional ()
 {
     makl_dbg "adding optional $2 dependency: $3"
@@ -46,13 +42,11 @@ makl_optional ()
     makl_args_add $2 $3 "$4" "<?>" ""
 }
 
-# makl_req_found type id
-#   
-#   Mark a found dependency
-#   $1 - dependency type
-#   $2 - dependency value
-#   No return value.
-#
+##\brief Mark a found dependency.
+##
+##   \param $1 dependency type
+##   \param $2 dependency value
+##
 makl_req_found ()
 {
     file=${makl_run_dir}/deps_$1.found
@@ -63,12 +57,11 @@ makl_req_found ()
     echo $2 >> ${file}
 }
 
-# _makl_search_lib
-#   
-#   Search for lib in default dirs.
-#   $1 - required lib  
-#   0 on success, 1 on lib not found.
-#
+##\brief Search for lib in default dirs.
+##
+##   \param $1 required lib  
+##   \param 0 on success, 1 on lib not found.
+##
 _makl_search_lib ()
 {
     file=${makl_run_dir}/args
@@ -89,11 +82,10 @@ _makl_search_lib ()
     return 1
 }
 
-# _makl_require_check type
-#   
-#   Check that "type" dependencies have been fulfilled.
-#   $1 - dependency type
-#   
+##\brief Check that "type" dependencies have been fulfilled.
+##
+##   \param $1 dependency type
+##   
 _makl_require_check ()
 {
     f_req=${makl_run_dir}/deps_$1.require
@@ -162,13 +154,11 @@ _makl_require_check ()
     fi  
 }
 
-# makl_lib_testcode id
-#
-#   Set the test code for library id. Data is read from standard
-#   input.
-#   $1  - library id
-#   No return value.
-#
+##\brief Set the test code for library id. Data is read from standard
+##   input.
+##
+##   \param $1 library id
+##
 makl_lib_testcode ()
 {
     file=${makl_run_dir}/lib_testcode_$1.c

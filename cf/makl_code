@@ -1,14 +1,13 @@
 #
-# $Id: makl_code,v 1.2 2005/09/08 17:17:44 stewy Exp $
+# $Id: makl_code,v 1.3 2005/09/20 12:44:47 stewy Exp $
 #
 
-# makl_compile c_file c_flags1 ... c_flagsn
-#
-#   Compile c_file with the supplied c_flags
-#   $1 - Pathname of the C file to be compiled 
-#   $2 - CFLAGS string to be passed to the compiler
-#   Return '0' on success, '1' on failure.
-#
+##\brief Compile C file $1 with the supplied flags $2
+## 
+##   \param $1 Pathname of the C file to be compiled 
+##   \param $2 CFLAGS string to be passed to the compiler
+##   \return '0' on success, '1' on failure
+##
 makl_compile ()
 {
     if [ ! "$1" ]; then
@@ -33,12 +32,11 @@ makl_compile ()
     return 0
 }
 
-# makl_write_c file snip
-#
-#   Write to a C file. Data read is read from standard input.
-#   $1 - name of file to be written
-#   $2 - whether the code is a snippet (1) or entire C file (0)
-#
+##\brief Write to a C file. Data is read from standard input.
+## 
+##   \param $1 name of file to be written
+##   \param $2 whether the code is a snippet (1) or entire C file (0)
+##
 makl_write_c ()
 {
     # create a clean file
@@ -62,12 +60,11 @@ makl_write_c ()
     return 0
 }
 
-# makl_compile_code snip cflags
-# 
-#   Compile C code.
-#   $1 - whether the code is a snippet (1) or entire C file (0)
-#   $2 - CFLAGS to be passed to the compiler
-#
+##\brief Compile C code.
+##
+##   \param $1 whether the code is a snippet (1) or entire C file (0)
+##   \param $2 CFLAGS to be passed to the compiler
+##
 makl_compile_code ()
 {
     file=${makl_run_dir}/makl_code.c
@@ -81,12 +78,11 @@ makl_compile_code ()
     return 0
 }
 
-# makl_exec_code snip cflags
-#
-#   Execute C code.
-#   $1 - whether the code is a snippet (1) or entire C file (0)
-#   $2 - cflags to be passed to the compiler
-# 
+##\brief Execute C code.
+##
+##   \param $1 whether the code is a snippet (1) or entire C file (0)
+##   \param $2 cflags to be passed to the compiler
+## 
 makl_exec_code ()
 {
     file=${makl_run_dir}/makl_code.c
@@ -103,12 +99,11 @@ makl_exec_code ()
     return 0
 }
 
-# makl_checkfunc func cflags
-#   
-#   Define HAVE_$1 if function $1 is found
-#   $1 - function name
-#   $2 - CFLAGS
-#
+##\brief Define HAVE_$1 if function $1 is found.
+##
+##   \param $1 function name
+##   \param $2 CFLAGS
+##
 makl_checkfunc ()
 {
     echo "$1();" | makl_compile_code 1 $2
@@ -121,12 +116,11 @@ makl_checkfunc ()
     fi
 }
 
-# makl_checktype type includes ...
-#   
-#   Define HAVE_$1 if type $1 is found
-#   $1 - data type
-#   $2 - includes
-#
+##\brief Define HAVE_$1 if type $1 is found.
+## 
+##   \param $1 data type
+##   \param $2 includes
+##
 makl_checktype ()
 {
     type=$1

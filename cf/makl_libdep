@@ -1,15 +1,14 @@
 #
-# $Id: makl_libdep,v 1.3 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl_libdep,v 1.4 2005/09/20 12:44:47 stewy Exp $
 #
 
-# makl_libdep id base_dir test_file
-#
-#   Evaluate the dependency
-#   $1 - id
-#   $2 - base directory ("" if not specified)
-#   $3 - test file
-#   Return '0' on success, '1' on failure.
-#
+##\brief Evaluate the dependency
+##
+##   \param $1 id
+##   \param $2 base directory ("" if not specified)
+##   \param $3 test file
+##   \return '0' on success, '1' on failure.
+##
 makl_libdep ()
 {
     ID=`makl_upper $1`

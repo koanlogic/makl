@@ -1,15 +1,14 @@
 #
-# $Id: makl_utils_tab,v 1.3 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl_utils_tab,v 1.4 2005/09/20 12:44:48 stewy Exp $
 #
 
 
-# makl_tab_find id t id
-#   
-#   Check whether id exists file. 
-#   $1 - table file
-#   $2 - id to be search
-#   Return '0' if found, '1' otherwise.
-#
+##\brief Check whether id exists file. 
+##
+##   \param $1 table file
+##   \param $2 id to be search
+##   \return '0' if found, '1' otherwise.
+##
 makl_tab_find ()
 {
     [ -e $1 ] || return 1
@@ -19,15 +18,13 @@ makl_tab_find ()
     return $?
 }
 
-# makl_tab_set t id col value 
-#
-#   Set variable entry with id and at column col to val.
-#   $1 - table file 
-#   $2 - id (row)
-#   $3 - column
-#   $4 - value
-#   No return value.
-#
+##\brief Set variable entry with id and at column col to val.
+##
+##   \param $1 table file 
+##   \param $2 id (row)
+##   \param $3 column
+##   \param $4 value
+##
 makl_tab_set ()
 { 
     local line=""
@@ -77,13 +74,11 @@ makl_tab_set ()
     return 0    
 }
 
-# makl_tab_set_row t args_str
-# 
-#   Set row to given arguments.
-#   $1 - table file
-#   $@ - row values
-#   No return value.
-#
+##\brief Set row to given arguments.
+##
+##   \param $1 table file
+##   \param $@ row values
+##
 makl_tab_set_row ()
 {
     local line=""
@@ -111,14 +106,13 @@ makl_tab_set_row ()
     echo ${line} >> ${file}
 }
 
-# makl_tab_get t id col
-#
-#   Get column $3 of element with id $2 in file $1
-#   $1 - table file 
-#   $2 - identifier to be retrieved
-#   $3 - target column
-#   0 if the element was found, 1 otherwise.
-#
+##\brief Get column $3 of element with id $2 in file $1
+##
+##   \param $1 table file 
+##   \param $2 identifier to be retrieved
+##   \param $3 target column
+##   \return 0 if the element was found, 1 otherwise.
+##
 makl_tab_get ()
 {
     local val=`grep "^$2" $1 | cut -s -f $3 -d "|"`
@@ -128,24 +122,22 @@ makl_tab_get ()
     return ${ret}
 }
 
-# makl_tab_elem str idx 
-#   
-#   Outputs element at idx of str.
-#   $1 - string of elements
-#   $2 - index of element
-#   No return value.
-#
+##\brief Outputs element at idx of str.
+##
+##   \param $1 string of elements
+##   \param $2 index of element
+##
 makl_tab_elem ()
 {
     echo "$1" | cut -s -f $2 -d "|"
 }
 
-# makl_tab_var str
-#
-#   $1 - input string
-#   $2 - required var
-#   0 if the variable was found, 1 otherwise.
-#
+##\brief Get variable at index $2 from array $1.
+##
+##   \param $1 input string
+##   \param $2 required var
+##   \return 0 if the variable was found, 1 otherwise.
+##
 makl_tab_var ()
 {
     i=1

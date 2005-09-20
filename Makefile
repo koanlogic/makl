@@ -1,7 +1,8 @@
 #
-# $Id: Makefile,v 1.4 2005/07/29 14:17:56 tho Exp $
+# $Id: Makefile,v 1.5 2005/09/20 12:44:47 stewy Exp $
 #
 
+SUBDIRS = doc
 MAKL_ROOT_DIR = ${shell pwd}
 MAKL_VERSION = ${shell cat ${MAKL_ROOT_DIR}/VERSION}
 
