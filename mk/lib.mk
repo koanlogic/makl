@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.6 2005/09/14 15:10:35 tho Exp $
+# $Id: lib.mk,v 1.7 2005/09/20 08:10:35 tat Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -15,7 +15,6 @@ OBJS = ${patsubst %.c,%.o,${SRCS}}
 
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $*.o
-	@${STRIP} ${STRIP_FLAGS} $*.o
 
 lib${LIB}(${OBJS}) : ${OBJS}
 	@echo "===> building standard ${LIB} library"
