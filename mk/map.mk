@@ -1,5 +1,5 @@
 #
-# $Id: map.mk,v 1.3 2005/08/03 19:47:09 tho Exp $
+# $Id: map.mk,v 1.4 2005/09/20 08:22:44 tho Exp $
 #
 # Default pathnames and credentials needed by install targets.
 # Change them at your convenience.
@@ -27,7 +27,7 @@ LIBGRP    ?= ${BINGRP}
 LIBMODE   ?= ${NOBINMODE}
 
 SHAREDIR  ?= ${DESTDIR}/share
-SHAREOWN  ?= ${DEFOWN} 
+SHAREOWN  ?= ${DEFOWN}
 SHAREGRP  ?= ${DEFGRP}
 SHAREMODE ?= ${NOBINMODE}
 
