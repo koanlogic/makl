@@ -1,16 +1,20 @@
 #
-# $Id: man.mk,v 1.2 2005/09/20 07:56:12 tho Exp $
+# $Id: man.mk,v 1.3 2005/09/22 09:23:47 tho Exp $
 #
 # User Variables:
-# - MANFILES                Manual page(s) to be installed.
-# - MAN{OWN,GRP,MODE,DIR}   Installation path and credentials.
-# - MLINKS                  Ordered couplets of man page and its symlink
+# - MANFILES   Manual page(s) to be installed.
+# - MANOWN     Installation credentials for files and directories (owner).
+# - MANGRP     Installation credentials for files and directories (group).
+# - MANMODE    Installation permission for files in 'absolute' mode.
+# - MANDIR     Top level man pages' directory.
+# - MLINKS     Ordered couplets of man page and its symlink.
 #
 # Applicable targets:
 # - install, uninstall.
 #
 
-# Make sure all of the standard targets are defined, even if they do nothing.
+##\brief UNIX man pages installation
+ Make sure all of the standard targets are defined, even if they do nothing.
 all clean depend cleandepend:
 
 _SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
