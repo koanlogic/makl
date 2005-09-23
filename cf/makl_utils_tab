@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.4 2005/09/20 12:44:48 stewy Exp $
+# $Id: makl_utils_tab,v 1.5 2005/09/23 15:18:52 stewy Exp $
 #
 
 
@@ -115,8 +115,11 @@ makl_tab_set_row ()
 ##
 makl_tab_get ()
 {
-    local val=`grep "^$2" $1 | cut -s -f $3 -d "|"`
-    local ret=$?
+    found=`grep "^$2" $1`
+    [ $? = 0 ] || return $? 
+
+    val=`echo ${found} | cut -s -f $3 -d "|"`
+    ret=$?
 
     echo -n ${val}
     return ${ret}

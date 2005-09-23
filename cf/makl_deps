@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.7 2005/09/20 12:44:47 stewy Exp $
+# $Id: makl_deps,v 1.8 2005/09/23 15:18:52 stewy Exp $
 #
 
 
@@ -11,6 +11,7 @@
 ##   
 makl_require ()
 {
+    [ -z `makl_get "__noconfig__"` ] || return
     makl_dbg "adding required $1 dependency: $2"
 
     file=${makl_run_dir}/deps_$1.require
@@ -31,6 +32,7 @@ makl_require ()
 ##   
 makl_optional ()
 {
+    [ -z `makl_get "__noconfig__"` ] || return
     makl_dbg "adding optional $2 dependency: $3"
 
     file=${makl_run_dir}/deps_$2.optional
@@ -121,8 +123,7 @@ _makl_require_check ()
                             ;;
                     esac
                     if [ ! $? = 0 ]; then
-                        echo "Required $1 not found: ${req}"
-                        touch ${makl_run_dir}/err
+                        echo -n ${req} > ${makl_run_dir}/err
                         break
                     fi
                 fi
@@ -150,7 +151,7 @@ _makl_require_check ()
     }
    
     if [ -r ${makl_run_dir}/err ]; then
-        makl_err 3 "unfulfilled dependency!"
+        makl_err 3 "unfulfilled dependency: '`cat ${makl_run_dir}/err`'!"
     fi  
 }
 

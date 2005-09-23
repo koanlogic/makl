@@ -1,9 +1,9 @@
 #
-# $Id: makl.term,v 1.4 2005/08/05 13:47:49 stewy Exp $
+# $Id: makl.term,v 1.5 2005/09/23 15:18:52 stewy Exp $
 #
 
 # wrap makl_conf_h
 makl_process_conf
 
 # housekeeping
-[ "`makl_get "__noclean__"`" = "1" ] || makl_cleanup_rundir
+makl_cleanup_rundir

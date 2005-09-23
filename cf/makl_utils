@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.10 2005/09/20 12:44:47 stewy Exp $
+# $Id: makl_utils,v 1.11 2005/09/23 15:18:52 stewy Exp $
 #
 
 ##\brief Print the supplied error string to stderr and bail out with the given 
@@ -14,6 +14,7 @@ makl_err ()
     shift
 
     echo 1>&2 "$0: [err]: $*"
+    makl_cleanup_rundir
     exit ${exit_code}
 }
 
@@ -63,6 +64,7 @@ makl_upper ()
 ##
 makl_cleanup_rundir ()
 {
+    [ -z `makl_get "__noclean__"` ] || return 
     rm -rf ${makl_run_dir}
 }
 
@@ -89,4 +91,16 @@ makl_yesno ()
                 ;;
         esac
     done
+}
+
+##\brief Whether $1 is a valid mode (3 octal digits).
+##
+##  \param $1 - mode string
+##  \return 0 if valid, 1 otherwise
+##
+makl_is_mode ()
+{
+    echo $1 | grep '^[0-7][0-7][0-7]$'
+
+    return $?
 }

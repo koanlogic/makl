@@ -1,5 +1,5 @@
 #
-# $Id: makl.init_args,v 1.5 2005/08/30 18:08:04 stewy Exp $
+# $Id: makl.init_args,v 1.6 2005/09/23 15:18:52 stewy Exp $
 #
 
 # general settings
@@ -27,6 +27,23 @@ makl_args_add   "dir" "lib"     "BASE=/usr/local/lib"    "" "libraries"
 makl_args_add   "dir" "share"   "BASE=/usr/local/share"  "" "shared data"
 makl_args_add   "dir" "man"     "BASE=/usr/local/man"    "" "man pages"
 makl_args_add   "dir" "doc"     "BASE=/usr/local/doc"    "" "documentation"
+makl_args_def   "defown" \
+                "=USERID" \
+                "" \
+                "set default file owner id"
+makl_args_def   "defgrp" \
+                "=GROUPID" \
+                "" \
+                "set default file group id"
+makl_args_def   "defmode" \
+                "=MODE" \
+                "" \
+                "set default mode for regular files"
+makl_args_def   "defbinmode" \
+                "=MODE" \
+                "" \
+                "set default mode for binary files"
+
 
 # library dependency
 makl_args_def   "lib" \
