@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.3 2005/09/22 09:23:47 tho Exp $
+# $Id: man.mk,v 1.4 2005/09/23 12:29:23 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -13,8 +13,7 @@
 # - install, uninstall.
 #
 
-##\brief UNIX man pages installation
- Make sure all of the standard targets are defined, even if they do nothing.
+# Make sure all of the standard targets are defined, even if they do nothing.
 all clean depend cleandepend:
 
 _SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
