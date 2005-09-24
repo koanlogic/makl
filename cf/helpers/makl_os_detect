@@ -1,5 +1,5 @@
 #
-# $Id: makl_os_detect,v 1.1 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_os_detect,v 1.2 2005/09/24 20:34:10 tho Exp $
 #
 
 #\brief Basic OS detection. Operating Systems currently supported: Unix, Windows. 
@@ -11,7 +11,7 @@ makl_os_detect ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
 
-    rsname=`uname -rs | tr [A-Z] [a-z] | sed -e 's/ //'`
+    rsname=`uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'`
 
     case ${rsname} in
         *-*-mingw*)
