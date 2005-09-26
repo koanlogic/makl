@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.13 2005/09/24 19:04:27 tho Exp $
+# $Id: makl_utils,v 1.14 2005/09/26 18:41:42 stewy Exp $
 #
 
 ##\brief Print the supplied error string to stderr and bail out with the given 
@@ -10,7 +10,7 @@
 ##
 makl_err ()
 {
-    local exit_code=$1
+    exit_code=$1
     shift
 
     echo 1>&2 "$0: [err]: $*"

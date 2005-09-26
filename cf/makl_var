@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.7 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_var,v 1.8 2005/09/26 18:41:42 stewy Exp $
 #
 
 ##\brief Set 'name' to 'value' in ${makl_conf_h}.
@@ -136,7 +136,7 @@ makl_get_var_mk ()
 ##
 makl_vars_def ()
 {
-    local file=${makl_run_dir}/vars
+    file=${makl_run_dir}/vars
     
     makl_tab_find ${file} $1
     [ $? = 0 ] && return

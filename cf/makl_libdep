@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.4 2005/09/20 12:44:47 stewy Exp $
+# $Id: makl_libdep,v 1.5 2005/09/26 18:41:42 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -27,7 +27,7 @@ makl_libdep ()
         return 1
     fi
 
-    eval ${makl_run_dir}/a.out
+    cd ${makl_run_dir} && eval ${makl_run_dir}/a.out
     if [ $? -ne 0 ]; then
         makl_dbg "Test file execution for lib$1 failed!"
         return 2 

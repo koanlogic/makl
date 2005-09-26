@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.4 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_code,v 1.5 2005/09/26 18:41:42 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -21,7 +21,7 @@ makl_compile ()
     makl_dbg "compiling ${c_file} in ${makl_run_dir} with flags ${c_flags}"
 
     (
-        cp ${c_file} ${makl_run_dir} &>/dev/null
+        cp ${c_file} ${makl_run_dir} 2>/dev/null
         cd ${makl_run_dir}
 
         ${CC} ${c_flags} `basename ${c_file}`
@@ -93,7 +93,7 @@ makl_exec_code ()
     makl_compile ${file} $2 
     [ $? = 0 ] || return 1
 
-    eval ${makl_run_dir}/a.out 2>/dev/null
+    cd ${makl_run_dir} && eval ${makl_run_dir}/a.out 2>/dev/null
     [ $? = 0 ] || return 2
 
     return 0

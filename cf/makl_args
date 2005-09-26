@@ -1,5 +1,5 @@
 #
-# $Id: makl_args,v 1.6 2005/09/20 12:44:47 stewy Exp $
+# $Id: makl_args,v 1.7 2005/09/26 18:41:42 stewy Exp $
 #
 
 ##\brief Print out a command-line argument description.
@@ -14,13 +14,13 @@
 ##
 makl_args_print () 
 {
-    local   id=$1 
-            pms=$2
-            dsc=$3
-            ID=$4
-            DFT=$5
-            PFX=$6
-            DSC=$7
+    id=$1 
+    pms=$2
+    dsc=$3
+    ID=$4
+    DFT=$5
+    PFX=$6
+    DSC=$7
 
     a=`echo -n "${PFX}  --${id}${pms}" | 
         sed 's/X/'"${ID}"'/'`
@@ -44,7 +44,7 @@ makl_args_print ()
 ##
 makl_args_def ()
 {
-    local file=${makl_run_dir}/args
+    file=${makl_run_dir}/args
 
     makl_tab_set_row ${file} "$@"
 }
@@ -58,7 +58,7 @@ makl_args_def ()
 ##
 makl_var_set ()
 {
-    local file=${makl_run_dir}/vars_$1
+    file=${makl_run_dir}/vars_$1
     [ -e ${file} ] || touch ${file}
 
     makl_tab_set ${file} "$2" 2 "$3"
@@ -73,7 +73,7 @@ makl_var_set ()
 ##
 makl_var_get ()
 {
-    local file=${makl_run_dir}/vars_$1
+    file=${makl_run_dir}/vars_$1
     
     makl_tab_get ${file} $2 3
     return $?
@@ -89,7 +89,7 @@ makl_var_get ()
 ## 
 makl_args_add ()
 {
-    local file=${makl_run_dir}/args
+    file=${makl_run_dir}/args
     
     makl_tab_find ${file} $1 || makl_err 2 "Argument not defined: $1"
     makl_tab_set ${file}_$1 $2 2 $3 

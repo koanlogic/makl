@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.12 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_args_handle,v 1.13 2005/09/26 18:41:42 stewy Exp $
 #
 
 
@@ -30,29 +30,29 @@ _makl_help ()
 ##
 _makl_help_opts() 
 {
-    local file_args=${makl_run_dir}/args 
+    file_args=${makl_run_dir}/args 
 
     # print out arguments
     [ -e ${file_args} ] && \
     cat ${file_args} | {
         while read line; do 
-            local id=`makl_tab_elem "${line}" 1`
-            local pms=`makl_tab_elem "${line}" 2`
-            local dft=`makl_tab_elem "${line}" 3`
-            local dsc=`makl_tab_elem "${line}" 4`
+            id=`makl_tab_elem "${line}" 1`
+            pms=`makl_tab_elem "${line}" 2`
+            dft=`makl_tab_elem "${line}" 3`
+            dsc=`makl_tab_elem "${line}" 4`
             [ -e ${makl_run_dir}/args_"${id}" ] && \
             cat ${makl_run_dir}/args_"${id}" | { 
                 while read lin; do
-                    local ID=`makl_tab_elem "${lin}" 1`
-                    local DFT=`makl_tab_elem "${lin}" 2`
-                    local PFX=`makl_tab_elem "${lin}" 3`
-                    local DSC=`makl_tab_elem "${lin}" 4`
+                    ID=`makl_tab_elem "${lin}" 1`
+                    DFT=`makl_tab_elem "${lin}" 2`
+                    PFX=`makl_tab_elem "${lin}" 3`
+                    DSC=`makl_tab_elem "${lin}" 4`
                     makl_args_print "${id}" "${pms}" "${dsc}" "${ID}" \
                                     "${DFT}" "${PFX}" "${DSC}"
 
                 done
             } || {
-                echo -n "--"${id}${pms} $'\t' $'\t' ${dsc}
+                echo -n "--"${id}${pms} "     "  ${dsc}
                 [ "${dft}" = " " ] || echo -n " [${dft}]"
             }
             echo
@@ -76,7 +76,7 @@ _makl_noclean ()
 ##
 _makl_prefix ()
 {
-    shift -1 &>/dev/null
+    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_prefix: too many parameters!"
     
     makl_set_var_mk "DESTDIR" $1
@@ -92,7 +92,7 @@ _makl_dir ()
     [ ! -z $1 ] || _makl_args_err "--makl_dir: Missing directory type!"
     [ ! -z $2 ] || _makl_args_err "--makl_dir: Missing target directory!"
       
-    local f_dirs=${makl_run_dir}/args_dir
+    f_dirs=${makl_run_dir}/args_dir
     makl_tab_find ${f_dirs} $1
     
     [ $? = 0 ] || makl_err 2 "_makl_dir: Bad directory type: $1"
@@ -107,7 +107,7 @@ _makl_dir ()
 ##  
 _makl_defown ()
 {
-    shift -1 &>/dev/null
+    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defown: too many parameters!"
     
     makl_set_var_mk "DEFOWN" $1
@@ -120,7 +120,7 @@ _makl_defown ()
 ##  
 _makl_defgrp ()
 {
-    shift -1 &>/dev/null
+    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defgrp: too many parameters!"
     
     makl_set_var_mk "DEFGRP" $1
@@ -133,7 +133,7 @@ _makl_defgrp ()
 ##  
 _makl_defmode ()
 {
-    shift -1 &>/dev/null
+    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defmode: too many parameters!"
 
     makl_is_mode $1
@@ -149,7 +149,7 @@ _makl_defmode ()
 ##  
 _makl_defbinmode ()
 {
-    shift -1 &>/dev/null
+    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--defbinmode: too many parameters!"
 
     makl_is_mode $1
@@ -166,18 +166,18 @@ _makl_print ()
 {
     [ ! -z $1 ] || _makl_args_err "--makl_print: Missing variable type!"
 
-    local f_vars=${makl_run_dir}/vars
-    local f_var=${makl_run_dir}/vars_$1
+    f_vars=${makl_run_dir}/vars
+    f_var=${makl_run_dir}/vars_$1
 
     [ -e ${f_var} ] || makl_err 2 "_makl_print: Invalid variable type: $1"
-    local dsc=`makl_tab_get ${f_vars} $1 2`
+    dsc=`makl_tab_get ${f_vars} $1 2`
     makl_dbg "printing variables of type: $1 ("${dsc}")" 
 
     cat ${f_var} | { 
         while read lin; do
-            local var=`makl_tab_elem "${lin}" 1`
-            local set=`makl_tab_elem "${lin}" 2`
-            local val=\"`makl_tab_elem "${lin}" 3`\"
+            var=`makl_tab_elem "${lin}" 1`
+            set=`makl_tab_elem "${lin}" 2`
+            val=\"`makl_tab_elem "${lin}" 3`\"
             if [ ${set} = 0 ]; then
                 echo -n $'\t'"< > "
                 echo "${var}"
@@ -196,12 +196,12 @@ _makl_print ()
 ##
 _makl_feat_c ()
 {
-    local f_feat_c=${makl_run_dir}/args_feat_c
+    f_feat_c=${makl_run_dir}/args_feat_c
     makl_tab_find ${f_feat_c} $1
     [ $? = 0 ] || _makl_args_err "--makl_feat_c: Invalid feat_c: $1"
 
-    local file=`  echo $2 | cut -f1 -d":"`
-    local flags=` echo $2 | cut -s -f2 -d":"`
+    file=`  echo $2 | cut -f1 -d":"`
+    flags=` echo $2 | cut -s -f2 -d":"`
 
     makl_feature_c $1 ${file} "${flags}" 1>/dev/null
     [ $? = 0 ] || makl_err 2 "_makl_feat_c: feature $1 - failed to compile $2" 
@@ -214,7 +214,7 @@ _makl_feat_c ()
 ##
 _makl_feat_x ()
 {
-    local f_feat_x=${makl_run_dir}/args_feat_x
+    f_feat_x=${makl_run_dir}/args_feat_x
     makl_tab_find ${f_feat_x} $1
     [ $? = 0 ] || _makl_args_err "--makl_feat_x: Invalid feat_x: $1"
     
