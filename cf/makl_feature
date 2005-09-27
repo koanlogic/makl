@@ -1,5 +1,5 @@
 #
-# $Id: makl_feature,v 1.4 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_feature,v 1.5 2005/09/27 13:36:27 stewy Exp $
 #
 
 ##\brief Feature $1 is enabled if the compilation of $2 is successful, 
@@ -17,11 +17,12 @@ makl_feature_c ()
     eval makl_compile $2 $3
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_${ID}"
-        return
+        return 1
     fi
 
     # set HAVE_ID in Makefile.conf and conf.h
     makl_set_var "HAVE_${ID}"
+    return 0
 }
 
 
@@ -35,13 +36,16 @@ makl_feature_x ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
     ID=`makl_upper $1`
-
-    eval $2
-    if [ $? -ne 0 ]; then
+    file=$2
+    [ $2 ] || file=$1 
+    
+    eval ${file} >/dev/null
+    if [ $? = 127 ]; then
         makl_unset_var "HAVE_${ID}"
         return 1
     fi
-
+    
     # set HAVE_ID in Makefile.conf and conf.h
     makl_set_var "HAVE_${ID}"
+    return 0
 }
