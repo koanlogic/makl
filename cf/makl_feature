@@ -1,5 +1,5 @@
 #
-# $Id: makl_feature,v 1.5 2005/09/27 13:36:27 stewy Exp $
+# $Id: makl_feature,v 1.6 2005/09/27 15:22:12 stewy Exp $
 #
 
 ##\brief Feature $1 is enabled if the compilation of $2 is successful, 
@@ -39,7 +39,7 @@ makl_feature_x ()
     file=$2
     [ $2 ] || file=$1 
     
-    eval ${file} >/dev/null
+    eval ${file} > /dev/null 2> /dev/null
     if [ $? = 127 ]; then
         makl_unset_var "HAVE_${ID}"
         return 1
