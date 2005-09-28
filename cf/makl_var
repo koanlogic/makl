@@ -1,8 +1,9 @@
 #
-# $Id: makl_var,v 1.8 2005/09/26 18:41:42 stewy Exp $
+# $Id: makl_var,v 1.9 2005/09/28 16:50:27 stewy Exp $
 #
 
-##\brief Set 'name' to 'value' in ${makl_conf_h}.
+##\brief Set $1 to $2 in ${makl_conf_h}. If $3 is set, the value is to be
+##  interpreted as a string (default is integer).
 ##
 ##   \param $1 symbol to set
 ##   \param $2 value of symbol (optional)
@@ -23,7 +24,7 @@ makl_set_var_h ()
     makl_var_set "h" "$1" 1 ${val}
 }
 
-#\brief Set 'name' to 'value' in ${makl_makefile_conf}.
+#\brief Set $1 to $2 in ${makl_makefile_conf}.
 #
 #   \param $1 symbol to set
 #   \param $2 value of symbol
@@ -35,18 +36,25 @@ makl_set_var_mk ()
     makl_var_set "mk" "$1" 1 "${val}"
 }
 
-##\brief Append 'value' to 'name' in ${makl_makefile_conf}.
+##\brief Append $2.. to $1 in ${makl_makefile_conf}.
 ##
 ##   \param $1 symbol to set
-##   \param $2 value to add
+##   \param $* string values to be added
 ##
 makl_add_var_mk ()
 {
+	var=$1
     val=`makl_get_var_mk "$1"`
-    makl_set_var_mk "$1" "${val}"" $2"
+
+	shift
+	for arg in "$@"; do
+		val="${val} ${arg}"
+	done
+	
+    makl_set_var_mk "${var}" "${val}"
 }
 
-##\brief Unset 'name' in ${makl_conf_h}.
+##\brief Unset $1 in ${makl_conf_h}.
 ##
 ##   \param $1 symbol to unset
 ##
@@ -55,7 +63,7 @@ makl_unset_var_h ()
     makl_var_set "h" "$1" 0 
 }
 
-##\brief Unset 'name' in ${makl_makefile_conf}.
+##\brief Unset $1 in ${makl_makefile_conf}.
 ##
 ##   \param $1 symbol to unset
 ##
@@ -66,7 +74,7 @@ makl_unset_var_mk ()
     makl_var_set "mk" "$1" 0
 }
 
-##\brief Unset 'name' in both ${makl_makefile_conf} and ${makl_conf_h}
+##\brief Unset $1 in both ${makl_makefile_conf} and ${makl_conf_h}
 ##
 ##   \param $1 symbol to unset
 ##   \return '0' on success, '1' otherwise.
@@ -84,7 +92,7 @@ makl_unset_var ()
     return 0
 }
 
-##\brief Set 'name' to 'value' in both ${makl_makefile_conf} and ${makl_conf_h}
+##\brief Set $1 to $2 in both ${makl_makefile_conf} and ${makl_conf_h}.
 ##
 ##   \param $1 symbol to set
 ##   \param $2 value of symbol
@@ -96,7 +104,7 @@ makl_set_var ()
     makl_set_var_mk $1 $2 
 }
 
-##\brief Set internal variable var to val.
+##\brief Set internal variable $1 to $2.
 ##
 ##   \param $1 name of variable
 ##   \param $2 value of variable
@@ -118,7 +126,7 @@ makl_get ()
     return $?
 }
 
-##\brief Get mk variable
+##\brief Get mk variable. 
 ##
 ##   \return the value of the variable
 ##
@@ -129,7 +137,7 @@ makl_get_var_mk ()
     return $?
 }
 
-##\brief Define variable (var=val) 
+##\brief Define variable (var=val). 
 ##
 ##   \param $1 type of variable
 ##   \param $2 description

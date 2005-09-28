@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.15 2005/09/28 16:18:01 stewy Exp $
+# $Id: makl_utils,v 1.16 2005/09/28 16:50:27 stewy Exp $
 #
 
 ##\brief Set the package name to $1.
@@ -34,7 +34,7 @@ makl_pkg_version ()
 
     [ $? = 0 ] || ver=$1
 
-    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'
+    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
     [ $? = 0 ] || makl_err 2 "makl_pkg_version(): version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
