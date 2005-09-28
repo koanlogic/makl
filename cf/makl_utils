@@ -1,6 +1,45 @@
 #
-# $Id: makl_utils,v 1.14 2005/09/26 18:41:42 stewy Exp $
+# $Id: makl_utils,v 1.15 2005/09/28 16:18:01 stewy Exp $
 #
+
+##\brief Set the package name to $1.
+##
+##  \param $1 package name
+##  
+makl_pkg_name ()
+{
+    [ $1 ] || makl_err 1 "makl_pkg_name(): undefined package name!"
+
+    makl_set "__package__" "$1"
+}
+
+##\brief Set the package version to $1 
+##  [format: "X.Y.Z", where X, Y and Z are digits]
+## If no argument is supplied, a file named VERSION in the base 
+## directory containing the version is expected. 
+## The package name must already be defined by makl_pkg_name().
+##
+##  \param $1 package version (optional)
+##  
+makl_pkg_version ()
+{
+    file="VERSION"
+    pkg=`makl_get "__package__"`
+
+    [ -z ${pkg} ] && \
+        makl_err 1 "makl_pkg_version(): makl_pkg_name must be defined first!"
+
+    [ -f ${file} ] && [ -r ${file} ] && \
+        ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
+
+    [ $? = 0 ] || ver=$1
+
+    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'
+    [ $? = 0 ] || makl_err 2 "makl_pkg_version(): version must have format 'X.Y.Z'" \
+						     "where X, Y and Z are digits."
+
+    makl_set_var_h "`makl_upper ${pkg}`_VERSION" ${ver} 1
+}
 
 ##\brief Print the supplied error string to stderr and bail out with the given 
 ##   exit code.
