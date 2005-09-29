@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.13 2005/09/26 18:41:42 stewy Exp $
+# $Id: makl_args_handle,v 1.14 2005/09/29 12:01:20 stewy Exp $
 #
 
 
@@ -288,6 +288,8 @@ _makl_arg_handle ()
 ##
 makl_args_init ()
 {
+    makl_dbg "preprocessing command-line arguments"
+
     for arg in "$@"; do
         if [ "${arg}" = "--help" ]; then
             makl_set "__noconfig__" 1
@@ -302,6 +304,8 @@ makl_args_init ()
 ##
 makl_args_handle ()
 {
+    makl_dbg "handling command-line arguments"
+
     for arg in "$@"; do
         pref=`echo ${arg} | cut -c1,2`
         cmd=`echo ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
@@ -320,5 +324,8 @@ makl_args_handle ()
     done
 
     [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_dbg "checking dependencies"
+
     _makl_require_check "lib"
 }

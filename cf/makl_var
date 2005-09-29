@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.9 2005/09/28 16:50:27 stewy Exp $
+# $Id: makl_var,v 1.10 2005/09/29 12:01:20 stewy Exp $
 #
 
 ##\brief Set $1 to $2 in ${makl_conf_h}. If $3 is set, the value is to be
@@ -21,6 +21,7 @@ makl_set_var_h ()
         [ $? = 0 ] || makl_err 1 "Invalid numeric $1=${val}!"
     fi
 
+    makl_dbg "setting header variable $1 to ${val}"
     makl_var_set "h" "$1" 1 ${val}
 }
 
@@ -33,6 +34,8 @@ makl_set_var_mk ()
 {
     val=$2
     [ "${val}" ] || val="1"
+
+    makl_dbg "setting makefile variable $1 to ${val}"
     makl_var_set "mk" "$1" 1 "${val}"
 }
 
@@ -47,29 +50,33 @@ makl_add_var_mk ()
     val=`makl_get_var_mk "$1"`
 
 	shift
+
 	for arg in "$@"; do
 		val="${val} ${arg}"
 	done
-	
+
+    makl_dbg "appending ${val} to makefile variable ${var}"
     makl_set_var_mk "${var}" "${val}"
 }
 
-##\brief Unset $1 in ${makl_conf_h}.
+##\brief Unset header variable $1.
 ##
 ##   \param $1 symbol to unset
 ##
 makl_unset_var_h ()
 {
+    makl_dbg "unsetting header variable $1"
+
     makl_var_set "h" "$1" 0 
 }
 
-##\brief Unset $1 in ${makl_makefile_conf}.
+##\brief Unset makefile variable $1.
 ##
 ##   \param $1 symbol to unset
 ##
 makl_unset_var_mk ()
 {
-    makl_dbg "unsetting $1 in ${makl_makefile_conf}"
+    makl_dbg "unsetting makefile variable $1"
 
     makl_var_set "mk" "$1" 0
 }

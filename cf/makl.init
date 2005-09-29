@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.10 2005/09/04 12:37:53 stewy Exp $
+# $Id: makl.init,v 1.11 2005/09/29 12:01:20 stewy Exp $
 #
 
 # read in just once
@@ -15,7 +15,7 @@ fi
 
 # set globals to sensible defaults if not already set
 makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
-makl_conf_h="${makl_conf_h:-`pwd`/conf/conf.h}"
+makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/build/.makl.run}"
 
 if [ ! -r ${MAKL_DIR}/cf/toolchain.sh ]; then

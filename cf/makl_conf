@@ -1,11 +1,13 @@
 # 
-# $Id: makl_conf,v 1.9 2005/09/26 18:41:42 stewy Exp $
+# $Id: makl_conf,v 1.10 2005/09/29 12:01:20 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
 ##
 makl_process_conf ()
 {
+    makl_dbg "processing configuration output from cache"
+
     f_mk=${makl_run_dir}/vars_mk
     f_h=${makl_run_dir}/vars_h
 
@@ -42,7 +44,6 @@ makl_process_mk ()
     val=`makl_tab_elem "$1" 3`
 
     if [ ${set} = 1 ]; then
-        makl_dbg "setting ${var} to ${val} in ${makl_makefile_conf}"
         echo "${var} = ${val}" >> ${makl_makefile_conf}
     fi
 }
@@ -58,14 +59,12 @@ makl_process_h ()
     val=`makl_tab_elem "$1" 3`
 
     if [ ${set} = 1 ]; then
-        makl_dbg "setting ${var} to ${val} in ${makl_conf_h}"
         if [ -z ${val} ]; then
             echo "#define ${var}" >> ${makl_conf_h}
         else    
             echo "#define ${var} ${val}" >> ${makl_conf_h}
         fi    
     else
-        makl_dbg "unsetting ${var} in ${makl_conf_h}"
         echo "#undef ${var}" >> ${makl_conf_h}
     fi
 }

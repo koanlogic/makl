@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.7 2005/09/27 15:22:12 stewy Exp $
+# $Id: makl_code,v 1.8 2005/09/29 12:01:20 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -18,14 +18,10 @@ makl_compile ()
     shift
     c_flags=$*
    
-    makl_dbg "compiling ${c_file} in ${makl_run_dir} with flags ${c_flags}"
+    cp ${c_file} ${makl_run_dir} 2>/dev/null
+    cd ${makl_run_dir}
 
-    (
-        cp ${c_file} ${makl_run_dir} 2>/dev/null
-        cd ${makl_run_dir}
-
-        ${CC} ${c_flags} `basename ${c_file}`
-    )
+    ${CC} ${c_flags} `basename ${c_file}`
 
     [ $? -ne 0 ] && return 1
 
@@ -88,8 +84,6 @@ makl_exec_code ()
     file=${makl_run_dir}/makl_code.c
     
     makl_write_c ${file} $1
-    #cat ${file}
-
     makl_compile ${file} $2 
     [ $? = 0 ] || return 1
 
@@ -107,6 +101,8 @@ makl_exec_code ()
 makl_checkfunc ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_dbg "checking for function $1"
 
     echo "$1();" | makl_compile_code 1 $2
 
@@ -126,6 +122,8 @@ makl_checkfunc ()
 makl_checktype ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_dbg "checking for type $1"
 
     type=$1
     shift

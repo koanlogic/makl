@@ -1,5 +1,5 @@
 #
-# $Id: makl_feature,v 1.6 2005/09/27 15:22:12 stewy Exp $
+# $Id: makl_feature,v 1.7 2005/09/29 12:01:20 stewy Exp $
 #
 
 ##\brief Feature $1 is enabled if the compilation of $2 is successful, 
@@ -12,8 +12,9 @@
 makl_feature_c ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
-    ID=`makl_upper $1`
+    makl_dbg "adding compilation feature $1"
 
+    ID=`makl_upper $1`
     eval makl_compile $2 $3
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_${ID}"
@@ -35,6 +36,8 @@ makl_feature_c ()
 makl_feature_x ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
+    makl_dbg "adding executable feature $1"
+    
     ID=`makl_upper $1`
     file=$2
     [ $2 ] || file=$1 

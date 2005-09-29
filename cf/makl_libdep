@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.6 2005/09/27 15:22:12 stewy Exp $
+# $Id: makl_libdep,v 1.7 2005/09/29 12:01:20 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -16,7 +16,7 @@ makl_libdep ()
     iflags=`makl_get_var_mk LIB${ID}_CFLAGS`
     [ -z $2 ] || iflags="${iflags} -I $2/include" 
 
-    ldflags=`makl_get_var_mk LIB${ID}_LDADD`
+    ldflags=`makl_get_var_mk LIB${ID}_LDFLAGS`
     [ -z "${ldflags}" ] && ldflags="-l$1"
     [ -z $2 ] || ldflags="${ldflags} -L$2/lib"
     
@@ -35,7 +35,7 @@ makl_libdep ()
 
     # set LIBID_CFLAGS and LIBID_LDADD in Makefile.conf
     makl_set_var_mk "LIB${ID}_CFLAGS" "${iflags}"
-    makl_set_var_mk "LIB${ID}_LDADD" "${ldflags}"
+    makl_set_var_mk "LIB${ID}_LDFLAGS" "${ldflags}"
     makl_set_var_mk "HAVE_LIB${ID}"
 
     # set HAVE_LIBID in conf.h 
