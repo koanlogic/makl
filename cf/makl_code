@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.8 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_code,v 1.9 2005/09/29 15:29:11 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -17,14 +17,19 @@ makl_compile ()
     c_file=$1
     shift
     c_flags=$*
+    cwd=`pwd`
    
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
     ${CC} ${c_flags} `basename ${c_file}`
 
-    [ $? -ne 0 ] && return 1
+    if [ $? -ne 0 ]; then
+        cd ${cwd} 
+        return 1
+    fi 
 
+    cd ${cwd}
     return 0
 }
 
@@ -82,14 +87,19 @@ makl_compile_code ()
 makl_exec_code ()
 {
     file=${makl_run_dir}/makl_code.c
+    cwd=`pwd`
     
     makl_write_c ${file} $1
     makl_compile ${file} $2 
     [ $? = 0 ] || return 1
 
-    cd ${makl_run_dir} && eval ${makl_run_dir}/a.out > /dev/null 2> /dev/null
-    [ $? = 0 ] || return 2
+    cd ${makl_run_dir} && eval ./a.out > /dev/null 2> /dev/null
+    if [ $? -ne 0 ]; then 
+        cd ${cwd}
+        return 2
+    fi
 
+    cd ${cwd}   
     return 0
 }
 

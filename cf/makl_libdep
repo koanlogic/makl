@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.7 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_libdep,v 1.8 2005/09/29 15:29:11 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -12,6 +12,7 @@
 makl_libdep ()
 {
     ID=`makl_upper $1`
+    cwd=`pwd`
 
     iflags=`makl_get_var_mk LIB${ID}_CFLAGS`
     [ -z $2 ] || iflags="${iflags} -I $2/include" 
@@ -27,9 +28,10 @@ makl_libdep ()
         return 1
     fi
 
-    cd ${makl_run_dir} && eval ${makl_run_dir}/a.out > /dev/null 2> /dev/null
+    cd ${makl_run_dir} && eval ./a.out > /dev/null 2> /dev/null
     if [ $? -ne 0 ]; then
         makl_dbg "Test file execution for lib$1 failed!"
+        cd ${cwd}
         return 2 
     fi
 
@@ -41,5 +43,6 @@ makl_libdep ()
     # set HAVE_LIBID in conf.h 
     makl_set_var_h "HAVE_LIB${ID}"
 
+    cd ${cwd}
     return 0
 }

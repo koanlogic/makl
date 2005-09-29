@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.8 2005/09/23 15:18:52 stewy Exp $
+# $Id: makl_deps,v 1.9 2005/09/29 15:29:11 stewy Exp $
 #
 
 
@@ -141,12 +141,13 @@ _makl_require_check ()
                     dft=`makl_tab_elem ${opt} 2`
                     if [ ${dft} = "1" ]; then
                         _makl_search_lib ${id}
+                        [ $? = 0 ] || \
+                            makl_warn "could not find optional library in default paths"
                     fi
                     ;;
                 *) 
                     ;;
             esac
-            makl_warn "could not find optional library in default paths"
         done
     }
    
