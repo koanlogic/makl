@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.8 2005/09/29 15:29:11 stewy Exp $
+# $Id: makl_libdep,v 1.9 2005/09/30 08:56:00 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -7,6 +7,8 @@
 ##   \param $1 id
 ##   \param $2 base directory ("" if not specified)
 ##   \param $3 test file
+##   \param $4 CFLAGS 
+##   \param $5 LDFLAGS
 ##   \return '0' on success, '1' on failure.
 ##
 makl_libdep ()
@@ -14,15 +16,18 @@ makl_libdep ()
     ID=`makl_upper $1`
     cwd=`pwd`
 
-    iflags=`makl_get_var_mk LIB${ID}_CFLAGS`
-    [ -z $2 ] || iflags="${iflags} -I $2/include" 
+    [ -z "$4" ] && [ ! "$4" = "" ] || iflags="$4"
+    [ -z "$2" ] || iflags="${iflags} -I $2/include" 
 
-    ldflags=`makl_get_var_mk LIB${ID}_LDFLAGS`
-    [ -z "${ldflags}" ] && ldflags="-l$1"
-    [ -z $2 ] || ldflags="${ldflags} -L$2/lib"
+    if [ -z "$5" ]; then 
+        ldflags="-l$1"
+    else
+        ldflags="$5"
+    fi
+    [ -z "$2" ] || ldflags="${ldflags} -L$2/lib"
     
     # compile and link the test program
-    eval makl_compile $3 ${iflags} ${ldflags}
+    eval makl_compile $3 "${iflags}" "${ldflags}"
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_LIB${ID}"
         return 1

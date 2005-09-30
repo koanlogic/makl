@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.14 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_args_handle,v 1.15 2005/09/30 08:56:00 stewy Exp $
 #
 
 
@@ -226,6 +226,8 @@ _makl_feat_x ()
 ##
 ##   \param $1 library id
 ##   \param $2 value=<base_dir>
+##   \param $3 CFLAGS
+##   \param $4 LDFLAGS
 ##   \return 0 on success, 1 on argument error, 2 on missing test file, 
 ##   3 on unsuccessful compilation.
 ##
@@ -245,7 +247,7 @@ _makl_lib ()
         fi
     fi
     
-    makl_libdep $1 $2 ${tst}
+    makl_libdep $1 $2 ${tst} "$3" "$4"
 
     # add to list of found libs
     if [ $? = 0 ]; then

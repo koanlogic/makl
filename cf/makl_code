@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.9 2005/09/29 15:29:11 stewy Exp $
+# $Id: makl_code,v 1.10 2005/09/30 08:56:00 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -71,7 +71,6 @@ makl_compile_code ()
     file=${makl_run_dir}/makl_code.c
 
     makl_write_c ${file} $1
-    #cat ${file}
 
     makl_compile ${file} $2
     [ $? = 0 ] || return 1

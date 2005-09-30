@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.9 2005/09/29 15:29:11 stewy Exp $
+# $Id: makl_deps,v 1.10 2005/09/30 08:56:00 stewy Exp $
 #
 
 
@@ -7,7 +7,8 @@
 ##
 ##   \param $1 dependency type
 ##   \param $2 dependency value
-##   \param $3 defaults 
+##   \param $3 CFLAGS 
+##   \param $4 LDFLAGS
 ##   
 makl_require ()
 {
@@ -19,8 +20,8 @@ makl_require ()
     makl_tab_find ${file} $2
     [ $? = 0 ] && return
     
-    echo $2 >> ${file}
-    makl_args_add $1 $2 "$3" "<*>" ""
+    echo "$2|$3|$4" >> ${file}
+    makl_args_add $1 $2 "" "<*>" ""
 }
 
 ##\brief Add an optional dependency.
@@ -28,7 +29,8 @@ makl_require ()
 ##   \param $1 enabled by default
 ##   \param $2 dependency type
 ##   \param $3 dependency value
-##   \param $4 defaults
+##   \param $4 CFLAGS
+##   \param $5 LDFLAGS
 ##   
 makl_optional ()
 {
@@ -40,8 +42,8 @@ makl_optional ()
     makl_tab_find ${file} $3
     [ $? = 0 ] && return
     
-    echo "$3|$1" >> ${file}
-    makl_args_add $2 $3 "$4" "<?>" ""
+    echo "$3|$1|$4|$5" >> ${file}
+    makl_args_add $2 $3 "" "<?>" ""
 }
 
 ##\brief Mark a found dependency.
@@ -62,6 +64,8 @@ makl_req_found ()
 ##\brief Search for lib in default dirs.
 ##
 ##   \param $1 required lib  
+##   \param $2 cflags
+##   \param $3 ldflags
 ##   \param 0 on success, 1 on lib not found.
 ##
 _makl_search_lib ()
@@ -71,9 +75,9 @@ _makl_search_lib ()
     str=`makl_tab_get ${file} "lib" 3`
     val=`makl_tab_var "${str}" "BASE"` 
     dirs=`echo ${val} | sed 's/:/ /'`
-
+    
     for dir in ${dirs}; do
-        _makl_lib $1 ${dir}
+        _makl_lib $1 ${dir} "$2" "$3"
         if [ $? = 0 ]; then 
             return 0
         else
@@ -104,7 +108,10 @@ _makl_require_check ()
     rm -f ${makl_run_dir}/err
 
     cat ${f_req} | {
-        while read req; do
+        while read line; do
+            req=`makl_tab_elem "${line}" 1`
+            cflags=`makl_tab_elem "${line}" 2`
+            ldflags=`makl_tab_elem "${line}" 3`
             cat ${f_have} 2>/dev/null | {
                 found=0
                 while read have; do
@@ -117,7 +124,7 @@ _makl_require_check ()
                     makl_dbg "searching for '$1${req}' in default paths" 
                     case $1 in
                         lib)
-                            _makl_search_lib ${req}
+                            _makl_search_lib "${req}" "${cflags}" "${ldflags}"
                             ;;
                         *) 
                             ;;
@@ -133,14 +140,16 @@ _makl_require_check ()
 
     # try to find optional dependencies which are enabled by default   
     cat ${f_opt} 2>/dev/null | {
-        while read opt; do
-            id=`makl_tab_elem ${opt} 1`
+        while read line; do
+            id=`makl_tab_elem "${line}" 1`
+            cflags=`makl_tab_elem "${line}" 3`
+            ldflags=`makl_tab_elem "${line}" 4`
             makl_dbg "searching for '$1${id}' in default paths" 
             case $1 in
                 lib)
-                    dft=`makl_tab_elem ${opt} 2`
+                    dft=`makl_tab_elem "${line}" 2`
                     if [ ${dft} = "1" ]; then
-                        _makl_search_lib ${id}
+                        _makl_search_lib "${id}" "${cflags}" "${ldflags}"
                         [ $? = 0 ] || \
                             makl_warn "could not find optional library in default paths"
                     fi
