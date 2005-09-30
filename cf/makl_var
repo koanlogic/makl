@@ -1,9 +1,9 @@
 #
-# $Id: makl_var,v 1.10 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_var,v 1.11 2005/09/30 10:46:29 stewy Exp $
 #
 
 ##\brief Set $1 to $2 in ${makl_conf_h}. If $3 is set, the value is to be
-##  interpreted as a string (default is integer).
+##  interpreted as a string (default is constant).
 ##
 ##   \param $1 symbol to set
 ##   \param $2 value of symbol (optional)
@@ -15,10 +15,8 @@ makl_set_var_h ()
     [ "${val}" ] || val="1"
     if [ $3 ];  then                #string
         val="\"${val}\""
-    else                            #integer
-        # check that val is numeric
-        echo ${val} | grep '^-\?[0-9][0-9]*$' >/dev/null
-        [ $? = 0 ] || makl_err 1 "Invalid numeric $1=${val}!"
+    else                            #constant
+        val="${val}"
     fi
 
     makl_dbg "setting header variable $1 to ${val}"
