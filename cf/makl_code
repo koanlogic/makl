@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.10 2005/09/30 08:56:00 stewy Exp $
+# $Id: makl_code,v 1.11 2005/09/30 09:29:36 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -120,6 +120,33 @@ makl_checkfunc ()
         return 0
     else
         makl_err 1 "failed check on function '$1'!" 
+    fi
+}
+
+##\brief Define HAVE_$2 if header $3 is found.
+##
+##  \param $1 0:optional,1:required
+##  \param $2 id of header
+##  \param $3 header file
+##
+makl_checkheader ()
+{
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_dbg "checking for header $2"
+
+    {
+        echo "#include $3"
+        echo "int main() { return 0; }"
+    } | makl_compile_code 0
+
+    if [ $? = 0 ]; then
+        makl_set_var_h "HAVE_"`makl_upper $2`
+        return 0
+    else
+        [ $1 = 1 ] && makl_err 1 "failed check on required header $2: $3"
+        makl_warn "failed check on optional header $2: $3"
+        return 1
     fi
 }
 
