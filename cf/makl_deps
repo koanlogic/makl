@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.10 2005/09/30 08:56:00 stewy Exp $
+# $Id: makl_deps,v 1.11 2005/09/30 09:52:06 stewy Exp $
 #
 
 
@@ -98,15 +98,12 @@ _makl_require_check ()
     f_opt=${makl_run_dir}/deps_$1.optional
     f_have=${makl_run_dir}/deps_$1.found
 
-    if [ ! -r ${f_req} ]; then
-        return 0
-    fi
-    if [ ! -r ${f_have} ]; then
-        touch ${f_have}
-    fi
+    [ ! -r ${f_req} ] && [ ! -r ${f_opt} ] && return 0
+    [ -r ${f_have} ] || touch ${f_have}
 
     rm -f ${makl_run_dir}/err
 
+    [ -r ${f_req} ] && \
     cat ${f_req} | {
         while read line; do
             req=`makl_tab_elem "${line}" 1`
@@ -139,7 +136,7 @@ _makl_require_check ()
     }
 
     # try to find optional dependencies which are enabled by default   
-    cat ${f_opt} 2>/dev/null | {
+    cat ${f_opt} | {
         while read line; do
             id=`makl_tab_elem "${line}" 1`
             cflags=`makl_tab_elem "${line}" 3`
