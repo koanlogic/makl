@@ -1,11 +1,13 @@
 #
-# $Id: dist.mk,v 1.1 2005/10/01 11:04:27 tho Exp $
+# $Id: dist.mk,v 1.2 2005/10/03 07:27:14 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
 # - PKG_VERSION     Versione number
 # - ZIP             Compression utility
 # - DISTFILES       List of files to be added to distribution
+# - DISTREMAP       Ordered couplets of file name in cvs-src and its alias in
+#                   distribution
 #
 # Available targets: 
 #   dist,distclean and user defined dist-hook-{pre,post}
