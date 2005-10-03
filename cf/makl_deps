@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.11 2005/09/30 09:52:06 stewy Exp $
+# $Id: makl_deps,v 1.12 2005/10/03 18:57:52 stewy Exp $
 #
 
 
@@ -7,42 +7,66 @@
 ##
 ##   \param $1 dependency type
 ##   \param $2 dependency value
-##   \param $3 CFLAGS 
-##   \param $4 LDFLAGS
+##   \param $@ args
 ##   
 makl_require ()
 {
-    [ -z `makl_get "__noconfig__"` ] || return
-    makl_dbg "adding required $1 dependency: $2"
+    if [ -z `makl_get "__noconfig__"` ]; then
+        makl_dbg "adding required $1 dependency: $2"
 
-    file=${makl_run_dir}/deps_$1.require
+        file=${makl_run_dir}/deps_$1.require
 
-    makl_tab_find ${file} $2
-    [ $? = 0 ] && return
-    
-    echo "$2|$3|$4" >> ${file}
+        makl_tab_find ${file} $2
+        [ $? = 0 ] && return
+
+        case $1 in
+            lib)
+                echo "$2|$3|$4" >> ${file}
+            ;;
+            featx)
+                echo "$2|$3" >> ${file}
+            ;;
+            *)
+                makl_err 2 "Invalid dependency type: $2"
+            ;;
+        esac
+    fi
+
     makl_args_add $1 $2 "" "<*>" ""
 }
 
 ##\brief Add an optional dependency.
+##       $1 determines whether the feature should be disabled (0), or 
+##       enabled (1) by default.
 ##
 ##   \param $1 enabled by default
 ##   \param $2 dependency type
 ##   \param $3 dependency value
-##   \param $4 CFLAGS
-##   \param $5 LDFLAGS
+##   \param $@ args
 ##   
 makl_optional ()
 {
-    [ -z `makl_get "__noconfig__"` ] || return
-    makl_dbg "adding optional $2 dependency: $3"
+    if [ -z `makl_get "__noconfig__"` ]; then
+        makl_dbg "adding optional $2 dependency: $3"
 
-    file=${makl_run_dir}/deps_$2.optional
+        file=${makl_run_dir}/deps_$2.optional
+        
+        makl_tab_find ${file} $3
+        [ $? = 0 ] && return
+        
+        case $2 in
+            lib)
+                echo "$3|$1|$4|$5" >> ${file}
+            ;;
+            featx)
+                echo "$3|$1|$4" >> ${file}
+            ;;
+            *)
+                makl_err 2 "Invalid dependency type: $2"
+            ;;
+        esac
+    fi
     
-    makl_tab_find ${file} $3
-    [ $? = 0 ] && return
-    
-    echo "$3|$1|$4|$5" >> ${file}
     makl_args_add $2 $3 "" "<?>" ""
 }
 
@@ -74,14 +98,49 @@ _makl_search_lib ()
     
     str=`makl_tab_get ${file} "lib" 3`
     val=`makl_tab_var "${str}" "BASE"` 
-    dirs=`echo ${val} | sed 's/:/ /'`
+    dirs=`echo ${val} | sed 's/:/ /g'`
     
     for dir in ${dirs}; do
         _makl_lib $1 ${dir} "$2" "$3"
-        if [ $? = 0 ]; then 
+        [ $? = 0 ] && return 0
+    done 
+
+    return 1
+}
+
+## \brief Search for executable feature.
+##  
+##  \param $1 feature id
+##
+_makl_search_featx ()
+{
+    f_args=${makl_run_dir}/args
+    f_args_x=${makl_run_dir}/args_featx
+    f_deps_x=${makl_run_dir}/deps_featx.optional
+
+    # get feature argument defaults
+    dft=`makl_tab_get ${f_args} "featx" 3`
+
+    # get specific options
+    path=`makl_tab_get ${f_args_x} $1 2`
+
+    # get dependency values
+    var=`makl_tab_get ${f_deps_x} $1 3`
+    
+    # get paths defined by BASE
+    if [ -z ${path} ]; then
+        val=`makl_tab_var "${dft}" "BASE"` 
+        dirs=`echo ${val} | sed 's/:/ /g'`
+    else
+        dirs=`dirname ${path}`
+    fi
+
+    # search for executable file
+    for dir in ${dirs}; do
+        if [ -x ${dir}/$1 ]; then
+            makl_set_var "HAVE_"`makl_upper $1`
+            [ -z ${var} ] || makl_set_var ${var} ${dir}/$1 1
             return 0
-        else
-            makl_dbg "Failed $1 compilation in ${dir}"
         fi
     done 
 
@@ -107,9 +166,13 @@ _makl_require_check ()
     cat ${f_req} | {
         while read line; do
             req=`makl_tab_elem "${line}" 1`
-            cflags=`makl_tab_elem "${line}" 2`
-            ldflags=`makl_tab_elem "${line}" 3`
-            cat ${f_have} 2>/dev/null | {
+            case $1 in
+                lib)
+                    cflags=`makl_tab_elem "${line}" 2`
+                    ldflags=`makl_tab_elem "${line}" 3`
+                    ;;
+            esac
+            cat ${f_have} | {
                 found=0
                 while read have; do
                     if [ ${have} = ${req} ]; then
@@ -118,12 +181,13 @@ _makl_require_check ()
                 done
                 if [ ${found} = 0 ]; then
                     # look in default directories before panic
-                    makl_dbg "searching for '$1${req}' in default paths" 
+                    makl_dbg "searching for required $1 feature: ${req}" 
                     case $1 in
                         lib)
                             _makl_search_lib "${req}" "${cflags}" "${ldflags}"
                             ;;
-                        *) 
+                        featx) 
+                            _makl_search_featx "${req}"
                             ;;
                     esac
                     if [ ! $? = 0 ]; then
@@ -138,20 +202,25 @@ _makl_require_check ()
     # try to find optional dependencies which are enabled by default   
     cat ${f_opt} | {
         while read line; do
-            id=`makl_tab_elem "${line}" 1`
-            cflags=`makl_tab_elem "${line}" 3`
-            ldflags=`makl_tab_elem "${line}" 4`
-            makl_dbg "searching for '$1${id}' in default paths" 
+            opt=`makl_tab_elem "${line}" 1`
+            dft=`makl_tab_elem "${line}" 2`
+            [ "${dft}" = 1 ] && makl_dbg "searching for optional $1 feature: ${opt}" 
             case $1 in
                 lib)
-                    dft=`makl_tab_elem "${line}" 2`
-                    if [ ${dft} = "1" ]; then
-                        _makl_search_lib "${id}" "${cflags}" "${ldflags}"
+                    cflags=`makl_tab_elem "${line}" 3`
+                    ldflags=`makl_tab_elem "${line}" 4`
+                    if [ "${dft}" = "1" ]; then
+                        _makl_search_lib "${opt}" "${cflags}" "${ldflags}"
                         [ $? = 0 ] || \
-                            makl_warn "could not find optional library in default paths"
+                            makl_warn "could not find optional $1 dependency ${opt}"
                     fi
                     ;;
-                *) 
+                featx) 
+                    if [ "${dft}" = "1" ]; then 
+                        _makl_search_featx "${opt}"
+                        [ $? = 0 ] || \
+                            makl_warn "could not find optional $1 dependency ${opt}"
+                    fi
                     ;;
             esac
         done

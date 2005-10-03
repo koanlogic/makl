@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.11 2005/09/30 09:29:36 stewy Exp $
+# $Id: makl_code,v 1.12 2005/10/03 18:57:52 stewy Exp $
 #
 
 ##\brief Compile C file $1 with the supplied flags $2
@@ -64,7 +64,7 @@ makl_write_c ()
 ##\brief Compile C code.
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 CFLAGS to be passed to the compiler
+##   \param $2 flags to be passed to the compiler
 ##
 makl_compile_code ()
 {
@@ -103,27 +103,32 @@ makl_exec_code ()
 }
 
 ##\brief Define HAVE_$1 if function $1 is found.
+##       $1 determines whether the feature is optional or required.
 ##
-##   \param $1 function name
-##   \param $2 CFLAGS
+##   \param $1 0:optional/1:required
+##   \param $2 function name
+##   \param $3 flags to be passed to the compiler
 ##
 makl_checkfunc ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
 
-    makl_dbg "checking for function $1"
+    makl_dbg "checking for function $2"
 
-    echo "$1();" | makl_compile_code 1 $2
+    echo "$2();" | makl_compile_code 1 $3
 
     if [ $? = 0 ]; then
-        makl_set_var_h "HAVE_"`makl_upper $1`
+        makl_set_var_h "HAVE_"`makl_upper $2`
         return 0
     else
-        makl_err 1 "failed check on function '$1'!" 
+        [ $1 = 0 ] || makl_err 1 "failed check on required function $2!" 
+        makl_warn "failed check on optional function $2"
+        return 1
     fi
 }
 
 ##\brief Define HAVE_$2 if header $3 is found.
+##       $1 determines whether the feature is optional or required.
 ##
 ##  \param $1 0:optional,1:required
 ##  \param $2 id of header
@@ -144,24 +149,28 @@ makl_checkheader ()
         makl_set_var_h "HAVE_"`makl_upper $2`
         return 0
     else
-        [ $1 = 1 ] && makl_err 1 "failed check on required header $2: $3"
-        makl_warn "failed check on optional header $2: $3"
+        [ $1 = 0 ] || makl_err 1 "failed check on required header $2!"
+        makl_warn "failed check on optional header $2"
         return 1
     fi
 }
 
-##\brief Define HAVE_$1 if type $1 is found.
+##\brief Define HAVE_$1 if type $2 is found. 
+##       $1 determines whether the feature is optional or required.
 ## 
-##   \param $1 data type
-##   \param $2 includes
+##  \param $1 0:optional,1:required
+##  \param $2 data type
+##  \param $3 includes
 ##
 makl_checktype ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
 
-    makl_dbg "checking for type $1"
+    makl_dbg "checking for type $2"
 
-    type=$1
+    opt=$1
+    type=$2
+    shift
     shift
 
     {
@@ -178,6 +187,8 @@ makl_checktype ()
         makl_set_var_h "HAVE_"`makl_upper ${type}`
         return 0
     else
-        makl_err 1 "failed check on type '${type}'!" 
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!" 
+        makl_warn "failed check on optional type $2"
+        return 1
     fi
 }

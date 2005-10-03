@@ -1,9 +1,12 @@
 #
-# $Id: makl_func_strerror_r,v 1.4 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_func_strerror_r,v 1.5 2005/10/03 18:57:52 stewy Exp $
 #
 
 #\brief Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P
 #       if it returns a char pointer (returns int on some systems).
+#       $1 determines whether the feature is optional or required.
+#   
+#   \param $1 0:optional,1:required
 #
 makl_func_strerror_r ()
 {
@@ -38,7 +41,10 @@ makl_func_strerror_r ()
 
         makl_set_var_h "HAVE_STRERROR_R"
 
+        return 0
     else
-        makl_err 2 "failed check on function 'strerror_r'!"
+        [ $1 = 0 ] || makl_err 2 "failed check on required function strerror_r!"
+        makl_warn "failed check on optional function strerror_r"
+        return 1
     fi
 }

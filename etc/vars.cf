@@ -1,5 +1,5 @@
 #
-# $Id: vars.cf,v 1.1 2005/10/03 13:52:37 stewy Exp $
+# $Id: vars.cf,v 1.2 2005/10/03 18:57:52 stewy Exp $
 #
 
 
@@ -15,4 +15,4 @@ makl_vars_def       "cf"    "Internal configuration vars"
 makl_set_var_mk     "DESTDIR"   "/usr/local"
 
 # compilation flags - include conf.h
-makl_set_var_mk     "CFLAGS"   "-I`dirname ${makl_conf_h}`"
+makl_add_var_mk     "CFLAGS"   "-I`dirname ${makl_conf_h}`"

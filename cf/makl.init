@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.12 2005/10/03 13:52:37 stewy Exp $
+# $Id: makl.init,v 1.13 2005/10/03 18:57:52 stewy Exp $
 #
 
 # read in just once
@@ -18,7 +18,7 @@ makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/build/.makl.run}"
 
-if [ ! -r ${MAKL_DIR}/cf/toolchain.sh ]; then
+if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
     echo "missing toolchain.sh !"
     exit 1
 fi
@@ -26,7 +26,7 @@ fi
 # source makl cf macros including helpers the toolchain file 
 for cfunc in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
-        ${MAKL_DIR}/cf/toolchain.sh ; do
+        ${MAKL_DIR}/etc/toolchain.cf ; do
     . $cfunc
 done
 

@@ -3,7 +3,7 @@
 # With no arguments the script tries to divine platform and toolchain file.  
 # If an argument is supplied it is interpreted as the toolchain file to install.
 #
-# $Id: toolchain_setup.sh,v 1.8 2005/10/03 13:52:37 stewy Exp $
+# $Id: toolchain_setup.sh,v 1.9 2005/10/03 18:57:52 stewy Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -42,4 +42,4 @@ echo
 echo "MaKL: installing toolchain file '${tc_file}'"
 echo
 
-makl_tc ${tc_file} ${MAKL_DIR}/cf/toolchain.sh ${MAKL_DIR}/etc/toolchain.mk
+makl_tc ${tc_file} ${MAKL_DIR}/etc/toolchain.cf ${MAKL_DIR}/etc/toolchain.mk

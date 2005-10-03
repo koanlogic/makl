@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.1 2005/10/03 13:52:37 stewy Exp $
+# $Id: args.cf,v 1.2 2005/10/03 18:57:52 stewy Exp $
 #
 
 # general settings
@@ -51,17 +51,13 @@ makl_args_def   "lib" \
                 "BASE=/usr/local:/usr" \
                 "set libX to have BASE dir"
 
-# feature enabling
+# feature configuration
 makl_args_def   "featx" \
                 "-X=BASE" \
                 "BASE=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
                 "set file for execution feature"
-makl_args_def   "featc" \
-                "-X=FILE" \
-                "" \
-                "set file for compilation feature"
 
-# enable / disable
+# feature enable / disable
 makl_args_def   "enable" \
                 "-X=ID" \
                 "" \

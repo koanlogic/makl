@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.15 2005/09/30 08:56:00 stewy Exp $
+# $Id: makl_args_handle,v 1.16 2005/10/03 18:57:52 stewy Exp $
 #
 
 
@@ -158,53 +158,24 @@ _makl_defbinmode ()
     makl_set_var_mk "DEFBINMODE" $1
 }
 
-##\brief handler - print content of a group of variables.
+##\brief Enable a feature.
 ##
-##   \param $1 variable type
-##
-_makl_print ()
+_makl_enable ()
 {
-    [ ! -z $1 ] || _makl_args_err "--makl_print: Missing variable type!"
+    f_feat=${makl_run_dir}/deps_$1.optional
+    [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
 
-    f_vars=${makl_run_dir}/vars
-    f_var=${makl_run_dir}/vars_$1
-
-    [ -e ${f_var} ] || makl_err 2 "_makl_print: Invalid variable type: $1"
-    dsc=`makl_tab_get ${f_vars} $1 2`
-    makl_dbg "printing variables of type: $1 ("${dsc}")" 
-
-    cat ${f_var} | { 
-        while read lin; do
-            var=`makl_tab_elem "${lin}" 1`
-            set=`makl_tab_elem "${lin}" 2`
-            val=\"`makl_tab_elem "${lin}" 3`\"
-            if [ ${set} = 0 ]; then
-                echo -n $'\t'"< > "
-                echo "${var}"
-            else
-                echo -n $'\t'"<x> "
-                echo "${var} = ${val}"
-            fi
-        done
-    }
+    makl_tab_set ${f_feat} $2 2 1
 }
 
-##\brief handler - compilation feature
+##\brief Disable a feature
 ##
-##   \param $1 feature id
-##   \param $2 file to be compiled
-##
-_makl_feat_c ()
+_makl_disable ()
 {
-    f_feat_c=${makl_run_dir}/args_feat_c
-    makl_tab_find ${f_feat_c} $1
-    [ $? = 0 ] || _makl_args_err "--makl_feat_c: Invalid feat_c: $1"
-
-    file=`  echo $2 | cut -f1 -d":"`
-    flags=` echo $2 | cut -s -f2 -d":"`
-
-    makl_feature_c $1 ${file} "${flags}" 1>/dev/null
-    [ $? = 0 ] || makl_err 2 "_makl_feat_c: feature $1 - failed to compile $2" 
+    f_feat=${makl_run_dir}/deps_$1.optional
+    [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
+    
+    makl_tab_set ${f_feat} $2 2 0
 }
 
 ##\brief handler - executable feature
@@ -212,37 +183,37 @@ _makl_feat_c ()
 ##   \param $1 feature id 
 ##   \param $2 file to be executed
 ##
-_makl_feat_x ()
+_makl_featx ()
 {
-    f_feat_x=${makl_run_dir}/args_feat_x
-    makl_tab_find ${f_feat_x} $1
-    [ $? = 0 ] || _makl_args_err "--makl_feat_x: Invalid feat_x: $1"
-    
-    makl_feature_x $1 $2 1>/dev/null
-    [ $? = 0 ] || makl_err 2 "makl_feat_x: feature $1 - failed to execute $2"
+    f_featx=${makl_run_dir}/args_featx
+    makl_tab_find ${f_featx} $1
+    [ $? = 0 ] || _makl_args_err "--makl_featx: Invalid featx: $1"
+
+    makl_tab_set ${f_featx} $1 2 $2
 }
 
 ##\brief handler - library dependency
 ##
 ##   \param $1 library id
-##   \param $2 value=<base_dir>
-##   \param $3 CFLAGS
-##   \param $4 LDFLAGS
+##   \param $2 value=<base_dir> (optional)
+##   \param $3 CFLAGS (optional)
+##   \param $4 LDFLAGS (optional)
 ##   \return 0 on success, 1 on argument error, 2 on missing test file, 
 ##   3 on unsuccessful compilation.
 ##
 _makl_lib ()
 {
     [ $1 ] || _makl_args_err "--makl_lib: missing package name!"
-    [ $2 ] || _makl_args_err "--makl_lib: requires value argument!"
-
+    libs=${makl_run_dir}/args_lib
+    makl_tab_find ${libs} $1
+    [ $? = 0 ] || _makl_args_err "--makl_lib: undefined library $1"
+    
     # check for inline code
     tst=${makl_run_dir}/lib_testcode_$1.c
     if [ ! -r ${tst} ]; then
         tst=`pwd`/build/lib$1.c
-
         if [ ! -r ${tst} ]; then
-            makl_warn "makl_lib: no test file for $1 (${tst})!" 
+            makl_warn "--makl_lib: no test file for $1 (${tst})!" 
             return 2
         fi
     fi
@@ -330,4 +301,5 @@ makl_args_handle ()
     makl_dbg "checking dependencies"
 
     _makl_require_check "lib"
+    _makl_require_check "featx"
 }
