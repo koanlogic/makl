@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.7 2005/09/20 08:10:35 tat Exp $
+# $Id: lib.mk,v 1.8 2005/10/03 13:52:37 stewy Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -40,6 +40,6 @@ uninstall:
 	rm -f ${LIBDIR}/lib${LIB}.a
 
 
-include map.mk
-include toolchain.mk
+include ../etc/map.mk
+include ../etc/toolchain.mk
 include deps.mk

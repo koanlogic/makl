@@ -1,5 +1,5 @@
 #
-# $Id: makl.init_args,v 1.6 2005/09/23 15:18:52 stewy Exp $
+# $Id: args.cf,v 1.1 2005/10/03 13:52:37 stewy Exp $
 #
 
 # general settings
@@ -52,21 +52,22 @@ makl_args_def   "lib" \
                 "set libX to have BASE dir"
 
 # feature enabling
-makl_args_def   "feat_x" \
+makl_args_def   "featx" \
+                "-X=BASE" \
+                "BASE=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
+                "set file for execution feature"
+makl_args_def   "featc" \
                 "-X=FILE" \
                 "" \
-                "enable feature X by executing file"
-makl_args_def   "feat_c" \
-                "-X=FILE" \
-                "" \
-                "enable feature X by compiling file"
+                "set file for compilation feature"
 
-# variable debugging 
-makl_args_def   "print" \
-                "-X" \
+# enable / disable
+makl_args_def   "enable" \
+                "-X=ID" \
                 "" \
-                "print X variables"
-makl_args_add   "print" "h"     ""  ""  "header"
-makl_args_add   "print" "mk"    ""  ""  "makefile"
-makl_args_add   "print" "cf"    ""  ""  "internal"
-                
+                "enable feature of type X and id ID"
+makl_args_def   "disable" \
+                "-X=ID" \
+                "" \
+                "disable feature of type X and id ID"
+

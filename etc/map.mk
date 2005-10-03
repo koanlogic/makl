@@ -1,5 +1,5 @@
 #
-# $Id: map.mk,v 1.4 2005/09/20 08:22:44 tho Exp $
+# $Id: map.mk,v 1.1 2005/10/03 13:52:37 stewy Exp $
 #
 # Default pathnames and credentials needed by install targets.
 # Change them at your convenience.

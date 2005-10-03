@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.4 2005/09/23 12:29:23 tho Exp $
+# $Id: man.mk,v 1.5 2005/10/03 13:52:37 stewy Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -65,5 +65,5 @@ endif
 
 install: beforeinstall realinstall manlinks
 
-include map.mk
-include toolchain.mk
+include ../etc/map.mk
+include ../etc/toolchain.mk

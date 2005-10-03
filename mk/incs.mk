@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.5 2005/08/04 16:01:14 tho Exp $
+# $Id: incs.mk,v 1.6 2005/10/03 13:52:37 stewy Exp $
 #
 # Only define the install target.
 #
@@ -24,5 +24,5 @@ uninstall:
 	    rm -f ${INCDIR}/$$f; \
 	done
 
-include map.mk
-include toolchain.mk
+include ../etc/map.mk
+include ../etc/toolchain.mk

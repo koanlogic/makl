@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.6 2005/09/20 08:10:52 tat Exp $
+# $Id: prog.mk,v 1.7 2005/10/03 13:52:37 stewy Exp $
 #
 # User Variables:
 # - PROG        Program name.
@@ -38,6 +38,6 @@ install: beforeinstall realinstall afterinstall
 uninstall:
 	rm -f ${BINDIR}/${PROG}
 
-include map.mk
-include toolchain.mk
+include ../etc/map.mk
+include ../etc/toolchain.mk
 include deps.mk

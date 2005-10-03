@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.2 2005/10/03 07:27:14 tho Exp $
+# $Id: dist.mk,v 1.3 2005/10/03 13:52:37 stewy Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -58,4 +58,4 @@ distclean:
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install deinstall clean depend cleandepend:
 
-include toolchain.mk
+include ../etc/toolchain.mk
