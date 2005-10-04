@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.11 2005/09/30 10:46:29 stewy Exp $
+# $Id: makl_var,v 1.12 2005/10/04 13:57:10 stewy Exp $
 #
 
 ##\brief Set $1 to $2 in ${makl_conf_h}. If $3 is set, the value is to be
@@ -44,8 +44,18 @@ makl_set_var_mk ()
 ##
 makl_add_var_mk ()
 {
+    f_env=${makl_run_dir}/env
 	var=$1
-    val=`makl_get_var_mk "$1"`
+    str=`grep "^${var}" ${f_env}`
+
+    # grab from environment if defined
+    if [ $? = 0 ]; then
+        val=`echo ${str} | cut -d "=" -f 2` 
+        grep -v "^${var}" ${f_env} > ${f_env}.tmp
+        mv ${f_env}.tmp ${f_env}
+    else
+        val=`makl_get_var_mk "${var}"`
+    fi
 
 	shift
 
@@ -127,6 +137,17 @@ makl_set ()
 makl_get ()
 {
     makl_var_get "cf" $1
+
+    return $?
+}
+
+##\brief Get header variable
+##
+##  \return the value of the variable
+##
+makl_get_var_h ()
+{
+    makl_var_get "h" $1
 
     return $?
 }

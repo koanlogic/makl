@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.13 2005/10/03 18:57:52 stewy Exp $
+# $Id: makl.init,v 1.14 2005/10/04 13:57:10 stewy Exp $
 #
 
 # read in just once
@@ -40,10 +40,12 @@ else
     mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
 fi
 
-# initialise default command line arguments
+# save the environment 
+env > ${makl_run_dir}/env
+
+# initialise default variables and command line arguments
 . ${MAKL_DIR}/etc/vars.cf
 . ${MAKL_DIR}/etc/args.cf
 
 # pass the control to the user.
-
 fi
