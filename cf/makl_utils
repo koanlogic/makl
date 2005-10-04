@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.17 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_utils,v 1.18 2005/10/04 10:10:12 tho Exp $
 #
 
 ##\brief Set the package name to $1.
@@ -61,7 +61,7 @@ makl_err ()
     exit_code=$1
     shift
 
-    echo 1>&2 "$0: [err]: $*"
+    echo 1>&2 "[err] $*"
     makl_cleanup_rundir
     exit ${exit_code}
 }
@@ -75,7 +75,7 @@ makl_dbg ()
 {
     case ${makl_debug} in
         [Yy][Ee][Ss]|[Tt][Rr][Uu][Ee]|[Oo][Nn]|1)
-            echo 1>&2 "$0: [dbg]: $*"
+            echo 1>&2 "[dbg] $*"
             ;;
     esac
 }
@@ -86,7 +86,7 @@ makl_dbg ()
 ##
 makl_warn ()
 {
-    echo 1>&2 "$0: [wrn]: $*"
+    echo 1>&2 "[wrn] $*"
 }
 
 ##\brief Print MaKL global variables in use to stderr if 'makl_debug' is set.
