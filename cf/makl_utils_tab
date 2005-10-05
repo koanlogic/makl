@@ -1,13 +1,15 @@
 #
-# $Id: makl_utils_tab,v 1.7 2005/09/29 15:12:33 tho Exp $
+# $Id: makl_utils_tab,v 1.8 2005/10/05 16:09:27 stewy Exp $
 #
 
 
-##\brief Check whether id exists file. 
+##\brief Find an identifier.
+##
+##  Check whether id \e $2 exists in table \e $1. 
 ##
 ##   \param $1 table file
-##   \param $2 id to be search
-##   \return '0' if found, '1' otherwise.
+##   \param $2 id to be searched for
+##   \return 0 if found, 1 otherwise.
 ##
 makl_tab_find ()
 {
@@ -18,7 +20,10 @@ makl_tab_find ()
     return $?
 }
 
-##\brief Set variable entry with id and at column col to val.
+##\brief Set the value of an element corresponding to an identifier.
+##
+##  Set variable entry in table \e $1 with id \e $2 and at column 
+##  \e $3 to val \e $4.
 ##
 ##   \param $1 table file 
 ##   \param $2 id (row)
@@ -76,6 +81,8 @@ makl_tab_set ()
 
 ##\brief Set row to given arguments.
 ##
+##  Set row of table \e $1 to given arguments \e $@.
+##
 ##   \param $1 table file
 ##   \param $@ row values
 ##
@@ -106,7 +113,9 @@ makl_tab_set_row ()
     echo ${line} >> ${file}
 }
 
-##\brief Get column $3 of element with id $2 in file $1
+##\brief Get a column value given an identifier.
+##
+##  Get column \e $3 of element with id \e $2 in file \e $1.
 ##
 ##   \param $1 table file 
 ##   \param $2 identifier to be retrieved
@@ -125,7 +134,9 @@ makl_tab_get ()
     return ${ret}
 }
 
-##\brief Outputs element at idx of str.
+##\brief Output an element at an index of a row.
+##
+##  Output element at index \e $2 of row \e $1.
 ##
 ##   \param $1 string of elements
 ##   \param $2 index of element
@@ -135,7 +146,10 @@ makl_tab_elem ()
     echo "$1" | cut -s -f $2 -d "|"
 }
 
-##\brief Get variable at index $2 from array $1.
+##\brief Get variable by name given a list of variables.
+##
+##  Get variable by name \e $2 given a list of variables \e $1.
+##  A semicolon is used as a list separator.
 ##
 ##   \param $1 input string
 ##   \param $2 required var

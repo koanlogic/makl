@@ -1,12 +1,20 @@
 #
-# $Id: makl_deps,v 1.12 2005/10/03 18:57:52 stewy Exp $
+# $Id: makl_deps,v 1.13 2005/10/05 16:09:27 stewy Exp $
 #
-
 
 ##\brief Add a required dependency.
 ##
+##  Add a required dependency of type \e $1 and id \e $2.
+##  The remaining arguments are to be defined based on the type:
+##   \li 'lib' $1 $2 $3 $4, where \e $3 are CFLAGS, and \e $4 LDFLAGS for the
+##                        library (both optional). By default the flags are
+##                        determined by the library name.
+##   \li 'featx' $1 $2 $3, where \e $3 (optional) is the name of the variable 
+##                       to be defined containing the path to the feature. 
+##                       If undefined, no variables will be set.
+##
 ##   \param $1 dependency type
-##   \param $2 dependency value
+##   \param $2 dependency id
 ##   \param $@ args
 ##   
 makl_require ()
@@ -36,12 +44,19 @@ makl_require ()
 }
 
 ##\brief Add an optional dependency.
-##       $1 determines whether the feature should be disabled (0), or 
-##       enabled (1) by default.
 ##
-##   \param $1 enabled by default
+##  Add an optional dependency of type \e $2 and id \e $3.
+##  The remaining arguments are to be defined based on the type:
+##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
+##                             library (both optional). By default the flags are
+##                             determined by the library name.
+##   \li 'featx' $1 $2 $3 $4, where \e $4 (optional) is the name of the variable 
+##                            to be defined containing the path to the feature. 
+##                            If undefined, no variables will be set.
+##
+##   \param $1 enabled by default (1) or disabled by default (0)
 ##   \param $2 dependency type
-##   \param $3 dependency value
+##   \param $3 dependency id
 ##   \param $@ args
 ##   
 makl_optional ()
@@ -70,10 +85,12 @@ makl_optional ()
     makl_args_add $2 $3 "" "<?>" ""
 }
 
-##\brief Mark a found dependency.
+##\brief Mark a dependency as found.
+##
+##  Mark a dependency of type \e $1 and id \e $2 as found.
 ##
 ##   \param $1 dependency type
-##   \param $2 dependency value
+##   \param $2 dependency id
 ##
 makl_req_found ()
 {
@@ -85,7 +102,10 @@ makl_req_found ()
     echo $2 >> ${file}
 }
 
-##\brief Search for lib in default dirs.
+##\brief Search for library in default directories.
+##
+##  Search for library \e $1 in default directories (as defined in etc/args.cf).
+##  Compilation is tested with CFLAGS \e $2 and LDFLAGS \e $3.
 ##
 ##   \param $1 required lib  
 ##   \param $2 cflags
@@ -108,8 +128,12 @@ _makl_search_lib ()
     return 1
 }
 
-## \brief Search for executable feature.
+## \brief Search for an executable feature.
 ##  
+##  Search for executable feature \e $1 in default directories (as defined
+##  in etc/args.cf). It is assumed that the id corresponds to the filename 
+##  of the executable file.
+##
 ##  \param $1 feature id
 ##
 _makl_search_featx ()
@@ -231,8 +255,10 @@ _makl_require_check ()
     fi  
 }
 
-##\brief Set the test code for library id. Data is read from standard
-##   input.
+##\brief Set the test code for a library.
+##
+##  Set the test code for library \e $1. 
+##  Data is read from standard input.
 ##
 ##   \param $1 library id
 ##

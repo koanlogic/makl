@@ -1,8 +1,10 @@
 #
-# $Id: makl_utils,v 1.18 2005/10/04 10:10:12 tho Exp $
+# $Id: makl_utils,v 1.19 2005/10/05 16:09:27 stewy Exp $
 #
 
-##\brief Set the package name to $1.
+##\brief Set the package name.
+##
+##  Set the package name to \e $1.
 ##
 ##  \param $1 package name
 ##  
@@ -15,11 +17,13 @@ makl_pkg_name ()
     makl_set "__package__" "$1"
 }
 
-##\brief Set the package version to $1 
+##\brief Set the package version.
+##
+##  Set the package version to \e $1.
 ##  [format: "X.Y.Z", where X, Y and Z are digits]
-## If no argument is supplied, a file named VERSION in the base 
-## directory containing the version is expected. 
-## The package name must already be defined by makl_pkg_name().
+##  If no argument is supplied, a file named VERSION in the base 
+##  directory containing the version is expected. 
+##  The package name must already be defined by \e makl_pkg_name().
 ##
 ##  \param $1 package version (optional)
 ##  
@@ -43,15 +47,19 @@ makl_pkg_version ()
     makl_set_var_h "`makl_upper ${pkg}`_VERSION" ${ver} 1
 }
 
-##\brief Print a string representing the operating system type.
+##\brief Print the OS name.
+## 
+##  Print a brief string representing the operating system type and version.
 ##
 makl_os_name ()
 {
     uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
 }
 
-##\brief Print the supplied error string to stderr and bail out with the given 
-##   exit code.
+##\brief Write a message and exit.
+##
+##  Print the supplied error string to stderr and bail out with the given 
+##  exit code.
 ## 
 ##   \param $1 exit code
 ##   \param $2 error string
@@ -66,8 +74,10 @@ makl_err ()
     exit ${exit_code}
 }
 
-##\brief Print the supplied debug message to stderr if "makl_debug" variable is set
-##   to "true", "yes", "on" or '1'.
+##\brief Print a debug message. 
+##
+##  Print the supplied debug message to stderr if "makl_debug" variable is set
+##  to "true", "yes", "on" or '1'.
 ##
 ##   \param $1 debug string
 ##
@@ -80,7 +90,9 @@ makl_dbg ()
     esac
 }
 
-##\brief Print the supplied warning message to stderr.
+##\brief Print a warning message.
+##
+##  Print the supplied warning message to stderr.
 ##  
 ##   \param $1 warning string
 ##
@@ -89,7 +101,9 @@ makl_warn ()
     echo 1>&2 "[wrn] $*"
 }
 
-##\brief Print MaKL global variables in use to stderr if 'makl_debug' is set.
+##\brief Print global variables.
+##
+##  Print MaKL global variables in use to stderr if 'makl_debug' is set.
 ##
 makl_dbg_globals ()
 {
@@ -99,7 +113,9 @@ makl_dbg_globals ()
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"
 }
 
-##\brief Transform lower into upper case letters.
+##\brief Transform lower case letters into upper case letters.
+## 
+##  Transform lower case letters into upper case letters.
 ##
 ##   \param $* list of 0 or more strings to be converted
 ##
@@ -108,7 +124,9 @@ makl_upper ()
    echo $* | tr "[a-z]" "[A-Z]"
 }
 
-##\brief Remove ${makl_run_dir}
+##\brief Cleanup run-time directory.
+##
+##  Cleanup run-time directory ${makl_run_dir}.
 ##
 makl_cleanup_rundir ()
 {
@@ -116,10 +134,12 @@ makl_cleanup_rundir ()
     rm -rf ${makl_run_dir}
 }
 
-##\brief Present 'question' at terminal and wait the user to answer.
+##\brief Yes/No Question.
+##
+##  Write question \e $1 to the terminal and wait for the user to answer.
 ##
 ##   \param $1 - question string
-##   \return '0' if [yY] was typed, '1' if [nN].
+##   \return 0 if [yY] was typed, 1 if [nN].
 ##
 makl_yesno ()
 {
@@ -141,7 +161,9 @@ makl_yesno ()
     done
 }
 
-##\brief Whether $1 is a valid mode (3 octal digits).
+##\brief Check validity of a mode string.
+##
+##  Check whether \e $1 is a valid mode string (3 octal digits).
 ##
 ##  \param $1 - mode string
 ##  \return 0 if valid, 1 otherwise

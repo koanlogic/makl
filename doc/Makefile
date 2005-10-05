@@ -1,8 +1,8 @@
 TARGETS=../cf/makl_args \
+    ../cf/makl_args_handle \
     ../cf/makl_code \
     ../cf/makl_conf \
     ../cf/makl_deps \
-    ../cf/makl_feature \
     ../cf/makl_libdep \
     ../cf/makl_utils \
     ../cf/makl_utils_tab \

@@ -82,10 +82,10 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = dokl/makl_args.dokl \
+                         dokl/makl_args_handle.dokl \
                          dokl/makl_code.dokl \
                          dokl/makl_conf.dokl \
                          dokl/makl_deps.dokl \
-                         dokl/makl_feature.dokl \
                          dokl/makl_libdep.dokl \
                          dokl/makl_utils.dokl \
                          dokl/makl_utils_tab.dokl \

@@ -1,12 +1,14 @@
 #
-# $Id: makl_code,v 1.12 2005/10/03 18:57:52 stewy Exp $
+# $Id: makl_code,v 1.13 2005/10/05 16:09:27 stewy Exp $
 #
 
-##\brief Compile C file $1 with the supplied flags $2
+##\brief Compile a C file.
+##
+##  Compile a C file \e $1 with the supplied flags \e $2.
 ## 
 ##   \param $1 Pathname of the C file to be compiled 
-##   \param $2 CFLAGS string to be passed to the compiler
-##   \return '0' on success, '1' on failure
+##   \param $2 flags to be passed to the compiler
+##   \return 0 on success, 1 on failure
 ##
 makl_compile ()
 {
@@ -33,7 +35,9 @@ makl_compile ()
     return 0
 }
 
-##\brief Write to a C file. Data is read from standard input.
+##\brief Write to a C file. 
+##
+##  Write to a C file. Data is read from standard input.
 ## 
 ##   \param $1 name of file to be written
 ##   \param $2 whether the code is a snippet (1) or entire C file (0)
@@ -63,6 +67,8 @@ makl_write_c ()
 
 ##\brief Compile C code.
 ##
+##  Compile C code.
+##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
 ##   \param $2 flags to be passed to the compiler
 ##
@@ -80,8 +86,10 @@ makl_compile_code ()
 
 ##\brief Execute C code.
 ##
+##  Execute C code.
+##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 cflags to be passed to the compiler
+##   \param $2 flags to be passed to the compiler
 ## 
 makl_exec_code ()
 {
@@ -102,8 +110,10 @@ makl_exec_code ()
     return 0
 }
 
-##\brief Define HAVE_$1 if function $1 is found.
-##       $1 determines whether the feature is optional or required.
+##\brief Check existence of a function.
+##
+##  Define HAVE_$1 if function \e $1 is found.
+##  \e $1 determines whether the feature is optional or required.
 ##
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
@@ -127,8 +137,10 @@ makl_checkfunc ()
     fi
 }
 
-##\brief Define HAVE_$2 if header $3 is found.
-##       $1 determines whether the feature is optional or required.
+##\brief Check existence of a header.
+##
+##  Define HAVE_$2 if header \e $3 is found.
+##  \e $1 determines whether the feature is optional or required.
 ##
 ##  \param $1 0:optional,1:required
 ##  \param $2 id of header
@@ -155,12 +167,15 @@ makl_checkheader ()
     fi
 }
 
-##\brief Define HAVE_$1 if type $2 is found. 
-##       $1 determines whether the feature is optional or required.
+##\brief Check existence of a type.
+##
+##  Define HAVE_$1 if type \e $2 is found. 
+##  \e $1 determines whether the feature is optional or required.
+##  Extra includes can be listed in \e $*.
 ## 
 ##  \param $1 0:optional,1:required
 ##  \param $2 data type
-##  \param $3 includes
+##  \param $* includes
 ##
 makl_checktype ()
 {

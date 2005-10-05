@@ -1,8 +1,11 @@
 # 
-# $Id: makl_conf,v 1.10 2005/09/29 12:01:20 stewy Exp $
+# $Id: makl_conf,v 1.11 2005/10/05 16:09:27 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
+##
+##  Process configuration output (\e ${makl_conf_h} and 
+##  \e ${makl_makefile_conf}) from internal cache. 
 ##
 makl_process_conf ()
 {
@@ -35,6 +38,8 @@ makl_process_conf ()
 
 ##\brief Parse a line and output to mk file.
 ##
+##  Parse a line \e $1 and output to mk file.
+##
 ##   \param $1 line to be processed
 ##
 makl_process_mk ()
@@ -49,6 +54,8 @@ makl_process_mk ()
 }
 
 ##\brief Parse a line and output to h file.
+##
+##  Parse a line \e $1 and output to h file.
 ##
 ##   \param $1 line to be processed 
 ##
@@ -69,7 +76,9 @@ makl_process_h ()
     fi
 }
 
-##\brief Initialise ${makl_conf_h}
+##\brief Initialise output header file.
+##
+##  Initialise output header file \e ${makl_conf_h}.
 ##
 makl_init_conf_h ()
 {
@@ -80,7 +89,9 @@ makl_init_conf_h ()
     echo >> ${makl_conf_h}
 }
 
-##\brief Initialise ${makl_makefile_conf}
+##\brief Initialise output makefile configuration.
+##
+##  Initialise output makefile configuration \e ${makl_makefile_conf}.
 ##
 makl_init_makefile_conf ()
 {
@@ -88,7 +99,9 @@ makl_init_makefile_conf ()
     echo >> ${makl_makefile_conf}
 }
 
-##\brief Wrap ${makl_conf_h} 
+##\brief Terminate output header file.
+##
+##  Terminate output header file \e ${makl_conf_h}.
 ##
 makl_term_conf_h ()
 {

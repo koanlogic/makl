@@ -1,44 +1,10 @@
 #
-# $Id: makl_args,v 1.7 2005/09/26 18:41:42 stewy Exp $
+# $Id: makl_args,v 1.8 2005/10/05 16:09:27 stewy Exp $
 #
 
-##\brief Print out a command-line argument description.
+##\brief Define a command line argument from multiple strings.
 ##
-##   \param $1 id
-##   \param $2 pms
-##   \param $3 DFT
-##   \param $4 dsc
-##   \param $5 ID
-##   \param $6 DSC
-##   \param $7 PFX
-##
-makl_args_print () 
-{
-    id=$1 
-    pms=$2
-    dsc=$3
-    ID=$4
-    DFT=$5
-    PFX=$6
-    DSC=$7
-
-    a=`echo -n "${PFX}  --${id}${pms}" | 
-        sed 's/X/'"${ID}"'/'`
-
-    if [ -z "${DSC}" ]; then
-        b=`echo -n "${dsc}" | 
-            sed 's/X/'"${ID}"'/'`
-    else
-        b=`echo -n "${dsc}" | 
-            sed 's/X/'"${DSC}"'/'`
-    fi
-
-    echo -n ${a}"    "${b}
-    [ "${DFT}" = " " ] || echo -n " [${DFT}]"
-    echo
-}
-
-##\brief Define a command line argument with multiple strings.
+##  Define a command line argument from multiple strings.
 ##
 ##   \param $@ argument strings
 ##
@@ -49,37 +15,9 @@ makl_args_def ()
     makl_tab_set_row ${file} "$@"
 }
 
-##\brief Set or unset a variable.
-##
-##   \param $1 type
-##   \param $2 variable name 
-##   \param $3 1:set, 0:unset
-##   \param $4 variable value
-##
-makl_var_set ()
-{
-    file=${makl_run_dir}/vars_$1
-    [ -e ${file} ] || touch ${file}
-
-    makl_tab_set ${file} "$2" 2 "$3"
-    makl_tab_set ${file} "$2" 3 "$4"
-}
-
-##\brief Get the value of an internal cf variable.
-## 
-##   \param $1 type of variable
-##   \param $2 variable name 
-##   \return 0 if the element was found, 1 otherwise.
-##
-makl_var_get ()
-{
-    file=${makl_run_dir}/vars_$1
-    
-    makl_tab_get ${file} $2 3
-    return $?
-}
-
 ##\brief Add an argument instance with given arguments.
+##
+##  Add an argument instance with given arguments.
 ##
 ##   \param $1 argument id 
 ##   \param $2 argument value
@@ -95,4 +33,34 @@ makl_args_add ()
     makl_tab_set ${file}_$1 $2 2 $3 
     makl_tab_set ${file}_$1 $2 3 $4
     makl_tab_set ${file}_$1 $2 4 $5
+}
+
+##\brief Print out a command-line argument description.
+##
+##  Prints out a human-readable description of a command-line argument.
+##
+##   \param $1 id of the command-line argument
+##   \param $2 parameters
+##   \param $3 short description
+##   \param $4 id of the argument (instance)
+##   \param $5 default values (instance)
+##   \param $6 prefix string (instance)
+##   \param $7 short description (instance)
+##
+_makl_args_print () 
+{
+    a=`echo -n "$6  --$1$2" | 
+        sed 's/X/'"$4"'/'`
+
+    if [ -z "$7" ]; then
+        b=`echo -n "$3" | 
+            sed 's/X/'"$4"'/'`
+    else
+        b=`echo -n "$3" | 
+            sed 's/X/'"$7"'/'`
+    fi
+
+    echo -n ${a}"    "${b}
+    [ "$5" = " " ] || echo -n " [$5]"
+    echo
 }

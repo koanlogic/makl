@@ -1,8 +1,14 @@
 #
-# $Id: makl_libdep,v 1.9 2005/09/30 08:56:00 stewy Exp $
+# $Id: makl_libdep,v 1.10 2005/10/05 16:09:27 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
+##
+##  Evaluate a library dependency \e $1, given a base directory
+##  \e $2, test file \e $3 and flags \e $4, \e $5.
+##  If no flags are specified, the id is used as a library name
+##  for linking. 
+##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDFLAGS are defined.
 ##
 ##   \param $1 id
 ##   \param $2 base directory ("" if not specified)
