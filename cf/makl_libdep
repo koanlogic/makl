@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.10 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_libdep,v 1.11 2005/10/05 20:24:57 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -12,28 +12,35 @@
 ##
 ##   \param $1 id
 ##   \param $2 base directory ("" if not specified)
-##   \param $3 test file
-##   \param $4 CFLAGS 
-##   \param $5 LDFLAGS
+##   \param $3 CFLAGS 
+##   \param $4 LDFLAGS
 ##   \return '0' on success, '1' on failure.
 ##
 makl_libdep ()
 {
     ID=`makl_upper $1`
     cwd=`pwd`
+    tst=${makl_run_dir}/lib_testcode_$1.c
+    if [ ! -r ${tst} ]; then
+        tst=`pwd`/build/lib$1.c
+        if [ ! -r ${tst} ]; then
+            makl_warn "makl_libdep: no test file for $1 (${tst})!" 
+            return 2
+        fi
+    fi
 
-    [ -z "$4" ] && [ ! "$4" = "" ] || iflags="$4"
+    [ -z "$3" ] && [ ! "$3" = "" ] || iflags="$3"
     [ -z "$2" ] || iflags="${iflags} -I $2/include" 
 
-    if [ -z "$5" ]; then 
+    if [ -z "$4" ]; then 
         ldflags="-l$1"
     else
-        ldflags="$5"
+        ldflags="$4"
     fi
     [ -z "$2" ] || ldflags="${ldflags} -L$2/lib"
     
     # compile and link the test program
-    eval makl_compile $3 "${iflags}" "${ldflags}"
+    eval makl_compile ${tst} "${iflags}" "${ldflags}"
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_LIB${ID}"
         return 1

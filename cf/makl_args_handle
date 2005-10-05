@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.17 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_args_handle,v 1.18 2005/10/05 20:24:57 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -14,9 +14,14 @@ makl_args_init ()
     makl_dbg "preprocessing command-line arguments"
 
     for arg in "$@"; do
-        if [ "${arg}" = "--help" ]; then
-            makl_set "__noconfig__" 1
-        fi
+        case ${arg} in 
+            -h | --help)
+                makl_set "__noconfig__" 1
+                ;;
+            -v | --verbose)
+                __makl_verbose
+                ;;
+        esac
     done
 }
 
@@ -34,18 +39,16 @@ makl_args_handle ()
     for arg in "$@"; do
         pref=`echo ${arg} | cut -c1,2`
         cmd=`echo ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
-        if [ ${arg} = "-h" ]; then
-            _makl_help
-            exit 1
-        else 
+        case ${arg} in 
+            -h | --help)
+                __makl_help
+                exit 1
+                ;;
+            -v | --verbose)
+                ;;
+        esac
             [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
-            if [ ${cmd} = "help" ]; then
-                _makl_help
-                exit 1 
-            else
-                _makl_arg_handle "${arg}"
-            fi
-        fi
+            _makl_arg_handle "${arg}"
     done
 
     [ -z `makl_get "__noconfig__"` ] || return
@@ -56,11 +59,11 @@ makl_args_handle ()
     _makl_require_check "featx"
 }
 
-## \brief Handler. Print out the help menu.
+##\brief Handler. Print out the help menu.
 ##
 ##  Print out the help menu.
 ## 
-_makl_help () 
+__makl_help () 
 {
     echo 
     echo "'MaKL' - a painless C project configuration tool"
@@ -74,11 +77,17 @@ _makl_help ()
     echo "Legend:"       
     echo "  <*>: required dependency" 
     echo "  <?>: optional dependency" 
-    echo "  < >: unset variable" 
-    echo "  <x>: set variable" 
     echo
 
     makl_cleanup_rundir
+}
+
+##\brief Handler. Activate verbose debugging output.
+##
+##
+__makl_verbose ()
+{
+    export makl_debug=1
 }
 
 ## \brief Print out the help options.
@@ -121,7 +130,7 @@ _makl_help_opts()
 ##
 ##  Don't clean cache at end of execution.
 ##
-_makl_noclean ()
+__makl_noclean ()
 {
     [ $# -gt 1 ] && _makl_args_err "--noclean: Too many arguments"
 
@@ -135,7 +144,7 @@ _makl_noclean ()
 ##
 ##   \param $1 base installation directory
 ##
-_makl_prefix ()
+__makl_prefix ()
 {
     shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_prefix: too many parameters!"
@@ -152,7 +161,7 @@ _makl_prefix ()
 ##   \param $1 directory type
 ##   \param $2 directory path
 ##
-_makl_dir ()
+__makl_dir ()
 {
     [ ! -z $1 ] || _makl_args_err "--makl_dir: Missing directory type!"
     [ ! -z $2 ] || _makl_args_err "--makl_dir: Missing target directory!"
@@ -171,7 +180,7 @@ _makl_dir ()
 ##
 ##  \param $1 owner id
 ##  
-_makl_defown ()
+__makl_defown ()
 {
     shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defown: too many parameters!"
@@ -185,7 +194,7 @@ _makl_defown ()
 ##
 ##  \param $1 group id
 ##  
-_makl_defgrp ()
+__makl_defgrp ()
 {
     shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defgrp: too many parameters!"
@@ -200,7 +209,7 @@ _makl_defgrp ()
 ##
 ##  \param $1 mode
 ##  
-_makl_defmode ()
+__makl_defmode ()
 {
     shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defmode: too many parameters!"
@@ -218,7 +227,7 @@ _makl_defmode ()
 ##
 ##  \param $1 mode
 ##  
-_makl_defbinmode ()
+__makl_defbinmode ()
 {
     shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--defbinmode: too many parameters!"
@@ -237,7 +246,7 @@ _makl_defbinmode ()
 ##  \param $1 feature type
 ##  \param $2 feature id
 ##
-_makl_enable ()
+__makl_enable ()
 {
     f_feat=${makl_run_dir}/deps_$1.optional
     [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
@@ -253,7 +262,7 @@ _makl_enable ()
 ##  \param $1 feature type
 ##  \param $2 feature id
 ##
-_makl_disable ()
+__makl_disable ()
 {
     f_feat=${makl_run_dir}/deps_$1.optional
     [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
@@ -269,7 +278,7 @@ _makl_disable ()
 ##   \param $1 feature id 
 ##   \param $2 file to be executed
 ##
-_makl_featx ()
+__makl_featx ()
 {
     f_featx=${makl_run_dir}/args_featx
     makl_tab_find ${f_featx} $1
@@ -281,43 +290,22 @@ _makl_featx ()
 ##\brief Handler. Set parameters for a library dependency.
 ##
 ##  Set parameters for a library dependency \e $1. 
-##  \e $2 is the path of the base directory for the library. \e $3 and \e $4
-##  can be used optionally to specify CFLAGS and LDFLAGS respectively. 
+##  \e $2 is the path of the base directory for the library.
 ##
 ##   \param $1 library id
 ##   \param $2 library base directory
-##   \param $3 CFLAGS (optional)
-##   \param $4 LDFLAGS (optional)
-##   \return 0 on success, 1 on argument error, 2 on missing test file, 
-##   3 on unsuccessful compilation.
+##   \return 0 on success, 1 on argument error 
 ##
-_makl_lib ()
+__makl_lib ()
 {
-    return 0
+    f_lib=${makl_run_dir}/args_lib
+
     [ $1 ] || _makl_args_err "--makl_lib: missing package name!"
     libs=${makl_run_dir}/args_lib
     makl_tab_find ${libs} $1
     [ $? = 0 ] || _makl_args_err "--makl_lib: undefined library $1"
     
-    # check for inline code
-    tst=${makl_run_dir}/lib_testcode_$1.c
-    if [ ! -r ${tst} ]; then
-        tst=`pwd`/build/lib$1.c
-        if [ ! -r ${tst} ]; then
-            makl_warn "--makl_lib: no test file for $1 (${tst})!" 
-            return 2
-        fi
-    fi
-    
-    makl_libdep $1 $2 ${tst} "$3" "$4"
-
-    # add to list of found libs
-    if [ $? = 0 ]; then
-        makl_req_found "lib" $1
-        return 0
-    else
-        return 3
-    fi
+    makl_tab_set ${f_lib} $1 2 $2
 }
 
 ##\brief Print an error message followed by usage.
@@ -330,7 +318,7 @@ _makl_lib ()
 ##
 _makl_args_err ()
 {
-    _makl_help 
+    __makl_help 
     echo
     makl_err 1 $1
 }
@@ -347,6 +335,6 @@ _makl_arg_handle ()
     id=`echo $1 | cut -s -f4 -d"-" | cut -f1 -d"="`
     val=`echo $1 | cut -s -f2 -d"="`
 
-    _makl_${cmd} ${id} "${val}"
+    __makl_${cmd} ${id} "${val}"
     [ $? = 0 ] || _makl_args_err "Failed command: '${cmd}'!"
 }

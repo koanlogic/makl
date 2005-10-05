@@ -1,16 +1,20 @@
 #
-# $Id: args.cf,v 1.3 2005/10/05 16:09:27 stewy Exp $
+# $Id: args.cf,v 1.4 2005/10/05 20:24:57 stewy Exp $
 #
 
 # general settings
 makl_args_def   "help" \
                 "" \
                 "" \
-                "display this help"
+                "[-h] display this help"
+makl_args_def   "verbose" \
+                "" \
+                "" \
+                "[-v] show verbose debugging output"
 makl_args_def   "noclean" \
                 "" \
                 "" \
-                "do not clean cache at end of execution"
+                "do not clean cache at end of execution (testing only)"
 
 # target options
 makl_args_def   "prefix" \

@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.13 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_deps,v 1.14 2005/10/05 20:24:57 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -114,14 +114,24 @@ makl_req_found ()
 ##
 _makl_search_lib ()
 {
-    file=${makl_run_dir}/args
+    f_args=${makl_run_dir}/args
+    f_args_lib=${makl_run_dir}/args_lib
     
-    str=`makl_tab_get ${file} "lib" 3`
-    val=`makl_tab_var "${str}" "BASE"` 
-    dirs=`echo ${val} | sed 's/:/ /g'`
+    # get feature argument defaults
+    dft=`makl_tab_get ${f_args} "lib" 3`
+
+    # get specific options
+    path=`makl_tab_get ${f_args_lib} $1 2`
+
+    if [ -z ${path} ]; then
+        val=`makl_tab_var "${dft}" "BASE"` 
+        dirs=`echo ${val} | sed 's/:/ /g'`
+    else
+        dirs=${path} 
+    fi
     
     for dir in ${dirs}; do
-        _makl_lib $1 ${dir} "$2" "$3"
+        makl_libdep $1 ${dir} "$2" "$3"
         [ $? = 0 ] && return 0
     done 
 
