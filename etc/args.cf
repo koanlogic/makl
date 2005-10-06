@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.4 2005/10/05 20:24:57 stewy Exp $
+# $Id: args.cf,v 1.5 2005/10/06 08:34:46 stewy Exp $
 #
 
 # general settings
@@ -11,6 +11,10 @@ makl_args_def   "verbose" \
                 "" \
                 "" \
                 "[-v] show verbose debugging output"
+makl_args_def   "version" \
+                "" \
+                "" \
+                "[-V] display MaKL version"
 makl_args_def   "noclean" \
                 "" \
                 "" \

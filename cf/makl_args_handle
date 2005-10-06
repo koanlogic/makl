@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.18 2005/10/05 20:24:57 stewy Exp $
+# $Id: makl_args_handle,v 1.19 2005/10/06 08:34:46 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -16,7 +16,11 @@ makl_args_init ()
     for arg in "$@"; do
         case ${arg} in 
             -h | --help)
-                makl_set "__noconfig__" 1
+                makl_set "__noconfig__"
+                ;;
+            -V | --version)
+                __makl_version
+                exit 1
                 ;;
             -v | --verbose)
                 __makl_verbose
@@ -46,15 +50,16 @@ makl_args_handle ()
                 ;;
             -v | --verbose)
                 ;;
+            *)
+                [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
+                _makl_arg_handle "${arg}"
+                ;;
         esac
-            [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
-            _makl_arg_handle "${arg}"
     done
 
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_dbg "checking dependencies"
-
     _makl_require_check "lib"
     _makl_require_check "featx"
 }
@@ -88,6 +93,25 @@ __makl_help ()
 __makl_verbose ()
 {
     export makl_debug=1
+}
+
+##\brief Handler. Print out the version.
+##
+##
+__makl_version ()
+{
+    file="${MAKL_DIR}/VERSION"
+
+    [ -f ${file} ] && [ -r ${file} ] && \
+        ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
+   
+    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    [ $? = 0 ] || makl_err 2 "--version: version must have format 'X.Y.Z'" \
+						     "where X, Y and Z are digits."
+
+    echo "MaKL version: ${ver}"
+
+    makl_cleanup_rundir
 }
 
 ## \brief Print out the help options.
