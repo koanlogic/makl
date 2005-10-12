@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.8 2005/10/03 13:52:37 stewy Exp $
+# $Id: lib.mk,v 1.9 2005/10/12 16:17:02 stewy Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -16,7 +16,7 @@ OBJS = ${patsubst %.c,%.o,${SRCS}}
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $*.o
 
-lib${LIB}(${OBJS}) : ${OBJS}
+lib${LIB}.a: ${OBJS}
 	@echo "===> building standard ${LIB} library"
 	rm -f lib${LIB}.a
 	${AR} cq lib${LIB}.a `${LORDER} ${OBJS} | tsort`
