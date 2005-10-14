@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.13 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_code,v 1.14 2005/10/14 15:37:37 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -18,13 +18,13 @@ makl_compile ()
 
     c_file=$1
     shift
-    c_flags=$*
+    flags=$*
     cwd=`pwd`
    
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
-    ${CC} ${c_flags} `basename ${c_file}`
+    ${CC} `basename ${c_file}` ${flags}
 
     if [ $? -ne 0 ]; then
         cd ${cwd} 
