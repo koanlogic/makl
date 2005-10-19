@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.14 2005/10/05 20:24:57 stewy Exp $
+# $Id: makl_deps,v 1.15 2005/10/19 15:54:49 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -234,6 +234,7 @@ _makl_require_check ()
     }
 
     # try to find optional dependencies which are enabled by default   
+    [ -r ${f_opt} ] && \
     cat ${f_opt} | {
         while read line; do
             opt=`makl_tab_elem "${line}" 1`
