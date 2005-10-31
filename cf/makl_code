@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.14 2005/10/14 15:37:37 stewy Exp $
+# $Id: makl_code,v 1.15 2005/10/31 11:33:42 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -128,7 +128,7 @@ makl_checkfunc ()
     echo "$2();" | makl_compile_code 1 $3
 
     if [ $? = 0 ]; then
-        makl_set_var_h "HAVE_"`makl_upper $2`
+        makl_set_var "HAVE_"`makl_upper $2`
         return 0
     else
         [ $1 = 0 ] || makl_err 1 "failed check on required function $2!" 
@@ -158,7 +158,7 @@ makl_checkheader ()
     } | makl_compile_code 0
 
     if [ $? = 0 ]; then
-        makl_set_var_h "HAVE_"`makl_upper $2`
+        makl_set_var "HAVE_"`makl_upper $2`
         return 0
     else
         [ $1 = 0 ] || makl_err 1 "failed check on required header $2!"
@@ -199,7 +199,7 @@ makl_checktype ()
     } | makl_compile_code 0 
 
     if [ $? = 0 ]; then
-        makl_set_var_h "HAVE_"`makl_upper ${type}`
+        makl_set_var "HAVE_"`makl_upper ${type}`
         return 0
     else
         [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!" 
