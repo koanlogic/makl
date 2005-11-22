@@ -16,6 +16,7 @@ INSTALL_COPY = -c
 INSTALL_STRIP = -s
 MKINSTALLDIRS = /bin/mkdir -p
 LORDER = lorder
+TSORT = tsort
 # avoid circular dependencies error
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group

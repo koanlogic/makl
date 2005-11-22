@@ -16,6 +16,7 @@ INSTALL_COPY = -c
 INSTALL_STRIP = -s
 MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
 LORDER = lorder
+TSORT = tsort
 # avoid circular dependencies error:
 PRE_LDADD =
 POST_LDADD =

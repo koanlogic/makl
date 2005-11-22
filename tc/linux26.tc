@@ -1,7 +1,7 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux26.tc,v 1.4 2005/09/20 08:10:52 tat Exp $
+# $Id: linux26.tc,v 1.5 2005/11/22 17:07:09 tat Exp $
 
 # cc is GCC 3.3.4
 CC = gcc
@@ -24,6 +24,7 @@ MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
 MKINSTALLDIRS = /bin/mkdir -p
 # Found a SUSE without lorder ...
 LORDER = ${MAKL_DIR}/helpers/lorder
+TSORT = tsort
 # avoid circular dependencies error
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group
