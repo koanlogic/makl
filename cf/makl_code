@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.15 2005/10/31 11:33:42 stewy Exp $
+# $Id: makl_code,v 1.16 2005/11/22 18:58:50 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -24,7 +24,7 @@ makl_compile ()
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
-    ${CC} `basename ${c_file}` ${flags}
+    ${CC} -o out `basename ${c_file}` ${flags}
 
     if [ $? -ne 0 ]; then
         cd ${cwd} 
@@ -100,7 +100,7 @@ makl_exec_code ()
     makl_compile ${file} $2 
     [ $? = 0 ] || return 1
 
-    cd ${makl_run_dir} && eval ./a.out > /dev/null 2> /dev/null
+    cd ${makl_run_dir} && eval out > /dev/null 2> /dev/null
     if [ $? -ne 0 ]; then 
         cd ${cwd}
         return 2
