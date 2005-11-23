@@ -18,5 +18,6 @@ MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
 LORDER = echo
 TSORT = cat
 # avoid circular dependencies error:
-PRE_LDADD =
-POST_LDADD =
+PRE_LDADD = -Wl,--start-group
+POST_LDADD = -Wl,--end-group
+
