@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.12 2005/11/22 18:58:50 tat Exp $
+# $Id: makl_libdep,v 1.13 2005/11/23 20:16:12 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -50,16 +50,16 @@ makl_libdep ()
     if [ $? -ne 0 ]; then
         makl_dbg "Test file execution for lib$1 failed!"
         cd ${cwd}
+        makl_unset_var "HAVE_LIB${ID}"
         return 2 
     fi
 
     # set LIBID_CFLAGS and LIBID_LDADD in Makefile.conf
     makl_set_var_mk "LIB${ID}_CFLAGS" "${iflags}"
     makl_set_var_mk "LIB${ID}_LDFLAGS" "${ldflags}"
-    makl_set_var_mk "HAVE_LIB${ID}"
 
-    # set HAVE_LIBID in conf.h 
-    makl_set_var_h "HAVE_LIB${ID}"
+    # set HAVE_LIBID in Makefile.conf and conf.h 
+    makl_set_var "HAVE_LIB${ID}"
 
     cd ${cwd}
     return 0

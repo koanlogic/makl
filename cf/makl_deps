@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.15 2005/10/19 15:54:49 stewy Exp $
+# $Id: makl_deps,v 1.16 2005/11/23 20:16:12 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -178,6 +178,7 @@ _makl_search_featx ()
         fi
     done 
 
+    makl_unset_var "HAVE_"`makl_upper $1`
     return 1
 }
 
