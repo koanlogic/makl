@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.1 2005/11/24 22:26:48 stewy Exp $
+# $Id: party.mk,v 1.2 2005/11/25 14:55:54 tho Exp $
 # 
 # User Variables:
 # - PARTY_BASE	The name of the 3rd party package
@@ -24,3 +24,6 @@ ifndef PARTY_NO_INSTALL
 endif
 
 party: ${PARTY_DEP}
+
+# set standard MaKL targets even if they don't do nothing
+clean install uninstall depend cleandepend:
