@@ -1,0 +1,28 @@
+# $Id: Makefile.dist,v 1.1 2005/11/27 16:30:21 tho Exp $
+
+PKG_NAME = makl
+PKG_VERSION = $(shell cat VERSION)
+
+DISTFILES = Makefile VERSION README LICENSE
+
+# auto configuration (cf files)
+DISTFILES += $(wildcard cf/makl*) cf/helpers/makl_func_strerror_r
+
+# build (mk files)
+DISTFILES += $(wildcard mk/*.mk) Makefile
+
+# configuration (etc files)
+DISTFILES += etc/args.cf etc/map.mk etc/vars.cf
+
+# helpers
+DISTFILES += helpers/lorder helpers/mkdep.gcc.sh helpers/mkinstalldirs
+
+# setup
+DISTFILES += setup/shell_setup.sh setup/toolchain_setup.sh
+
+# toolchain
+DISTFILES += $(wildcard tc/*tc)
+
+# docs (TODO)
+
+include dist.mk
