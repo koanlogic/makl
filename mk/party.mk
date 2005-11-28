@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.3 2005/11/27 21:48:56 tho Exp $
+# $Id: party.mk,v 1.4 2005/11/28 14:22:38 tho Exp $
 # 
 # User Variables:
 # - PARTY_BASE  The name of the 3rd party package
@@ -8,7 +8,7 @@
 # - PARTY_ARGS  Arguments to be passed to configure script
 #
 # Applicable Targets:
-# - party
+# - party clean
 
 PARTY_CONF ?= configure
 
@@ -25,7 +25,10 @@ endif
 
 party: ${PARTY_DEP}
 
+clean:
+	${MAKE} -C ${PARTY_BASE} clean
+
 # set standard MaKL targets even if they don't do nothing
-clean install uninstall depend cleandepend:
+install uninstall depend cleandepend:
 
 include ../etc/map.mk
