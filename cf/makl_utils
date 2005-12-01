@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.20 2005/10/06 08:34:46 stewy Exp $
+# $Id: makl_utils,v 1.21 2005/12/01 12:29:03 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -170,7 +170,7 @@ makl_yesno ()
 ##
 makl_is_mode ()
 {
-    echo $1 | grep '^[0-7][0-7][0-7]$'
+    echo $1 | grep '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
 
     return $?
 }

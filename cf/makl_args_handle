@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.19 2005/10/06 08:34:46 stewy Exp $
+# $Id: makl_args_handle,v 1.20 2005/12/01 12:29:03 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -170,7 +170,6 @@ __makl_noclean ()
 ##
 __makl_prefix ()
 {
-    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_prefix: too many parameters!"
     
     makl_set_var_mk "DESTDIR" $1
@@ -206,7 +205,6 @@ __makl_dir ()
 ##  
 __makl_defown ()
 {
-    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defown: too many parameters!"
     
     makl_set_var_mk "DEFOWN" $1
@@ -220,7 +218,6 @@ __makl_defown ()
 ##  
 __makl_defgrp ()
 {
-    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defgrp: too many parameters!"
     
     makl_set_var_mk "DEFGRP" $1
@@ -235,7 +232,6 @@ __makl_defgrp ()
 ##  
 __makl_defmode ()
 {
-    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--makl_defmode: too many parameters!"
 
     makl_is_mode $1
@@ -253,7 +249,6 @@ __makl_defmode ()
 ##  
 __makl_defbinmode ()
 {
-    shift -1 2>/dev/null
     [ ! $2 ] || _makl_args_err "--defbinmode: too many parameters!"
 
     makl_is_mode $1
