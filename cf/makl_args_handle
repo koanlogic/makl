@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.21 2005/12/13 12:12:49 tho Exp $
+# $Id: makl_args_handle,v 1.22 2005/12/13 16:11:42 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -41,8 +41,8 @@ makl_args_handle ()
     makl_dbg "handling command-line arguments"
 
     for arg in "$@"; do
-        pref=`echo ${arg} | cut -c1,2`
-        cmd=`echo ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
+        pref=`${ECHO} ${arg} | cut -c1,2`
+        cmd=`${ECHO} ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
         case ${arg} in 
             -h | --help)
                 __makl_help
@@ -70,19 +70,19 @@ makl_args_handle ()
 ## 
 __makl_help () 
 {
-    echo 
-    echo "'MaKL' - a painless C project configuration tool"
-    echo 
-    echo "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
-    echo 
-    echo "OPTION can be defined as follows:"
-    echo 
+    ${ECHO} 
+    ${ECHO} "'MaKL' - a painless C project configuration tool"
+    ${ECHO} 
+    ${ECHO} "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
+    ${ECHO} 
+    ${ECHO} "OPTION can be defined as follows:"
+    ${ECHO} 
     _makl_help_opts
-    echo
-    echo "Legend:"       
-    echo "  <*>: required dependency" 
-    echo "  <?>: optional dependency" 
-    echo
+    ${ECHO}
+    ${ECHO} "Legend:"       
+    ${ECHO} "  <*>: required dependency" 
+    ${ECHO} "  <?>: optional dependency" 
+    ${ECHO}
 
     makl_cleanup_rundir
 }
@@ -105,11 +105,11 @@ __makl_version ()
     [ -f ${file} ] && [ -r ${file} ] && \
         ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
    
-    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    ${ECHO} ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
     [ $? = 0 ] || makl_err 2 "--version: version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
-    echo "MaKL version: ${ver}"
+    ${ECHO} "MaKL version: ${ver}"
 
     makl_cleanup_rundir
 }
@@ -142,10 +142,10 @@ _makl_help_opts()
 
                 done
             } || {
-                echo -n "--"${id}${pms} "     "  ${dsc}
-                [ "${dft}" = " " ] || echo -n " [${dft}]"
+                ${ECHO} -n "--"${id}${pms} "     "  ${dsc}
+                [ "${dft}" = " " ] || ${ECHO} -n " [${dft}]"
             }
-            echo
+            ${ECHO}
         done
     }
 }
@@ -338,7 +338,7 @@ __makl_lib ()
 _makl_args_err ()
 {
     __makl_help 
-    echo
+    ${ECHO}
     makl_err 1 $1
 }
 
@@ -350,9 +350,9 @@ _makl_args_err ()
 ##
 _makl_arg_handle ()
 {
-    cmd=`echo $1 | cut -f3 -d"-" | cut -f1 -d"="`
-    id=`echo $1 | cut -s -f4 -d"-" | cut -f1 -d"="`
-    val=`echo $1 | cut -s -f2 -d"="`
+    cmd=`${ECHO} $1 | cut -f3 -d"-" | cut -f1 -d"="`
+    id=`${ECHO} $1 | cut -s -f4 -d"-" | cut -f1 -d"="`
+    val=`${ECHO} $1 | cut -s -f2 -d"="`
 
     __makl_${cmd} ${id} "${val}"
     [ $? = 0 ] || _makl_args_err "Failed command: '${cmd}'!"

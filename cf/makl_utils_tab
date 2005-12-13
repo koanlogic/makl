@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.8 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_utils_tab,v 1.9 2005/12/13 16:11:42 stewy Exp $
 #
 
 
@@ -74,7 +74,7 @@ makl_tab_set ()
     done
 
     # append new line to end of file
-    echo ${line_n} >> $1
+    ${ECHO} ${line_n} >> $1
 
     return 0    
 }
@@ -110,7 +110,7 @@ makl_tab_set_row ()
         i=$((${i}+1))
     done
 
-    echo ${line} >> ${file}
+    ${ECHO} ${line} >> ${file}
 }
 
 ##\brief Get a column value given an identifier.
@@ -127,10 +127,10 @@ makl_tab_get ()
     found=`grep "^$2" $1`
     [ $? = 0 ] || return $? 
 
-    val=`echo ${found} | cut -s -f $3 -d "|"`
+    val=`${ECHO} ${found} | cut -s -f $3 -d "|"`
     ret=$?
 
-    echo -n ${val}
+    ${ECHO} -n ${val}
     return ${ret}
 }
 
@@ -143,7 +143,7 @@ makl_tab_get ()
 ##
 makl_tab_elem ()
 {
-    echo "$1" | cut -s -f $2 -d "|"
+    ${ECHO} "$1" | cut -s -f $2 -d "|"
 }
 
 ##\brief Get variable by name given a list of variables.
@@ -161,14 +161,14 @@ makl_tab_var ()
     found=0
 
     while true; do
-        elem=`echo $1 | cut -f ${i} -d ";"`
-        delim=`echo $1 | cut -s -f ${i} -d ";"`
+        elem=`${ECHO} $1 | cut -f ${i} -d ";"`
+        delim=`${ECHO} $1 | cut -s -f ${i} -d ";"`
         [ -z ${elem} ] && break
-        var=`echo ${elem} | cut -f 1 -d "="`
-        val=`echo ${elem} | cut -f 2 -d "="`
+        var=`${ECHO} ${elem} | cut -f 1 -d "="`
+        val=`${ECHO} ${elem} | cut -f 2 -d "="`
         if [ ${var} = $2 ] || [ -z ${delim} ]; then
             found=1
-            echo ${val}
+            ${ECHO} ${val}
             break
         fi
         # stop if we have no separator

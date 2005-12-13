@@ -1,5 +1,5 @@
 #
-# $Id: makl_args,v 1.8 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_args,v 1.9 2005/12/13 16:11:42 stewy Exp $
 #
 
 ##\brief Define a command line argument from multiple strings.
@@ -49,18 +49,18 @@ makl_args_add ()
 ##
 _makl_args_print () 
 {
-    a=`echo -n "$6  --$1$2" | 
+    a=`${ECHO} -n "$6  --$1$2" | 
         sed 's/X/'"$4"'/'`
 
     if [ -z "$7" ]; then
-        b=`echo -n "$3" | 
+        b=`${ECHO} -n "$3" | 
             sed 's/X/'"$4"'/'`
     else
-        b=`echo -n "$3" | 
+        b=`${ECHO} -n "$3" | 
             sed 's/X/'"$7"'/'`
     fi
 
-    echo -n ${a}"    "${b}
-    [ "$5" = " " ] || echo -n " [$5]"
-    echo
+    ${ECHO} -n ${a}"    "${b}
+    [ "$5" = " " ] || ${ECHO} -n " [$5]"
+    ${ECHO}
 }

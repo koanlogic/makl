@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.14 2005/10/04 13:57:10 stewy Exp $
+# $Id: makl.init,v 1.15 2005/12/13 16:11:42 stewy Exp $
 #
 
 # read in just once
@@ -24,10 +24,10 @@ if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
 fi
 
 # source makl cf macros including helpers the toolchain file 
-for cfunc in ${MAKL_DIR}/cf/makl_* \
+for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
         ${MAKL_DIR}/etc/toolchain.cf ; do
-    . $cfunc
+    . $shenv
 done
 
 # show global variables' values

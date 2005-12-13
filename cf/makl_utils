@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.21 2005/12/01 12:29:03 stewy Exp $
+# $Id: makl_utils,v 1.22 2005/12/13 16:11:42 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -40,7 +40,7 @@ makl_pkg_version ()
 
     [ $? = 0 ] || ver=$1
 
-    echo ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    ${ECHO} ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
     [ $? = 0 ] || makl_err 2 "makl_pkg_version(): version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
@@ -69,7 +69,7 @@ makl_err ()
     exit_code=$1
     shift
 
-    echo 1>&2 "[err] $*"
+    ${ECHO} 1>&2 "[err] $*"
     makl_cleanup_rundir
     exit ${exit_code}
 }
@@ -85,7 +85,7 @@ makl_dbg ()
 {
     case ${makl_debug} in
         [Yy][Ee][Ss]|[Tt][Rr][Uu][Ee]|[Oo][Nn]|1)
-            echo 1>&2 "[dbg] $*"
+            ${ECHO} 1>&2 "[dbg] $*"
             ;;
     esac
 }
@@ -98,7 +98,7 @@ makl_dbg ()
 ##
 makl_warn ()
 {
-    echo 1>&2 "[wrn] $*"
+    ${ECHO} 1>&2 "[wrn] $*"
 }
 
 ##\brief Print global variables.
@@ -121,7 +121,7 @@ makl_dbg_globals ()
 ##
 makl_upper ()
 {
-   echo $* | tr "[a-z]" "[A-Z]"
+   ${ECHO} $* | tr "[a-z]" "[A-Z]"
 }
 
 ##\brief Cleanup run-time directory.
@@ -143,7 +143,7 @@ makl_cleanup_rundir ()
 ##
 makl_yesno ()
 {
-    echo -n "$1 " 
+    ${ECHO} -n "$1 " 
     
     while [ /bin/true ]; do 
         read answer
@@ -155,7 +155,7 @@ makl_yesno ()
                 return 1
                 ;;
             *)
-                echo -n "please say [yY] or [nN]: "
+                ${ECHO} -n "please say [yY] or [nN]: "
                 ;;
         esac
     done
@@ -170,7 +170,7 @@ makl_yesno ()
 ##
 makl_is_mode ()
 {
-    echo $1 | grep '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
+    ${ECHO} $1 | grep '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
 
     return $?
 }

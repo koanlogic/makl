@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.17 2005/11/23 20:16:12 stewy Exp $
+# $Id: makl_code,v 1.18 2005/12/13 16:11:42 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -48,17 +48,17 @@ makl_write_c ()
     [ -r $1 ] && rm -f $1
 
     if [ $2 = 1 ]; then
-        echo "int main() {" >> $1
+        ${ECHO} "int main() {" >> $1
     fi
     
     while read line; do
-        echo ${line} >> $1
+        ${ECHO} ${line} >> $1
     done
     
     if [ $2 = 1 ]; then
         {
-        echo "return 0;"
-        echo "}"
+        ${ECHO} "return 0;"
+        ${ECHO} "}"
         } >> $1
     fi
     
@@ -125,7 +125,7 @@ makl_checkfunc ()
 
     makl_dbg "checking for function $2"
 
-    echo "$2();" | makl_compile_code 1 $3
+    ${ECHO} "$2();" | makl_compile_code 1 $3
 
     if [ $? = 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2`
@@ -154,8 +154,8 @@ makl_checkheader ()
     makl_dbg "checking for header $2"
 
     {
-        echo "#include $3"
-        echo "int main() { return 0; }"
+        ${ECHO} "#include $3"
+        ${ECHO} "int main() { return 0; }"
     } | makl_compile_code 0
 
     if [ $? = 0 ]; then
@@ -192,9 +192,9 @@ makl_checktype ()
 
     {
         for arg in $*; do
-            echo "#include ${arg}"
+            ${ECHO} "#include ${arg}"
         done
-        echo "
+        ${ECHO} "
             int main() {
                 ${type} x;
             }" 

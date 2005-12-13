@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.13 2005/10/05 16:09:27 stewy Exp $
+# $Id: makl_var,v 1.14 2005/12/13 16:11:42 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -56,7 +56,7 @@ makl_add_var_mk ()
 
     # grab from environment if defined
     if [ $? = 0 ]; then
-        val=`echo ${str} | cut -d "=" -f 2` 
+        val=`${ECHO} ${str} | cut -d "=" -f 2` 
         grep -v "^${var}" ${f_env} > ${f_env}.tmp
         mv ${f_env}.tmp ${f_env}
     else
