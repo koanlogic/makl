@@ -7,7 +7,7 @@ AR = ar
 ARFLAGS = rl
 RANLIB = ranlib
 LD = ld 
-LDFLAGS =
+LDFLAGS = __UNSET__
 ECHO = echo
 MKDEP = mkdep
 STRIP = strip
@@ -19,5 +19,5 @@ MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
 LORDER = lorder
 TSORT = tsort
 # avoid circular dependencies error
-PRE_LDADD =
-POST_LDADD =
+PRE_LDADD = __UNSET__
+POST_LDADD = __UNSET__

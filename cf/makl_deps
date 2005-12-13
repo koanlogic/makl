@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.17 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_deps,v 1.18 2005/12/13 18:12:47 tho Exp $
 #
 
 ##\brief Add a required dependency.
@@ -50,7 +50,7 @@ makl_require ()
 ##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
 ##                             library (both optional). By default the flags are
 ##                             determined by the library name.
-##   \li 'featx' $1 $2 $3 $4, where \e $4 (optional) is the name of the variable 
+##   \li 'featx' $1 $2 $3 $4, where \e $4 (optional) is the name of the variable
 ##                            to be defined containing the path to the feature. 
 ##                            If undefined, no variables will be set.
 ##
