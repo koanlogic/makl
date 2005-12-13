@@ -2,22 +2,10 @@
 # Default toolchain.  Edit to match your platform.
 #
 CC = gcc
-CFLAGS = -O -pipe
-AR = ar
-ARFLAGS = rl
-RANLIB = ranlib
-LD = ld 
-LDFLAGS =
 MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
-STRIP = strip
-STRIP_FLAGS = -x
-INSTALL = install
-INSTALL_COPY = -c
-INSTALL_STRIP = -s
 MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
 LORDER = echo
 TSORT = cat
 # avoid circular dependencies error:
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group
-
