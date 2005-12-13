@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.13 2005/11/23 20:16:12 stewy Exp $
+# $Id: makl_libdep,v 1.14 2005/12/13 13:35:53 tho Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -30,7 +30,7 @@ makl_libdep ()
     fi
 
     [ -z "$3" ] && [ ! "$3" = "" ] || iflags="$3"
-    [ -z "$2" ] || iflags="${iflags} -I $2/include" 
+    [ -z "$2" ] || iflags="${iflags} -I$2/include" 
 
     if [ -z "$4" ]; then 
         ldflags="-l$1"
