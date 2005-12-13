@@ -1,11 +1,11 @@
 #
-# $Id: makl_args_handle,v 1.20 2005/12/01 12:29:03 stewy Exp $
+# $Id: makl_args_handle,v 1.21 2005/12/13 12:12:49 tho Exp $
 #
 
 ##\brief Initialise command line arguments. 
 ##
-##  Initialise command-line arguments \e $@ . This should be the first call in the 
-##  configure script after global initialisation (\e makl_init).
+##  Initialise command-line arguments \e $@ . This should be the first call in 
+##  the configure script after global initialisation (\e makl_init).
 ##
 ##  \param $@ command line arguments
 ##
@@ -31,8 +31,8 @@ makl_args_init ()
 
 ##\brief Process the configure command-line arguments. 
 ##
-##  Process the configure command-line arguments. This should be the last call in
-##  the configure script (before \e makl_term()).
+##  Process the configure command-line arguments. This should be the last call 
+##  in the configure script (before \e makl_term()).
 ##
 ##   \param $@ command line arguments 
 ##
@@ -284,7 +284,7 @@ __makl_enable ()
 __makl_disable ()
 {
     f_feat=${makl_run_dir}/deps_$1.optional
-    [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
+    [ -f ${f_feat} ] || _makl_args_err "--makl_disable: Invalid feature type $1"
     
     makl_tab_set ${f_feat} $2 2 0
 }
