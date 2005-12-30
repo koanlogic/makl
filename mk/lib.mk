@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.10 2005/11/22 17:07:08 tat Exp $
+# $Id: lib.mk,v 1.11 2005/12/30 17:20:41 tat Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -11,7 +11,8 @@
 # - all, clean, install, uninstall.
 #
 
-OBJS = ${patsubst %.c,%.o,${SRCS}}
+OBJS_T = ${patsubst %.cc,%.o,${SRCS}}
+OBJS = ${patsubst %.c,%.o,${OBJS_T}}
 
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $*.o
