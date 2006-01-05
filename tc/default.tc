@@ -2,7 +2,9 @@
 # Default toolchain.  Edit to match your platform.
 #
 CC = cc
+CXX = g++
 CFLAGS = -O -pipe
+CXXFLAGS = ${CFLAGS}
 AR = ar
 ARFLAGS = rl
 RANLIB = ranlib
