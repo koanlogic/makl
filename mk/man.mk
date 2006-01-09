@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.5 2005/10/03 13:52:37 stewy Exp $
+# $Id: man.mk,v 1.6 2006/01/09 15:33:49 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -12,6 +12,8 @@
 # Applicable targets:
 # - install, uninstall.
 #
+
+include ../etc/map.mk
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all clean depend cleandepend:
@@ -39,19 +41,33 @@ else
 manlinks:
 endif
 
+_CHOWN_ARGS =
+_INSTALL_ARGS =
+ifneq ($(strip ${MANOWN}),)
+    _CHOWN_ARGS = ${MANOWN}
+    _INSTALL_ARGS = -o ${MANOWN}
+endif
+ifneq ($(strip ${MANGRP}),)
+    _CHOWN_ARGS += $(join ${MANOWN}, :${MANGRP})
+    _INSTALL_ARGS += -g ${MANGRP}
+endif
+
 ifneq (${_SUBDIRS},)
 beforeinstall:
 	@for d in ${_SUBDIRS}; do \
-		${MKINSTALLDIRS} ${MANDIR}/man$$d && \
-		chown ${MANOWN}:${MANGRP} ${MANDIR}/man$$d ; \
+		${MKINSTALLDIRS} ${MANDIR}/man$$d \
 	done
+ifneq (${_CHOWN_ARGS},)
+	@for d in ${_SUBDIRS}; do \
+		chown ${_CHOWN_ARGS} ${MANDIR}/man$$d ; \
+	done
+endif
 
 realinstall:
 	@for f in ${MANFILES}; do \
-		${INSTALL} ${INSTALL_COPY} -o ${MANOWN} -g ${MANGRP} -m ${MANMODE} \
+		${INSTALL} ${INSTALL_COPY} ${_INSTALL_ARGS} -m ${MANMODE} \
             $$f ${MANDIR}/man$${f##*.} ; \
 	done
-
 
 uninstall:
 	@for f in ${MLINKS} ${MANFILES} ; do \
@@ -65,5 +81,4 @@ endif
 
 install: beforeinstall realinstall manlinks
 
-include ../etc/map.mk
 include ../etc/toolchain.mk

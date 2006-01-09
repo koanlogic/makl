@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.11 2005/12/30 17:20:41 tat Exp $
+# $Id: lib.mk,v 1.12 2006/01/09 15:33:49 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -10,6 +10,8 @@
 # Applicable targets:
 # - all, clean, install, uninstall.
 #
+
+include ../etc/map.mk
 
 OBJS_T = ${patsubst %.cc,%.o,${SRCS}}
 OBJS = ${patsubst %.c,%.o,${OBJS_T}}
@@ -27,11 +29,26 @@ clean:
 	rm -f ${OBJS} ${CLEANFILES}
 	rm -f lib${LIB}.a
 
+# build arguments list for '{before,real}install' operations
+_CHOWN_ARGS =
+_INSTALL_ARGS =
+ifneq ($(strip ${LIBOWN}),)
+    _CHOWN_ARGS = ${LIBOWN}
+    _INSTALL_ARGS = -o ${LIBOWN} 
+endif
+ifneq ($(strip ${LIBGRP}),)
+	_CHOWN_ARGS += $(join ${LIBOWN}, :${LIBGRP})
+    _INSTALL_ARGS += -g ${LIBGRP} 
+endif
+
 beforeinstall:
-	${MKINSTALLDIRS} ${LIBDIR} && chown ${LIBOWN}:${LIBGRP} ${LIBDIR}
+	${MKINSTALLDIRS} ${LIBDIR}
+ifneq (${_CHOWN_ARGS},)
+	chown ${_CHOWN_ARGS} ${LIBDIR}
+endif
 
 realinstall:
-	${INSTALL} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} lib${LIB}.a ${LIBDIR}
+	${INSTALL} ${_INSTALL_ARGS} -m ${LIBMODE} lib${LIB}.a ${LIBDIR}
 
 afterinstall:
 
@@ -40,7 +57,5 @@ install: beforeinstall realinstall afterinstall
 uninstall:
 	rm -f ${LIBDIR}/lib${LIB}.a
 
-
-include ../etc/map.mk
 include ../etc/toolchain.mk
 include deps.mk

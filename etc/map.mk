@@ -1,12 +1,12 @@
 #
-# $Id: map.mk,v 1.1 2005/10/03 13:52:37 stewy Exp $
+# $Id: map.mk,v 1.2 2006/01/09 15:33:49 tho Exp $
 #
 # Default pathnames and credentials needed by install targets.
 # Change them at your convenience.
 
 DESTDIR   ?= /
-DEFOWN    ?= root
-DEFGRP    ?= wheel
+DEFOWN    ?=
+DEFGRP    ?=
 DEFMODE   ?= 444
 
 BINDIR    ?= ${DESTDIR}/bin
