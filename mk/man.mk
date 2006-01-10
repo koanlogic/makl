@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.7 2006/01/10 11:43:04 tho Exp $
+# $Id: man.mk,v 1.8 2006/01/10 13:55:22 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -53,10 +53,12 @@ ifneq ($(strip ${MANGRP}),)
 endif
 
 ifneq (${_SUBDIRS},)
-beforeinstall:
+beforeinstall-dirs:
 	@for d in ${_SUBDIRS}; do \
-		${MKINSTALLDIRS} ${MANDIR}/man$$d \
+		${MKINSTALLDIRS} ${MANDIR}/man$$d ; \
 	done
+
+beforeinstall-dirperms:
 ifneq ($(strip ${_CHOWN_ARGS}),)
 	@for d in ${_SUBDIRS}; do \
 		chown ${_CHOWN_ARGS} ${MANDIR}/man$$d ; \
@@ -76,9 +78,9 @@ uninstall:
 
 else 
 # i.e. no valid man file names found in MANFILES
-uninstall beforeinstall realinstall manlinks:
+uninstall beforeinstall-dirs beforeinstall-dirperms realinstall manlinks:
 endif
 
-install: beforeinstall realinstall manlinks
+install: beforeinstall-dirs beforeinstall-dirperms realinstall manlinks
 
 include ../etc/toolchain.mk
