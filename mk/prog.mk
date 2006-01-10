@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.9 2006/01/09 15:33:49 tho Exp $
+# $Id: prog.mk,v 1.10 2006/01/10 11:43:04 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -47,7 +47,7 @@ endif
 
 beforeinstall:
 	${MKINSTALLDIRS} ${BINDIR}
-ifneq (${_CHOWN_ARGS}),)
+ifneq ($(strip ${_CHOWN_ARGS}),)
 	chown ${_CHOWN_ARGS} ${BINDIR}
 endif
 

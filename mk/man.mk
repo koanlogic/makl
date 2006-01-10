@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.6 2006/01/09 15:33:49 tho Exp $
+# $Id: man.mk,v 1.7 2006/01/10 11:43:04 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -57,7 +57,7 @@ beforeinstall:
 	@for d in ${_SUBDIRS}; do \
 		${MKINSTALLDIRS} ${MANDIR}/man$$d \
 	done
-ifneq (${_CHOWN_ARGS},)
+ifneq ($(strip ${_CHOWN_ARGS}),)
 	@for d in ${_SUBDIRS}; do \
 		chown ${_CHOWN_ARGS} ${MANDIR}/man$$d ; \
 	done
