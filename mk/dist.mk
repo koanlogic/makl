@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.4 2005/11/11 05:26:31 tho Exp $
+# $Id: dist.mk,v 1.5 2006/01/10 20:33:37 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -14,6 +14,7 @@
 
 # TODO check that user has set PKG_* and DISTFILES variables
 # TODO remap directories/files
+# TODO add checksum to afterdist target
 
 ZIP ?= bzip2
 
