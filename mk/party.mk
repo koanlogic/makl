@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.4 2005/11/28 14:22:38 tho Exp $
+# $Id: party.mk,v 1.5 2006/01/23 09:59:39 tho Exp $
 # 
 # User Variables:
 # - PARTY_BASE  The name of the 3rd party package
@@ -14,7 +14,7 @@ PARTY_CONF ?= configure
 
 ${PARTY_DEP}:
 ifndef PARTY_NO_CONF
-	cd ${PARTY_BASE} && ./${PARTY_CONF} ${PARTY_ARGS} 
+	cd ${PARTY_BASE} && ${PARTY_CONF} ${PARTY_ARGS} 
 endif
 ifndef PARTY_NO_MAKE
 	${MAKE} -C ${PARTY_BASE}
