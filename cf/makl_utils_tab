@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.9 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_utils_tab,v 1.10 2006/01/31 18:17:33 tat Exp $
 #
 
 
@@ -43,38 +43,27 @@ makl_tab_set ()
 
     line=`grep "^$2" $1`        
 
-    # if found delete line (get first)
     if [ $? = 0 ]; then     
-        grep -v "^$2" $1 > $1.tmp
-        mv $1.tmp $1
+       # subst the value
+
+       # delete the old line
+       grep -v "^$2" $1 > $1.tmp
+       mv $1.tmp $1
+
+       # escape the value
+       qt=`${ECHO} -n "$4" | sed 's/\//\\\\\\//g'`
+
+       ${ECHO} "$line" | sed "s/[^|]*|/${qt}|/$3" >> $1
+    else
+        # add a new var
+        line_n="$2"
+        for ((n=1; n < $3 - 1; n=n+1)); do
+            line_n="${line_n}|"
+        done
+        line_n="${line_n}|$4|||||||||||"
+
+        ${ECHO} ${line_n} >> $1
     fi
-            
-    # set value in appropriate column
-    while true; do
-        
-        l=`makl_tab_elem "${line}" ${i}` 
-        [ -z "${l}" ] && [ ${i} -gt $3 ] && break
-
-        if [ ${i} = 1 ]; then
-            new=$2
-        elif [ ${i} = $3 ]; then
-            new=$4
-        else
-            new=${l} 
-        fi
-        [ -z "${new}" ] && new=" "
-
-        if [ ${i} = 1 ]; then
-            line_n="${new}"
-        else
-            line_n="${line_n}|${new}"
-        fi
-
-        i=$((${i}+1))
-    done
-
-    # append new line to end of file
-    ${ECHO} ${line_n} >> $1
 
     return 0    
 }
