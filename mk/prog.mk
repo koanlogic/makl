@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.11 2006/01/31 17:06:22 tho Exp $
+# $Id: prog.mk,v 1.12 2006/01/31 21:15:52 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -41,7 +41,7 @@ ifneq ($(strip ${BINOWN}),)
     _INSTALL_ARGS = -o ${BINOWN}
 endif
 ifneq ($(strip ${BINGRP}),)
-    _CHOWN_ARGS += $(join ${BINOWN}, :${BINGRP})
+    _CHOWN_ARGS = $(join ${BINOWN}, :${BINGRP})
     _INSTALL_ARGS += -g ${BINGRP}
 endif
 

@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.9 2006/01/31 17:06:22 tho Exp $
+# $Id: man.mk,v 1.10 2006/01/31 21:15:52 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -48,7 +48,7 @@ ifneq ($(strip ${MANOWN}),)
     _INSTALL_ARGS = -o ${MANOWN}
 endif
 ifneq ($(strip ${MANGRP}),)
-    _CHOWN_ARGS += $(join ${MANOWN}, :${MANGRP})
+    _CHOWN_ARGS = $(join ${MANOWN}, :${MANGRP})
     _INSTALL_ARGS += -g ${MANGRP}
 endif
 

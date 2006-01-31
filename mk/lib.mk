@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.14 2006/01/31 17:06:22 tho Exp $
+# $Id: lib.mk,v 1.15 2006/01/31 21:15:52 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -37,7 +37,7 @@ ifneq ($(strip ${LIBOWN}),)
     _INSTALL_ARGS = -o ${LIBOWN} 
 endif
 ifneq ($(strip ${LIBGRP}),)
-	_CHOWN_ARGS += $(join ${LIBOWN}, :${LIBGRP})
+	_CHOWN_ARGS = $(join ${LIBOWN}, :${LIBGRP})
     _INSTALL_ARGS += -g ${LIBGRP} 
 endif
 

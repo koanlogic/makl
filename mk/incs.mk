@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.9 2006/01/31 17:06:22 tho Exp $
+# $Id: incs.mk,v 1.10 2006/01/31 21:15:52 tho Exp $
 #
 # Only define the install target.
 #
@@ -19,7 +19,7 @@ ifneq ($(strip ${INCOWN}),)
     _INSTALL_ARGS = -o ${INCOWN}
 endif
 ifneq ($(strip ${INCGRP}),)
-    _CHOWN_ARGS += $(join ${INCOWN}, :${INCGRP})
+    _CHOWN_ARGS = $(join ${INCOWN}, :${INCGRP})
     _INSTALL_ARGS += -g ${INCGRP}
 endif
     
