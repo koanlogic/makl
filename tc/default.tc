@@ -1,5 +1,7 @@
+# $Id: default.tc,v 1.11 2006/01/31 22:04:32 tho Exp $
 #
-# Default toolchain.  Edit to match your platform.
+# Default toolchain.
+# DO NOT EDIT, to match your platform, just override the needed values.
 #
 CC = cc
 CXX = g++
