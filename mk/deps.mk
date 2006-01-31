@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.4 2005/10/03 13:52:37 stewy Exp $
+# $Id: deps.mk,v 1.5 2006/01/31 17:06:22 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -33,5 +33,4 @@ endif
 cleandepend:
 	rm -f ${DEPENDFILE}
 
-include ../etc/toolchain.mk
 -include ${DEPENDFILE}

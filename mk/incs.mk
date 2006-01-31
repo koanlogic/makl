@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.8 2006/01/10 11:43:04 tho Exp $
+# $Id: incs.mk,v 1.9 2006/01/31 17:06:22 tho Exp $
 #
 # Only define the install target.
 #
@@ -40,5 +40,3 @@ uninstall:
 	for f in ${INCS}; do \
 	    rm -f ${INCDIR}/$$f; \
 	done
-
-include ../etc/toolchain.mk

@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.8 2006/01/10 13:55:22 tho Exp $
+# $Id: man.mk,v 1.9 2006/01/31 17:06:22 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -82,5 +82,3 @@ uninstall beforeinstall-dirs beforeinstall-dirperms realinstall manlinks:
 endif
 
 install: beforeinstall-dirs beforeinstall-dirperms realinstall manlinks
-
-include ../etc/toolchain.mk

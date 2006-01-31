@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.13 2006/01/10 11:43:04 tho Exp $
+# $Id: lib.mk,v 1.14 2006/01/31 17:06:22 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -57,5 +57,4 @@ install: beforeinstall realinstall afterinstall
 uninstall:
 	rm -f ${LIBDIR}/lib${LIB}.a
 
-include ../etc/toolchain.mk
 include deps.mk

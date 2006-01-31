@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.10 2006/01/10 11:43:04 tho Exp $
+# $Id: prog.mk,v 1.11 2006/01/31 17:06:22 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -62,6 +62,4 @@ install: beforeinstall realinstall afterinstall
 uninstall:
 	rm -f ${BINDIR}/${PROG}
 
-#include ../etc/map.mk
-include ../etc/toolchain.mk
 include deps.mk
