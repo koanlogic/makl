@@ -8,7 +8,7 @@ CXXFLAGS = ${CFLAGS}
 AR = ar
 ARFLAGS = rl
 RANLIB = ranlib
-LD = ld 
+LD = ld
 LDFLAGS = __UNSET__
 ECHO = echo
 MKDEP = mkdep
@@ -23,4 +23,3 @@ TSORT = tsort
 # avoid circular dependencies error
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group
-

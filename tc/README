@@ -9,20 +9,25 @@ Toolchain files
   Lines in a .tc file that refer to toolchain objects MUST begin with a 
   CAPITALIZED letter.  Only lines beginning with a capitalized letter are 
   picked up and used to produce the Bourne shell and GNU/P make compatible 
-  toolchain files (in doubt see makl_tc file).
- 
+  toolchain files (in doubt see makl_tc file).  A line beginning with a '#'
+  is a comment.
+
   On MaKL installation the platform is (should be) autodetected and the right 
-  toolchain selected accordingly.  Two files, ${MAKL_DIR}/cf/toolchain.sh and 
-  ${MAKL_DIR}/mk/toolchain.mk are then automatically generated.  
+  toolchain file selected accordingly.  This file has overrides (if any) 
+  for the default.tc file.  Two files, ${MAKL_DIR}/etc/toolchain.cf and 
+  ${MAKL_DIR}/etc/toolchain.mk are then automatically generated.
+
+  NOTE: the parser is rather fragile: the equal sign must be 'sp' padded both 
+  left and right.
  
-  Changes to the toolchain should always be done in the .tc file and then 
-  propagated to .mk and .sh via the ${MAKL_DIR}/setup/toolchain_setup.sh' 
-  script.  This is especially true when you are rolling your own .tc file 
-  because of a special need (e.g. you're using another compiler, or have to 
-  adjust some command line flags) or because your platform is not yet supported
-  by MaKL.
+  Changes to the toolchain should always be done in the platform specific 
+  .tc file and then propagated to .mk and .cf via the toolchain_setup.sh
+  in the ${MAKL_DIR}/setup' directory.  This is especially true when you 
+  are rolling your own .tc file because of a special need (e.g. you're using 
+  another compiler, or have to adjust some command line flags) or because 
+  your platform is not yet supported by MaKL.
   
-  At present .tc files' list is very limited and coarse grained.  Our goal is
-  to add incrementally as much .tc files as possible while our porting 
+  At present .tc files' list is quite limited and coarse grained.  Our goal
+  is to add incrementally as much .tc files as possible while our porting 
   experience grows.
 

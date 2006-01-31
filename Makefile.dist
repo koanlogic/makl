@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.1 2005/11/27 16:30:21 tho Exp $
+# $Id: Makefile.dist,v 1.2 2006/01/31 16:35:43 tho Exp $
 
 PKG_NAME = makl
 PKG_VERSION = $(shell cat VERSION)
@@ -21,7 +21,7 @@ DISTFILES += helpers/lorder helpers/mkdep.gcc.sh helpers/mkinstalldirs
 DISTFILES += setup/shell_setup.sh setup/toolchain_setup.sh
 
 # toolchain
-DISTFILES += $(wildcard tc/*tc)
+DISTFILES += $(wildcard tc/*tc) tc/README
 
 # docs (TODO)
 
