@@ -3,7 +3,7 @@
 # With no arguments the script tries to divine platform and toolchain file.  
 # If an argument is supplied it is interpreted as the toolchain file to install.
 #
-# $Id: toolchain_setup.sh,v 1.13 2006/01/10 23:42:09 tat Exp $
+# $Id: toolchain_setup.sh,v 1.14 2006/01/31 13:52:02 tat Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -21,19 +21,22 @@ if [ $# -ne 0 ]; then
 else
     case ${rsname}
     in 
-        freebsd[45]*)
-            platform="freebsd4,5"
+        freebsd*)
+            platform="freebsd"
             ;;
-        linux2.6*)
-            platform="linux26"
+        linux*)
+            platform="linux"
             ;;
-        darwin[67]*)
-            platform="darwin6,7"
+        darwin*)
+            platform="darwin"
             ;;
-        netbsd[23]*)
-            platform="netbsd2,3"
+        netbsd*)
+            platform="netbsd"
             ;;
-        *mingw* | *MINGW*)
+        openbsd*)
+            platform="openbsd"
+            ;;
+        *mingw*)
             platform="mingw"
             ;;
         *)

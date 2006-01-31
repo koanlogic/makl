@@ -1,0 +1,4 @@
+#
+# tested on OpenBSD 3.8
+#
+MKINSTALLDIRS = /bin/mkdir -p

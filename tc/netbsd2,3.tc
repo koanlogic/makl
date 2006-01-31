@@ -1,7 +1,0 @@
-#
-# tested on NetBSD 3.0
-#
-MKINSTALLDIRS = /bin/mkdir -p
-# avoid circular dependencies error
-PRE_LDADD = -Wl,--start-group
-POST_LDADD = -Wl,--end-group

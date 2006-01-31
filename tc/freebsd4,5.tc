@@ -1,8 +1,0 @@
-#
-# tested on FreeBSD 5.*
-#
-CFLAGS = -pipe
-MKINSTALLDIRS = /bin/mkdir -p
-# avoid circular dependencies error
-PRE_LDADD = -Wl,--start-group
-POST_LDADD = -Wl,--end-group

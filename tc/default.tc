@@ -21,5 +21,6 @@ MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
 LORDER = lorder
 TSORT = tsort
 # avoid circular dependencies error
-PRE_LDADD = __UNSET__
-POST_LDADD = __UNSET__
+PRE_LDADD = -Wl,--start-group
+POST_LDADD = -Wl,--end-group
+
