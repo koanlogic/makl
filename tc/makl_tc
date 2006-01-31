@@ -1,5 +1,5 @@
 #
-# $Id: makl_tc,v 1.10 2006/01/31 13:52:02 tat Exp $
+# $Id: makl_tc,v 1.11 2006/01/31 14:27:14 tat Exp $
 #
 
 # _makl_tc_cf input output
@@ -11,9 +11,9 @@
 #
 _makl_tc_cf ()
 {
-    awk -F'=' '/^[A-Z]/ { \
+    (sed 's/ *= */=/' | awk -F'=' '/^[A-Z]/ { \
         printf("export %s=\"%s\"\n", $1, ($2 == "__UNSET__") ? "" : $2) \
-    }' $1 >> $2
+    }' ) < $1 >> $2
 
     [ $? -ne 0 ] && return 1 
     return 0
@@ -28,9 +28,9 @@ _makl_tc_cf ()
 #
 _makl_tc_mk ()
 {
-    awk -F'=' '/^[A-Z]/ { \
+    (sed 's/ *= */=/' | awk -F'=' '/^[A-Z]/ { \
         printf("%s ?= %s\n", $1, ($2 == "__UNSET__") ? "" : $2) \
-    }' $1 >> $2
+    }' ) < $1 >> $2
 
     [ $? -ne 0 ] && return 1 
     return 0
