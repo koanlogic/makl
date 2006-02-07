@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.10 2006/01/31 18:17:33 tat Exp $
+# $Id: makl_utils_tab,v 1.11 2006/02/07 16:59:13 tat Exp $
 #
 
 
@@ -57,9 +57,14 @@ makl_tab_set ()
     else
         # add a new var
         line_n="$2"
-        for ((n=1; n < $3 - 1; n=n+1)); do
+
+        n=1
+        lim=$(($3-1))
+        while [ $n -lt $lim ]; do
             line_n="${line_n}|"
+            n=$((n+1))
         done
+
         line_n="${line_n}|$4|||||||||||"
 
         ${ECHO} ${line_n} >> $1
