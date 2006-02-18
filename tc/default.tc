@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.11 2006/01/31 22:04:32 tho Exp $
+# $Id: default.tc,v 1.12 2006/02/18 10:21:11 tat Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -13,6 +13,7 @@ RANLIB = ranlib
 LD = ld
 LDFLAGS = __UNSET__
 ECHO = echo
+NM = nm
 MKDEP = mkdep
 STRIP = strip
 STRIP_FLAGS = -x

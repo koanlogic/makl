@@ -1,0 +1,14 @@
+# $Id: cris.tc,v 1.1 2006/02/18 10:21:11 tat Exp $
+#
+# Axis ETRAX cris toolchain (see FOX board: www.acmesystems.it)
+# DO NOT EDIT, to match your platform, just override the needed values.
+#
+CC = gcc-cris -mlinux -isystem ${EROOT}/include
+CXX = g++-cris -mlinux -isystem ${EROOT}/include
+CPP  = gcc-cris -mlinux -E -isystem ${EROOT}/include
+AR = ar-cris
+RANLIB = ranlib-cris
+LD = ld-cris
+STRIP = strip-cris
+MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
+NM = nm-cris
