@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.22 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_args_handle,v 1.23 2006/02/23 18:13:33 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -159,6 +159,18 @@ __makl_noclean ()
     [ $# -gt 1 ] && _makl_args_err "--noclean: Too many arguments"
 
     makl_set "__noclean__" 1
+}
+
+##\brief Handler. Configure for cross-compilation.
+##
+## Configure for cross-compilation. The only effect at present is to 
+## avoid code execution when testing code snippets.
+##
+__makl_cross_compile ()
+{
+    [ $# -gt 1 ] && _makl_args_err "--cross_compile: Too many arguments"
+
+    makl_set "__cross_compile__" 1
 }
 
 ##\brief Handler. Set the base installation directory.
