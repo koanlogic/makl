@@ -3,7 +3,7 @@
 # With no arguments the script tries to divine platform and toolchain file.  
 # If an argument is supplied it is interpreted as the toolchain file to install.
 #
-# $Id: toolchain_setup.sh,v 1.14 2006/01/31 13:52:02 tat Exp $
+# $Id: toolchain_setup.sh,v 1.15 2006/02/23 12:33:19 tat Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -17,7 +17,7 @@ done
 rsname=`uname -rs | tr [A-Z] [a-z] | sed -e 's/ //'`
 
 if [ $# -ne 0 ]; then
-    tc_file=$1 
+    tc_file=${MAKL_DIR}/tc/$1.tc
 else
     case ${rsname}
     in 
