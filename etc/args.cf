@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.6 2006/02/24 09:33:39 stewy Exp $
+# $Id: args.cf,v 1.7 2006/02/24 18:04:23 stewy Exp $
 #
 
 # general settings
@@ -63,6 +63,11 @@ makl_args_def   "lib" \
                 "-X=BASE" \
                 "BASE=/usr/local:/usr" \
                 "set libX to have BASE dir"
+
+makl_args_def   "libs" \
+                "=BASE" \
+                "" \
+                "set all libs to have BASE dir"
 
 # feature configuration
 makl_args_def   "featx" \

@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.18 2005/12/13 18:12:47 tho Exp $
+# $Id: makl_deps,v 1.19 2006/02/24 18:04:23 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -124,12 +124,18 @@ _makl_search_lib ()
     path=`makl_tab_get ${f_args_lib} $1 2`
 
     if [ -z ${path} ]; then
+        # look for base dir in __libs__ 
+        libs=`makl_get "__libs__"`
+        if [ "${libs}" ]; then
+          makl_libdep $1 ${libs} 
+          [ $? = 0 ] && return 0
+        fi
         val=`makl_tab_var "${dft}" "BASE"` 
         dirs=`${ECHO} ${val} | sed 's/:/ /g'`
     else
         dirs=${path} 
     fi
-    
+
     for dir in ${dirs}; do
         makl_libdep $1 ${dir} "$2" "$3"
         [ $? = 0 ] && return 0

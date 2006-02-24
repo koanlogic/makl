@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.24 2006/02/23 20:50:53 stewy Exp $
+# $Id: makl_args_handle,v 1.25 2006/02/24 18:04:23 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -337,6 +337,21 @@ __makl_lib ()
     [ $? = 0 ] || _makl_args_err "--makl_lib: undefined library $1"
     
     makl_tab_set ${f_lib} $1 2 $2
+}
+
+##\brief Handler. Set parameters for all library dependencies.
+##
+##  Set parameters for all library dependencies. 
+##  \e $1 is the path of the base directory for the libraries.
+##
+##   \param $1 library base directory
+##   \return 0 on success, 1 on argument error 
+##
+__makl_libs ()
+{
+    [ $# -eq 1 ] || _makl_args_err "--makl_libs: wrong number of arguments!"
+
+    makl_set "__libs__" $1
 }
 
 ##\brief Print an error message followed by usage.
