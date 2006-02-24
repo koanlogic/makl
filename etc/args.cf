@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.5 2005/10/06 08:34:46 stewy Exp $
+# $Id: args.cf,v 1.6 2006/02/24 09:33:39 stewy Exp $
 #
 
 # general settings
@@ -15,6 +15,10 @@ makl_args_def   "version" \
                 "" \
                 "" \
                 "[-V] display MaKL version"
+makl_args_def   "cross_compile" \
+                "" \
+                "" \
+                "configure for cross-compilation (no execution tests)"
 makl_args_def   "noclean" \
                 "" \
                 "" \
