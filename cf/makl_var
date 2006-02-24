@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.14 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_var,v 1.15 2006/02/24 20:08:32 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -71,6 +71,12 @@ makl_add_var_mk ()
 
     makl_dbg "appending ${val} to makefile variable ${var}"
     makl_set_var_mk "${var}" "${val}"
+}
+
+#\brief Alias: makl_add_var_mk
+makl_append_var_mk ()
+{
+    makl_add_var_mk $@
 }
 
 ##\brief Unset the value of a header variable.
