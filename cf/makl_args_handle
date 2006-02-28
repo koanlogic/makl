@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.25 2006/02/24 18:04:23 stewy Exp $
+# $Id: makl_args_handle,v 1.26 2006/02/28 15:04:49 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -70,6 +70,8 @@ makl_args_handle ()
 ## 
 __makl_help () 
 {
+    [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
+
     ${ECHO} 
     ${ECHO} "'MaKL' - a painless C project configuration tool"
     ${ECHO} 
@@ -92,6 +94,8 @@ __makl_help ()
 ##
 __makl_verbose ()
 {
+    [ $# -eq 0 ] || _makl_args_err "--verbose: wrong number of arguments!"
+
     export makl_debug=1
 }
 
@@ -100,6 +104,8 @@ __makl_verbose ()
 ##
 __makl_version ()
 {
+    [ $# -eq 0 ] || _makl_args_err "--version: wrong number of arguments!"
+
     file="${MAKL_DIR}/VERSION"
 
     [ -f ${file} ] && [ -r ${file} ] && \
@@ -156,7 +162,7 @@ _makl_help_opts()
 ##
 __makl_noclean ()
 {
-    [ $# -gt 1 ] && _makl_args_err "--noclean: Too many arguments"
+    [ $# -eq 0 ] || _makl_args_err "--noclean: wrong number of arguments!"
 
     makl_set "__noclean__" 1
 }
@@ -168,7 +174,7 @@ __makl_noclean ()
 ##
 __makl_cross_compile ()
 {
-    [ $# -gt 1 ] && _makl_args_err "--cross_compile: Too many arguments"
+    [ $# -eq 0 ] || _makl_args_err "--cross_compile: wrong number of arguments!"
 
     makl_set "__cross_compile__" 1
 }
@@ -182,7 +188,7 @@ __makl_cross_compile ()
 ##
 __makl_prefix ()
 {
-    [ ! $2 ] || _makl_args_err "--makl_prefix: too many parameters!"
+    [ $# -eq 1 ] || _makl_args_err "--prefix: wrong number of arguments!"
     
     makl_set_var_mk "DESTDIR" $1
 }
@@ -198,8 +204,7 @@ __makl_prefix ()
 ##
 __makl_dir ()
 {
-    [ ! -z $1 ] || _makl_args_err "--makl_dir: Missing directory type!"
-    [ ! -z $2 ] || _makl_args_err "--makl_dir: Missing target directory!"
+    [ $# -eq 2 ] || _makl_args_err "--dir: wrong number of arguments!"
       
     f_dirs=${makl_run_dir}/args_dir
     makl_tab_find ${f_dirs} $1
@@ -217,7 +222,7 @@ __makl_dir ()
 ##  
 __makl_defown ()
 {
-    [ ! $2 ] || _makl_args_err "--makl_defown: too many parameters!"
+    [ $# -eq 1 ] || _makl_args_err "--defown: wrong number of arguments!"
     
     makl_set_var_mk "DEFOWN" $1
 }
@@ -230,7 +235,7 @@ __makl_defown ()
 ##  
 __makl_defgrp ()
 {
-    [ ! $2 ] || _makl_args_err "--makl_defgrp: too many parameters!"
+    [ $# -eq 1 ] || _makl_args_err "--defgrp: wrong number of arguments!"
     
     makl_set_var_mk "DEFGRP" $1
 }
@@ -244,7 +249,7 @@ __makl_defgrp ()
 ##  
 __makl_defmode ()
 {
-    [ ! $2 ] || _makl_args_err "--makl_defmode: too many parameters!"
+    [ $# -eq 1 ] || _makl_args_err "--defmode: wrong number of arguments!"
 
     makl_is_mode $1
     [ $? = 0 ] || makl_err 2 "Invalid mode: $1 (3 octal digits)"
@@ -261,7 +266,7 @@ __makl_defmode ()
 ##  
 __makl_defbinmode ()
 {
-    [ ! $2 ] || _makl_args_err "--defbinmode: too many parameters!"
+    [ $# -eq 1 ] || _makl_args_err "--defbinmode: wrong number of arguments!"
 
     makl_is_mode $1
     [ $? = 0 ] || makl_err 2 "Invalid mode: $1 (3 octal digits)"
@@ -279,6 +284,8 @@ __makl_defbinmode ()
 ##
 __makl_enable ()
 {
+    [ $# -eq 2 ] || _makl_args_err "--enable: wrong number of arguments!"
+
     f_feat=${makl_run_dir}/deps_$1.optional
     [ -f ${f_feat} ] || _makl_args_err "--makl_enable: Invalid feature type $1"
 
@@ -295,6 +302,8 @@ __makl_enable ()
 ##
 __makl_disable ()
 {
+    [ $# -eq 2 ] || _makl_args_err "--disable: wrong number of arguments!"
+
     f_feat=${makl_run_dir}/deps_$1.optional
     [ -f ${f_feat} ] || _makl_args_err "--makl_disable: Invalid feature type $1"
     
@@ -311,6 +320,8 @@ __makl_disable ()
 ##
 __makl_featx ()
 {
+    [ $# -eq 2 ] || _makl_args_err "--featx: wrong number of arguments!"
+
     f_featx=${makl_run_dir}/args_featx
     makl_tab_find ${f_featx} $1
     [ $? = 0 ] || _makl_args_err "--makl_featx: Invalid featx: $1"
@@ -329,6 +340,8 @@ __makl_featx ()
 ##
 __makl_lib ()
 {
+    [ $# -eq 2 ] || _makl_args_err "--lib: wrong number of arguments!"
+
     f_lib=${makl_run_dir}/args_lib
 
     [ $1 ] || _makl_args_err "--makl_lib: missing package name!"
@@ -349,7 +362,7 @@ __makl_lib ()
 ##
 __makl_libs ()
 {
-    [ $# -eq 1 ] || _makl_args_err "--makl_libs: wrong number of arguments!"
+    [ $# -eq 1 ] || _makl_args_err "--libs: wrong number of arguments!"
 
     makl_set "__libs__" $1
 }
@@ -364,7 +377,7 @@ __makl_libs ()
 ##
 _makl_args_err ()
 {
-    __makl_help 
+    __makl_help
     ${ECHO}
     makl_err 1 $1
 }
@@ -378,11 +391,11 @@ _makl_args_err ()
 _makl_arg_handle ()
 {
     lval=`${ECHO} $1 | cut -f1 -d"="`
-    rval=`${ECHO} $1 | cut -f2 -d"="`
+    rval=`${ECHO} $1 | cut -s -f2 -d"="`
     
     cmd=`${ECHO} ${lval} | cut -f3 -d"-"`
     id=`${ECHO} ${lval} | cut -f4 -d"-"` 
 
-    __makl_${cmd} ${id} "${rval}"
+    __makl_${cmd} ${id} ${rval}
     [ $? = 0 ] || _makl_args_err "Failed command: '${cmd}'!"
 }
