@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.27 2006/02/28 15:44:04 stewy Exp $
+# $Id: makl_args_handle,v 1.28 2006/02/28 17:34:41 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -17,6 +17,12 @@ makl_args_init ()
         case ${arg} in 
             -h | --help)
                 makl_set "__noconfig__"
+                if [ -r configure.help ]; then
+                    cat configure.help
+                    exit 0
+                else
+                    makl_set "__help__"    
+                fi
                 ;;
             -V | --version)
                 __makl_version
@@ -71,20 +77,22 @@ makl_args_handle ()
 __makl_help () 
 {
     [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
-
-    ${ECHO} 
-    ${ECHO} "'MaKL' - a painless C project configuration tool"
-    ${ECHO} 
-    ${ECHO} "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
-    ${ECHO} 
-    ${ECHO} "OPTION can be defined as follows:"
-    ${ECHO} 
-    _makl_help_opts
-    ${ECHO}
-    ${ECHO} "Legend:"       
-    ${ECHO} "  <*>: required dependency" 
-    ${ECHO} "  <?>: optional dependency" 
-    ${ECHO}
+  
+    [ -z `makl_get "__help__"` ] && {
+        ${ECHO} 
+        ${ECHO} "'MaKL' - a painless C project configuration tool"
+        ${ECHO} 
+        ${ECHO} "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
+        ${ECHO} 
+        ${ECHO} "OPTION can be defined as follows:"
+        ${ECHO} 
+        _makl_help_opts
+        ${ECHO}
+        ${ECHO} "Legend:"       
+        ${ECHO} "  <*>: required dependency" 
+        ${ECHO} "  <?>: optional dependency" 
+        ${ECHO}
+    } > configure.help && cat configure.help
 
     makl_cleanup_rundir
 }
