@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.26 2006/02/28 15:04:49 stewy Exp $
+# $Id: makl_args_handle,v 1.27 2006/02/28 15:44:04 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -38,7 +38,7 @@ makl_args_init ()
 ##
 makl_args_handle ()
 {
-    makl_dbg "handling command-line arguments"
+    makl_info "handling command-line arguments"
 
     for arg in "$@"; do
         pref=`${ECHO} ${arg} | cut -c1,2`
@@ -59,7 +59,7 @@ makl_args_handle ()
 
     [ -z `makl_get "__noconfig__"` ] || return
 
-    makl_dbg "checking dependencies"
+    makl_info "checking dependencies"
     _makl_require_check "lib"
     _makl_require_check "featx"
 }

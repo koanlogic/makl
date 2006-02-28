@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.19 2006/02/24 18:04:23 stewy Exp $
+# $Id: makl_deps,v 1.20 2006/02/28 15:44:04 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -20,7 +20,7 @@
 makl_require ()
 {
     if [ -z `makl_get "__noconfig__"` ]; then
-        makl_dbg "adding required $1 dependency: $2"
+        makl_info "adding required $1 dependency $2"
 
         file=${makl_run_dir}/deps_$1.require
 
@@ -62,7 +62,7 @@ makl_require ()
 makl_optional ()
 {
     if [ -z `makl_get "__noconfig__"` ]; then
-        makl_dbg "adding optional $2 dependency: $3"
+        makl_info "adding optional $2 dependency $3"
 
         file=${makl_run_dir}/deps_$2.optional
         
@@ -222,7 +222,7 @@ _makl_require_check ()
                 done
                 if [ ${found} = 0 ]; then
                     # look in default directories before panic
-                    makl_dbg "searching for required $1 feature: ${req}" 
+                    makl_info "searching for required $1 feature ${req}" 
                     case $1 in
                         lib)
                             _makl_search_lib "${req}" "${cflags}" "${ldflags}"
@@ -246,7 +246,7 @@ _makl_require_check ()
         while read line; do
             opt=`makl_tab_elem "${line}" 1`
             dft=`makl_tab_elem "${line}" 2`
-            [ "${dft}" = 1 ] && makl_dbg "searching for optional $1 feature: ${opt}" 
+            [ "${dft}" = 1 ] && makl_info "searching for optional $1 feature ${opt}" 
             case $1 in
                 lib)
                     cflags=`makl_tab_elem "${line}" 3`

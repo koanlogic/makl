@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.14 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_conf,v 1.15 2006/02/28 15:44:04 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
@@ -10,7 +10,7 @@
 makl_process_conf ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
-    makl_dbg "processing configuration output from cache"
+    makl_info "processing configuration output from cache"
 
     f_mk=${makl_run_dir}/vars_mk
     f_h=${makl_run_dir}/vars_h

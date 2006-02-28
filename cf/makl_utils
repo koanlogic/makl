@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.22 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_utils,v 1.23 2006/02/28 15:44:04 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -12,7 +12,7 @@ makl_pkg_name ()
 {
     [ $1 ] || makl_err 1 "makl_pkg_name(): undefined package name!"
 
-    makl_dbg "setting package name to $1"
+    makl_info "setting package name to $1"
 
     makl_set "__package__" "$1"
 }
@@ -45,6 +45,8 @@ makl_pkg_version ()
 						     "where X, Y and Z are digits."
 
     makl_set_var "`makl_upper ${pkg}`_VERSION" ${ver} 1
+
+    makl_info "setting version to ${ver}"
 }
 
 ##\brief Print the OS name.
@@ -72,6 +74,17 @@ makl_err ()
     ${ECHO} 1>&2 "[err] $*"
     makl_cleanup_rundir
     exit ${exit_code}
+}
+
+## \brief Print info 
+##
+##   Print some basic info on MaKL operations.
+##
+##     \param $1 info string
+##
+makl_info ()
+{
+    ${ECHO} "$*"
 }
 
 ##\brief Print a debug message. 
