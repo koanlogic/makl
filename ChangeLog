@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.1 2006/03/02 16:56:09 tho Exp $
+$Id: ChangeLog,v 1.2 2006/03/02 17:13:55 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
@@ -20,5 +20,5 @@ MaKL 1.0.0:
     - new ports: OpenBSD 3.8, NetBSD 2.0.x, NetBSD 2.1, FreeBSD 6.0
     - a number of optimisations for speed
 
-MaKL 0.3.0:
+MaKL 0.4.0:
     - first public release
