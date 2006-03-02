@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.28 2006/02/28 17:34:41 stewy Exp $
+# $Id: makl_args_handle,v 1.29 2006/03/02 10:01:52 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -20,8 +20,6 @@ makl_args_init ()
                 if [ -r configure.help ]; then
                     cat configure.help
                     exit 0
-                else
-                    makl_set "__help__"    
                 fi
                 ;;
             -V | --version)
@@ -78,7 +76,7 @@ __makl_help ()
 {
     [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
   
-    [ -z `makl_get "__help__"` ] && {
+    [ ! -r configure.help ] && {
         ${ECHO} 
         ${ECHO} "'MaKL' - a painless C project configuration tool"
         ${ECHO} 
@@ -92,7 +90,9 @@ __makl_help ()
         ${ECHO} "  <*>: required dependency" 
         ${ECHO} "  <?>: optional dependency" 
         ${ECHO}
-    } > configure.help && cat configure.help
+    } > configure.help 
+    
+    cat configure.help
 
     makl_cleanup_rundir
 }
