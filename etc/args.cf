@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.7 2006/02/24 18:04:23 stewy Exp $
+# $Id: args.cf,v 1.8 2006/03/02 10:43:32 stewy Exp $
 #
 
 # general settings
@@ -7,6 +7,10 @@ makl_args_def   "help" \
                 "" \
                 "" \
                 "[-h] display this help"
+makl_args_def   "help_gen" \
+                "" \
+                "" \
+                "[-g] generate new configure.help based on configuration"
 makl_args_def   "verbose" \
                 "" \
                 "" \

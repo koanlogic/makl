@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.29 2006/03/02 10:01:52 stewy Exp $
+# $Id: makl_args_handle,v 1.30 2006/03/02 10:43:32 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -48,11 +48,14 @@ makl_args_handle ()
         pref=`${ECHO} ${arg} | cut -c1,2`
         cmd=`${ECHO} ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
         case ${arg} in 
-            -h | --help)
+            -h)
                 __makl_help
                 exit 1
                 ;;
-            -v | --verbose)
+            -g)
+                __makl_help_gen  
+                ;;
+            -v)
                 ;;
             *)
                 [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
@@ -68,15 +71,9 @@ makl_args_handle ()
     _makl_require_check "featx"
 }
 
-##\brief Handler. Print out the help menu.
-##
-##  Print out the help menu.
-## 
-__makl_help () 
+_makl_help_print ()
 {
-    [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
-  
-    [ ! -r configure.help ] && {
+    {
         ${ECHO} 
         ${ECHO} "'MaKL' - a painless C project configuration tool"
         ${ECHO} 
@@ -90,11 +87,32 @@ __makl_help ()
         ${ECHO} "  <*>: required dependency" 
         ${ECHO} "  <?>: optional dependency" 
         ${ECHO}
-    } > configure.help 
+    } > configure.help
+}
+
+##\brief Handler. Print out the help menu.
+##
+##  Print out the help menu.
+## 
+__makl_help () 
+{
+    [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
+  
+    [ -r configure.help ] || _makl_help_print
     
     cat configure.help
 
     makl_cleanup_rundir
+}
+
+##\brief Handler. Generate configure.help. 
+##
+##  Generate new configure.help based on configuration.
+__makl_help_gen ()
+{
+    [ $# -eq 0 ] || _makl_args_err "--help_gen: wrong number of arguments!"
+
+    _makl_help_print
 }
 
 ##\brief Handler. Activate verbose debugging output.
