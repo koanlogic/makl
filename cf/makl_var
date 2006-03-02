@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.15 2006/02/24 20:08:32 stewy Exp $
+# $Id: makl_var,v 1.16 2006/03/02 11:15:26 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -51,7 +51,7 @@ makl_set_var_mk ()
 makl_add_var_mk ()
 {
     f_env=${makl_run_dir}/env
-	var=$1
+    var=$1
     str=`grep "^${var}" ${f_env}`
 
     # grab from environment if defined
@@ -227,7 +227,6 @@ makl_vars_def ()
 _makl_var_set ()
 {
     file=${makl_run_dir}/vars_$1
-    [ -e ${file} ] || touch ${file}
 
     makl_tab_set ${file} "$2" 2 "$3"
     makl_tab_set ${file} "$2" 3 "$4"
