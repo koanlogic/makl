@@ -1,0 +1,24 @@
+$Id: ChangeLog,v 1.1 2006/03/02 16:56:09 tho Exp $
+
+ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+
+MaKL 1.1.0:
+    - cross compilation support:
+        - toolchain target now depends on MAKL_PLATFORM
+        - new switch --cross-compile avoids execution tests
+    - new port: CRIS architecture (Axis Communication)
+    - makl_append_var_mk() alias to makl_add_var_mk()
+    - new switch --libs set default base dir for all libs
+    - separate info (default) from dbg (--verbose) output
+    - --help switch optimisation: store configure.help for reuse
+    - new switch --help_gen (or -g) to generate a new configure.help
+    - tab_get fix to avoid grep error
+    - dist.mk also creates the .md5 checksum for the package
+
+MaKL 1.0.0:
+    - include logic changed to support toolchain overriding
+    - new ports: OpenBSD 3.8, NetBSD 2.0.x, NetBSD 2.1, FreeBSD 6.0
+    - a number of optimisations for speed
+
+MaKL 0.3.0:
+    - first public release

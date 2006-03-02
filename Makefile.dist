@@ -1,11 +1,11 @@
-# $Id: Makefile.dist,v 1.3 2006/02/06 11:44:57 stewy Exp $
+# $Id: Makefile.dist,v 1.4 2006/03/02 16:56:09 tho Exp $
 
 include common.mk
 
 PKG_NAME = makl
 PKG_VERSION = $(shell cat VERSION)
 
-DISTFILES = Makefile VERSION README LICENSE
+DISTFILES = Makefile VERSION README LICENSE ChangeLog
 
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) cf/helpers/makl_func_strerror_r
