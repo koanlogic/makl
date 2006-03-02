@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.6 2006/01/31 17:06:22 tho Exp $
+# $Id: dist.mk,v 1.7 2006/03/02 14:59:01 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -14,9 +14,11 @@
 
 # TODO check that user has set PKG_* and DISTFILES variables
 # TODO remap directories/files
-# TODO add checksum to afterdist target
 
 ZIP ?= bzip2
+ZIPEXT ?= bz2
+
+MD5SUM = md5sum
 
 DISTDIR=${PKG_NAME}-${PKG_VERSION}
 
@@ -51,6 +53,7 @@ endif
 afterdist:
 	@tar cf ${DISTDIR}.tar ${DISTDIR} && \
 	${ZIP} ${DISTDIR}.tar && \
+	${MD5SUM} ${DISTDIR}.tar.${ZIPEXT} > ${DISTDIR}.tar.${ZIPEXT}.md5 && \
 	rm -rf ${DISTDIR}.tar ${DISTDIR}
 
 distclean:
