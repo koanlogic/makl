@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.7 2006/03/02 14:59:01 tho Exp $
+# $Id: dist.mk,v 1.8 2006/03/03 12:03:42 tat Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -52,6 +52,7 @@ endif
 
 afterdist:
 	@tar cf ${DISTDIR}.tar ${DISTDIR} && \
+	rm -f ${DISTDIR}.tar.${ZIPEXT} && \
 	${ZIP} ${DISTDIR}.tar && \
 	${MD5SUM} ${DISTDIR}.tar.${ZIPEXT} > ${DISTDIR}.tar.${ZIPEXT}.md5 && \
 	rm -rf ${DISTDIR}.tar ${DISTDIR}
