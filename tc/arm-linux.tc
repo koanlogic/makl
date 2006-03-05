@@ -1,8 +1,8 @@
-# $Id: arm-linux.tc,v 1.1 2006/03/04 16:37:29 tat Exp $
+# $Id: arm-linux.tc,v 1.2 2006/03/05 15:21:23 tat Exp $
 #
 # arm-linux toolchain.
 
-CC = arm-linux-cc
+CC = arm-linux-gcc
 CXX = arm-linux-g++
 AR = arm-linux-ar
 ARFLAGS = arm-linux-rl
