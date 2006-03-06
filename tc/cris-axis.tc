@@ -1,0 +1,11 @@
+# $Id: cris-axis.tc,v 1.1 2006/03/06 22:40:17 tat Exp $
+#
+# Axis ETRAX cris toolchain (see FOX board: www.acmesystems.it)
+
+CC = cris-gcc -mlinux -isystem ${EROOT}/include
+CXX = cris-g++ -mlinux -isystem ${EROOT}/include
+AR = cris-ar
+RANLIB = cris-ranlib
+LD = cris-ld
+NM = cris-nm
+STRIP = cris-strip
