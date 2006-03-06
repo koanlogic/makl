@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.2 2006/03/02 17:13:55 tho Exp $
+$Id: ChangeLog,v 1.3 2006/03/06 18:10:01 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
@@ -6,7 +6,8 @@ MaKL 1.1.0:
     - cross compilation support:
         - toolchain target now depends on MAKL_PLATFORM
         - new switch --cross-compile avoids execution tests
-    - new port: CRIS architecture (Axis Communication)
+    - new variable MAKL_TC influences the top-level toolchain target
+    - new ports: ARM, MIPS, PowerPC and SH via Buildroot, Cris/Axis.
     - makl_append_var_mk() alias to makl_add_var_mk()
     - new switch --libs set default base dir for all libs
     - separate info (default) from dbg (--verbose) output
