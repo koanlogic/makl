@@ -1,0 +1,12 @@
+# $Id: i386-linux.tc,v 1.1 2006/03/06 12:39:10 tat Exp $
+#
+# i386-linux GNU toolchain.
+
+CC = i386-linux-gcc 
+CXX = i386-linux-g++
+AR = i386-linux-ar
+ARFLAGS = i386-linux-rl
+RANLIB = i386-linux-ranlib
+LD = i386-linux-ld
+NM = i386-linux-nm
+STRIP = i386-linux-strip
