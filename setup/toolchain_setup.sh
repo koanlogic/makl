@@ -3,7 +3,9 @@
 # With no arguments the script tries to divine platform and toolchain file.  
 # If an argument is supplied it is interpreted as the toolchain file to install.
 #
-# $Id: toolchain_setup.sh,v 1.15 2006/02/23 12:33:19 tat Exp $
+# $Id: toolchain_setup.sh,v 1.16 2006/03/06 15:46:36 tat Exp $
+
+KL_COM=http://www.koanlogic.com/
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -16,36 +18,49 @@ done
 
 rsname=`uname -rs | tr [A-Z] [a-z] | sed -e 's/ //'`
 
-if [ $# -ne 0 ]; then
-    tc_file=${MAKL_DIR}/tc/$1.tc
+# if MAKL_TC is set then use that toolchain file otherwise look to the command
+# line args otherwise try to guess the platform
+if [ "${MAKL_TC}" ]; then
+    tc_file=${MAKL_TC}
 else
-    case ${rsname}
-    in 
-        freebsd*)
-            platform="freebsd"
-            ;;
-        linux*)
-            platform="linux"
-            ;;
-        darwin*)
-            platform="darwin"
-            ;;
-        netbsd*)
-            platform="netbsd"
-            ;;
-        openbsd*)
-            platform="openbsd"
-            ;;
-        *mingw*)
-            platform="mingw"
-            ;;
-        *)
-            platform="default"
-            ;;
-    esac        
+    if [ $# -ne 0 ]; then
+        tc_file=${MAKL_DIR}/tc/$1.tc
+    else
+        case ${rsname}
+        in 
+            freebsd*)
+                platform="freebsd"
+                ;;
+            linux*)
+                platform="linux"
+                ;;
+            darwin*)
+                platform="darwin"
+                ;;
+            netbsd*)
+                platform="netbsd"
+                ;;
+            openbsd*)
+                platform="openbsd"
+                ;;
+            *mingw*)
+                platform="mingw"
+                ;;
+            *)
+                platform="default"
+                ;;
+        esac        
 
-    tc_file=${MAKL_DIR}/tc/${platform}.tc
+        tc_file=${MAKL_DIR}/tc/${platform}.tc
+
+    fi
+
+    # if the toolchain does not exists try to download from kl.com/makl/*.tc
+    if [ ! -f ${tc_file} ]; then
+        (cd ${MAKL_DIR}/tc/ && wget ${KL_COM}/makl/`basename ${tc_file}`) 
+    fi
 fi
+
 
 echo "MaKL: installing toolchain file '${tc_file}'"
 
