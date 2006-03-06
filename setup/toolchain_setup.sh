@@ -3,7 +3,7 @@
 # With no arguments the script tries to divine platform and toolchain file.  
 # If an argument is supplied it is interpreted as the toolchain file to install.
 #
-# $Id: toolchain_setup.sh,v 1.16 2006/03/06 15:46:36 tat Exp $
+# $Id: toolchain_setup.sh,v 1.17 2006/03/06 16:15:18 tat Exp $
 
 KL_COM=http://www.koanlogic.com/
 
@@ -57,7 +57,7 @@ else
 
     # if the toolchain does not exists try to download from kl.com/makl/*.tc
     if [ ! -f ${tc_file} ]; then
-        (cd ${MAKL_DIR}/tc/ && wget ${KL_COM}/makl/`basename ${tc_file}`) 
+        (cd ${MAKL_DIR}/tc/ && ${FETCH:=wget} ${KL_COM}/makl/`basename ${tc_file}`) 
     fi
 fi
 
