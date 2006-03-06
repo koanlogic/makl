@@ -1,9 +1,8 @@
-# $Id: sh4-linux.tc,v 1.2 2006/03/06 21:23:45 tho Exp $
+# $Id: sh4-linux.tc,v 1.3 2006/03/06 21:46:54 tho Exp $
 #
 # sh4-linux GNU toolchain.
 
 CC = sh4-linux-gcc
-CPP = sh4-linux-gcc -E
 CXX = sh4-linux-g++
 AR = sh4-linux-ar
 ARFLAGS = sh4-linux-rl

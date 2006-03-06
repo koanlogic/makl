@@ -1,9 +1,10 @@
-# $Id: default.tc,v 1.12 2006/02/18 10:21:11 tat Exp $
+# $Id: default.tc,v 1.13 2006/03/06 21:46:54 tho Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
 #
 CC = cc
+CPP = ${CC} -E
 CXX = g++
 CFLAGS = -O -pipe
 CXXFLAGS = ${CFLAGS}

@@ -1,9 +1,8 @@
-# $Id: i386-linux.tc,v 1.2 2006/03/06 21:23:45 tho Exp $
+# $Id: i386-linux.tc,v 1.3 2006/03/06 21:46:54 tho Exp $
 #
 # i386-linux GNU toolchain.
 
 CC = i386-linux-gcc 
-CPP = i386-linux-gcc -E
 CXX = i386-linux-g++
 AR = i386-linux-ar
 ARFLAGS = i386-linux-rl

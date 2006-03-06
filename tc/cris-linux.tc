@@ -1,0 +1,12 @@
+# $Id: cris-linux.tc,v 1.1 2006/03/06 21:46:54 tho Exp $
+#
+# Axis ETRAX cris toolchain (see FOX board: www.acmesystems.it)
+# DO NOT EDIT, to match your platform, just override the needed values.
+
+CC = cris-linux-gcc -mlinux -isystem ${EROOT}/include
+CXX = cris-linux-g++ -mlinux -isystem ${EROOT}/include
+AR = cris-linux-ar
+RANLIB = cris-linux-ranlib
+LD = cris-linux-ld
+NM = cris-linux-nm
+STRIP = cris-linux-strip
