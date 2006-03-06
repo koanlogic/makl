@@ -1,8 +1,9 @@
-# $Id: mips-linux.tc,v 1.1 2006/03/06 12:39:10 tat Exp $
+# $Id: mips-linux.tc,v 1.2 2006/03/06 21:23:45 tho Exp $
 #
 # mips-linux GNU toolchain.
 
 CC = mips-linux-gcc
+CPP = mips-linux-gcc -E
 CXX = mips-linux-g++
 AR = mips-linux-ar
 ARFLAGS = mips-linux-rl
