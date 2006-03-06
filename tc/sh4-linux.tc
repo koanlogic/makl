@@ -1,0 +1,12 @@
+# $Id: sh4-linux.tc,v 1.1 2006/03/06 13:24:49 tat Exp $
+#
+# sh4-linux GNU toolchain.
+
+CC = sh4-linux-gcc
+CXX = sh4-linux-g++
+AR = sh4-linux-ar
+ARFLAGS = sh4-linux-rl
+RANLIB = sh4-linux-ranlib
+LD = sh4-linux-ld
+NM = sh4-linux-nm
+STRIP = sh4-linux-strip
