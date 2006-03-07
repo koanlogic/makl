@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.30 2006/03/02 10:43:32 stewy Exp $
+# $Id: makl_args_handle,v 1.31 2006/03/07 17:19:21 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -122,7 +122,7 @@ __makl_verbose ()
 {
     [ $# -eq 0 ] || _makl_args_err "--verbose: wrong number of arguments!"
 
-    export makl_debug=1
+    makl_set "__verbose__" 1
 }
 
 ##\brief Handler. Print out the version.

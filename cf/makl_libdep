@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.15 2006/02/23 18:13:33 stewy Exp $
+# $Id: makl_libdep,v 1.16 2006/03/07 17:19:21 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -40,7 +40,12 @@ makl_libdep ()
     [ -z "$2" ] || ldflags="${ldflags} -L$2/lib"
     
     # compile and link the test program
-    eval makl_compile ${tst} "${iflags}" "${ldflags}"
+    if [ -z `makl_get "__verbose__"` ]; then
+        output=/dev/null
+    else 
+        output=2
+    fi
+    eval makl_compile ${tst} "${iflags}" "${ldflags}" >& ${output}
     if [ $? -ne 0 ]; then
         makl_unset_var "HAVE_LIB${ID}"
         return 1
