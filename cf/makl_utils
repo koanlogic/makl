@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.24 2006/03/07 17:14:03 stewy Exp $
+# $Id: makl_utils,v 1.25 2006/03/07 18:21:24 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -141,6 +141,18 @@ makl_cleanup_rundir ()
 {
     [ -z `makl_get "__noclean__"` ] || return 
     rm -rf ${makl_run_dir}
+}
+
+##\brief Clean MaKL exit
+##
+## Exit from MaKL cleanly with return code $1
+##
+##  \param $1 - the return code
+## 
+makl_die ()
+{
+    makl_cleanup_rundir
+    exit $1
 }
 
 ##\brief Yes/No Question.

@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.31 2006/03/07 17:19:21 stewy Exp $
+# $Id: makl_args_handle,v 1.32 2006/03/07 18:21:24 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -19,12 +19,12 @@ makl_args_init ()
                 makl_set "__noconfig__"
                 if [ -r configure.help ]; then
                     cat configure.help
-                    exit 0
+                    makl_die 0
                 fi
                 ;;
             -V | --version)
                 __makl_version
-                exit 1
+                makl_die 0
                 ;;
             -v | --verbose)
                 __makl_verbose
@@ -50,7 +50,7 @@ makl_args_handle ()
         case ${arg} in 
             -h)
                 __makl_help
-                exit 1
+                makl_die 0
                 ;;
             -g)
                 __makl_help_gen  
