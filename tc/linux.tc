@@ -1,16 +1,8 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux.tc,v 1.4 2006/01/31 13:52:02 tat Exp $
+# $Id: linux.tc,v 1.5 2006/03/11 21:45:46 tat Exp $
 
 # cc is GCC 3.3.4
 CC = gcc
-CFLAGS = -pipe
-# ar, ranlib, strip and ld are GNU binutils 2.14.90.0.7 
-# install is install (coreutils) 5.2.1
-# there is no mkdep here
-MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
-# mkinstalldirs is mkdir -p
-MKINSTALLDIRS = /bin/mkdir -p
-# Found a SUSE without lorder ...
-LORDER = ${MAKL_DIR}/helpers/lorder
+CFLAGS = -O2 -pipe

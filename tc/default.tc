@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.13 2006/03/06 21:46:54 tho Exp $
+# $Id: default.tc,v 1.14 2006/03/11 21:45:46 tat Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -15,15 +15,16 @@ LD = ld
 LDFLAGS = __UNSET__
 ECHO = echo
 NM = nm
-MKDEP = mkdep
 STRIP = strip
 STRIP_FLAGS = -x
 INSTALL = install
 INSTALL_COPY = -c
 INSTALL_STRIP = -s
-MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
-LORDER = lorder
 TSORT = tsort
 # avoid circular dependencies error
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group
+MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
+MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
+LORDER = ${MAKL_DIR}/helpers/lorder
+
