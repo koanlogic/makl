@@ -1,9 +1,10 @@
 #
-# $Id: makl_func_strerror_r,v 1.6 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_func_strerror_r,v 1.7 2006/03/21 20:02:39 stewy Exp $
 #
 
 #\brief Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P
-#       if it returns a char pointer (returns int on some systems).
+#       if it returns a char pointer (e.g. default glibc default on Linux)
+#       instead of an int.
 #       $1 determines whether the feature is optional or required.
 #   
 #   \param $1 0:optional,1:required
@@ -12,7 +13,7 @@ makl_func_strerror_r ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
 
-    makl_dbg "checking for function 'strerror_r'"
+    makl_info "checking for function strerror_r"
 
     # test function compilation 
     ${ECHO} "
@@ -21,25 +22,27 @@ makl_func_strerror_r ()
     " | makl_compile_code 1
 
     if [ $? = 0 ]; then
+
+        makl_set_var_h "HAVE_STRERROR_R"
         
         # Determine whether strerror_r returns a char* or an int by forcing a
-        # char* return value with extern() and using isalpha() on the returned string.
-        # A bus error may be caused if the return value is not a string.
+        # int return value with extern() and assuming that the return value will
+        # be a non-null string in the first case and will always be 0 in the 
+        # second case
         ${ECHO} "
-            extern char *strerror_r();
-        
+            #include <sys/errno.h>
+
+            extern int strerror_r(); 
+
             int main() {
-                char buf[100];
-                char x = *strerror_r(0, buf, sizeof(buf));
-                return (!isalpha(x));
+                char buf[1024];
+                return ((strerror_r(EACCES, buf, sizeof(buf)) == 0));
             }
         " | makl_exec_code 0
 
         if [ $? = 0 ]; then
             makl_set_var_h "STRERROR_R_CHAR_P"
         fi
-
-        makl_set_var_h "HAVE_STRERROR_R"
 
         return 0
     else

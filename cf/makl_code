@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.20 2006/02/28 15:44:04 stewy Exp $
+# $Id: makl_code,v 1.21 2006/03/21 20:02:38 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -103,13 +103,13 @@ makl_exec_code ()
     # skip execution on cross-compilation
     [ -z `makl_get "__cross_compile__"` ] || return 0
 
-    cd ${makl_run_dir} && eval out > /dev/null 2> /dev/null
+    cd ${makl_run_dir} && eval ./out > /dev/null 2> /dev/null
     if [ $? -ne 0 ]; then 
         cd ${cwd}
         return 2
     fi
 
-    cd ${cwd}   
+    cd ${cwd}
     return 0
 }
 
