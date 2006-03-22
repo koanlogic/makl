@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.14 2006/03/11 21:45:46 tat Exp $
+# $Id: default.tc,v 1.15 2006/03/22 18:01:09 tho Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -9,7 +9,7 @@ CXX = g++
 CFLAGS = -O -pipe
 CXXFLAGS = ${CFLAGS}
 AR = ar
-ARFLAGS = rl
+ARFLAGS = cq
 RANLIB = ranlib
 LD = ld
 LDFLAGS = __UNSET__
