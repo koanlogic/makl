@@ -1,4 +1,4 @@
-# $Id: qnx-arm.tc,v 1.1 2006/03/22 14:29:39 tat Exp $
+# $Id: qnx-arm.tc,v 1.2 2006/03/22 14:39:29 tat Exp $
 #
 # QNX ARM be toolchain
 
@@ -8,10 +8,9 @@ AR = qcc -V gcc_ntoarmbe -A
 ARFLAGS = 
 LDFLAGS = -lsocket
 
-# RANLIB don't needed
-RANLIB = echo
+RANLIB = ntoarm-ranlib
+STRIP = ntoarm-strip
 
 # qcc uses -M for map files
 MKDEP_CPP = ntoarm-gcc -E
-STRIP = ntoarm-strip
 
