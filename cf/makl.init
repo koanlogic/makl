@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.16 2006/03/22 11:38:28 stewy Exp $
+# $Id: makl.init,v 1.17 2006/03/22 14:53:02 stewy Exp $
 #
 
 # read in just once
@@ -33,12 +33,11 @@ done
 # show global variables' values
 makl_dbg_globals
 
-# create the makl run dir, if it doesn't exist
+# create a fresh makl run dir
 if [ -d ${makl_run_dir} ]; then
-    makl_dbg "makl_run_dir already in place"
-else
-    mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
+    rm -rf ${makl_run_dir}
 fi
+mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
 
 # save the environment 
 env > ${makl_run_dir}/env
