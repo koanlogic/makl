@@ -1,0 +1,17 @@
+# $Id: qnx-mips.tc,v 1.1 2006/03/22 14:29:39 tat Exp $
+#
+# QNX MIPS be toolchain
+
+CC = qcc -V gcc_ntomipsbe
+CXX = QCC -V gcc_ntomipsbe
+AR = qcc -V gcc_ntomipsbe -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+# RANLIB don't needed
+RANLIB = echo
+
+# qcc uses -M for map files
+MKDEP_CPP = ntomips-gcc -E
+STRIP = ntomips-strip
+
