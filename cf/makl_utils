@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.25 2006/03/07 18:21:24 stewy Exp $
+# $Id: makl_utils,v 1.26 2006/03/22 11:38:28 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -120,6 +120,32 @@ makl_dbg_globals ()
     makl_dbg "makl_run_dir: ${makl_run_dir}"
     makl_dbg "makl_conf_h: ${makl_conf_h}"
     makl_dbg "makl_makefile_conf: ${makl_makefile_conf}"
+}
+
+##\brief Tool requirements check
+##
+##  Check existence of basic tool requirements.
+##
+##  \param $1 0 if tools don't use stdin, 1 otherwise
+##  \param $@ list of tools
+##
+makl_check_tools ()
+{
+    has_stdin=0
+    [ $1 -eq 0 ] || has_stdin=1
+    shift
+    
+    for tool in "$@"; do
+        if [ ${has_stdin} -eq 0 ]; then
+            eval ${tool} 1> /dev/null 2> /dev/null
+        else
+            eval echo | ${tool} 1> /dev/null 2> /dev/null
+        fi
+        if [ $? = 127 ]; then
+            ${ECHO} "required tool not found: ${tool}!"
+            exit 2
+        fi
+    done
 }
 
 ##\brief Transform lower case letters into upper case letters.
