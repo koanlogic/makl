@@ -1,11 +1,10 @@
-# $Id: m68k-linux.tc,v 1.3 2006/03/06 21:46:54 tho Exp $
+# $Id: m68k-linux.tc,v 1.4 2006/03/23 21:52:03 tat Exp $
 #
 # m68k-linux GNU toolchain.
 
 CC = m68k-linux-gcc
 CXX = m68k-linux-g++
 AR = m68k-linux-ar
-ARFLAGS = m68k-linux-rl
 RANLIB = m68k-linux-ranlib
 LD = m68k-linux-ld
 NM = m68k-linux-nm

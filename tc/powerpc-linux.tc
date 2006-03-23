@@ -1,11 +1,10 @@
-# $Id: powerpc-linux.tc,v 1.3 2006/03/06 21:46:54 tho Exp $
+# $Id: powerpc-linux.tc,v 1.4 2006/03/23 21:52:03 tat Exp $
 #
 # powerpc-linux GNU toolchain.
 
 CC = powerpc-linux-gcc
 CXX = powerpc-linux-g++
 AR = powerpc-linux-ar
-ARFLAGS = powerpc-linux-rl
 RANLIB = powerpc-linux-ranlib
 LD = powerpc-linux-ld
 NM = powerpc-linux-nm
