@@ -1,0 +1,16 @@
+# $Id: qnx-ppcbe.tc,v 1.1 2006/03/25 11:25:24 tat Exp $
+#
+# QNX PowerPC big-endian toolchain
+
+CC = qcc -V gcc_ntoppcbe
+CXX = QCC -V gcc_ntoppcbe
+AR = qcc -V gcc_ntoppcbe -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+RANLIB = ntoppc-ranlib
+STRIP = ntoppc-strip
+
+# qcc uses -M for map files
+MKDEP_CPP = ntoppc-gcc -E
+

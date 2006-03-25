@@ -1,0 +1,16 @@
+# $Id: qnx-shle.tc,v 1.1 2006/03/25 11:25:24 tat Exp $
+#
+# QNX SH little-endian toolchain
+
+CC = qcc -V gcc_ntoshle
+CXX = QCC -V gcc_ntoshle
+AR = qcc -V gcc_ntoshle -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+RANLIB = ntosh-ranlib
+STRIP = ntosh-strip
+
+# qcc uses -M for map files
+MKDEP_CPP = ntosh-gcc -E
+

@@ -1,0 +1,16 @@
+# $Id: qnx-mipsle.tc,v 1.1 2006/03/25 11:25:24 tat Exp $
+#
+# QNX MIPS little-endian toolchain
+
+CC = qcc -V gcc_ntomipsle
+CXX = QCC -V gcc_ntomipsle
+AR = qcc -V gcc_ntomipsle -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+RANLIB = ntomips-ranlib
+STRIP = ntomips-strip
+
+# qcc uses -M for map files
+MKDEP_CPP = ntomips-gcc -E
+

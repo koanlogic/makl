@@ -1,6 +1,6 @@
-# $Id: qnx-mips.tc,v 1.2 2006/03/22 14:39:29 tat Exp $
+# $Id: qnx-mipsbe.tc,v 1.1 2006/03/25 11:25:24 tat Exp $
 #
-# QNX MIPS be toolchain
+# QNX MIPS big-endian toolchain
 
 CC = qcc -V gcc_ntomipsbe
 CXX = QCC -V gcc_ntomipsbe

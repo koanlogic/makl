@@ -1,0 +1,16 @@
+# $Id: qnx-armle.tc,v 1.1 2006/03/25 11:25:24 tat Exp $
+#
+# QNX ARM little-endian toolchain
+
+CC = qcc -V gcc_ntoarmle
+CXX = QCC -V gcc_ntoarmle
+AR = qcc -V gcc_ntoarmle -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+RANLIB = ntoarm-ranlib
+STRIP = ntoarm-strip
+
+# qcc uses -M for map files
+MKDEP_CPP = ntoarm-gcc -E
+
