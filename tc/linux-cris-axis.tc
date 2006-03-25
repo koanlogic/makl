@@ -1,4 +1,4 @@
-# $Id: cris-axis-linux.tc,v 1.1 2006/03/25 12:25:09 tat Exp $
+# $Id: linux-cris-axis.tc,v 1.1 2006/03/25 13:14:48 tat Exp $
 #
 # Axis ETRAX cris toolchain (see FOX board: www.acmesystems.it)
 

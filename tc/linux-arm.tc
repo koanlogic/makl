@@ -1,4 +1,4 @@
-# $Id: arm-linux.tc,v 1.6 2006/03/23 21:52:03 tat Exp $
+# $Id: linux-arm.tc,v 1.1 2006/03/25 13:14:48 tat Exp $
 #
 # arm-linux GNU toolchain.
 

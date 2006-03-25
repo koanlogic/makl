@@ -1,4 +1,4 @@
-# $Id: m68k-linux.tc,v 1.4 2006/03/23 21:52:03 tat Exp $
+# $Id: linux-m68k.tc,v 1.1 2006/03/25 13:14:48 tat Exp $
 #
 # m68k-linux GNU toolchain.
 

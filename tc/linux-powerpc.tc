@@ -1,4 +1,4 @@
-# $Id: powerpc-linux.tc,v 1.4 2006/03/23 21:52:03 tat Exp $
+# $Id: linux-powerpc.tc,v 1.1 2006/03/25 13:14:48 tat Exp $
 #
 # powerpc-linux GNU toolchain.
 
