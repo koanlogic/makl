@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.26 2006/03/22 11:38:28 stewy Exp $
+# $Id: makl_utils,v 1.27 2006/03/25 13:03:04 tat Exp $
 #
 
 ##\brief Set the package name.
@@ -56,6 +56,20 @@ makl_pkg_version ()
 makl_os_name ()
 {
     uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
+}
+
+##\brief Print the target OS name.
+## 
+##  Print a brief string representing the target operating system type and 
+##  version.
+##
+makl_target_name ()
+{
+    if [ -z "${MAKL_PLATFORM}" ];  then
+        uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
+    else
+        echo "${MAKL_PLATFORM}" | tr '[A-Z]' '[a-z]' 
+    fi
 }
 
 ##\brief Write a message and exit.
