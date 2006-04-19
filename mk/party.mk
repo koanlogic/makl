@@ -1,11 +1,10 @@
 #
-# $Id: party.mk,v 1.6 2006/04/19 09:06:24 stewy Exp $
+# $Id: party.mk,v 1.7 2006/04/19 16:37:56 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
 # - PARTY_FILE  Package filename
 # - PARTY_BASE  Base directory for build 
-# - PARTY_DEP   Dependency file used to determine whether target is up to date
 # - PARTY_CONF  Configure script to be used
 # - PARTY_ARGS  Arguments to be passed to configure script
 #
@@ -15,53 +14,95 @@
 PARTY_CONF ?= ./configure
 PARTY_DECOMP ?= tar
 PARTY_DECOMP_ARGS ?= xzvf
+PARTY_DOWN ?= wget --passive-ftp
+PARTY_CHK ?= md5
 PARTY_LOG ?= party.log
 PARTY_BASE ?= ${PARTY_NAME}
 PARTY_FILE ?= ${PARTY_NAME}.tar.gz
+PARTY_FILE_CHK ?= ${PARTY_FILE}.md5
 
-all: pre conf make install
+all: ${PARTY_FILE} ${PARTY_FILE_CHK} ${PARTY_BASE} conf make install
 
-pre:
+${PARTY_FILE}: 
 	[ ! -e ${PARTY_LOG} ] || rm -f ${PARTY_LOG}
+ifndef PARTY_NO_DOWN
+	@echo "downloading ${PARTY_FILE} from ${PARTY_URL}"
+	${PARTY_DOWN} ${PARTY_URL}/${PARTY_FILE} \
+      1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+endif
+
+${PARTY_FILE_CHK}:
+ifndef PARTY_NO_CHK
+ifndef PARTY_NO_DOWN
+	@echo "downloading checksum file ${PARTY_FILE_CHK}"
+	${PARTY_DOWN} ${PARTY_URL}/${PARTY_FILE_CHK} \
+      1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+endif
+	@echo "verifying checksum for ${PARTY_FILE}"
+	${PARTY_CHK} ${PARTY_FILE} | cut -f 2 -d "=" | sed 's/^[ \t]*//' \
+      > ${PARTY_FILE_CHK}.vfy 2>> ${PARTY_LOG}
+	cat ${PARTY_FILE_CHK} | cut -f 2 -d "=" | sed 's/^[ \t]*//' \
+      > ${PARTY_FILE_CHK}.chk 2>> ${PARTY_LOG}
+	diff ${PARTY_FILE_CHK}.vfy ${PARTY_FILE_CHK}.chk
+endif
+  
+${PARTY_BASE}:
 ifndef PARTY_NO_DECOMP
 	@echo "decompressing ${PARTY_NAME}"
 	${PARTY_DECOMP} ${PARTY_DECOMP_ARGS} ${PARTY_FILE} \
       1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
 endif
+ifdef PARTY_PATCH
+	patch -d ${PARTY_BASE} -p1 < ${PARTY_PATCH}
+endif
 
-conf: beforeconf realconf afterconf
+conf: beforeconf .realconf afterconf
 beforeconf:
-realconf:
+.realconf:
 ifndef PARTY_NO_CONF
 	@echo "configuring ${PARTY_NAME}"
 	cd ${PARTY_BASE} && ${PARTY_CONF} ${PARTY_ARGS} \
       1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+	touch .realconf
 endif
 afterconf:
 
-make:
+make: .realmake
+.realmake:
 ifndef PARTY_NO_MAKE
 	@echo "building ${PARTY_NAME}"
 	${MAKE} -C ${PARTY_BASE} >> ${PARTY_LOG} \
       1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+	touch .make
 endif
 
-install: beforeinstall realinstall afterinstall
+install: beforeinstall .realinstall afterinstall
 beforeinstall:
-realinstall:
+.realinstall:
 ifndef PARTY_NO_INSTALL
 	@echo "installing ${PARTY_NAME}"
 	${MAKE} -C ${PARTY_BASE} install >> ${PARTY_LOG} \
       1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+	touch .realinstall
 endif
 afterinstall:
 
 clean:
-ifndef PARTY_NO_DECOMP
 	@echo "cleaning ${PARTY_NAME}"
-	rm -rf ${PARTY_BASE} \
-      1>> ${PARTY_LOG} 2>> ${PARTY_LOG}
+ifndef PARTY_NO_DECOMP
+	rm -rf ${PARTY_BASE} 
 endif
+	rm -f .realconf 
+	rm -f .realmake
+	rm -f .realinstall
+
+purge: clean
+	@echo "purging ${PARTY_NAME}"
+ifndef PARTY_NO_DOWN
+	rm -f ${PARTY_FILE} 
+	rm -f ${PARTY_FILE_CHK} 
+endif  
+	rm -f ${PARTY_FILE_CHK}.tmp 
 
 # set standard MaKL targets even if they don't do anything
 install uninstall depend cleandepend:
