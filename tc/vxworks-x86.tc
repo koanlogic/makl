@@ -1,0 +1,14 @@
+# $Id: vxworks-x86.tc,v 1.1 2006/04/20 10:53:08 tat Exp $
+#
+# VxWorks x86 toolchain (little-endian, ELF, hardware floating point)
+#
+CC = dcc
+LD = dld
+AR = dar
+CFLAGS = -tX86LH
+MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
+MKINSTALLDIRS = /bin/mkdir -p
+LORDER = echo
+TSORT = cat
+RANLIB = echo
+
