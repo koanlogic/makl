@@ -1,0 +1,16 @@
+# $Id: vxworks-default.tc,v 1.1 2006/04/20 11:03:13 tat Exp $
+#
+# VxWorks toolchain for the default platform
+# 
+# Use "dctrl -t" to set/change the target platform
+#
+CC = dcc
+LD = dld
+AR = dar
+CFLAGS = 
+MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
+MKINSTALLDIRS = /bin/mkdir -p
+LORDER = echo
+TSORT = cat
+RANLIB = echo
+
