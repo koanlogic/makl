@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.23 2006/04/20 12:31:59 tat Exp $
+# $Id: makl_code,v 1.24 2006/04/21 12:45:54 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -197,9 +197,12 @@ makl_checktype ()
         for arg in $*; do
             ${ECHO} "#include ${arg}"
         done
+        # on some systems (e.g. VxWorks) type checks are not picked up correctly
+        # by the compiler, so force a check using sizeof() */
         ${ECHO} "
             int main() {
                 ${type} x;
+                return (sizeof(${type}) && 0);  
             }" 
     } | makl_compile_code 0 
 
