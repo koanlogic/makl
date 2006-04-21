@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.24 2006/04/21 12:45:54 stewy Exp $
+# $Id: makl_code,v 1.25 2006/04/21 13:20:07 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -205,6 +205,9 @@ makl_checktype ()
                 return (sizeof(${type}) && 0);  
             }" 
     } | makl_compile_code 0 
+
+    # substitute whitespace with underscores 
+    type=`${ECHO} ${type} | sed 's/\ /_/g'`
 
     if [ $? = 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${type}`
