@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.17 2006/03/22 14:53:02 stewy Exp $
+# $Id: makl.init,v 1.18 2006/04/21 12:26:59 stewy Exp $
 #
 
 # read in just once
@@ -48,9 +48,3 @@ env > ${makl_run_dir}/env
 
 # pass the control to the user.
 fi
-
-# check basic commands
-makl_info "checking for basic required tools"
-makl_check_tools 0 "${CC}" "${CXX}" "${AR}" "${RANLIB}" "${LD}" "${ECHO}" \
-                   "${NM}" "${STRIP}" "${INSTALL}"
-makl_check_tools 1 "${TSORT}"

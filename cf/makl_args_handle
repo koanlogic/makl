@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.32 2006/03/07 18:21:24 stewy Exp $
+# $Id: makl_args_handle,v 1.33 2006/04/21 12:26:59 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -31,6 +31,13 @@ makl_args_init ()
                 ;;
         esac
     done
+
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_info "checking for basic required tools"
+    makl_check_tools 0 "${CC}" "${CXX}" "${AR}" "${RANLIB}" "${LD}" "${ECHO}" \
+                       "${NM}" "${STRIP}" "${INSTALL}"
+    makl_check_tools 1 "${TSORT}"
 }
 
 ##\brief Process the configure command-line arguments. 
