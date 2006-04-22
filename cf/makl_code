@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.25 2006/04/21 13:20:07 stewy Exp $
+# $Id: makl_code,v 1.26 2006/04/22 08:43:23 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -193,6 +193,9 @@ makl_checktype ()
     shift
     shift
 
+    # substitute whitespace with underscores 
+    def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
+
     {
         for arg in $*; do
             ${ECHO} "#include ${arg}"
@@ -206,15 +209,12 @@ makl_checktype ()
             }" 
     } | makl_compile_code 0 
 
-    # substitute whitespace with underscores 
-    type=`${ECHO} ${type} | sed 's/\ /_/g'`
-
     if [ $? = 0 ]; then
-        makl_set_var "HAVE_"`makl_upper ${type}`
+        makl_set_var "HAVE_"`makl_upper ${def_type}`
         return 0
     else
         [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!" 
-        makl_unset_var "HAVE_"`makl_upper ${type}`
+        makl_unset_var "HAVE_"`makl_upper ${def_type}`
         makl_warn "failed check on optional type $2"
         return 1
     fi
