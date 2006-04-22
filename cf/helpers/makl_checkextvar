@@ -1,8 +1,8 @@
 #
-# $Id: makl_checkextvar,v 1.1 2006/04/22 11:57:47 tat Exp $
+# $Id: makl_checkextvar,v 1.2 2006/04/22 13:54:45 tat Exp $
 #
 
-##\brief Check if an extern variable is defined.
+##\brief Check if an extern variable is available
 ##
 ##  Define HAVE_$2 if the supplied extern variable is defined.
 ##
@@ -20,6 +20,7 @@ makl_checkextvar ()
 
     {
         ${ECHO} "
+            extern void* $2;
             int main() {    
                 void *_v = $2 ; 
                 return 0;
