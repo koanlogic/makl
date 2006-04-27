@@ -1,19 +1,19 @@
-$Id: ChangeLog,v 1.6 2006/04/27 11:32:04 stewy Exp $
+$Id: ChangeLog,v 1.7 2006/04/27 12:06:21 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.2.0:
-	- QNX toolchains added (arm, mips, ppc, sh)
-	- VxWorks toolchains added (DCC compiler)
-	- toolchain names changed to OS-CPU.tc
-	- new make target: purge
-	- party.mk: added decompression, download and integrity check targets, split
-    steps more cleanly, state check
-	- bug fix: strip LIB name before using it
-	- makl_check_tools, makl_checktmzone, makl_checkinline, makl_checkextvar,
-	  makl_target_name added
-  - minor bug fixes (forced type checks for VxWorks, whitespace in type-based
-    variable generation)
+    - QNX toolchains added (ARM, MIPS, PPC, SH)
+    - VxWorks toolchains added (DCC compiler)
+    - toolchain names changed to OS-CPU.tc
+    - new make target: purge
+    - party.mk: added decompression, download and integrity check targets, 
+      split steps more cleanly, state check
+    - bug fix: strip LIB name before using it
+    - makl_check_tools, makl_checktmzone, makl_checkinline, makl_checkextvar,
+      makl_target_name added
+    - minor bug fixes (forced type checks for VxWorks, whitespace in type-based
+      variable generation)
 
 MaKL 1.1.1:
     - by default use MKINSTALLDIRS, MKDEP and LORDER from makl/helpers/
