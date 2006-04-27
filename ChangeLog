@@ -1,6 +1,17 @@
-$Id: ChangeLog,v 1.4 2006/03/11 22:28:47 tho Exp $
+$Id: ChangeLog,v 1.5 2006/04/27 10:58:57 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+
+MaKL 1.2.0:
+	- QNX toolchains added (arm, mips, ppc, sh)
+	- VxWorks toolchains added (DCC compiler)
+	- toolchain names changed to OS-CPU.tc
+	- new make target: purge
+	- [3rd party stuff]
+	- bug fix: strip LIB name before using it
+	- makl_check_tools, makl_checktmzone, makl_checkinline, makl_checkextvar,
+	  makl_target_name added
+	- minor bug fixes
 
 MaKL 1.1.1:
     - by default use MKINSTALLDIRS, MKDEP and LORDER from makl/helpers/
