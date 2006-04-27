@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.8 2006/04/27 17:27:00 stewy Exp $
+# $Id: party.mk,v 1.9 2006/04/27 23:47:25 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -37,6 +37,8 @@ ifndef PARTY_NO_DOWN
 endif
 
 ${PARTY_FILE_CHK}:
+# disable temporarily
+ifdef 0
 ifndef PARTY_NO_CHK
 ifndef PARTY_NO_DOWN
 	@echo "downloading ${PARTY_NAME} checksum file ${PARTY_FILE_CHK}"
@@ -49,6 +51,7 @@ endif
 	@cat ${PARTY_FILE_CHK} | cut -f 2 -d "=" | sed 's/^[ \t]*//' \
       > ${PARTY_FILE_CHK}.chk 2>> ${PARTY_LOG}
 	@diff ${PARTY_FILE_CHK}.vfy ${PARTY_FILE_CHK}.chk
+endif
 endif
   
 ${PARTY_BASE}:
