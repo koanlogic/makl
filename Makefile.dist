@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.4 2006/03/02 16:56:09 tho Exp $
+# $Id: Makefile.dist,v 1.5 2006/04/27 13:12:07 stewy Exp $
 
 include common.mk
 
@@ -8,7 +8,7 @@ PKG_VERSION = $(shell cat VERSION)
 DISTFILES = Makefile VERSION README LICENSE ChangeLog
 
 # auto configuration (cf files)
-DISTFILES += $(wildcard cf/makl*) cf/helpers/makl_func_strerror_r
+DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 
 # build (mk files)
 DISTFILES += $(wildcard mk/*.mk) Makefile
