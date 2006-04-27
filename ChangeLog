@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.5 2006/04/27 10:58:57 tat Exp $
+$Id: ChangeLog,v 1.6 2006/04/27 11:32:04 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
@@ -7,11 +7,13 @@ MaKL 1.2.0:
 	- VxWorks toolchains added (DCC compiler)
 	- toolchain names changed to OS-CPU.tc
 	- new make target: purge
-	- [3rd party stuff]
+	- party.mk: added decompression, download and integrity check targets, split
+    steps more cleanly, state check
 	- bug fix: strip LIB name before using it
 	- makl_check_tools, makl_checktmzone, makl_checkinline, makl_checkextvar,
 	  makl_target_name added
-	- minor bug fixes
+  - minor bug fixes (forced type checks for VxWorks, whitespace in type-based
+    variable generation)
 
 MaKL 1.1.1:
     - by default use MKINSTALLDIRS, MKDEP and LORDER from makl/helpers/
