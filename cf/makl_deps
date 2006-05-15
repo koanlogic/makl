@@ -1,5 +1,5 @@
 #
-# $Id: makl_deps,v 1.21 2006/03/04 10:34:50 stewy Exp $
+# $Id: makl_deps,v 1.22 2006/05/15 14:56:56 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -290,4 +290,17 @@ makl_lib_testcode ()
     while read line; do
         ${ECHO} ${line} >> ${file}
     done
+}
+
+## \brief Check dependencies
+##
+## This function is called on termination to check dependencies and generate 
+## appropriate variables.
+## 
+_makl_deps_check ()
+{
+    [ -z `makl_get "__noconfig__"` ] || return
+    makl_info "checking dependencies"
+    _makl_require_check "lib"
+    _makl_require_check "featx"
 }
