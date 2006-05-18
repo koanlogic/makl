@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.28 2006/05/18 14:16:44 stewy Exp $
+# $Id: makl_utils,v 1.29 2006/05/18 21:12:44 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -253,8 +253,8 @@ makl_set_dirs()
     makl_set_var "LIBDIR"   $1/lib 1
     makl_set_var "SHLIBDIR" $1/lib 1
     makl_set_var "LIBEXDIR" $1/libexec 1
-    makl_set_var "VARDIR"   $1/bin 1
-    makl_set_var "SHAREDIR" $1/bin 1
+    makl_set_var "VARDIR"   $1/var 1
+    makl_set_var "SHAREDIR" $1/share 1
     makl_set_var "MANDIR"   `makl_get_var_mk "SHAREDIR"`/man 1
-    makl_set_var "DOCDIR"   `makl_get_var_mk "DOCDIR"`/doc 1
+    makl_set_var "DOCDIR"   `makl_get_var_mk "SHAREDIR"`/doc 1
 }
