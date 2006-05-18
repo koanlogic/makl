@@ -1,5 +1,5 @@
 #
-# $Id: map.mk,v 1.2 2006/01/09 15:33:49 tho Exp $
+# $Id: map.mk,v 1.3 2006/05/18 12:13:17 stewy Exp $
 #
 # Default pathnames and credentials needed by install targets.
 # Change them at your convenience.
@@ -15,16 +15,36 @@ BINGRP    ?= ${DEFGRP}
 BINMODE   ?= 555
 NOBINMODE ?= ${DEFMODE}
 
+SBINDIR   ?= ${DESTDIR}/sbin
+SBINOWN   ?= ${DEFOWN}
+SBINGRP   ?= ${DEFGRP}
+SBINMODE  ?= ${BINMODE}
+
+CONFDIR   ?= ${DESTDIR}/etc
+CONFOWN   ?= ${DEFOWN}
+CONFGRP   ?= ${DEFGRP}
+CONFMODE  ?= ${NOBINMODE}
+
 INCDIR    ?= ${DESTDIR}/include
 INCOWN    ?= ${DEFOWN}
 INCGRP    ?= ${DEFGRP}
-INCMODE   ?= ${DEFMODE}
+INCMODE   ?= ${NOBINMODE}
 
 LIBDIR    ?= ${DESTDIR}/lib
 SHLIBDIR  ?= ${LIBDIR}
 LIBOWN    ?= ${BINOWN}
 LIBGRP    ?= ${BINGRP}
 LIBMODE   ?= ${NOBINMODE}
+
+LIBEXDIR  ?= ${DESTDIR}/libexec
+LIBEXOWN  ?= ${DEFOWN}
+LIBEXGRP  ?= ${DEFGRP}
+LIBEXMODE ?= ${BINMODE}
+
+VARDIR    ?= ${DESTDIR}/var
+VAROWN    ?= ${DEFOWN}
+VARGRP    ?= ${DEFGRP}
+VARMODE   ?= ${NOBINMODE}
 
 SHAREDIR  ?= ${DESTDIR}/share
 SHAREOWN  ?= ${DEFOWN}
