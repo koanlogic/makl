@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.8 2006/03/02 10:43:32 stewy Exp $
+# $Id: args.cf,v 1.9 2006/05/18 14:16:44 stewy Exp $
 #
 
 # general settings
@@ -37,13 +37,26 @@ makl_args_def   "dir" \
                 "-X=BASE" \
                 "" \
                 "set BASE directory for X"
-makl_args_add   "dir" "bin"     "BASE=/usr/local/bin"       "" "binaries"
-makl_args_add   "dir" "sbin"    "BASE=/usr/local/sbin"      "" "system binaries"
-makl_args_add   "dir" "inc"     "BASE=/usr/local/include"   "" "includes"
-makl_args_add   "dir" "lib"     "BASE=/usr/local/lib"       "" "libraries"
-makl_args_add   "dir" "share"   "BASE=/usr/local/share"     "" "shared data"
-makl_args_add   "dir" "man"     "BASE=/usr/local/man"       "" "man pages"
-makl_args_add   "dir" "doc"     "BASE=/usr/local/doc"       "" "documentation"
+makl_args_add   "dir" "bin"     "BASE=/usr/local/bin"       "" \
+                "binaries"
+makl_args_add   "dir" "sbin"    "BASE=/usr/local/sbin"      "" \
+                "system binaries"
+makl_args_add   "dir" "conf"    "BASE=/usr/local/conf"      "" \
+                "configuration"
+makl_args_add   "dir" "inc"     "BASE=/usr/local/includes"  "" \
+                "includes"
+makl_args_add   "dir" "lib"     "BASE=/usr/local/lib"       "" \
+                "libraries"
+makl_args_add   "dir" "libex"   "BASE=/usr/local/libexec"   "" \
+                "executables run by programmes"
+makl_args_add   "dir" "var"     "BASE=/usr/local/var"       "" \
+                "various"  
+makl_args_add   "dir" "share"   "BASE=/usr/local/share"     "" \
+                "shared data"
+makl_args_add   "dir" "man"     "BASE=/usr/local/share/man" "" \
+                "man pages"
+makl_args_add   "dir" "doc"     "BASE=/usr/local/share/doc" "" \
+                "documentation"
 makl_args_def   "defown" \
                 "=USERID" \
                 "" \

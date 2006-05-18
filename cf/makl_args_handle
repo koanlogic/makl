@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.35 2006/05/15 14:56:56 stewy Exp $
+# $Id: makl_args_handle,v 1.36 2006/05/18 14:16:44 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -55,14 +55,14 @@ makl_args_handle ()
         pref=`${ECHO} ${arg} | cut -c1,2`
         cmd=`${ECHO} ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
         case ${arg} in 
-            -h)
+            -h | --help)
                 __makl_help
                 makl_die 0
                 ;;
-            -g)
+            -g | --help_gen)
                 __makl_help_gen  
                 ;;
-            -v)
+            -v | --version)
                 ;;
             *)
                 [ ${pref} = "--" ] || _makl_args_err "Undefined command: ${arg}!"
@@ -217,7 +217,7 @@ __makl_prefix ()
 {
     [ $# -eq 1 ] || _makl_args_err "--prefix: wrong number of arguments!"
     
-    makl_set_var_mk "DESTDIR" $1
+    makl_set_dirs $1
 }
 
 ##\brief Handler. Set the base directory for a specific data type.
@@ -238,7 +238,7 @@ __makl_dir ()
     
     [ $? = 0 ] || makl_err 2 "_makl_dir: Bad directory type: $1"
     
-    makl_set_var_mk `makl_upper $1`"DIR" $2
+    makl_set_var `makl_upper $1`"DIR" $2 1
 }
 
 ##\brief Handler. Set default file owner id.
