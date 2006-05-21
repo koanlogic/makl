@@ -1,5 +1,5 @@
 #
-# $Id: vars.cf,v 1.3 2006/05/18 14:16:44 stewy Exp $
+# $Id: vars.cf,v 1.4 2006/05/21 11:03:24 stewy Exp $
 #
 
 
@@ -10,6 +10,9 @@ makl_vars_def       "cf"    "Internal configuration vars"
 
 
 # Set defaults
+
+# default language is C
+makl_set    "__C__" 1
 
 # installation directory
 makl_set_dirs       "/usr/local" 

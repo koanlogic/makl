@@ -1,6 +1,35 @@
 #
-# $Id: makl_utils,v 1.29 2006/05/18 21:12:44 stewy Exp $
+# $Id: makl_utils,v 1.30 2006/05/21 11:03:24 stewy Exp $
 #
+
+##\brief Set the language(s).
+##
+##  Set the configuration output language(s) to arguments \e @*
+##
+##   \param $* language identifiers
+##
+makl_languages ()
+{
+    langs="__C__ __CPP__ __PYTHON__"
+
+    makl_unset "__C__"
+    
+    for lang in $*; do 
+        var=__`makl_upper $lang`__
+        ok=0
+        for l in ${langs}; do
+            if [ "${l}" = "${var}" ]; then
+                ok=1 
+                break
+            fi 
+        done
+        if [ ${ok} = 1 ]; then 
+            makl_set ${var} 1
+        else
+            makl_err 1 "makl_languages(): unsupported language: '${lang}'"
+        fi
+    done    
+}
 
 ##\brief Set the package name.
 ##

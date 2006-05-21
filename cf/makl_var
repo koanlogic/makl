@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.16 2006/03/02 11:15:26 stewy Exp $
+# $Id: makl_var,v 1.17 2006/05/21 11:03:24 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -115,8 +115,8 @@ makl_unset_var_mk ()
 ##
 makl_set_var ()
 {
-    makl_set_var_h  $1 $2 $3
     makl_set_var_mk $1 $2 
+    makl_set_var_h $1 $2 $3
 }
 
 ##\brief Unset a variable in both makefile and header.
@@ -165,7 +165,6 @@ makl_get_var_mk ()
     return $?
 }
 
-
 ##\brief Set the value of an internal variable.
 ##
 ##  Set the value of internal variable \e $1 to \e $2.
@@ -176,6 +175,17 @@ makl_get_var_mk ()
 makl_set ()
 {
     _makl_var_set "cf" $1 1 $2
+}
+
+##\brief Unset the value of an internal variable.
+##
+##  Unset the value of internal variable \e $1.
+##
+##   \param $1 symbol to unset
+##
+makl_unset ()
+{
+    _makl_var_set "cf" "$1" 0
 }
 
 ##\brief Get the value of an internal variable.
