@@ -1,8 +1,7 @@
 #
 # Tested on GNU/Linux 2.6
 #
-# $Id: linux.tc,v 1.5 2006/03/11 21:45:46 tat Exp $
+# $Id: linux.tc,v 1.6 2006/05/22 12:42:56 stewy Exp $
 
 # cc is GCC 3.3.4
 CC = gcc
-CFLAGS = -O2 -pipe
