@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.17 2006/05/21 11:03:24 stewy Exp $
+# $Id: makl_var,v 1.18 2006/05/23 18:08:54 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -174,7 +174,22 @@ makl_get_var_mk ()
 ##
 makl_set ()
 {
-    _makl_var_set "cf" $1 1 $2
+    name=$1
+    shift
+    _makl_var_set "cf" ${name} 1 $@
+}
+
+##\brief Append the value of an internal variable.
+##
+##  Append \e $2 to the value of internal variable \e $1.
+##
+##   \param $1 name of variable
+##   \param $2 value to be appended
+##
+makl_append ()
+{
+    val=`makl_get $1`
+    makl_set $1 "${val} $2"
 }
 
 ##\brief Unset the value of an internal variable.
@@ -232,14 +247,15 @@ makl_vars_def ()
 ##   \param $1 type
 ##   \param $2 variable name 
 ##   \param $3 1:set, 0:unset
-##   \param $4 variable value
+##   \param $@ variable value
 ##
 _makl_var_set ()
 {
-    file=${makl_run_dir}/vars_$1
+    file=${makl_run_dir}/vars_$1; name=$2; set=$3
+    shift; shift; shift
 
-    makl_tab_set ${file} "$2" 2 "$3"
-    makl_tab_set ${file} "$2" 3 "$4"
+    makl_tab_set ${file} "${name}" 2 "${set}"
+    makl_tab_set ${file} "${name}" 3 "$@"
 }
 
 ##\brief Get the value of a variable.

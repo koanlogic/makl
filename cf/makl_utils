@@ -1,35 +1,6 @@
 #
-# $Id: makl_utils,v 1.30 2006/05/21 11:03:24 stewy Exp $
+# $Id: makl_utils,v 1.31 2006/05/23 18:08:54 stewy Exp $
 #
-
-##\brief Set the language(s).
-##
-##  Set the configuration output language(s) to arguments \e @*
-##
-##   \param $* language identifiers
-##
-makl_languages ()
-{
-    langs="__C__ __CPP__ __PYTHON__"
-
-    makl_unset "__C__"
-    
-    for lang in $*; do 
-        var=__`makl_upper $lang`__
-        ok=0
-        for l in ${langs}; do
-            if [ "${l}" = "${var}" ]; then
-                ok=1 
-                break
-            fi 
-        done
-        if [ ${ok} = 1 ]; then 
-            makl_set ${var} 1
-        else
-            makl_err 1 "makl_languages(): unsupported language: '${lang}'"
-        fi
-    done    
-}
 
 ##\brief Set the package name.
 ##
@@ -286,4 +257,35 @@ makl_set_dirs()
     makl_set_var "SHAREDIR" $1/share 1
     makl_set_var "MANDIR"   `makl_get_var_mk "SHAREDIR"`/man 1
     makl_set_var "DOCDIR"   `makl_get_var_mk "SHAREDIR"`/doc 1
+}
+
+## \brief Perform file substitution.
+##
+##  Substitute values in given files with Makfile variables.
+##  
+##      \param $@ the names of the output files for substitution
+##                  (corresponding .in file should exist)
+##
+makl_file_sub ()
+{
+    makl_set "__file_sub__" $*
+}
+
+_makl_file_sub ()
+{
+    subs=`makl_get "__file_sub__"`
+
+    for sub in ${subs}; do 
+        [ -r ${sub}.in ] || makl_err 2 "makl_file_sub(): could not find ${sub}.in"
+        makl_info "applying substitutions to: ${sub}"
+        cp ${sub}.in /tmp/sub.tmp
+        cat ${makl_run_dir}/vars_mk | {
+            while read var; do
+                name=`makl_tab_elem "${var}" 1`
+                val=`makl_tab_elem "${var}" 3 | sed -e "s%\/%\\\\\/%g"`
+                cat /tmp/sub.tmp | sed -e "s%@{{${name}}}%${val}%g" > /tmp/sub.tmp
+            done 
+        }
+        cp /tmp/sub.tmp ${sub}
+    done
 }

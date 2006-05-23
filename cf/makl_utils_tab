@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.12 2006/03/02 11:15:26 stewy Exp $
+# $Id: makl_utils_tab,v 1.13 2006/05/23 18:08:54 stewy Exp $
 #
 
 
@@ -28,10 +28,12 @@ makl_tab_find ()
 ##   \param $1 table file 
 ##   \param $2 id (row)
 ##   \param $3 column
-##   \param $4 value
+##   \param $@ value
 ##
 makl_tab_set ()
 { 
+    tab=$1; id=$2; col=$3
+    shift; shift; shift
     line=""
     line_n=""
     l=""
@@ -39,35 +41,35 @@ makl_tab_set ()
     i=1
 
     # create file if doesn't exist
-    [ -e $1 ] || touch $1
+    [ -e ${tab} ] || touch ${tab}
 
-    line=`grep "^$2" $1`        
+    line=`grep "^${id}" ${tab}`        
 
     if [ $? = 0 ]; then     
        # subst the value
 
        # delete the old line
-       grep -v "^$2" $1 > $1.tmp
-       mv $1.tmp $1
+       grep -v "^${id}" ${tab} > ${tab}.tmp
+       mv ${tab}.tmp ${tab}
 
        # escape the value
-       qt=`${ECHO} -n "$4" | sed 's/\//\\\\\\//g'`
+       qt=`${ECHO} -n "$@" | sed 's/\//\\\\\\//g'`
 
-       ${ECHO} "$line" | sed "s/[^|]*|/${qt}|/$3" >> $1
+       ${ECHO} "$line" | sed "s/[^|]*|/${qt}|/${col}" >> ${tab}
     else
         # add a new var
-        line_n="$2"
+        line_n="${id}"
 
         n=1
-        lim=$(($3-1))
-        while [ $n -lt $lim ]; do
+        lim=$((${col}-1))
+        while [ ${n} -lt ${lim} ]; do
             line_n="${line_n}|"
             n=$((n+1))
         done
 
-        line_n="${line_n}|$4|||||||||||"
+        line_n="${line_n}|$@|||||||||||"
 
-        ${ECHO} ${line_n} >> $1
+        ${ECHO} ${line_n} >> ${tab}
     fi
 
     return 0    
