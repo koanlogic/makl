@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.32 2006/05/23 18:53:51 stewy Exp $
+# $Id: makl_utils,v 1.33 2006/05/23 18:59:10 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -283,7 +283,6 @@ _makl_file_sub ()
             while read var; do
                 name=`makl_tab_elem "${var}" 1`
                 val=`makl_tab_elem "${var}" 3 | sed -e "s%\/%\\\\\/%g"`
-                echo ${name},${val}
                 cat /tmp/sub.tmp | sed -e "s%@{{${name}}}%${val}%g" > /tmp/sub2.tmp
                 mv /tmp/sub2.tmp /tmp/sub.tmp
             done 
