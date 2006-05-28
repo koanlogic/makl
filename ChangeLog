@@ -1,6 +1,13 @@
-$Id: ChangeLog,v 1.7 2006/04/27 12:06:21 tho Exp $
+$Id: ChangeLog,v 1.8 2006/05/28 15:59:59 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+
+MaKL 1.2.1:
+	- makl_file_sub() added
+	- optionally generate Python conf.py output 
+	- default optimization flags removed
+	- explicit directory variables (DESTDIR, BINDIR, MANDIR, etc.) added to 
+	  output config files 
 
 MaKL 1.2.0:
     - QNX toolchains added (ARM, MIPS, PPC, SH)
