@@ -1,10 +1,10 @@
-$Id: ChangeLog,v 1.8 2006/05/28 15:59:59 tat Exp $
+$Id: ChangeLog,v 1.9 2006/05/29 10:13:31 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.2.1:
 	- makl_file_sub() added
-	- optionally generate Python conf.py output 
+	- makl_tab_set() handles variable number of arguments
 	- default optimization flags removed
 	- explicit directory variables (DESTDIR, BINDIR, MANDIR, etc.) added to 
 	  output config files 
