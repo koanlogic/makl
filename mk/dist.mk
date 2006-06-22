@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.8 2006/03/03 12:03:42 tat Exp $
+# $Id: dist.mk,v 1.9 2006/06/22 10:18:36 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -10,7 +10,7 @@
 #                   distribution
 #
 # Available targets: 
-#   dist,distclean and user defined dist-hook-{pre,post}
+#   dist,distclean and user defined dist-hook-(pre,post)
 
 # TODO check that user has set PKG_* and DISTFILES variables
 # TODO remap directories/files
@@ -20,7 +20,7 @@ ZIPEXT ?= bz2
 
 MD5SUM = md5sum
 
-DISTDIR=${PKG_NAME}-${PKG_VERSION}
+DISTDIR=$(PKG_NAME)-$(PKG_VERSION)
 
 dist: dist-hook-pre realdist afterdist dist-hook-post
 
@@ -30,35 +30,35 @@ dist-hook-pre dist-hook-post:
 realdist: normaldist remapdist
 
 normaldist:
-	@for f in ${DISTFILES}; do \
+	@for f in $(DISTFILES); do \
 		dir=`dirname $$f` && \
 		file=`basename $$f` && \
-		${MKINSTALLDIRS} ${DISTDIR}/$$dir && \
-		cp $$dir/$$file ${DISTDIR}/$$dir/$$file ; \
+		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
+		cp $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
 	done
 
-ifneq (${DISTREMAP},)
+ifneq ($(DISTREMAP),)
 remapdist:
-	@set ${DISTREMAP}; \
+	@set $(DISTREMAP); \
 	while test $$# -ge 2 ; do \
 		in=$$1 ; shift ; \
 		out=$$1 ; shift ; \
-		${MKINSTALLDIRS} ${DISTDIR}/`dirname $$out` && \
-		cp -f $$in ${DISTDIR}/$$out ; \
+		$(MKINSTALLDIRS) $(DISTDIR)/`dirname $$out` && \
+		cp -f $$in $(DISTDIR)/$$out ; \
 	done
 else
 remapdist:
 endif
 
 afterdist:
-	@tar cf ${DISTDIR}.tar ${DISTDIR} && \
-	rm -f ${DISTDIR}.tar.${ZIPEXT} && \
-	${ZIP} ${DISTDIR}.tar && \
-	${MD5SUM} ${DISTDIR}.tar.${ZIPEXT} > ${DISTDIR}.tar.${ZIPEXT}.md5 && \
-	rm -rf ${DISTDIR}.tar ${DISTDIR}
+	@tar cf $(DISTDIR).tar $(DISTDIR) && \
+	rm -f $(DISTDIR).tar.$(ZIPEXT) && \
+	$(ZIP) $(DISTDIR).tar && \
+	$(MD5SUM) $(DISTDIR).tar.$(ZIPEXT) > $(DISTDIR).tar.$(ZIPEXT).md5 && \
+	rm -rf $(DISTDIR).tar $(DISTDIR)
 
 distclean:
-	rm -rf ${DISTDIR}.tar* ${DISTDIR}
+	rm -rf $(DISTDIR).tar* $(DISTDIR)
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:
