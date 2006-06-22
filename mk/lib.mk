@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.18 2006/06/22 10:18:36 tho Exp $
+# $Id: lib.mk,v 1.19 2006/06/22 18:52:55 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -42,12 +42,13 @@ ifeq ($(strip $(OBJFORMAT)), mach-o)
     SHLIB_LINK ?= lib$(_LIB).dylib
 else 
 ifeq ($(strip $(OBJFORMAT)), elf)
-    SHLIB_NAME ?= lib$(_LIB).so.$(SHLIB_MAJOR)
     SHLIB_LINK ?= lib$(_LIB).so
+    SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
+    SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
 else 
 ifeq ($(strip $(OBJFORMAT)), aout)
-    SHLIB_NAME ?= lib$(_LIB).so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
     SHLIB_LINK ?= lib$(_LIB).so
+    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)
 else
     $(error OBJFORMAT must be one of mach-o, elf or aout)
 endif
@@ -64,7 +65,7 @@ endif
 	$(CC) $(CFLAGS) -c $< -o $*.o
 
 .c.so:
-	$(CC) $(CPICFLAGS) -DPIC -c $< -o $*.so
+	$(CC) $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
 
 .cc.o .C.o .cpp.o .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
@@ -88,7 +89,7 @@ ifeq ($(strip $(OBJFORMAT)), mach-o)
 	$(CC) -dynamiclib -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD)
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SHLIB_NAME) \
+	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
 else
 ifeq ($(strip $(OBJFORMAT)), aout)
