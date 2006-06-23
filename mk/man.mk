@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.11 2006/06/22 10:18:36 tho Exp $
+# $Id: man.mk,v 1.12 2006/06/23 23:04:45 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -26,12 +26,12 @@ manlinks:
 		while test $$# -ge 2 ; do \
 			name=$$1 ; \
 			shift ; \
-			dir=$(MANDIR)/man$$(name##*.) ; \
-			l=$$(dir)/$$(name) ; \
+			dir=$(MANDIR)/man$${name##*.} ; \
+			l=$$dir/$$name ; \
 			name=$$1 ; \
 			shift ; \
-			dir=$(MANDIR)/man$$(name##*.) ; \
-			t=$$(dir)/$$(name) ; \
+			dir=$(MANDIR)/man$${name##*.} ; \
+			t=$$dir/$$name ; \
 			if test $$l -nt $$t -o ! -f $$t ; then \
 				echo $$t -\> $$l ; \
 				ln -f $$l $$t ; \
@@ -68,12 +68,12 @@ endif
 realinstall:
 	@for f in $(MANFILES); do \
 		$(INSTALL) $(INSTALL_COPY) $(_INSTALL_ARGS) -m $(MANMODE) \
-            $$f $(MANDIR)/man$$(f##*.) ; \
+            $$f $(MANDIR)/man$${f##*.} ; \
 	done
 
 uninstall:
 	@for f in $(MLINKS) $(MANFILES) ; do \
-		rm -f $(MANDIR)/man$$(f##*.)/$$f ; \
+		rm -f $(MANDIR)/man$${f##*.}/$$f ; \
 	done
 
 else 
