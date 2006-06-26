@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.5 2006/04/27 13:12:07 stewy Exp $
+# $Id: Makefile.dist,v 1.6 2006/06/26 07:20:10 tho Exp $
 
 include common.mk
 
@@ -20,10 +20,11 @@ DISTFILES += etc/args.cf etc/map.mk etc/vars.cf
 DISTFILES += helpers/lorder helpers/mkdep.gcc.sh helpers/mkinstalldirs
 
 # setup
-DISTFILES += setup/shell_setup.sh setup/toolchain_setup.sh
+DISTFILES += setup/shell_setup.sh setup/toolchain_setup.sh setup/shlib_setup.sh
 
 # toolchain
 DISTFILES += $(wildcard tc/*tc) tc/README
+DISTFILES += $(wildcard shlib/*.mk) shlib/README
 
 # docs (TODO)
 

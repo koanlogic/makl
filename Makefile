@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.6 2006/02/18 10:21:11 tat Exp $
+# $Id: Makefile,v 1.7 2006/06/26 07:20:10 tho Exp $
 #
 
 SUBDIRS = doc
@@ -22,6 +22,7 @@ ifndef MAKL_DIR
 endif    
 
 toolchain:
+	@setup/shlib_setup.sh ${MAKL_PLATFORM}
 	@setup/toolchain_setup.sh ${MAKL_PLATFORM}
 
 hints:

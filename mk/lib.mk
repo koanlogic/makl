@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.19 2006/06/22 18:52:55 tho Exp $
+# $Id: lib.mk,v 1.20 2006/06/26 07:20:10 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -15,6 +15,16 @@
 
 include ../etc/map.mk
 
+all: all-static all-shared 
+
+# if SHLIB is defined, all these targets must be set in shlib.mk
+ifndef SHLIB
+all-shared:
+install-shared:
+uninstall-shared:
+clean-shared:
+endif
+
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS_c = $(SRCS:.c=.o)
 OBJS_cpp = $(OBJS_c:.cpp=.o)
@@ -23,57 +33,25 @@ OBJS_cxx = $(OBJS_cc:.cxx=.o)
 OBJS_C = $(OBJS_cxx:.C=.o)
 OBJS = $(OBJS_C)
 
+# default obj format is ELF
 OBJFORMAT ?= elf
 
 # strip lib name
 _LIB = $(strip $(LIB))
 
-# by default just do static libs
-_LIBS = lib$(_LIB).a
-
 # when the user defines SHLIB in its Makefile, shared libs are also built,
-# various shlib variables are set depending on the platform executable format:
-ifdef SHLIB
-SHLIB_OBJS = $(OBJS:.o=.so)
-SHLIB_MAJOR ?= 0
-SHLIB_MINOR ?= 0
-ifeq ($(strip $(OBJFORMAT)), mach-o)
-    SHLIB_NAME ?= lib$(_LIB).$(SHLIB_MAJOR).dylib
-    SHLIB_LINK ?= lib$(_LIB).dylib
-else 
-ifeq ($(strip $(OBJFORMAT)), elf)
-    SHLIB_LINK ?= lib$(_LIB).so
-    SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
-    SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
-else 
-ifeq ($(strip $(OBJFORMAT)), aout)
-    SHLIB_LINK ?= lib$(_LIB).so
-    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)
-else
-    $(error OBJFORMAT must be one of mach-o, elf or aout)
-endif
-endif
-endif
+# various shlib variables are set depending on the host platform.
+include shlib.mk
 
-# add the shared library to the list of libraries that we need to build
-_LIBS += $(SHLIB_NAME)
-endif
-
-.SUFFIXES: .o .so .c .cc .C .cpp .cxx
+.SUFFIXES: .o .c .cc .C .cpp .cxx
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $*.o
 
-.c.so:
-	$(CC) $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
-
 .cc.o .C.o .cpp.o .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
-.cc.so .C.so .cpp.so .cxx.so:
-	$(CXX) $(CPICFLAGS) -DPIC $(CXXFLAGS) -c $< -o $*.so
-
-all: $(_LIBS)
+all-static: lib$(_LIB).a
 
 lib$(_LIB).a: $(OBJS)
 	@echo "===> building standard $(_LIB) library"
@@ -81,29 +59,11 @@ lib$(_LIB).a: $(OBJS)
 	$(AR) $(ARFLAGS) lib$(_LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
 	$(RANLIB) lib$(_LIB).a
 
-$(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building shared $(_LIB) library"
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
-	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-ifeq ($(strip $(OBJFORMAT)), mach-o)
-	$(CC) -dynamiclib -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD)
-else
-ifeq ($(strip $(OBJFORMAT)), elf)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
-else
-ifeq ($(strip $(OBJFORMAT)), aout)
-	$(CC) -shared -Wl,-x,-assert,pure-text \
-	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
-endif
-endif
-endif
+clean: clean-static clean-shared
 
-clean:
-	rm -f $(OBJS) $(SHLIB_OBJS) $(CLEANFILES)
+clean-static:
+	rm -f $(OBJS) $(CLEANFILES)
 	rm -f lib$(_LIB).a
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 
 # build arguments list for '(before,real)install' operations
 _CHOWN_ARGS =
@@ -123,20 +83,24 @@ ifneq ($(strip $(_CHOWN_ARGS)),)
 	chown $(_CHOWN_ARGS) $(LIBDIR)
 endif
 
-realinstall:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) lib$(_LIB).a $(LIBDIR)
-ifdef SHLIB
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
-endif
+realinstall: install-static install-shared
 
+install-static:
+	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) lib$(_LIB).a $(LIBDIR)
+
+# hook target
 afterinstall:
 
 install: beforeinstall realinstall afterinstall
 
-uninstall:
+uninstall: uninstall-static uninstall-shared
+
+uninstall-static:
 	rm -f $(LIBDIR)/lib$(_LIB).a
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
-	rm -f $(LIBDIR)/$(SHLIB_LINK)
 
 include deps.mk
+
+# XXX A.OUT naming conventions
+### ifeq ($(strip $(OBJFORMAT)), aout)
+###    SHLIB_LINK ?= lib$(_LIB).so
+###    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)
