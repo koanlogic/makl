@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.36 2006/05/18 14:16:44 stewy Exp $
+# $Id: makl_args_handle,v 1.37 2006/06/27 12:28:09 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -70,6 +70,9 @@ makl_args_handle ()
                 ;;
         esac
     done
+    
+    # check generated dependencies
+    _makl_deps_check
 }
 
 _makl_help_print ()

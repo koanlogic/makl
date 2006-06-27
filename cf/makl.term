@@ -1,9 +1,6 @@
 #
-# $Id: makl.term,v 1.7 2006/05/23 18:08:54 stewy Exp $
+# $Id: makl.term,v 1.8 2006/06/27 12:28:09 stewy Exp $
 #
-
-# check generated dependencies
-_makl_deps_check
 
 # apply variable substitutions
 _makl_file_sub
