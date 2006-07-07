@@ -1,4 +1,4 @@
-# $Id: linux.mk,v 1.1 2006/06/26 07:20:10 tho Exp $
+# $Id: linux.mk,v 1.2 2006/07/07 16:10:01 stewy Exp $
 #
 # Linux
 
@@ -35,7 +35,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(_LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-	$(CC) -shared -Wl,-soname,$(SONAME) \
+	$(CC) ${LDFLAGS} -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
 

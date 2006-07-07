@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.1 2006/06/26 07:20:10 tho Exp $
+# $Id: darwin.mk,v 1.2 2006/07/07 16:10:01 stewy Exp $
 #
 # Darwin 
 
@@ -45,10 +45,10 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 ifeq ($(strip $(OBJFORMAT)), mach-o)
-	$(CC) -dynamiclib -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD)
+	$(CC) ${LDFLAGS} -dynamiclib -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD)
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
+	$(CC) ${LDFLAGS} -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
 endif
 endif
