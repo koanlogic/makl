@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.10 2006/06/22 10:18:36 tho Exp $
+# $Id: party.mk,v 1.11 2006/07/07 11:02:15 tho Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -27,11 +27,11 @@ all: .pre $(PARTY_FILE) $(PARTY_FILE_CHK) $(PARTY_BASE) conf make install
 	@[ ! -e $(PARTY_LOG) ] || rm -f $(PARTY_LOG)
 	@touch $(PARTY_LOG)
 	@touch .pre
-	@echo "processing $(PARTY_NAME)   [see `pwd`/$(PARTY_LOG) for details]"
+	@echo "==> processing $(PARTY_NAME)   [see `pwd`/$(PARTY_LOG) for details]"
 
 $(PARTY_FILE): 
 ifndef PARTY_NO_DOWN
-	@echo "downloading $(PARTY_NAME) from $(PARTY_URL)"
+	@echo "==> downloading $(PARTY_NAME) from $(PARTY_URL)"
 	@$(PARTY_DOWN) $(PARTY_URL)/$(PARTY_FILE) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 endif
@@ -41,11 +41,11 @@ $(PARTY_FILE_CHK):
 ifdef 0
 ifndef PARTY_NO_CHK
 ifndef PARTY_NO_DOWN
-	@echo "downloading $(PARTY_NAME) checksum file $(PARTY_FILE_CHK)"
+	@echo "==> downloading $(PARTY_NAME) checksum file $(PARTY_FILE_CHK)"
 	@$(PARTY_DOWN) $(PARTY_URL)/$(PARTY_FILE_CHK) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 endif
-	@echo "verifying checksum for $(PARTY_NAME)"
+	@echo "==> verifying checksum for $(PARTY_NAME)"
 	@$(PARTY_CHK) $(PARTY_FILE) | cut -f 2 -d "=" | sed 's/^[ \t]*//' \
       > $(PARTY_FILE_CHK).vfy 2>> $(PARTY_LOG)
 	@cat $(PARTY_FILE_CHK) | cut -f 2 -d "=" | sed 's/^[ \t]*//' \
@@ -56,7 +56,7 @@ endif
   
 $(PARTY_BASE):
 ifndef PARTY_NO_DECOMP
-	@echo "decompressing $(PARTY_NAME)"
+	@echo "==> decompressing $(PARTY_NAME)"
 	@$(PARTY_DECOMP) $(PARTY_DECOMP_ARGS) $(PARTY_FILE) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 endif
@@ -68,7 +68,7 @@ conf: beforeconf .realconf afterconf
 beforeconf:
 .realconf:
 ifndef PARTY_NO_CONF
-	@echo "configuring $(PARTY_NAME)"
+	@echo "==> configuring $(PARTY_NAME)"
 	@cd $(PARTY_BASE) && $(PARTY_CONF) $(PARTY_ARGS) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 	@touch .realconf
@@ -78,7 +78,7 @@ afterconf:
 make: .realmake
 .realmake:
 ifndef PARTY_NO_MAKE
-	@echo "building $(PARTY_NAME)"
+	@echo "==> building $(PARTY_NAME)"
 	@$(MAKE) -C $(PARTY_BASE) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 	@touch .realmake
@@ -88,7 +88,7 @@ install: beforeinstall .realinstall afterinstall
 beforeinstall:
 .realinstall:
 ifndef PARTY_NO_INSTALL
-	@echo "installing $(PARTY_NAME)"
+	@echo "==> installing $(PARTY_NAME)"
 	@$(MAKE) -C $(PARTY_BASE) install \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 	@touch .realinstall
@@ -96,7 +96,7 @@ endif
 afterinstall:
 
 clean:
-	@echo "cleaning $(PARTY_NAME)"
+	@echo "==> cleaning $(PARTY_NAME)"
 	@rm -f .pre
 ifndef PARTY_NO_DECOMP
 	@rm -rf $(PARTY_BASE) 
@@ -106,7 +106,7 @@ endif
 	@rm -f .realinstall
 
 purge: clean
-	@echo "purging $(PARTY_NAME)"
+	@echo "==> purging $(PARTY_NAME)"
 ifndef PARTY_NO_DOWN
 	@rm -f $(PARTY_FILE) 
 	@rm -f $(PARTY_FILE_CHK) 
