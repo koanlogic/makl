@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.2 2006/07/07 16:10:01 stewy Exp $
+# $Id: freebsd.mk,v 1.3 2006/07/11 18:02:42 stewy Exp $
 #
 # FreeBSD
 
@@ -45,14 +45,14 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 ifeq ($(strip $(OBJFORMAT)), aout)
-	$(CC) ${LDFLAGS} -shared -Wl,-x,-assert,pure-text \
+	$(CC) -shared -Wl,-x,-assert,pure-text \
 	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-	$(CC) ${LDFLAGS} -shared -Wl,-soname,$(SONAME) \
+	$(CC) -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 endif
 endif
 

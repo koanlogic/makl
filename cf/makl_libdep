@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.18 2006/07/11 08:46:40 tat Exp $
+# $Id: makl_libdep,v 1.19 2006/07/11 18:02:42 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -32,12 +32,12 @@ makl_libdep ()
     [ -z "$3" ] && [ ! "$3" = "" ] || iflags="$3"
     [ -z "$2" ] || iflags="${iflags} -I$2/include" 
 
+    [ -z "$2" ] || ldflags="-L$2/lib"
     if [ -z "$4" ]; then 
-        ldflags="-l$1"
+        ldflags="${ldflags} -l$1"
     else
-        ldflags="$4"
+        ldflags="${ldflags} $4"
     fi
-    [ -z "$2" ] || ldflags="-L$2/lib ${ldflags}"
     
     # compile and link the test program
     if [ -z `makl_get "__verbose__"` ]; then

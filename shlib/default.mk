@@ -1,4 +1,4 @@
-# $Id: default.mk,v 1.2 2006/07/07 16:10:01 stewy Exp $
+# $Id: default.mk,v 1.3 2006/07/11 18:02:42 stewy Exp $
 #
 # import _LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -38,8 +38,8 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(_LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-	$(CC) ${LDFLAGS} -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD)
+	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 
 install-shared:
 	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
