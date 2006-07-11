@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.14 2006/06/23 23:04:45 tho Exp $
+# $Id: prog.mk,v 1.15 2006/07/11 08:33:34 tat Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -27,13 +27,19 @@ OBJS = $(OBJS_C)
 
 LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD)
 
+make$(PROG): before$(PROG) $(PROG) after$(PROG)
+
+before$(PROG):
+
 ifndef USE_CXX
 $(PROG): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDS) $(LDFLAGS) 
 else
 $(PROG): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDS) $(LDFLAGS) 
 endif
+
+after$(PROG):
 
 CLEANFILES += $(PROG) $(OBJS)
 
