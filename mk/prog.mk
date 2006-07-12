@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.15 2006/07/11 08:33:34 tat Exp $
+# $Id: prog.mk,v 1.16 2006/07/12 19:55:11 tat Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -25,7 +25,7 @@ OBJS_cxx = $(OBJS_cc:.cxx=.o)
 OBJS_C = $(OBJS_cxx:.C=.o)
 OBJS = $(OBJS_C)
 
-LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD)
+LDS = $(PRE_LDADD) `$(LORDER) $(LDADD) | $(TSORT)` $(POST_LDADD)
 
 make$(PROG): before$(PROG) $(PROG) after$(PROG)
 
