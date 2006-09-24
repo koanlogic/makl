@@ -3,7 +3,7 @@
 # If MAKL_TC is set then use that toolchain file, otherwise look at the command
 # line arguments, as a last resort try to guess the platform.
 #
-# $Id: toolchain_setup.sh,v 1.18 2006/03/06 16:38:06 tho Exp $
+# $Id: toolchain_setup.sh,v 1.19 2006/09/24 13:35:55 tat Exp $
 
 KL_WEBSITE=http://www.koanlogic.com/
 
@@ -27,7 +27,7 @@ else
         # if the toolchain does not exists try to download it from KL web site
         if [ ! -f "${tc_file}" ]; then
             (cd ${MAKL_DIR}/tc/ && \
-             ${FETCH:=wget} ${KL_COM}/makl/`basename ${tc_file}`)
+             ${FETCH:=wget} ${KL_WEBSITE}/makl/`basename ${tc_file}`)
         fi
     else
         case ${rsname}
