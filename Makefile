@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.8 2006/06/26 07:50:41 tho Exp $
+# $Id: Makefile,v 1.9 2006/09/24 13:42:35 tat Exp $
 #
 
 SUBDIRS = doc
@@ -29,6 +29,6 @@ hints:
 	@setup/shell_setup.sh ${MAKL_ROOT_DIR}
 
 clean:
-	rm -f ${MAKL_ROOT_DIR}/mk/toolchain.mk
-	rm -f ${MAKL_ROOT_DIR}/cf/toolchain.sh
+	rm -f ${MAKL_ROOT_DIR}/etc/toolchain.mk
+	rm -f ${MAKL_ROOT_DIR}/etc/toolchain.cf
 	rm -f ${MAKL_ROOT_DIR}/mk/shlib.mk
