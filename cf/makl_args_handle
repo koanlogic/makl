@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.37 2006/06/27 12:28:09 stewy Exp $
+# $Id: makl_args_handle,v 1.38 2006/10/17 22:38:02 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -12,6 +12,8 @@
 makl_args_init ()
 {
     makl_dbg "preprocessing command-line arguments"
+    
+    makl_set "__args__" "$@"
 
     for arg in "$@"; do
         case ${arg} in 
