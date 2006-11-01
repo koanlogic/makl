@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.11 2006/07/07 11:02:15 tho Exp $
+# $Id: party.mk,v 1.12 2006/11/01 16:09:03 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -16,7 +16,7 @@ PARTY_DECOMP ?= tar
 PARTY_DECOMP_ARGS ?= xzvf
 PARTY_DOWN ?= wget --passive-ftp
 PARTY_CHK ?= md5
-PARTY_LOG ?= party.log
+PARTY_LOG ?= $(shell pwd)/party.log
 PARTY_BASE ?= $(PARTY_NAME)
 PARTY_FILE ?= $(PARTY_NAME).tar.gz
 PARTY_FILE_CHK ?= $(PARTY_FILE).md5
@@ -27,7 +27,7 @@ all: .pre $(PARTY_FILE) $(PARTY_FILE_CHK) $(PARTY_BASE) conf make install
 	@[ ! -e $(PARTY_LOG) ] || rm -f $(PARTY_LOG)
 	@touch $(PARTY_LOG)
 	@touch .pre
-	@echo "==> processing $(PARTY_NAME)   [see `pwd`/$(PARTY_LOG) for details]"
+	@echo "==> processing $(PARTY_NAME)   [see $(PARTY_LOG) for details]"
 
 $(PARTY_FILE): 
 ifndef PARTY_NO_DOWN
@@ -104,6 +104,7 @@ endif
 	@rm -f .realconf 
 	@rm -f .realmake
 	@rm -f .realinstall
+	@rm -f $(PARTY_LOG)
 
 purge: clean
 	@echo "==> purging $(PARTY_NAME)"
