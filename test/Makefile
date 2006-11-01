@@ -5,7 +5,7 @@ MAKLRC = .maklrc
 PREFIX=$(shell pwd)/test-inst
 CONF_ARGS= -v --prefix=$(PREFIX)
 
-all: conf build test
+all: toolchain conf build test
 
 conf: Makefile.conf
 
