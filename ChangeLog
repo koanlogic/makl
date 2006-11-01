@@ -1,11 +1,12 @@
-$Id: ChangeLog,v 1.10 2006/11/01 22:26:19 stewy Exp $
+$Id: ChangeLog,v 1.11 2006/11/01 22:33:08 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.2.2:
 	- shared libs support
-	- deps.mk: lex/yacc support
+	- added basic test/tutorial framework
 	- added configure arguments to both header and Makefile output
+	- deps.mk: lex/yacc support
     - undefine conf.h variables to avoid redefinition
     - export output Makefile variables for recursive make calls
 	- party.mk: fix logging output to absolute path
