@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.19 2006/11/01 17:32:43 stewy Exp $
+# $Id: makl_conf,v 1.20 2006/11/01 20:57:28 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
@@ -66,15 +66,20 @@ makl_process_h ()
     set=`makl_tab_elem "$1" 2`
     val=`makl_tab_elem "$1" 3`
 
-    if [ ${set} = 1 ]; then
-        if [ -z ${val} ]; then
-            ${ECHO} "#define ${var}" >> ${makl_conf_h}
-        else    
-            ${ECHO} "#define ${var} ${val}" >> ${makl_conf_h}
-        fi    
-    else
-        ${ECHO} "#undef ${var}" >> ${makl_conf_h}
-    fi
+    {
+        if [ ${set} = 1 ]; then
+            ${ECHO} "#undef ${var}"
+            if [ -z ${val} ]; then
+                ${ECHO} "#define ${var}"
+            else    
+                ${ECHO} "#define ${var} ${val}"
+            fi    
+            ${ECHO}
+        else
+            ${ECHO} "#undef ${var}" 
+        fi
+
+    } >> ${makl_conf_h}
 }
 
 ##\brief Initialise output header file.
@@ -122,9 +127,6 @@ makl_term_conf_h ()
     filename=`basename ${makl_conf_h}`
     file=`makl_upper ${filename}` 
     file=`${ECHO} ${file} | sed 's/\./_/g' | sed 's/-/_/g'` 
-    {
-        ${ECHO} 
-        ${ECHO} "#endif /* !_${file}_ */"
 
-    } >> ${makl_conf_h}
+    ${ECHO} "#endif /* !_${file}_ */" >> ${makl_conf_h}
 }
