@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.12 2006/11/01 16:09:03 stewy Exp $
+# $Id: party.mk,v 1.13 2006/11/01 16:10:26 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -68,7 +68,7 @@ conf: beforeconf .realconf afterconf
 beforeconf:
 .realconf:
 ifndef PARTY_NO_CONF
-	@echo "==> configuring $(PARTY_NAME)"
+	@echo "==> configuring $(PARTY_NAME) with args: $(PARTY_ARGS)"
 	@cd $(PARTY_BASE) && $(PARTY_CONF) $(PARTY_ARGS) \
       1>> $(PARTY_LOG) 2>> $(PARTY_LOG)
 	@touch .realconf
