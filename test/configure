@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# $Id: configure,v 1.1 2006/11/01 19:18:49 stewy Exp $
+
+export MAKL_DIR=`pwd`/../
+
+. ${MAKL_DIR}/cf/makl.init
+
+makl_args_init "$@"
+
+. ${MAKL_DIR}/cf/makl.term

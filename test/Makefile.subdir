@@ -1,0 +1,3 @@
+SUBDIR = prog 
+
+include subdir.mk
