@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.13 2006/11/01 16:10:26 stewy Exp $
+# $Id: party.mk,v 1.14 2006/11/01 20:51:12 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -95,7 +95,8 @@ ifndef PARTY_NO_INSTALL
 endif
 afterinstall:
 
-clean:
+clean: realclean afterclean
+realclean:
 	@echo "==> cleaning $(PARTY_NAME)"
 	@rm -f .pre
 ifndef PARTY_NO_DECOMP
@@ -105,6 +106,7 @@ endif
 	@rm -f .realmake
 	@rm -f .realinstall
 	@rm -f $(PARTY_LOG)
+afterclean:
 
 purge: clean
 	@echo "==> purging $(PARTY_NAME)"
