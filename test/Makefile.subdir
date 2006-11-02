@@ -1,3 +1,5 @@
-SUBDIR = prog party
+include Makefile.conf
+
+SUBDIR = prog party xcc
 
 include subdir.mk
