@@ -1,5 +1,5 @@
 include Makefile.conf
 
-SUBDIR = party prog make autoprog
+SUBDIR = party prog partyplain autoprog
 
 include subdir.mk
