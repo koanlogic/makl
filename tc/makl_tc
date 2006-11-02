@@ -1,5 +1,5 @@
 #
-# $Id: makl_tc,v 1.13 2006/01/31 16:50:59 tho Exp $
+# $Id: makl_tc,v 1.14 2006/11/02 11:43:52 stewy Exp $
 #
 
 # _makl_tc_cf input output
@@ -36,7 +36,8 @@ _makl_tc_mk ()
     sed -e '/^#/d'          \
         -e '/^$/d'          \
         -e '/^[A-Z]/!d'     \
-        -e 's/__UNSET__//'  $1 >> $2
+        -e 's/__UNSET__//'  \
+        -e 's/^/export\ /' $1 >> $2
 
     [ $? -ne 0 ] && return 1 
     return 0
