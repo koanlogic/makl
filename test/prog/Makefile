@@ -7,7 +7,4 @@ SRCS = prog.c
 include prog.mk
 
 # define test procedure
-
-test: $(PROG)
-	./$(PROG)
-	@$(ECHO) "[[ TEST OK! ]]"
+test: 

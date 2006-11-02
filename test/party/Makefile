@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2006/11/01 20:33:17 stewy Exp $
+# $Id: Makefile,v 1.2 2006/11/02 16:32:28 stewy Exp $
 # 
 # Makefile for 3rd-party package dependencies
 
@@ -19,9 +19,7 @@ TEST_PARTY = $(PARTY_NAME)/src/libparty.a
 TEST_PROG = test
 
 $(TEST_PROG): $(TEST_PARTY)
-	gcc -o $(TEST_PROG) main.c $(TEST_PARTY)
-	./$(TEST_PROG) 
-	@$(ECHO) "[[ TEST OK! ]]"
+	$(CC) -o $(TEST_PROG) main.c $(TEST_PARTY)
 
 afterclean:
 	rm -f $(TEST_PROG)
