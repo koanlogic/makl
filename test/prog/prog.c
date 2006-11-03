@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <x.h>
 
 int main()
 {
-    printf("Hello world!\n");
+    printf("%s %s!\n", a(), b());
 
     return 0;
 }
