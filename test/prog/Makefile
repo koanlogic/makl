@@ -12,4 +12,3 @@ include prog.mk
 
 # define test procedure
 test: 
-	@env DYLD_LIBRARY_PATH=../lib LD_LIBRARY_PATH=../lib ./$(PROG)

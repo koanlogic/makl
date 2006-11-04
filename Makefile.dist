@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.8 2006/11/03 18:05:54 stewy Exp $
+# $Id: Makefile.dist,v 1.9 2006/11/04 08:44:19 tho Exp $
 
 include common.mk
 
@@ -33,6 +33,9 @@ DISTFILES += $(wildcard test/party/*.c) test/party/party.tar.gz \
 DISTFILES += test/partyplain/proggie-1.0.0.tar.gz test/partyplain/Makefile
 DISTFILES += $(wildcard test/prog/*.c) test/prog/Makefile
 DISTFILES += test/autoprog/Makefile
+DISTFILES += $(wildcard test/lib/*.c) test/lib/Makefile
+DISTFILES += $(wildcard test/include/*.h) test/include/Makefile
+DISTFILES += $(wildcard test/man/*.[13]) test/man/Makefile
 
 # docs (TODO)
 
