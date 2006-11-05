@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.3 2006/07/11 18:02:42 stewy Exp $
+# $Id: darwin.mk,v 1.4 2006/11/05 11:22:03 tho Exp $
 #
 # Darwin 
 
@@ -13,49 +13,42 @@ SHLIB_MINOR ?= 0
 #
 .SUFFIXES: .so .c .cc .C .cpp .cxx
 
-.c.so:
-	$(CC) $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
-
-.cc.so .C.so .cpp.so .cxx.so:
-	$(CXX) $(CPICFLAGS) -DPIC $(CXXFLAGS) -c $< -o $*.so
+.c.so .cc.so .C.so .cpp.so .cxx.so:
+	$(__CC) -fno-common $(CPICFLAGS) -DPIC $(__CCFLAGS) -c $< -o $*.so
 
 #
-# set library naming vars (perhaps specific to OBJFORMAT)
+# The default is to build a shared library. 
+# If BUNDLE is set a loadable module will be built instead.
 #
-ifeq ($(strip $(OBJFORMAT)), mach-o)
+ifdef BUNDLE
+    __WHAT = "a loadable module"
+    SHLIB_CC_FLAGS = -bundle -flat_namespace -undefined suppress
+    SHLIB_NAME = bundle_$(_LIB).so
+else
+    __WHAT = "a shared library"
+    SHLIB_CC_FLAGS = -dynamiclib -install_name $(LIBDIR)/$(SHLIB_NAME)
     SHLIB_NAME ?= lib$(_LIB).$(SHLIB_MAJOR).dylib
     SHLIB_LINK ?= lib$(_LIB).dylib
-else
-ifeq ($(strip $(OBJFORMAT)), elf)
-    SHLIB_LINK ?= lib$(_LIB).so
-    SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
-    SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
-else
-    $(error OBJFORMAT must be one of mach-o or elf on darwin platform)
-endif
 endif
 
 #
-# build rules
+# build rules (__CC is set by lib.mk)
 #
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building shared $(_LIB) library"
+	@echo "===> building $(_LIB) as $(__WHAT)"
+ifndef BUNDLE
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-ifeq ($(strip $(OBJFORMAT)), mach-o)
-	$(CC) -dynamiclib -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) ${LDFLAGS} 
-else
-ifeq ($(strip $(OBJFORMAT)), elf)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 endif
-endif
+	$(__CC) $(SHLIB_CC_FLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
 
 install-shared:
 	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
+ifndef BUNDLE
 	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
+endif
 
 uninstall-shared:
 	rm -f $(LIBDIR)/$(SHLIB_NAME)

@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.20 2006/06/26 07:20:10 tho Exp $
+# $Id: lib.mk,v 1.21 2006/11/05 11:22:03 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -32,6 +32,15 @@ OBJS_cc = $(OBJS_cpp:.cc=.o)
 OBJS_cxx = $(OBJS_cc:.cxx=.o)
 OBJS_C = $(OBJS_cxx:.C=.o)
 OBJS = $(OBJS_C)
+
+# set compiler and flags
+ifdef USE_CXX
+    __CC = $(CXX)
+    __CCFLAGS = $(CXXFLAGS)
+else
+    __CC = $(CC)
+    __CCFLAGS = $(CFLAGS)
+endif
 
 # default obj format is ELF
 OBJFORMAT ?= elf
