@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.4 2006/11/05 11:22:03 tho Exp $
+# $Id: darwin.mk,v 1.5 2006/11/05 11:54:28 tho Exp $
 #
 # Darwin 
 
@@ -23,7 +23,7 @@ SHLIB_MINOR ?= 0
 ifdef BUNDLE
     __WHAT = "a loadable module"
     SHLIB_CC_FLAGS = -bundle -flat_namespace -undefined suppress
-    SHLIB_NAME = bundle_$(_LIB).so
+    SHLIB_NAME = $(_LIB).bundle
 else
     __WHAT = "a shared library"
     SHLIB_CC_FLAGS = -dynamiclib -install_name $(LIBDIR)/$(SHLIB_NAME)
