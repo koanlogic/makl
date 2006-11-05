@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.21 2006/11/05 11:22:03 tho Exp $
+# $Id: lib.mk,v 1.22 2006/11/05 17:38:18 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -15,7 +15,7 @@
 
 include ../etc/map.mk
 
-all: all-static all-shared 
+all: all-hook-pre all-static all-shared all-hook-post
 
 # if SHLIB is defined, all these targets must be set in shlib.mk
 ifndef SHLIB
@@ -61,6 +61,9 @@ include shlib.mk
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
 all-static: lib$(_LIB).a
+
+all-hook-pre:
+all-hook-post:
 
 lib$(_LIB).a: $(OBJS)
 	@echo "===> building standard $(_LIB) library"
