@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: shlib_setup.sh,v 1.1 2006/06/26 07:20:10 tho Exp $
+# $Id: shlib_setup.sh,v 1.2 2006/11/06 09:41:00 tho Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -43,5 +43,5 @@ if [ ! -f "${shlib_file}" ]; then
 fi
 
 echo "MaKL: installing shlib file '$shlib_file'"
-/bin/cp ${shlib_file} ${MAKL_DIR}/mk/shlib.mk
+/bin/cp ${shlib_file} ${MAKL_DIR}/mk/priv/shlib.mk
 exit $?

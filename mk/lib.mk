@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.25 2006/11/06 09:39:24 tho Exp $
+# $Id: lib.mk,v 1.26 2006/11/06 09:41:00 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -50,7 +50,7 @@ __LIB = $(strip $(LIB))
 
 # when the user defines SHLIB in its Makefile, shared libs are also built,
 # various shlib variables are set depending on the host platform.
-include shlib.mk
+include priv/shlib.mk
 
 .SUFFIXES: .o .c .cc .C .cpp .cxx
 
