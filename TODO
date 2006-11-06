@@ -1,3 +1,4 @@
 * avoid multiple inclusion of .mk files (i.e. ifndef __prog_mk__ ... endif)
 * check preconditions for all the user supplied variables needed by .mk files 
-  (i.e. a mk_precond function)
+  (i.e. mk_precond function needed)
+* fix versioning of mach-o libs
