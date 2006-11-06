@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.11 2006/06/22 10:18:36 tho Exp $
+# $Id: incs.mk,v 1.12 2006/11/06 09:16:34 tho Exp $
 #
 # Only define the install target.
 #
@@ -12,25 +12,23 @@ all clean depend cleandepend:
 	@echo "nothing to do for $(MAKECMDGOALS) target in $(CURDIR) ..."		
 
 # build arguments list for '(before,real)install' operations
-_CHOWN_ARGS =
-_INSTALL_ARGS =
-ifneq ($(strip $(INCOWN)),)
-    _CHOWN_ARGS = $(INCOWN)
-    _INSTALL_ARGS = -o $(INCOWN)
-endif
-ifneq ($(strip $(INCGRP)),)
-    _CHOWN_ARGS = $(join $(INCOWN), :$(INCGRP))
-    _INSTALL_ARGS += -g $(INCGRP)
-endif
+
+clean:
+	rm -f $(CLEANFILES)
+
+include __funcs.mk
+# build arguments list for '(before,real)install' operations
+__CHOWN_ARGS = $(call calc-chown-args, $(INCOWN), $(INCGRP))
+__INSTALL_ARGS = $(call calc-install-args, $(INCOWN), $(INCGRP))
     
 beforeinstall:
 	$(MKINSTALLDIRS) $(INCDIR)
-ifneq ($(strip $(_CHOWN_ARGS)),)
-	chown $(_CHOWN_ARGS) $(INCDIR)
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) $(INCDIR)
 endif
 
 realinstall:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
 
 afterinstall:
 

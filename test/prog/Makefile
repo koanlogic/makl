@@ -8,6 +8,9 @@ CFLAGS += -I../include
 LDFLAGS += -L../lib -lx
 DPADD += ../lib/libx.a
 
+#BINOWN = pippo
+#BINGRP = pluto 
+
 include prog.mk
 
 # define test procedure

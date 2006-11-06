@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.12 2006/06/23 23:04:45 tho Exp $
+# $Id: man.mk,v 1.13 2006/11/06 09:16:35 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -41,16 +41,10 @@ else
 manlinks:
 endif
 
-_CHOWN_ARGS =
-_INSTALL_ARGS =
-ifneq ($(strip $(MANOWN)),)
-    _CHOWN_ARGS = $(MANOWN)
-    _INSTALL_ARGS = -o $(MANOWN)
-endif
-ifneq ($(strip $(MANGRP)),)
-    _CHOWN_ARGS = $(join $(MANOWN), :$(MANGRP))
-    _INSTALL_ARGS += -g $(MANGRP)
-endif
+# build arguments list for '(before,real)install' operations
+include __funcs.mk
+__CHOWN_ARGS = $(call calc-chown-args, $(MANOWN), $(MANGRP))
+__INSTALL_ARGS = $(call calc-install-args, $(MANOWN), $(MANGRP))
 
 ifneq ($(_SUBDIRS),)
 beforeinstall-dirs:
@@ -59,15 +53,15 @@ beforeinstall-dirs:
 	done
 
 beforeinstall-dirperms:
-ifneq ($(strip $(_CHOWN_ARGS)),)
+ifneq ($(strip $(__CHOWN_ARGS)),)
 	@for d in $(_SUBDIRS); do \
-		chown $(_CHOWN_ARGS) $(MANDIR)/man$$d ; \
+		chown $(__CHOWN_ARGS) $(MANDIR)/man$$d ; \
 	done
 endif
 
 realinstall:
 	@for f in $(MANFILES); do \
-		$(INSTALL) $(INSTALL_COPY) $(_INSTALL_ARGS) -m $(MANMODE) \
+		$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) -m $(MANMODE) \
             $$f $(MANDIR)/man$${f##*.} ; \
 	done
 

@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.22 2006/11/05 17:38:18 tho Exp $
+# $Id: lib.mk,v 1.23 2006/11/06 09:16:34 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -46,7 +46,7 @@ endif
 OBJFORMAT ?= elf
 
 # strip lib name
-_LIB = $(strip $(LIB))
+__LIB = $(strip $(LIB))
 
 # when the user defines SHLIB in its Makefile, shared libs are also built,
 # various shlib variables are set depending on the host platform.
@@ -60,45 +60,38 @@ include shlib.mk
 .cc.o .C.o .cpp.o .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
-all-static: lib$(_LIB).a
+all-static: lib$(__LIB).a
 
 all-hook-pre:
 all-hook-post:
 
-lib$(_LIB).a: $(OBJS)
-	@echo "===> building standard $(_LIB) library"
-	rm -f lib$(_LIB).a
-	$(AR) $(ARFLAGS) lib$(_LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
-	$(RANLIB) lib$(_LIB).a
+lib$(__LIB).a: $(OBJS)
+	@echo "===> building standard $(__LIB) library"
+	rm -f lib$(__LIB).a
+	$(AR) $(ARFLAGS) lib$(__LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
+	$(RANLIB) lib$(__LIB).a
 
 clean: clean-static clean-shared
 
 clean-static:
 	rm -f $(OBJS) $(CLEANFILES)
-	rm -f lib$(_LIB).a
+	rm -f lib$(__LIB).a
 
 # build arguments list for '(before,real)install' operations
-_CHOWN_ARGS =
-_INSTALL_ARGS =
-ifneq ($(strip $(LIBOWN)),)
-    _CHOWN_ARGS = $(LIBOWN)
-    _INSTALL_ARGS = -o $(LIBOWN) 
-endif
-ifneq ($(strip $(LIBGRP)),)
-	_CHOWN_ARGS = $(join $(LIBOWN), :$(LIBGRP))
-    _INSTALL_ARGS += -g $(LIBGRP) 
-endif
+include __funcs.mk
+__CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
+__INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
 beforeinstall:
 	$(MKINSTALLDIRS) $(LIBDIR)
-ifneq ($(strip $(_CHOWN_ARGS)),)
-	chown $(_CHOWN_ARGS) $(LIBDIR)
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) $(LIBDIR)
 endif
 
 realinstall: install-static install-shared
 
 install-static:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) lib$(_LIB).a $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
 
 # hook target
 afterinstall:
@@ -108,11 +101,11 @@ install: beforeinstall realinstall afterinstall
 uninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	rm -f $(LIBDIR)/lib$(_LIB).a
+	rm -f $(LIBDIR)/lib$(__LIB).a
 
 include deps.mk
 
 # XXX A.OUT naming conventions
 ### ifeq ($(strip $(OBJFORMAT)), aout)
-###    SHLIB_LINK ?= lib$(_LIB).so
+###    SHLIB_LINK ?= lib$(__LIB).so
 ###    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)

@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.17 2006/07/12 20:16:48 tat Exp $
+# $Id: prog.mk,v 1.18 2006/11/06 09:16:35 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -46,26 +46,19 @@ CLEANFILES += $(PROG) $(OBJS)
 clean:
 	rm -f $(CLEANFILES)
 
+include __funcs.mk
 # build arguments list for '(before,real)install' operations
-_CHOWN_ARGS =
-_INSTALL_ARGS =
-ifneq ($(strip $(BINOWN)),)
-    _CHOWN_ARGS = $(BINOWN)
-    _INSTALL_ARGS = -o $(BINOWN)
-endif
-ifneq ($(strip $(BINGRP)),)
-    _CHOWN_ARGS = $(join $(BINOWN), :$(BINGRP))
-    _INSTALL_ARGS += -g $(BINGRP)
-endif
+__CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
+__INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
 beforeinstall:
 	$(MKINSTALLDIRS) $(BINDIR)
-ifneq ($(strip $(_CHOWN_ARGS)),)
-	chown $(_CHOWN_ARGS) $(BINDIR)
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) $(BINDIR)
 endif
 
 realinstall:
-	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(_INSTALL_ARGS) \
+	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
 	    -m $(BINMODE) $(PROG) $(BINDIR)
 
 afterinstall:
