@@ -1,5 +1,3 @@
-* Set the "install" target dependency on "all" explicitly.
-* Improve lib.mk to support shared libs: this could be done by splitting 
-  lib.mk into a platform independent staticlib.mk and a platform specific 
-  dynlib.mk to be installed on MaKL setup (pretty much like toolchain files).
-* add "create hier" to target install.
+* avoid multiple inclusion of .mk files (i.e. ifndef __prog_mk__ ... endif)
+* check preconditions for all the user supplied variables needed by .mk files 
+  (i.e. a mk_precond function)
