@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.18 2006/11/06 09:16:35 tho Exp $
+# $Id: prog.mk,v 1.19 2006/11/06 09:37:01 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -46,7 +46,7 @@ CLEANFILES += $(PROG) $(OBJS)
 clean:
 	rm -f $(CLEANFILES)
 
-include __funcs.mk
+include priv/funcs.mk
 # build arguments list for '(before,real)install' operations
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))

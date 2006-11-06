@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.14 2006/11/06 09:23:11 tho Exp $
+# $Id: man.mk,v 1.15 2006/11/06 09:37:01 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -42,7 +42,7 @@ manlinks:
 endif
 
 # build arguments list for '(before,real)install' operations
-include __funcs.mk
+include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(MANOWN), $(MANGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(MANOWN), $(MANGRP))
 

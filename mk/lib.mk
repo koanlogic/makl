@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.23 2006/11/06 09:16:34 tho Exp $
+# $Id: lib.mk,v 1.24 2006/11/06 09:37:01 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -78,7 +78,7 @@ clean-static:
 	rm -f lib$(__LIB).a
 
 # build arguments list for '(before,real)install' operations
-include __funcs.mk
+include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 

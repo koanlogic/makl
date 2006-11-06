@@ -1,4 +1,4 @@
-# $Id: __funcs.mk,v 1.1 2006/11/06 09:16:34 tho Exp $
+# $Id: funcs.mk,v 1.1 2006/11/06 09:37:01 tho Exp $
 #
 # common functions
 
