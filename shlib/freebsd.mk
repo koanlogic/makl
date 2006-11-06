@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.3 2006/07/11 18:02:42 stewy Exp $
+# $Id: freebsd.mk,v 1.4 2006/11/06 09:48:50 tho Exp $
 #
 # FreeBSD
 
@@ -23,11 +23,11 @@ SHLIB_MINOR ?= 0
 # set library naming vars (perhaps specific to OBJFORMAT)
 #
 ifeq ($(strip $(OBJFORMAT)), aout)
-    SHLIB_LINK ?= lib$(_LIB).so
+    SHLIB_LINK ?= lib$(__LIB).so
     SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-    SHLIB_LINK ?= lib$(_LIB).so
+    SHLIB_LINK ?= lib$(__LIB).so
     SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
     SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
 else
@@ -41,7 +41,7 @@ endif
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building shared $(_LIB) library"
+	@echo "===> building shared $(__LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 ifeq ($(strip $(OBJFORMAT)), aout)

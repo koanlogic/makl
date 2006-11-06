@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.5 2006/11/05 11:54:28 tho Exp $
+# $Id: darwin.mk,v 1.6 2006/11/06 09:48:50 tho Exp $
 #
 # Darwin 
 
@@ -23,12 +23,12 @@ SHLIB_MINOR ?= 0
 ifdef BUNDLE
     __WHAT = "a loadable module"
     SHLIB_CC_FLAGS = -bundle -flat_namespace -undefined suppress
-    SHLIB_NAME = $(_LIB).bundle
+    SHLIB_NAME = $(__LIB).bundle
 else
     __WHAT = "a shared library"
     SHLIB_CC_FLAGS = -dynamiclib -install_name $(LIBDIR)/$(SHLIB_NAME)
-    SHLIB_NAME ?= lib$(_LIB).$(SHLIB_MAJOR).dylib
-    SHLIB_LINK ?= lib$(_LIB).dylib
+    SHLIB_NAME ?= lib$(__LIB).$(SHLIB_MAJOR).dylib
+    SHLIB_LINK ?= lib$(__LIB).dylib
 endif
 
 #
@@ -37,7 +37,7 @@ endif
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building $(_LIB) as $(__WHAT)"
+	@echo "===> building $(__LIB) as $(__WHAT)"
 ifndef BUNDLE
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
