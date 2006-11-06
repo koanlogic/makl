@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.9 2006/11/04 08:44:19 tho Exp $
+# $Id: Makefile.dist,v 1.10 2006/11/06 09:44:10 tho Exp $
 
 include common.mk
 
@@ -12,6 +12,7 @@ DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 
 # build (mk files)
 DISTFILES += $(wildcard mk/*.mk) Makefile
+DISTFILES += $(wildcard mk/priv/*.mk)
 
 # configuration (etc files)
 DISTFILES += etc/args.cf etc/map.mk etc/vars.cf
