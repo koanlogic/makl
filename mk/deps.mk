@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.7 2006/06/24 01:00:26 tho Exp $
+# $Id: deps.mk,v 1.8 2006/11/06 09:23:11 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -23,14 +23,14 @@ DEPENDFILE ?= .depend
 # other source file which otherwise would be overwritten/lost.
 
 ifdef SRCS
-_YSRCS = $(wildcard *.y)
-ifneq ($(_YSRCS),)
+__YSRCS = $(wildcard *.y)
+ifneq ($(__YSRCS),)
     YFLAGS = -d
     CLEANFILES += y.tab.h
     LDADD += -ly
 endif
-_LSRCS = $(wildcard *.l)
-ifneq ($(_YSRCS),)
+__LSRCS = $(wildcard *.l)
+ifneq ($(__LSRCS),)
     LDADD += -ll
 endif
 endif

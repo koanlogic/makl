@@ -1,5 +1,5 @@
 #
-# $Id: man.mk,v 1.13 2006/11/06 09:16:35 tho Exp $
+# $Id: man.mk,v 1.14 2006/11/06 09:23:11 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -18,7 +18,7 @@ include ../etc/map.mk
 # Make sure all of the standard targets are defined, even if they do nothing.
 all clean depend cleandepend:
 
-_SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
+__SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
 
 ifneq ($(MLINKS),)
 manlinks:
@@ -46,15 +46,15 @@ include __funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(MANOWN), $(MANGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(MANOWN), $(MANGRP))
 
-ifneq ($(_SUBDIRS),)
+ifneq ($(__SUBDIRS),)
 beforeinstall-dirs:
-	@for d in $(_SUBDIRS); do \
+	@for d in $(__SUBDIRS); do \
 		$(MKINSTALLDIRS) $(MANDIR)/man$$d ; \
 	done
 
 beforeinstall-dirperms:
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	@for d in $(_SUBDIRS); do \
+	@for d in $(__SUBDIRS); do \
 		chown $(__CHOWN_ARGS) $(MANDIR)/man$$d ; \
 	done
 endif
