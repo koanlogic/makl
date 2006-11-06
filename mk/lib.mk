@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.24 2006/11/06 09:37:01 tho Exp $
+# $Id: lib.mk,v 1.25 2006/11/06 09:39:24 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -103,7 +103,7 @@ uninstall: uninstall-static uninstall-shared
 uninstall-static:
 	rm -f $(LIBDIR)/lib$(__LIB).a
 
-include deps.mk
+include priv/deps.mk
 
 # XXX A.OUT naming conventions
 ### ifeq ($(strip $(OBJFORMAT)), aout)

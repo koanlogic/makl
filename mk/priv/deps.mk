@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.8 2006/11/06 09:23:11 tho Exp $
+# $Id: deps.mk,v 1.1 2006/11/06 09:39:24 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.

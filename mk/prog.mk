@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.19 2006/11/06 09:37:01 tho Exp $
+# $Id: prog.mk,v 1.20 2006/11/06 09:39:24 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -68,4 +68,4 @@ install: beforeinstall realinstall afterinstall
 uninstall:
 	rm -f $(BINDIR)/$(PROG)
 
-include deps.mk
+include priv/deps.mk
