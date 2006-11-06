@@ -5,7 +5,9 @@ LIB = x
 SRCS = a.c b.c
 CFLAGS += -I../include
 SHLIB = true
-BUNDLE = true
+SHLIB_MAJOR = 1
+SHLIB_MINOR = 4
+#BUNDLE = true
 
 LIBOWN = pippo
 LIBGRP = pluto
