@@ -1,4 +1,4 @@
-# $Id: default.mk,v 1.4 2006/11/06 09:48:50 tho Exp $
+# $Id: default.mk,v 1.5 2006/11/07 14:54:55 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -38,16 +38,19 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(__LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-soname,$(SONAME) \
+	$(CC) -shared -Wl,-soname,$(SONAME) \
+	    -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 
 install-shared:
 	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
+	ln -sf $(SONAME) $(LIBDIR)/$(SHLIB_LINK)
+	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SONAME)
 
 uninstall-shared:
 	rm -f $(LIBDIR)/$(SHLIB_NAME)
 	rm -f $(LIBDIR)/$(SHLIB_LINK)
+	rm -f $(LIBDIR)/$(SONAME)
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)
