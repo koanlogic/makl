@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.4 2006/11/06 09:48:50 tho Exp $
+# $Id: freebsd.mk,v 1.5 2006/11/07 21:26:21 tho Exp $
 #
 # FreeBSD
 
@@ -7,6 +7,9 @@ ifdef SHLIB
 SHLIB_OBJS = $(OBJS:.o=.so)
 SHLIB_MAJOR ?= 0
 SHLIB_MINOR ?= 0
+
+# default object fmt
+OBJFORMAT ?= elf
 
 #
 # automatic rules for shared objects
