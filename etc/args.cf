@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.9 2006/05/18 14:16:44 stewy Exp $
+# $Id: args.cf,v 1.10 2006/11/07 19:08:29 stewy Exp $
 #
 
 # general settings
@@ -47,6 +47,8 @@ makl_args_add   "dir" "inc"     "BASE=/usr/local/includes"  "" \
                 "includes"
 makl_args_add   "dir" "lib"     "BASE=/usr/local/lib"       "" \
                 "libraries"
+makl_args_add   "dir" "shlib"   "BASE=/usr/local/shlib"     "" \
+                "shared libraries"
 makl_args_add   "dir" "libex"   "BASE=/usr/local/libexec"   "" \
                 "executables run by programmes"
 makl_args_add   "dir" "var"     "BASE=/usr/local/var"       "" \
