@@ -4,13 +4,17 @@ include ../Makefile.conf
 LIB = x
 SRCS = a.c b.c
 CFLAGS += -I../include
+
 SHLIB = true
 SHLIB_MAJOR = 1
 SHLIB_MINOR = 4
-#BUNDLE = true
+SHLIB_TEENY = 2
 
-LIBOWN = pippo
-LIBGRP = pluto
+#BUNDLE = true
+#BUNDLE_EXT = kext
+
+#LIBOWN = pippo
+#LIBGRP = pluto
 
 include lib.mk
 
@@ -19,7 +23,7 @@ test: all
 
 # hook targets 
 all-hook-pre:
-	@$(ECHO) "all-hook-pre action"
+	@$(ECHO) "==> all-hook-pre action [NONE]"
 
 all-hook-post:
-	@$(ECHO) "all-hook-post action"
+	@$(ECHO) "==> all-hook-post action [NONE]"
