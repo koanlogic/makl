@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.13 2006/11/06 09:37:01 tho Exp $
+# $Id: incs.mk,v 1.14 2006/11/07 11:53:13 tho Exp $
 #
 # Only define the install target.
 #
@@ -10,11 +10,6 @@ include ../etc/map.mk
 
 all clean depend cleandepend:
 	@echo "nothing to do for $(MAKECMDGOALS) target in $(CURDIR) ..."		
-
-# build arguments list for '(before,real)install' operations
-
-clean:
-	rm -f $(CLEANFILES)
 
 include priv/funcs.mk
 # build arguments list for '(before,real)install' operations
