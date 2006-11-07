@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.38 2006/10/17 22:38:02 stewy Exp $
+# $Id: makl_args_handle,v 1.39 2006/11/07 19:13:11 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -75,6 +75,7 @@ makl_args_handle ()
     
     # check generated dependencies
     _makl_deps_check
+    _makl_set_dirs
 }
 
 _makl_help_print ()
@@ -222,7 +223,7 @@ __makl_prefix ()
 {
     [ $# -eq 1 ] || _makl_args_err "--prefix: wrong number of arguments!"
     
-    makl_set_dirs $1
+    makl_set "__prefix__" $1
 }
 
 ##\brief Handler. Set the base directory for a specific data type.

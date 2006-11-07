@@ -1,5 +1,5 @@
 #
-# $Id: vars.cf,v 1.4 2006/05/21 11:03:24 stewy Exp $
+# $Id: vars.cf,v 1.5 2006/11/07 19:13:11 stewy Exp $
 #
 
 
@@ -15,7 +15,7 @@ makl_vars_def       "cf"    "Internal configuration vars"
 makl_set    "__C__" 1
 
 # installation directory
-makl_set_dirs       "/usr/local" 
+makl_set            "__prefix__"    "/usr/local" 
 
 # compilation flags - include conf.h
-makl_add_var_mk     "CFLAGS"   "-I`dirname ${makl_conf_h}`"
+makl_add_var_mk     "CFLAGS"        "-I`dirname ${makl_conf_h}`"
