@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.5 2006/11/07 21:26:21 tho Exp $
+# $Id: freebsd.mk,v 1.6 2006/11/08 10:21:23 tho Exp $
 #
 # FreeBSD
 
@@ -32,7 +32,7 @@ else
 ifeq ($(strip $(OBJFORMAT)), elf)
     SHLIB_LINK ?= lib$(__LIB).so
     SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
-    SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
+    SHLIB_NAME ?= $(SONAME)
 else
     $(error OBJFORMAT must be one of aout or elf on FreeBSD platform)
 endif
