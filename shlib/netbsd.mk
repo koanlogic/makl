@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.2 2006/11/08 14:40:15 tho Exp $
+# $Id: netbsd.mk,v 1.3 2006/11/08 15:01:57 tho Exp $
 #
 # NetBSD
 
@@ -33,6 +33,7 @@ ifeq ($(strip $(OBJFORMAT)), elf)
     SHLIB_LINK ?= lib$(__LIB).so
     SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
     SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
+    PICNAME = lib$(__LIB)_pic.a
 else
     $(error OBJFORMAT must be one of aout or elf on NetBSD platform)
 endif
@@ -45,18 +46,19 @@ all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(__LIB) library ($(OBJFORMAT))"
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
+	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
+	ln -sf $(SHLIB_NAME) $(SONAME)
 ifeq ($(strip $(OBJFORMAT)), aout)
 	$(CC) -shared -Wl,-x,-assert,pure-text \
 	    -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-	$(AR) cq lib$(__LIB)_pic.a `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
+	$(AR) cq $(PICNAME) `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 	$(LD) -x -shared -R$(SHLIBDIR) -soname $(SONAME) -o \
 	    $(SHLIB_NAME) /usr/lib/crtbeginS.o --whole-archive \
-	    lib$(__LIB)_pic.a /usr/lib/crtendS.o
+	    $(PICNAME) /usr/lib/crtendS.o
 endif
 endif
 
@@ -72,6 +74,6 @@ uninstall-shared:
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
+	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME) $(PICNAME)
 
 endif
