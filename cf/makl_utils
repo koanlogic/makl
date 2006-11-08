@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.35 2006/11/07 21:58:24 stewy Exp $
+# $Id: makl_utils,v 1.36 2006/11/08 09:49:24 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -20,7 +20,7 @@ makl_pkg_name ()
 ##\brief Set the package version.
 ##
 ##  Set the package version to \e $1.
-##  [format: "X.Y.Z", where X, Y and Z are digits]
+##  [format: "X.Y.Zdesc", where X, Y and Z are digits and desc is alphanumeric]
 ##  If no argument is supplied, a file named VERSION in the base 
 ##  directory containing the version is expected. 
 ##  The package name must already be defined by \e makl_pkg_name().
@@ -45,10 +45,9 @@ makl_pkg_version ()
     minor=`${ECHO} ${ver} | cut -d '.' -f 2 | grep '^[0-9][0-9]*$'`
     [ $? = 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
     teenydesc=`${ECHO} ${ver} | cut -d '.' -f 3`
-
-    teeny=`${ECHO} ${teenydesc} | cut -d ' ' -f 1 | grep '^[0-9][0-9]*$'`
-    [ $? = 0 ] || makl_err 2 "makl_pkg_version(): teeny must be numeric!"
-    desc=`${ECHO} ${teenydesc} | cut -s -d ' ' -f 2 | grep '^[a-zA-Z][0-9a-zA-z]*'`
+    teeny=`echo ${teenydesc} | sed 's/[a-zA-z].*$//'`
+    [ $? = 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
+    desc=`echo ${teenydesc} | sed -e 's/^[0-9]\{1,\}//'`
 
     ver="${major}.${minor}.${teeny}${desc}"
 
