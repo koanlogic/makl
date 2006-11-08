@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.10 2006/11/06 09:44:10 tho Exp $
+# $Id: Makefile.dist,v 1.11 2006/11/08 10:35:48 stewy Exp $
 
 include common.mk
 
@@ -15,7 +15,7 @@ DISTFILES += $(wildcard mk/*.mk) Makefile
 DISTFILES += $(wildcard mk/priv/*.mk)
 
 # configuration (etc files)
-DISTFILES += etc/args.cf etc/map.mk etc/vars.cf
+DISTFILES += etc/args.cf etc/map.mk etc/vars.cf etc/funcs.cf
 
 # helpers
 DISTFILES += helpers/lorder helpers/mkdep.gcc.sh helpers/mkinstalldirs

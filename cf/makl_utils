@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.36 2006/11/08 09:49:24 stewy Exp $
+# $Id: makl_utils,v 1.37 2006/11/08 10:35:48 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -51,9 +51,14 @@ makl_pkg_version ()
 
     ver="${major}.${minor}.${teeny}${desc}"
 
+    makl_info "setting version to ${ver}"
+
     makl_set_var "`makl_upper ${pkg}`_VERSION" ${ver} 1
 
-    makl_info "setting version to ${ver}"
+    makl_set "__ver__" ${ver}
+    makl_set "__ver_major__" ${major}
+    makl_set "__ver_minor__" ${minor}
+    makl_set "__ver_teeny__" ${teeny}
 }
 
 ##\brief Print the OS name.

@@ -1,0 +1,11 @@
+makl_args_def "enable_shared"   "" "" "enable shared library build"
+
+__makl_enable_shared ()
+{
+    [ -z `makl_get "__ver__"` ] && makl_err 2 "VERSION file not defined!"
+
+    makl_set_var_mk "SHLIB" "true"
+    makl_set_var_mk "SHLIB_MAJOR" `makl_get "__ver_major__"`
+    makl_set_var_mk "SHLIB_MINOR" `makl_get "__ver_minor__"`
+    makl_set_var_mk "SHLIB_TEENY" `makl_get "__ver_teeny__"` 
+}

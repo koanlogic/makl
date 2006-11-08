@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.21 2006/11/08 00:41:06 stewy Exp $
+# $Id: makl.init,v 1.22 2006/11/08 10:35:48 stewy Exp $
 #
 
 # read in just once
@@ -45,6 +45,7 @@ makl_dbg_globals
 # initialise default variables and command line arguments
 . ${MAKL_DIR}/etc/vars.cf
 . ${MAKL_DIR}/etc/args.cf
+. ${MAKL_DIR}/etc/funcs.cf
 
 # pass the control to the user.
 fi
