@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.3 2006/11/08 15:01:57 tho Exp $
+# $Id: netbsd.mk,v 1.4 2006/11/08 15:05:22 tho Exp $
 #
 # NetBSD
 
@@ -33,7 +33,7 @@ ifeq ($(strip $(OBJFORMAT)), elf)
     SHLIB_LINK ?= lib$(__LIB).so
     SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
     SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
-    PICNAME = lib$(__LIB)_pic.a
+    PICNAME ?= lib$(__LIB)_pic.a
 else
     $(error OBJFORMAT must be one of aout or elf on NetBSD platform)
 endif
