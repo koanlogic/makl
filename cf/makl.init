@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.20 2006/05/23 18:08:54 stewy Exp $
+# $Id: makl.init,v 1.21 2006/11/08 00:41:06 stewy Exp $
 #
 
 # read in just once
@@ -23,6 +23,15 @@ if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
     exit 1
 fi
 
+# create a fresh makl run dir
+if [ -d ${makl_run_dir} ]; then
+    rm -rf ${makl_run_dir}
+fi
+mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
+
+# save the environment 
+env > ${makl_run_dir}/env
+
 # source makl cf macros including helpers the toolchain file 
 for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
@@ -32,15 +41,6 @@ done
 
 # show global variables' values
 makl_dbg_globals
-
-# create a fresh makl run dir
-if [ -d ${makl_run_dir} ]; then
-    rm -rf ${makl_run_dir}
-fi
-mkdir -p ${makl_run_dir} || makl_err 1 "cannot create makl_run_dir"
-
-# save the environment 
-env > ${makl_run_dir}/env
 
 # initialise default variables and command line arguments
 . ${MAKL_DIR}/etc/vars.cf
