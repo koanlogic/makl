@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.7 2006/11/07 08:40:28 tho Exp $
+# $Id: darwin.mk,v 1.8 2006/11/08 13:29:01 tho Exp $
 #
 # Darwin 
 
@@ -25,15 +25,15 @@ BUNDLE_EXT ?= bundle
 #
 ifdef BUNDLE
     __WHAT = "a loadable module"
-    SHLIB_CC_FLAGS = -bundle -flat_namespace -undefined suppress
+    SHLIB_LDFLAGS = -bundle -flat_namespace -undefined suppress
     SHLIB_NAME = $(__LIB).$(BUNDLE_EXT)
 else
     __WHAT = "a shared library"
     __COMPAT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR)
     __CURRENT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR).$(SHLIB_TEENY)
-    SHLIB_CC_FLAGS += -dynamiclib -install_name $(SHLIBDIR)/$(SHLIB_NAME)
-    SHLIB_CC_FLAGS += -compatibility_version $(__COMPAT_VER)
-    SHLIB_CC_FLAGS += -current_version $(__CURRENT_VER)
+    SHLIB_LDFLAGS += -dynamiclib -install_name $(SHLIBDIR)/$(SHLIB_NAME)
+    SHLIB_LDFLAGS += -compatibility_version $(__COMPAT_VER)
+    SHLIB_LDFLAGS += -current_version $(__CURRENT_VER)
     SHLIB_NAME ?= lib$(__LIB).$(__CURRENT_VER).dylib
     SHLIB_LINK1 ?= lib$(__LIB).dylib
     SHLIB_LINK2 ?= lib$(__LIB).$(SHLIB_MAJOR).dylib
@@ -51,7 +51,7 @@ ifndef BUNDLE
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK1)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK2)
 endif
-	$(__CC) $(SHLIB_CC_FLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
+	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
 
 install-shared:
 	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
