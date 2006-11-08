@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.8 2006/11/08 13:29:01 tho Exp $
+# $Id: darwin.mk,v 1.9 2006/11/08 14:40:15 tho Exp $
 #
 # Darwin 
 
@@ -54,7 +54,7 @@ endif
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
 
 install-shared:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
 ifndef BUNDLE
 	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK1)
 	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK2)

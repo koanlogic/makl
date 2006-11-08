@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.1 2006/11/08 13:39:58 tho Exp $
+# $Id: netbsd.mk,v 1.2 2006/11/08 14:40:15 tho Exp $
 #
 # NetBSD
 
@@ -53,15 +53,15 @@ ifeq ($(strip $(OBJFORMAT)), aout)
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 else
 ifeq ($(strip $(OBJFORMAT)), elf)
-	$(AR) cq $(__LIB)_pic.a `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
+	$(AR) cq lib$(__LIB)_pic.a `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 	$(LD) -x -shared -R$(SHLIBDIR) -soname $(SONAME) -o \
 	    $(SHLIB_NAME) /usr/lib/crtbeginS.o --whole-archive \
-	    $(__LIB)_pic.a /usr/lib/crtendS.o
+	    lib$(__LIB)_pic.a /usr/lib/crtendS.o
 endif
 endif
 
 install-shared:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
 	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SONAME)
 
