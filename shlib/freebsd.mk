@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.6 2006/11/08 10:21:23 tho Exp $
+# $Id: freebsd.mk,v 1.7 2006/11/08 14:41:14 tho Exp $
 #
 # FreeBSD
 
@@ -60,7 +60,7 @@ endif
 endif
 
 install-shared:
-	$(INSTALL) $(_INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
 	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
 
 uninstall-shared:
