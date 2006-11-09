@@ -1,0 +1,11 @@
+# $Id: linux-mipsel.tc,v 1.1 2006/11/09 15:29:17 stewy Exp $
+#
+# mipsel-linux GNU toolchain.
+
+CC = mipsel-linux-gcc
+CXX = mipsel-linux-g++
+AR = mipsel-linux-ar
+RANLIB = mipsel-linux-ranlib
+LD = mipsel-linux-ld
+NM = mipsel-linux-nm
+STRIP = mipsel-linux-strip
