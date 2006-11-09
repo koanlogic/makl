@@ -1,18 +1,20 @@
-$Id: ChangeLog,v 1.12 2006/11/08 22:22:39 stewy Exp $
+$Id: ChangeLog,v 1.13 2006/11/09 16:26:43 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
-MaKL 1.2.2:
-	- shared libs support
+MaKL 1.3.0:
+	- hooks for clean,all,install,uninstall targets in lib and prog templates
+	- Linux mipsel toolchain added
+	- shared libs support (Darwin, Linux, FreeBSD, NetBSD, OpenBSD)
 	- added basic test/tutorial framework
 	- added configure arguments to both header and Makefile output
-    - VERSION file supports description
+	- VERSION file supports description
 	- deps.mk: lex/yacc support
-    - undefine conf.h variables to avoid redefinition
-    - export output Makefile variables for recursive make calls
+	- undefine conf.h variables to avoid redefinition
+	- export output Makefile variables for recursive make calls
 	- party.mk: fix logging output to absolute path
-    - fixed ordering between -L and -l arguments for shared libraries
-    - correct environment import for set operations
+	- fixed ordering between -L and -l arguments for shared libraries
+	- correct environment import for set operations
 
 MaKL 1.2.1:
 	- makl_file_sub() added
@@ -22,39 +24,39 @@ MaKL 1.2.1:
 	  output config files 
 
 MaKL 1.2.0:
-    - QNX toolchains added (ARM, MIPS, PPC, SH)
-    - VxWorks toolchains added (DCC compiler)
-    - toolchain names changed to OS-CPU.tc
-    - new make target: purge
-    - party.mk: added decompression, download and integrity check targets, 
-      split steps more cleanly, state check
-    - bug fix: strip LIB name before using it
-    - makl_check_tools, makl_checktmzone, makl_checkinline, makl_checkextvar,
-      makl_target_name added
-    - minor bug fixes (forced type checks for VxWorks, whitespace in type-based
-      variable generation)
+	- QNX toolchains added (ARM, MIPS, PPC, SH)
+	- VxWorks toolchains added (DCC compiler)
+	- toolchain names changed to OS-CPU.tc
+	- new make target: purge
+	- party.mk: added decompression, download and integrity check targets, 
+	  split steps more cleanly, state check
+	- bug fix: strip LIB name before using it
+	- makl_check_tools, makl_checktmzone, makl_checkinline, 
+	  makl_checkextvar, makl_target_name added
+	- minor bug fixes (forced type checks for VxWorks, whitespace in 
+	  type-based variable generation)
 
 MaKL 1.1.1:
-    - by default use MKINSTALLDIRS, MKDEP and LORDER from makl/helpers/
+	- by default use MKINSTALLDIRS, MKDEP and LORDER from makl/helpers/
 
 MaKL 1.1.0:
-    - cross compilation support:
-        - toolchain target now depends on MAKL_PLATFORM
-        - new switch --cross-compile avoids execution tests
-    - new variable MAKL_TC influences the top-level toolchain target
-    - new ports: ARM, MIPS, PowerPC and SH via Buildroot, Cris/Axis.
-    - makl_append_var_mk() alias to makl_add_var_mk()
-    - new switch --libs set default base dir for all libs
-    - separate info (default) from dbg (--verbose) output
-    - --help switch optimisation: store configure.help for reuse
-    - new switch --help_gen (or -g) to generate a new configure.help
-    - tab_get fix to avoid grep error
-    - dist.mk also creates the .md5 checksum for the package
+	- cross compilation support:
+	- toolchain target now depends on MAKL_PLATFORM
+	- new switch --cross-compile avoids execution tests
+	- new variable MAKL_TC influences the top-level toolchain target
+	- new ports: ARM, MIPS, PowerPC and SH via Buildroot, Cris/Axis.
+	- makl_append_var_mk() alias to makl_add_var_mk()
+	- new switch --libs set default base dir for all libs
+	- separate info (default) from dbg (--verbose) output
+	- --help switch optimisation: store configure.help for reuse
+	- new switch --help_gen (or -g) to generate a new configure.help
+	- tab_get fix to avoid grep error
+	- dist.mk also creates the .md5 checksum for the package
 
 MaKL 1.0.0:
-    - include logic changed to support toolchain overriding
-    - new ports: OpenBSD 3.8, NetBSD 2.0.x, NetBSD 2.1, FreeBSD 6.0
-    - a number of optimisations for speed
+	- include logic changed to support toolchain overriding
+	- new ports: OpenBSD 3.8, NetBSD 2.0.x, NetBSD 2.1, FreeBSD 6.0
+	- a number of optimisations for speed
 
 MaKL 0.4.0:
-    - first public release
+	- first public release
