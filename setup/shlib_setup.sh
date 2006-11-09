@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: shlib_setup.sh,v 1.3 2006/11/08 13:39:58 tho Exp $
+# $Id: shlib_setup.sh,v 1.4 2006/11/09 21:10:36 tho Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -19,6 +19,9 @@ else
     else
         case ${rsname}
         in 
+            openbsd*)
+                platform="openbsd"
+                ;;
             netbsd*)
                 platform="netbsd"
                 ;;
