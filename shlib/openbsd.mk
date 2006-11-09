@@ -1,4 +1,4 @@
-# $Id: openbsd.mk,v 1.1 2006/11/09 16:13:47 tho Exp $
+# $Id: openbsd.mk,v 1.2 2006/11/09 21:26:06 tho Exp $
 #
 # OpenBSD
 
@@ -16,12 +16,12 @@ SHLIB_MINOR ?= 0
 .c.so:
 	$(CC) -fpic -DPIC $(CFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
-	$rm -f $*.so.o
+	rm -f $*.so.o
 
 .cc.so .C.so .cpp.so .cxx.so:
 	$(CXX) -fpic -DPIC $(CXXFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
-	$rm -f $*.so.o
+	rm -f $*.so.o
 
 SHLIB_NAME ?= lib$(__LIB).so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
 
