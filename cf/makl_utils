@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.37 2006/11/08 10:35:48 stewy Exp $
+# $Id: makl_utils,v 1.38 2006/11/09 16:42:47 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -45,8 +45,8 @@ makl_pkg_version ()
     minor=`${ECHO} ${ver} | cut -d '.' -f 2 | grep '^[0-9][0-9]*$'`
     [ $? = 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
     teenydesc=`${ECHO} ${ver} | cut -d '.' -f 3`
-    teeny=`echo ${teenydesc} | sed 's/[a-zA-z].*$//'`
-    [ $? = 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
+    teeny=`echo ${teenydesc} | sed -e 's/[a-zA-Z].*$//'`
+    [ $? = 0 ] || makl_err 2 "makl_pkg_version(): teeny must be numeric!"
     desc=`echo ${teenydesc} | sed -e 's/^[0-9]\{1,\}//'`
 
     ver="${major}.${minor}.${teeny}${desc}"
