@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.27 2006/11/09 15:19:12 tho Exp $
+# $Id: lib.mk,v 1.28 2006/11/09 21:37:54 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -12,6 +12,8 @@
 # - all, clean, install, uninstall.
 
 include ../etc/map.mk
+
+all: all-hook-pre all-static all-shared all-hook-post
 
 # if SHLIB is defined, all these targets must be set in shlib.mk
 ifndef SHLIB
@@ -59,8 +61,6 @@ include priv/shlib.mk
 ##
 ## all(build) target
 ##
-all: all-hook-pre all-static all-shared all-hook-post
-
 all-hook-pre:
 all-hook-post:
 
