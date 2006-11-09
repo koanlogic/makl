@@ -1,9 +1,10 @@
 #
-# $Id: dist.mk,v 1.10 2006/11/09 15:19:12 tho Exp $
+# $Id: dist.mk,v 1.11 2006/11/09 16:12:24 stewy Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
 # - PKG_VERSION     Versione number
+# - PKG_NODIR		No base directory in package
 # - ZIP             Compression utility
 # - DISTFILES       List of files to be added to distribution
 # - DISTREMAP       Ordered couplets of file name in cvs-src and its alias in
@@ -21,8 +22,9 @@ ZIPEXT ?= bz2
 MD5SUM = md5sum
 
 DISTDIR=$(PKG_NAME)-$(PKG_VERSION)
+DISTNAME=$(DISTDIR)
 
-dist: dist-hook-pre realdist afterdist dist-hook-post
+dist: dist-hook-pre realdist dist-hook-post afterdist
 
 # targets available to users
 dist-hook-pre:
@@ -35,7 +37,7 @@ normaldist:
 		dir=`dirname $$f` && \
 		file=`basename $$f` && \
 		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
-		cp $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
+		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
 	done
 
 ifneq ($(DISTREMAP),)
@@ -45,21 +47,33 @@ remapdist:
 		in=$$1 ; shift ; \
 		out=$$1 ; shift ; \
 		$(MKINSTALLDIRS) $(DISTDIR)/`dirname $$out` && \
-		cp -f $$in $(DISTDIR)/$$out ; \
+		cp -fPR $$in $(DISTDIR)/$$out ; \
 	done
 else
 remapdist:
 endif
 
+olddir=$(shell pwd)
+ifdef PKG_NODIR 
 afterdist:
-	@tar cf $(DISTDIR).tar $(DISTDIR) && \
-	rm -f $(DISTDIR).tar.$(ZIPEXT) && \
-	$(ZIP) $(DISTDIR).tar && \
-	$(MD5SUM) $(DISTDIR).tar.$(ZIPEXT) > $(DISTDIR).tar.$(ZIPEXT).md5 && \
-	rm -rf $(DISTDIR).tar $(DISTDIR)
+	@cd $(DISTDIR) && \
+	tar cf $(olddir)/$(DISTNAME).tar . && \
+	rm -f $(olddir)/$(DISTNAME).tar.$(ZIPEXT) && \
+	$(ZIP) $(olddir)/$(DISTNAME).tar && \
+	cd - && \
+	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \
+	rm -rf $(DISTNAME).tar $(DISTDIR)
+else
+afterdist:
+	@tar cf $(DISTNAME).tar $(DISTDIR) && \
+	rm -f $(DISTNAME).tar.$(ZIPEXT) && \
+	$(ZIP) $(DISTNAME).tar && \
+	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \
+	rm -rf $(DISTNAME).tar $(DISTDIR)
+endif
 
 distclean:
-	rm -rf $(DISTDIR).tar* $(DISTDIR)
+	rm -rf $(DISTNAME).tar* $(DISTDIR)
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:
