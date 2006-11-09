@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.26 2006/11/06 09:41:00 tho Exp $
+# $Id: lib.mk,v 1.27 2006/11/09 15:19:12 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -10,12 +10,8 @@
 #
 # Applicable targets:
 # - all, clean, install, uninstall.
-#
-# TODO: profiled and special PIC libs (i.e. PIC archives)
 
 include ../etc/map.mk
-
-all: all-hook-pre all-static all-shared all-hook-post
 
 # if SHLIB is defined, all these targets must be set in shlib.mk
 ifndef SHLIB
@@ -60,10 +56,15 @@ include priv/shlib.mk
 .cc.o .C.o .cpp.o .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
-all-static: lib$(__LIB).a
+##
+## all(build) target
+##
+all: all-hook-pre all-static all-shared all-hook-post
 
 all-hook-pre:
 all-hook-post:
+
+all-static: lib$(__LIB).a
 
 lib$(__LIB).a: $(OBJS)
 	@echo "===> building standard $(__LIB) library"
@@ -71,18 +72,32 @@ lib$(__LIB).a: $(OBJS)
 	$(AR) $(ARFLAGS) lib$(__LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
 	$(RANLIB) lib$(__LIB).a
 
-clean: clean-static clean-shared
+##
+## clean target
+##
+clean: clean-hook-pre clean-static clean-shared clean-hook-post
+
+clean-hook-pre:
+clean-hook-post:
 
 clean-static:
 	rm -f $(OBJS) $(CLEANFILES)
 	rm -f lib$(__LIB).a
+
+##
+## install target
+##
+install: install-hook-pre install-dir-setup realinstall install-hook-post
+
+install-hook-pre:
+install-hook-post:
 
 # build arguments list for '(before,real)install' operations
 include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
-beforeinstall:
+install-dir-setup:
 	$(MKINSTALLDIRS) $(LIBDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	chown $(__CHOWN_ARGS) $(LIBDIR)
@@ -93,19 +108,17 @@ realinstall: install-static install-shared
 install-static:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
 
-# hook target
-afterinstall:
+##
+## uninstall target
+##
+uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
-install: beforeinstall realinstall afterinstall
+realuninstall: uninstall-static uninstall-shared
 
-uninstall: uninstall-static uninstall-shared
+uninstall-hook-pre:
+uninstall-hook-post:
 
 uninstall-static:
 	rm -f $(LIBDIR)/lib$(__LIB).a
 
 include priv/deps.mk
-
-# XXX A.OUT naming conventions
-### ifeq ($(strip $(OBJFORMAT)), aout)
-###    SHLIB_LINK ?= lib$(__LIB).so
-###    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)

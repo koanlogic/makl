@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.9 2006/06/22 10:18:36 tho Exp $
+# $Id: dist.mk,v 1.10 2006/11/09 15:19:12 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -25,7 +25,8 @@ DISTDIR=$(PKG_NAME)-$(PKG_VERSION)
 dist: dist-hook-pre realdist afterdist dist-hook-post
 
 # targets available to users
-dist-hook-pre dist-hook-post:
+dist-hook-pre:
+dist-hook-post:
 
 realdist: normaldist remapdist
 

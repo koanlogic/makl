@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.21 2006/11/06 14:02:06 tho Exp $
+# $Id: prog.mk,v 1.22 2006/11/09 15:19:12 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -27,7 +27,13 @@ OBJS = $(OBJS_C)
 
 __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 
+##
+## all(build) target
+##
 all: all-hook-pre $(PROG) all-hook-post
+
+all-hook-pre:
+all-hook-post:
 
 ifndef USE_CXX
 $(PROG): $(OBJS)
@@ -37,20 +43,33 @@ $(PROG): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(__LDS)
 endif
 
-all-hook-pre:
-all-hook-post:
+##
+## clean target
+##
+clean: clean-hook-pre realclean clean-hook-post
+
+clean-hook-pre:
+clean-hook-post:
 
 CLEANFILES += $(PROG) $(OBJS)
 
-clean:
+realclean:
 	rm -f $(CLEANFILES)
+
+##
+## install target
+## 
+install: install-hook-pre install-dir-setup realinstall install-hook-post
+
+install-hook-pre:
+install-hook-post:
 
 include priv/funcs.mk
 # build arguments list for '(before,real)install' operations
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
-beforeinstall:
+install-dir-setup:
 	$(MKINSTALLDIRS) $(BINDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	chown $(__CHOWN_ARGS) $(BINDIR)
@@ -60,11 +79,15 @@ realinstall:
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
 	    -m $(BINMODE) $(PROG) $(BINDIR)
 
-afterinstall:
+##
+## uninstall target
+##
+uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
-install: beforeinstall realinstall afterinstall
+uninstall-hook-pre:
+uninstall-hook-post:
 
-uninstall:
+realuninstall:
 	rm -f $(BINDIR)/$(PROG)
 
 include priv/deps.mk
