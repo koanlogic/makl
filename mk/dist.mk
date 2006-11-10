@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.11 2006/11/09 16:12:24 stewy Exp $
+# $Id: dist.mk,v 1.12 2006/11/10 09:50:02 stewy Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -73,7 +73,7 @@ afterdist:
 endif
 
 distclean:
-	rm -rf $(DISTNAME).tar* $(DISTDIR)
+	rm -rf $(PKG_NAME)*
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:
