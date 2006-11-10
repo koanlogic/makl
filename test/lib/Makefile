@@ -2,8 +2,12 @@ include common.mk
 include ../Makefile.conf
 
 LIB = x
-SRCS = a.c b.c
+SRCS = a.c b.c x.cc
 CFLAGS += -I../include
+
+USE_CXX = true
+# '+=' => in order to inherit CFLAGS settings
+CXXFLAGS += -fdollars-in-identifiers 
 
 SHLIB = true
 SHLIB_MAJOR = 1
@@ -27,3 +31,9 @@ all-hook-pre:
 
 all-hook-post:
 	@$(ECHO) "==> all-hook-post action [NONE]"
+
+clean-hook-pre:
+	@$(ECHO) "==> pre clean action [NONE]"
+
+uninstall-hook-post:
+	@$(ECHO) "==> post uninstall action [NONE]"
