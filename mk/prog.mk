@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.22 2006/11/09 15:19:12 tho Exp $
+# $Id: prog.mk,v 1.23 2006/11/10 10:29:20 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -32,9 +32,9 @@ __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 ##
 all: all-hook-pre $(PROG) all-hook-post
 
-all-hook-pre:
-all-hook-post:
+all-hook-pre all-hook-post:
 
+## linking stage
 ifndef USE_CXX
 $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(__LDS)
@@ -48,21 +48,17 @@ endif
 ##
 clean: clean-hook-pre realclean clean-hook-post
 
-clean-hook-pre:
-clean-hook-post:
-
 CLEANFILES += $(PROG) $(OBJS)
 
 realclean:
 	rm -f $(CLEANFILES)
 
+clean-hook-pre clean-hook-post:
+
 ##
 ## install target
 ## 
 install: install-hook-pre install-dir-setup realinstall install-hook-post
-
-install-hook-pre:
-install-hook-post:
 
 include priv/funcs.mk
 # build arguments list for '(before,real)install' operations
@@ -79,15 +75,16 @@ realinstall:
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
 	    -m $(BINMODE) $(PROG) $(BINDIR)
 
+install-hook-pre install-hook-post:
+
 ##
 ## uninstall target
 ##
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
-uninstall-hook-pre:
-uninstall-hook-post:
-
 realuninstall:
 	rm -f $(BINDIR)/$(PROG)
+
+uninstall-hook-pre uninstall-hook-post:
 
 include priv/deps.mk
