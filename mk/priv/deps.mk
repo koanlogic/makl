@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.1 2006/11/06 09:39:24 tho Exp $
+# $Id: deps.mk,v 1.2 2006/11/10 10:00:36 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -43,7 +43,7 @@ realdepend:
 	touch $(DEPENDFILE)
 	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) -a $(SRCS)
 
-afterdepend:
+afterdepend: .depend
 ifdef PROG
 ifdef DPADD
 	echo $(PROG): $(DPADD) >> $(DEPENDFILE)
@@ -51,6 +51,15 @@ endif
 ifdef LDADD
 	echo $(PROG): $(LDADD) >> $(DEPENDFILE)
 endif
+endif
+ifdef SHLIB
+	@(tmpfile=`mktemp /tmp/__depend.XXXXXX`; \
+	if [ $$? -ne 0 ]; then \
+	    echo "$$0: cannot create temp file, exiting ..."; \
+	    exit 1; \
+	fi; \
+	sed -e 's/^\([^\.]*\).o[ ]*:/\1.o \1.so:/' < .depend > $$tmpfile; \
+	mv $$tmpfile .depend)
 endif
 
 cleandepend:
