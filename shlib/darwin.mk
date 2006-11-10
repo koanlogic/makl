@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.9 2006/11/08 14:40:15 tho Exp $
+# $Id: darwin.mk,v 1.10 2006/11/10 09:24:07 tho Exp $
 #
 # Darwin 
 
@@ -11,18 +11,21 @@ SHLIB_TEENY ?= 0
 
 BUNDLE_EXT ?= bundle
 
-#
-# automatic rules for shared objects
-#
+##
+## Automatic rules for shared objects.
+##
 .SUFFIXES: .so .c .cc .C .cpp .cxx
 
-.c.so .cc.so .C.so .cpp.so .cxx.so:
-	$(__CC) -fno-common $(CPICFLAGS) -DPIC $(__CCFLAGS) -c $< -o $*.so
+.cc.so .C.so .cpp.so .cxx.so:
+	$(CXX) -fno-common $(CPICFLAGS) -DPIC $(CXXFLAGS) -c $< -o $*.so
 
-#
-# The default is to build a shared library. 
-# If BUNDLE is set a loadable module will be built instead.
-#
+.c.so:
+	$(CC) -fno-common $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
+
+##
+## The default on Darwin platform is to build a shared library. 
+## If BUNDLE is set a loadable module will be built instead.
+##
 ifdef BUNDLE
     __WHAT = "a loadable module"
     SHLIB_LDFLAGS = -bundle -flat_namespace -undefined suppress
@@ -39,9 +42,9 @@ else
     SHLIB_LINK2 ?= lib$(__LIB).$(SHLIB_MAJOR).dylib
 endif
 
-#
-# build rules (__CC is set by lib.mk)
-#
+##
+## build/ld rules (__CC is set by lib.mk)
+##
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)

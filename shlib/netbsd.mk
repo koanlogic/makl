@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.4 2006/11/08 15:05:22 tho Exp $
+# $Id: netbsd.mk,v 1.5 2006/11/10 09:24:07 tho Exp $
 #
 # NetBSD
 
@@ -8,12 +8,9 @@ SHLIB_OBJS = $(OBJS:.o=.so)
 SHLIB_MAJOR ?= 0
 SHLIB_MINOR ?= 0
 
-# default object fmt
-OBJFORMAT ?= elf
-
-#
-# automatic rules for shared objects
-#
+##
+## Automatic rules for shared objects.
+##
 .SUFFIXES: .so .c .cc .C .cpp .cxx
 
 .c.so:
@@ -22,45 +19,28 @@ OBJFORMAT ?= elf
 .cc.so .C.so .cpp.so .cxx.so:
 	$(CXX) -fpic -DPIC $(CXXFLAGS) -c $< -o $*.so
 
-#
-# set library naming vars (perhaps specific to OBJFORMAT)
-#
-ifeq ($(strip $(OBJFORMAT)), aout)
-    SHLIB_LINK ?= lib$(__LIB).so
-    SHLIB_NAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR).$(SHLIB_MINOR)
-else
-ifeq ($(strip $(OBJFORMAT)), elf)
-    SHLIB_LINK ?= lib$(__LIB).so
-    SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
-    SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
-    PICNAME ?= lib$(__LIB)_pic.a
-else
-    $(error OBJFORMAT must be one of aout or elf on NetBSD platform)
-endif
-endif
+##
+## Set library naming vars
+##
+SHLIB_LINK ?= lib$(__LIB).so
+SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
+SHLIB_NAME ?= $(SONAME).$(SHLIB_MINOR)
+PICNAME ?= lib$(__LIB)_pic.a
 
-#
-# build rules
-#
+##
+## Build rules.
+##
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building shared $(__LIB) library ($(OBJFORMAT))"
+	@echo "===> building shared $(__LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SONAME)
-ifeq ($(strip $(OBJFORMAT)), aout)
-	$(CC) -shared -Wl,-x,-assert,pure-text \
-	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
-else
-ifeq ($(strip $(OBJFORMAT)), elf)
 	$(AR) cq $(PICNAME) `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 	$(LD) -x -shared -R$(SHLIBDIR) -soname $(SONAME) -o \
 	    $(SHLIB_NAME) /usr/lib/crtbeginS.o --whole-archive \
 	    $(PICNAME) /usr/lib/crtendS.o
-endif
-endif
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)

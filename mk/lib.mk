@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.28 2006/11/09 21:37:54 tho Exp $
+# $Id: lib.mk,v 1.29 2006/11/10 09:24:07 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -13,15 +13,8 @@
 
 include ../etc/map.mk
 
-all: all-hook-pre all-static all-shared all-hook-post
-
-# if SHLIB is defined, all these targets must be set in shlib.mk
-ifndef SHLIB
-all-shared:
-install-shared:
-uninstall-shared:
-clean-shared:
-endif
+# strip lib name
+__LIB = $(strip $(LIB))
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS_c = $(SRCS:.c=.o)
@@ -31,25 +24,12 @@ OBJS_cxx = $(OBJS_cc:.cxx=.o)
 OBJS_C = $(OBJS_cxx:.C=.o)
 OBJS = $(OBJS_C)
 
-# set compiler and flags
-ifdef USE_CXX
-    __CC = $(CXX)
-    __CCFLAGS = $(CXXFLAGS)
-else
-    __CC = $(CC)
-    __CCFLAGS = $(CFLAGS)
-endif
-
-# default obj format is ELF
+##
+## Default obj format is ELF
+##
 OBJFORMAT ?= elf
 
-# strip lib name
-__LIB = $(strip $(LIB))
-
-# when the user defines SHLIB in its Makefile, shared libs are also built,
-# various shlib variables are set depending on the host platform.
-include priv/shlib.mk
-
+# automatic build rules
 .SUFFIXES: .o .c .cc .C .cpp .cxx
 
 .c.o:
@@ -61,8 +41,7 @@ include priv/shlib.mk
 ##
 ## all(build) target
 ##
-all-hook-pre:
-all-hook-post:
+all: all-hook-pre all-static all-shared all-hook-post
 
 all-static: lib$(__LIB).a
 
@@ -72,25 +51,23 @@ lib$(__LIB).a: $(OBJS)
 	$(AR) $(ARFLAGS) lib$(__LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
 	$(RANLIB) lib$(__LIB).a
 
+all-hook-pre all-hook-post:
+
 ##
 ## clean target
 ##
 clean: clean-hook-pre clean-static clean-shared clean-hook-post
 
-clean-hook-pre:
-clean-hook-post:
-
 clean-static:
 	rm -f $(OBJS) $(CLEANFILES)
 	rm -f lib$(__LIB).a
+
+clean-hook-pre clean-hook-post:
 
 ##
 ## install target
 ##
 install: install-hook-pre install-dir-setup realinstall install-hook-post
-
-install-hook-pre:
-install-hook-post:
 
 # build arguments list for '(before,real)install' operations
 include priv/funcs.mk
@@ -108,6 +85,8 @@ realinstall: install-static install-shared
 install-static:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
 
+install-hook-pre install-hook-post:
+
 ##
 ## uninstall target
 ##
@@ -115,10 +94,27 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall: uninstall-static uninstall-shared
 
-uninstall-hook-pre:
-uninstall-hook-post:
-
 uninstall-static:
 	rm -f $(LIBDIR)/lib$(__LIB).a
 
+uninstall-hook-pre uninstall-hook-post:
+
+##
+## Shared library trampoline.
+## If the user defines SHLIB in its Makefile, shared libs are also built.
+## If SHLIB is defined, the shlib targets must be set in the platform 
+## specific shlib.mk file.
+##
+ifndef SHLIB
+all-shared install-shared uninstall-shared clean-shared: 
+endif
+
+## Prepare the compiler used for the shared lib ld stage.
+## This is user driven: if the USE_CXX variable is set in the parent Makefile,
+## then the C++ compiler will be used, otherwise plain C compiler 
+## This is probably a gcc-ism - needs a closer look with another (non-GNU) 
+## toolchain.
+__CC = $(if $(strip $(USE_CXX)), $(CXX), $(CC))
+
+include priv/shlib.mk
 include priv/deps.mk
