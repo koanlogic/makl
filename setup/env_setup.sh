@@ -12,7 +12,7 @@ __available_shells="bash|sh|zsh|ksh|csh|tcsh"
 ## $1 makl_dir
 ## $2 makl_version
 ## $3 maklrc
-function output_sh_compat ()
+output_sh_compat ()
 {
     echo "MAKL_VERSION=\"$2\""       > $3
     echo "export MAKL_VERSION"      >> $3
@@ -27,7 +27,7 @@ function output_sh_compat ()
 ## $1 makl_dir
 ## $2 makl_version
 ## $3 maklrc
-function output_csh_compat ()
+output_csh_compat ()
 {
     echo "setenv MAKL_VERSION \"$2\""       > $3
     echo ""                                 >> $3
@@ -36,7 +36,7 @@ function output_csh_compat ()
     echo "setenv MAKEFLAGS \"-I $1/mk\""    >> $3
 }
 
-function validate_shell ()
+validate_shell ()
 {
     local ans
 
@@ -45,7 +45,7 @@ function validate_shell ()
 
     echo -n "Pick up a shell [$__login_shell]: "
 
-    while read -p "$*" -e ans 
+    while read -p "$*" ans 
     do
         ans="`echo $ans | tr '[A-Z]' '[a-z]'`"
 
@@ -65,7 +65,7 @@ function validate_shell ()
    done
 }
 
-function pickup_envfile ()
+pickup_envfile ()
 {
     local ans
 
@@ -74,7 +74,7 @@ function pickup_envfile ()
 
     echo -n "Pick a suitable environment file [$__maklrc]: "
 
-    while read -p "$*" -e ans 
+    while read -p "$*" ans 
     do
         case "${ans}" in
             "")

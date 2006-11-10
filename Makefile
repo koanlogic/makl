@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.11 2006/11/10 18:08:55 tho Exp $
+# $Id: Makefile,v 1.12 2006/11/10 20:44:29 tho Exp $
 #
 
 MAKL_ROOT_DIR = $(shell pwd)
@@ -29,7 +29,8 @@ toolchain:
 	@setup/toolchain_setup.sh $(MAKL_PLATFORM)
 
 env:
-	@setup/env_setup.sh $(MAKL_DIR) $(MAKL_VERSION) $(LOGIN_SHELL) $(MAKLRC)
+	@setup/env_setup.sh $(MAKL_ROOT_DIR) $(MAKL_VERSION) $(LOGIN_SHELL) \
+        $(MAKLRC)
  
 hints:
 	@setup/shell_setup.sh $(MAKL_ROOT_DIR)
