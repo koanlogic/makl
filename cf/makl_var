@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.19 2006/11/08 00:41:06 stewy Exp $
+# $Id: makl_var,v 1.20 2006/11/14 22:32:04 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -21,7 +21,7 @@ makl_set_var_h ()
 
     # grab from environment if defined
     str=`grep "^${var}=" ${f_env}`
-    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2` 
+    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2-` 
 
     if [ $3 ];  then                #string
         val="\"${val}\""
@@ -50,7 +50,7 @@ makl_set_var_mk ()
 
     # grab from environment if defined
     str=`grep "^${var}=" ${f_env}`
-    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2` 
+    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2-` 
 
     makl_dbg "setting makefile variable $1 to ${val}"
     _makl_var_set "mk" "$1" 1 "${val}"
@@ -71,7 +71,7 @@ makl_add_var_mk ()
 
     # grab from environment if defined
     if [ $? = 0 ]; then
-        val=`${ECHO} ${str} | cut -d "=" -f 2` 
+        val=`${ECHO} ${str} | cut -d "=" -f 2-` 
         grep -v "^${var}=" ${f_env} > ${f_env}.tmp
         mv ${f_env}.tmp ${f_env}
     else
@@ -86,7 +86,7 @@ makl_add_var_mk ()
 
     makl_dbg "appending ${val} to makefile variable ${var}"
     ${ECHO} "${var}=${val}" >> ${f_env}
-    makl_set_var_mk "${var}" "${val}"
+    _makl_var_set "mk" "${var}" 1 "${val}"
 }
 
 #\brief Alias: makl_add_var_mk
