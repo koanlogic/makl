@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.1 2006/11/16 15:57:15 tho Exp $
+# $Id: maklsh.in,v 1.2 2006/11/16 17:22:15 tho Exp $
 
-export MAKL_DIR=@{{DESTDIR}}
+export MAKL_DIR=@{{SHAREDIR}}
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
 
 MAKL_VERSION=`cat ${MAKL_DIR}/VERSION &>/dev/null`
