@@ -1,6 +1,9 @@
 #
-# $Id: Makefile,v 1.12 2006/11/10 20:44:29 tho Exp $
+# $Id: Makefile,v 1.13 2006/11/16 16:01:49 tho Exp $
 #
+
+include mk/common.mk
+-include Makefile.conf
 
 MAKL_ROOT_DIR = $(shell pwd)
 MAKL_VERSION = $(shell cat $(MAKL_ROOT_DIR)/VERSION)
@@ -34,6 +37,20 @@ env:
  
 hints:
 	@setup/shell_setup.sh $(MAKL_ROOT_DIR)
+
+install: Makefile.conf toolchain
+	@$(GNU_MAKE) -C bin/ install
+	@$(MKINSTALLDIRS) $(SHAREDIR)
+	@for d in cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do \
+		cp -r $$d $(SHAREDIR)/$$d ; \
+	done
+
+Makefile.conf:
+	@echo "run ./configure"
+
+uninstall: Makefile.conf
+	@$(GNU_MAKE) -C bin/ uninstall
+	@rm -rf $(SHAREDIR)
 
 clean:
 	rm -f $(MAKL_ROOT_DIR)/etc/toolchain.mk
