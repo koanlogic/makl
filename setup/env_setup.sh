@@ -1,11 +1,12 @@
 #!/bin/sh
 
-[ $# -lt 4 ] && exit 1
+[ $# -lt 5 ] && exit 1
 
 __makl_dir=$1
 __makl_version=$2
 __login_shell=$3
 __maklrc=$4
+__interactive=$5
 
 __available_shells="bash|sh|zsh|ksh|csh|tcsh"
 
@@ -89,8 +90,7 @@ pickup_envfile ()
     done
 }
 
-validate_shell
-pickup_envfile
+[ ${__interactive} -eq 1 ] && validate_shell && pickup_envfile
 [ -e ${__maklrc} ] && echo "warning: overriding an existing file"
 touch ${__maklrc}
 [ $? -ne 0 ] && exit 1
