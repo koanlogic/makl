@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+# $Id: maklsh.in,v 1.1 2006/11/16 15:57:15 tho Exp $
+
+export MAKL_DIR=@{{DESTDIR}}
+export MAKEFLAGS="-I ${MAKL_DIR}/mk"
+
+MAKL_VERSION=`cat ${MAKL_DIR}/VERSION &>/dev/null`
+PATH_CF_SCRIPT=""       # must be set by search_cf_script()
+PATH_GNUMAKE=@{{GNU_MAKE}}
+
+search_cf_script ()
+{
+    for cf in ./configure.sh    \
+              ./Config.sh       \
+              ./config.sh       \
+              ./Configure.sh    \
+              ./configure       \
+              ./Configure
+    do
+        if [ -x ${cf} ]; then
+            PATH_CF_SCRIPT=${cf} 
+            return
+        fi
+    done
+
+    echo "no suitable configure script found" && exit 1
+}
+
+display_help ()
+{
+    echo "MaKL version ${MAKL_VERSION}, (c) 2005-2006 Koanlogic srl"
+    echo "This is free software, released under the BSD license."
+    echo "...help me..."
+    exit 0
+}
+
+# get overrides from the user 
+[ -f ~/.maklrc ] && . ~/.maklrc
+
+# dispatch action based on how we were called
+case `basename $0`
+in
+    makl)
+        ${PATH_GNUMAKE} $@
+        ;;
+    maklconf)
+        search_cf_script
+        ${PATH_CF_SCRIPT} $@ 
+        ;;
+    maklhelp)
+        display_help
+        ;;
+    *)
+        echo "call me as maklconf or makl"
+        ;;
+esac
+
+exit 0
