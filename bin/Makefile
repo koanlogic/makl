@@ -1,4 +1,4 @@
-include ../mk/common.mk
+include common.mk
 include ../Makefile.conf
 
 PROG = maklsh
@@ -14,4 +14,4 @@ uninstall-hook-pre:
 	rm -f $(BINDIR)/makl
 	rm -f $(BINDIR)/maklconf
 
-include ../mk/prog.mk
+include prog.mk

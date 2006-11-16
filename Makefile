@@ -1,13 +1,15 @@
 #
-# $Id: Makefile,v 1.13 2006/11/16 16:01:49 tho Exp $
+# $Id: Makefile,v 1.14 2006/11/16 16:53:34 tho Exp $
 #
 
-include mk/common.mk
+export MAKL_DIR := $(shell pwd)
+
+-include etc/toolchain.mk
+-include etc/map.mk
 -include Makefile.conf
 
-MAKL_ROOT_DIR = $(shell pwd)
-MAKL_VERSION = $(shell cat $(MAKL_ROOT_DIR)/VERSION)
-MAKLRC ?= $(MAKL_ROOT_DIR)/makl.env
+MAKL_VERSION = $(shell cat $(MAKL_DIR)/VERSION)
+MAKLRC ?= $(MAKL_DIR)/makl.env
 LOGIN_SHELL ?= bash
 
 all help:
@@ -25,34 +27,32 @@ ifndef MAKL_DIR
 	@echo "In order for MaKL to run properly, you must set the MAKL_DIR"
 	@echo "environment variable.  Type 'make hints' to get an help."
 	@echo
-endif    
+endif
 
 toolchain:
 	@setup/shlib_setup.sh $(MAKL_PLATFORM)
 	@setup/toolchain_setup.sh $(MAKL_PLATFORM)
 
 env:
-	@setup/env_setup.sh $(MAKL_ROOT_DIR) $(MAKL_VERSION) $(LOGIN_SHELL) \
+	@setup/env_setup.sh $(MAKL_DIR) $(MAKL_VERSION) $(LOGIN_SHELL) \
         $(MAKLRC)
  
 hints:
-	@setup/shell_setup.sh $(MAKL_ROOT_DIR)
+	@setup/shell_setup.sh $(MAKL_DIR)
 
-install: Makefile.conf toolchain
-	@$(GNU_MAKE) -C bin/ install
+install: toolchain Makefile.conf
+	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ install
 	@$(MKINSTALLDIRS) $(SHAREDIR)
-	@for d in cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do \
-		cp -r $$d $(SHAREDIR)/$$d ; \
+	@for d in cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do  \
+		cp -r $$d $(SHAREDIR)/$$d ;                         \
 	done
 
-Makefile.conf:
-	@echo "run ./configure"
-
 uninstall: Makefile.conf
-	@$(GNU_MAKE) -C bin/ uninstall
+	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ uninstall
 	@rm -rf $(SHAREDIR)
 
 clean:
-	rm -f $(MAKL_ROOT_DIR)/etc/toolchain.mk
-	rm -f $(MAKL_ROOT_DIR)/etc/toolchain.cf
-	rm -f $(MAKL_ROOT_DIR)/mk/shlib.mk
+	rm -f $(MAKL_DIR)/etc/toolchain.mk
+	rm -f $(MAKL_DIR)/etc/toolchain.cf
+	rm -f $(MAKL_DIR)/mk/shlib.mk
+	rm -f Makefile.conf conf.h
