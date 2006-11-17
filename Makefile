@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.17 2006/11/17 02:49:31 tho Exp $
+# $Id: Makefile,v 1.18 2006/11/17 02:54:08 tho Exp $
 #
 
 export MAKL_DIR := $(shell pwd)
@@ -61,7 +61,9 @@ uninstall: Makefile.conf
 	@rm -rf $(MAKL_ROOT)
 
 clean:
+	rm -f $(MAKLRC)
 	rm -f $(MAKL_DIR)/etc/toolchain.mk
 	rm -f $(MAKL_DIR)/etc/toolchain.cf
 	rm -f $(MAKL_DIR)/mk/shlib.mk
 	rm -f Makefile.conf conf.h
+	rm -fr build/
