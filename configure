@@ -15,6 +15,8 @@ __makl_gnu_make ()
 
 makl_args_handle "$@"
 
+makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
+
 # prerequisite is GNU_MAKE variable set
 [ -z `makl_get_var_mk GNU_MAKE` ] && \
         makl_err 1 "set GNU make path using --gnu_make command line switch"

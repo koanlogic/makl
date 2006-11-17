@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.16 2006/11/16 17:55:03 tho Exp $
+# $Id: Makefile,v 1.17 2006/11/17 02:49:31 tho Exp $
 #
 
 export MAKL_DIR := $(shell pwd)
@@ -48,9 +48,9 @@ hints:
 
 install: $(MAKL_DIR)/Makefile.conf toolchain
 	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ install
-	@$(MKINSTALLDIRS) $(SHAREDIR)
-	@for d in cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do  \
-		cp -r $$d $(SHAREDIR)/$$d ;                         \
+	@$(MKINSTALLDIRS) $(MAKL_ROOT)
+	@for d in VERSION cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do  \
+		cp -r $$d $(MAKL_ROOT)/$$d ;    \
 	done
 
 $(MAKL_DIR)/Makefile.conf:
@@ -58,7 +58,7 @@ $(MAKL_DIR)/Makefile.conf:
 
 uninstall: Makefile.conf
 	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ uninstall
-	@rm -rf $(SHAREDIR)
+	@rm -rf $(MAKL_ROOT)
 
 clean:
 	rm -f $(MAKL_DIR)/etc/toolchain.mk
