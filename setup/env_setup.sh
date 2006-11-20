@@ -25,7 +25,7 @@ output_sh_compat ()
     echo "export MAKEFLAGS"                                 >> $3
     echo ""                                                 >> $3
     echo "# Set this to expand the config scripts search"   >> $3
-    echo "#MAKL_CF_SCRIPTS=\"myconfigure myconfigure.sh\""  >> $3
+    echo "#MAKL_CF_SCRIPTS=\"./myconf ./myconf.sh\""        >> $3
     echo "#export MAKL_CF_SCRIPTS"                          >> $3
 }
 
@@ -34,14 +34,14 @@ output_sh_compat ()
 ## $3 maklrc
 output_csh_compat ()
 {
-    echo "setenv MAKL_VERSION \"$2\""                                > $3
-    echo ""                                                         >> $3
-    echo "setenv MAKL_DIR \"$1\""                                   >> $3
-    echo ""                                                         >> $3
-    echo "setenv MAKEFLAGS \"-I $1/mk\""                            >> $3
-    echo ""                                                         >> $3
-    echo "# Set this to expand the config scripts search"           >> $3
-    echo "#setenv MAKL_CF_SCRIPTS \"myconfigure myconfigure.sh\""   >> $3
+    echo "setenv MAKL_VERSION \"$2\""                        > $3
+    echo ""                                                 >> $3
+    echo "setenv MAKL_DIR \"$1\""                           >> $3
+    echo ""                                                 >> $3
+    echo "setenv MAKEFLAGS \"-I $1/mk\""                    >> $3
+    echo ""                                                 >> $3
+    echo "# Set this to expand the config scripts search"   >> $3
+    echo "#setenv MAKL_CF_SCRIPTS \"./myconf ./myconf.sh\"" >> $3
 }
 
 validate_shell ()
