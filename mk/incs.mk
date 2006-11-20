@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.15 2006/11/07 13:46:42 tho Exp $
+# $Id: incs.mk,v 1.16 2006/11/20 13:33:39 tho Exp $
 #
 # Only define the install target.
 #
@@ -10,6 +10,18 @@ include ../etc/map.mk
 
 all clean depend cleandepend:
 	@echo "nothing to do for $(MAKECMDGOALS) target in $(CURDIR) ..."
+
+all: all-hook-pre all-hook-post
+clean: clean-hook-pre clean-hook-post
+uninstall: uninstall-hook-pre uninstall-hook-post
+depend: depend-hook-pre depend-hook-post
+cleandepend: cleandepend-hook-pre cleandepend-hook-post
+
+all-hook-pre all-hook-post:
+clean-hook-pre clean-hook-post:
+uninstall-hook-pre uninstall-hook-post:
+depend-hook-pre depend-hook-post:
+cleandepend-hook-pre cleandepend-hook-post:
 
 include priv/funcs.mk
 # build arguments list for '(before,real)install' operations
@@ -25,9 +37,9 @@ endif
 realinstall:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
 
-afterinstall:
+install: install-hook-pre beforeinstall realinstall install-hook-post
 
-install: beforeinstall realinstall afterinstall
+install-hook-pre install-hook-post:
 
 uninstall:
 	for f in $(INCS); do \
