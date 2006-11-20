@@ -1,5 +1,5 @@
 #
-# tested on FreeBSD 5.*
+# tested on FreeBSD 5.* and 6.*
 #
 CFLAGS = -pipe
 MKINSTALLDIRS = /bin/mkdir -p
