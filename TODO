@@ -3,3 +3,4 @@
   (i.e. mk_precond function needed)
 * more testing needed for shared libraries on BSD platforms
 * cf/makl_{answer,question} for interactive settings
+* remove build/ after configuration
