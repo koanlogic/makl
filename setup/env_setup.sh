@@ -15,14 +15,18 @@ __available_shells="bash|sh|zsh|ksh|csh|tcsh"
 ## $3 maklrc
 output_sh_compat ()
 {
-    echo "MAKL_VERSION=\"$2\""       > $3
-    echo "export MAKL_VERSION"      >> $3
-    echo ""                         >> $3
-    echo "MAKL_DIR=\"$1\""          >> $3
-    echo "export MAKL_DIR"          >> $3
-    echo ""                         >> $3
-    echo "MAKEFLAGS=\"-I $1/mk\""   >> $3
-    echo "export MAKEFLAGS"         >> $3
+    echo "MAKL_VERSION=\"$2\""                               > $3
+    echo "export MAKL_VERSION"                              >> $3
+    echo ""                                                 >> $3
+    echo "MAKL_DIR=\"$1\""                                  >> $3
+    echo "export MAKL_DIR"                                  >> $3
+    echo ""                                                 >> $3
+    echo "MAKEFLAGS=\"-I $1/mk\""                           >> $3
+    echo "export MAKEFLAGS"                                 >> $3
+    echo ""                                                 >> $3
+    echo "# Set this to expand the config scripts search"   >> $3
+    echo "#MAKL_CF_SCRIPTS=\"myconfigure myconfigure.sh\""  >> $3
+    echo "#export MAKL_CF_SCRIPTS"                          >> $3
 }
 
 ## $1 makl_dir
@@ -30,11 +34,14 @@ output_sh_compat ()
 ## $3 maklrc
 output_csh_compat ()
 {
-    echo "setenv MAKL_VERSION \"$2\""       > $3
-    echo ""                                 >> $3
-    echo "setenv MAKL_DIR \"$1\""           >> $3
-    echo ""                                 >> $3
-    echo "setenv MAKEFLAGS \"-I $1/mk\""    >> $3
+    echo "setenv MAKL_VERSION \"$2\""                                > $3
+    echo ""                                                         >> $3
+    echo "setenv MAKL_DIR \"$1\""                                   >> $3
+    echo ""                                                         >> $3
+    echo "setenv MAKEFLAGS \"-I $1/mk\""                            >> $3
+    echo ""                                                         >> $3
+    echo "# Set this to expand the config scripts search"           >> $3
+    echo "#setenv MAKL_CF_SCRIPTS \"myconfigure myconfigure.sh\""   >> $3
 }
 
 validate_shell ()
