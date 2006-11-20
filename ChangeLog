@@ -1,9 +1,10 @@
-$Id: ChangeLog,v 1.13 2006/11/09 16:26:43 tho Exp $
+$Id: ChangeLog,v 1.14 2006/11/20 18:29:37 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.3.0:
-	- hooks for clean,all,install,uninstall targets in lib and prog templates
+	- hooks for clean,all,install,uninstall targets in lib, prog and incs 
+	  templates
 	- Linux mipsel toolchain added
 	- shared libs support (Darwin, Linux, FreeBSD, NetBSD, OpenBSD)
 	- added basic test/tutorial framework
