@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.13 2006/11/10 17:53:16 tho Exp $
+# $Id: Makefile.dist,v 1.14 2006/11/20 18:10:10 tho Exp $
 
 include common.mk
 
@@ -6,6 +6,7 @@ PKG_NAME = makl
 PKG_VERSION = $(shell cat VERSION)
 
 DISTFILES = Makefile VERSION README LICENSE ChangeLog
+DISTFILES += configure configure.help
 
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
@@ -38,7 +39,5 @@ DISTFILES += test/autoprog/Makefile
 DISTFILES += $(wildcard test/lib/*.c*) test/lib/Makefile
 DISTFILES += $(wildcard test/include/*.h) test/include/Makefile
 DISTFILES += $(wildcard test/man/*.[13]) test/man/Makefile
-
-# docs (TODO)
 
 include dist.mk

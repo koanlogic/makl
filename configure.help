@@ -1,0 +1,20 @@
+
+'MaKL' - a painless C project configuration tool
+
+Usage: ./configure [OPTION] ...
+
+OPTION can be defined as follows:
+
+--help              [-h] display this help
+--verbose           [-v] show verbose debugging output
+--version           [-V] display MaKL version
+--noclean           do not clean cache at end of execution (testing only)
+--prefix=BASE       set BASE directory for installation [BASE=]
+--dir-bin=BASE      set BASE directory for binaries [BASE=/usr/local/bin]
+--dir-share=BASE    set BASE directory for shared data [BASE=/usr/local/share]
+
+--defown=USERID     set default file owner id
+--defgrp=GROUPID    set default file group id
+--defmode=MODE      set default mode for regular files
+--defbinmode=MODE   set default mode for binary files
+--gnu_make          set GNU make executable path on this system
