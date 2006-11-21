@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.19 2006/11/20 18:11:54 tho Exp $
+# $Id: Makefile,v 1.20 2006/11/21 10:29:15 tho Exp $
 #
 
 export MAKL_DIR := $(shell pwd)
@@ -66,4 +66,3 @@ clean:
 	rm -f $(MAKL_DIR)/etc/toolchain.cf
 	rm -f $(MAKL_DIR)/mk/priv/shlib.mk
 	rm -f Makefile.conf conf.h
-	rm -fr build/

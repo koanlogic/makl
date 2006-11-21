@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.22 2006/11/08 10:35:48 stewy Exp $
+# $Id: makl.init,v 1.23 2006/11/21 10:29:15 tho Exp $
 #
 
 # read in just once
@@ -16,7 +16,7 @@ fi
 # set globals to sensible defaults if not already set
 makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
-makl_run_dir="${makl_run_dir:-`pwd`/build/.makl.run}"
+makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
 if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
     echo "missing toolchain.sh !"
