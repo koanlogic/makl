@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.5 2006/11/20 18:29:37 tho Exp $
+# $Id: maklsh.in,v 1.6 2006/11/27 14:40:39 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -71,5 +71,4 @@ in
         ;;
 esac
 
-# should not reach here; in case return a bad exit code
-exit 1
+exit 0
