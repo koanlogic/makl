@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.23 2006/11/10 10:29:20 tho Exp $
+# $Id: prog.mk,v 1.24 2006/11/27 17:27:51 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -9,7 +9,6 @@
 # - LDFLAGS     ...
 # - CLEANFILES  Additional clean files.
 # - BIN(OWN,GRP,MODE,DIR) installation path and credentials ...
-# - DESTDIR     Base installation directory.
 #
 # Applicable targets:
 # - all, clean, install, uninstall.
