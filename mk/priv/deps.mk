@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.3 2006/11/10 20:56:15 tho Exp $
+# $Id: deps.mk,v 1.4 2006/11/28 16:24:24 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -7,37 +7,18 @@
 # LDADD     Add archive files to the dependency list.
 # 
 # Available targets:
-# - depend, broken up into (before,real,after)depend
+# - depend
 # - cleandepend
 
 DEPENDFILE ?= .depend
 
-# Lex/YACC deps work this way:
-# the grammar 'grammar-file.y' is translated into 'grammar-file.c' and its
-# header 'y.tab.h' is also produced, while the lexical analyzer 'lexical-file.l'
-# which must #include 'y.tab.h') is translated into 'lexical-file.c'.
-# The grammar file MUST precede the lexical file in SRCS definition:
-# SRCS = ... grammar-file.c lexical-file.c ...
-#
-# NOTE that basename of grammar and lexical files must differ from that of any 
-# other source file which otherwise would be overwritten/lost.
+##
+## depend target
+##
+ifndef NO_DEPEND
+depend: depend-hook-pre realdepend afterdepend depend-hook-post
 
-ifdef SRCS
-__YSRCS = $(wildcard *.y)
-ifneq ($(__YSRCS),)
-    YFLAGS = -d
-    CLEANFILES += y.tab.h
-    LDADD += -ly
-endif
-__LSRCS = $(wildcard *.l)
-ifneq ($(__LSRCS),)
-    LDADD += -ll
-endif
-endif
-
-depend: beforedepend realdepend afterdepend
-
-beforedepend:
+depend-hook-pre depend-hook-post:
 
 realdepend:
 	touch $(DEPENDFILE)
@@ -62,7 +43,45 @@ ifdef SHLIB
 	mv $$tmpfile .depend)
 endif
 
-cleandepend:
+else
+depend:
+endif
+
+##
+## cleandepend target
+##
+ifndef NO_CLEANDEPEND
+cleandepend: cleandepend-hook-pre realcleandepend cleandepend-hook-post
+
+cleandepend-hook-pre cleandepend-hook-post:
+
+realcleandepend:
 	rm -f $(DEPENDFILE)
 
+else
+cleandepend:
+endif
+
 -include $(DEPENDFILE)
+
+# Lex/YACC deps work this way (does this belongs here ?):
+# the grammar 'grammar-file.y' is translated into 'grammar-file.c' and its
+# header 'y.tab.h' is also produced, while the lexical analyzer 'lexical-file.l'
+# which must #include 'y.tab.h') is translated into 'lexical-file.c'.
+# The grammar file MUST precede the lexical file in SRCS definition:
+# SRCS = ... grammar-file.c lexical-file.c ...
+#
+# NOTE that basename of grammar and lexical files must differ from that of any 
+# other source file which otherwise would be overwritten/lost.
+ifdef SRCS
+__YSRCS = $(wildcard *.y)
+ifneq ($(__YSRCS),)
+    YFLAGS = -d
+    CLEANFILES += y.tab.h
+    LDADD += -ly
+endif
+__LSRCS = $(wildcard *.l)
+ifneq ($(__LSRCS),)
+    LDADD += -ll
+endif
+endif
