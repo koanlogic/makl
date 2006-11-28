@@ -1,9 +1,9 @@
 #
-# $Id: dist.mk,v 1.12 2006/11/10 09:50:02 stewy Exp $
+# $Id: dist.mk,v 1.13 2006/11/28 16:55:32 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
-# - PKG_VERSION     Versione number
+# - PKG_VERSION     Version number
 # - PKG_NODIR		No base directory in package
 # - ZIP             Compression utility
 # - DISTFILES       List of files to be added to distribution
@@ -11,10 +11,18 @@
 #                   distribution
 #
 # Available targets: 
-#   dist,distclean and user defined dist-hook-(pre,post)
+#   dist, distclean and user defined dist{,clean}-hook-(pre,post)
 
-# TODO check that user has set PKG_* and DISTFILES variables
-# TODO remap directories/files
+# check preconditions
+ifndef PKG_NAME
+$(error PKG_NAME must be set !)
+endif
+ifndef PKG_VERSION
+$(error PKG_VERSION must be set !)
+endif
+ifndef DISTFILES
+$(error DISTFILES must be set !)
+endif
 
 ZIP ?= bzip2
 ZIPEXT ?= bz2
@@ -24,11 +32,13 @@ MD5SUM = md5sum
 DISTDIR=$(PKG_NAME)-$(PKG_VERSION)
 DISTNAME=$(DISTDIR)
 
-dist: dist-hook-pre realdist dist-hook-post afterdist
+##
+## dist target
+##
+dist: dist-hook-pre realdist tarball dist-hook-post
 
 # targets available to users
-dist-hook-pre:
-dist-hook-post:
+dist-hook-pre dist-hook-post:
 
 realdist: normaldist remapdist
 
@@ -55,7 +65,7 @@ endif
 
 olddir=$(shell pwd)
 ifdef PKG_NODIR 
-afterdist:
+tarball:
 	@cd $(DISTDIR) && \
 	tar cf $(olddir)/$(DISTNAME).tar . && \
 	rm -f $(olddir)/$(DISTNAME).tar.$(ZIPEXT) && \
@@ -64,7 +74,7 @@ afterdist:
 	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \
 	rm -rf $(DISTNAME).tar $(DISTDIR)
 else
-afterdist:
+tarball:
 	@tar cf $(DISTNAME).tar $(DISTDIR) && \
 	rm -f $(DISTNAME).tar.$(ZIPEXT) && \
 	$(ZIP) $(DISTNAME).tar && \
@@ -72,8 +82,15 @@ afterdist:
 	rm -rf $(DISTNAME).tar $(DISTDIR)
 endif
 
-distclean:
-	rm -rf $(PKG_NAME)*
+##
+## distclean target
+##
+distclean: distclean-hook-pre realdistclean distclean-hook-post
+
+distclean-hook-pre distclean-hook-post:
+
+realdistclean:
+	rm -rf $(DISTNAME)*
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:
