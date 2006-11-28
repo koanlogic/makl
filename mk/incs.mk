@@ -1,29 +1,63 @@
 #
-# $Id: incs.mk,v 1.16 2006/11/20 13:33:39 tho Exp $
+# $Id: incs.mk,v 1.17 2006/11/28 15:26:24 tho Exp $
 #
-# Only define the install target.
+# Only define the install and uninstall targets.
 #
 # - INCS        the list of header files to install.
 #
 
 include ../etc/map.mk
 
-all clean depend cleandepend:
-	@echo "nothing to do for $(MAKECMDGOALS) target in $(CURDIR) ..."
-
+##
+## all target (nothing but hooks)
+##
+ifndef NO_ALL
 all: all-hook-pre all-hook-post
-clean: clean-hook-pre clean-hook-post
-uninstall: uninstall-hook-pre uninstall-hook-post
-depend: depend-hook-pre depend-hook-post
-cleandepend: cleandepend-hook-pre cleandepend-hook-post
-
 all-hook-pre all-hook-post:
+else
+all:
+endif
+
+##
+## clean target (nothing but hooks)
+##
+ifndef NO_CLEAN
+clean: clean-hook-pre clean-hook-post
 clean-hook-pre clean-hook-post:
-uninstall-hook-pre uninstall-hook-post:
+else
+clean:
+endif
+
+##
+## depend target (nothing but hooks)
+##
+ifndef NO_DEPEND
+depend: depend-hook-pre depend-hook-post
 depend-hook-pre depend-hook-post:
+else
+depend:
+endif
+
+##
+## cleandepend target (nothing but hooks)
+##
+ifndef NO_CLEANDEPEND
+cleandepend: cleandepend-hook-pre cleandepend-hook-post
 cleandepend-hook-pre cleandepend-hook-post:
+else
+cleandepend:
+endif
 
 include priv/funcs.mk
+
+##
+## install target 
+##
+ifndef NO_INSTALL
+install: install-hook-pre beforeinstall realinstall install-hook-post
+
+install-hook-pre install-hook-post:
+
 # build arguments list for '(before,real)install' operations
 __CHOWN_ARGS = $(call calc-chown-args, $(INCOWN), $(INCGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(INCOWN), $(INCGRP))
@@ -37,11 +71,23 @@ endif
 realinstall:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
 
-install: install-hook-pre beforeinstall realinstall install-hook-post
+else
+install:
+endif
 
-install-hook-pre install-hook-post:
+##
+## uninstall target 
+##
+ifndef NO_UNINSTALL
+uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
-uninstall:
+uninstall-hook-pre uninstall-hook-post:
+
+realuninstall:
 	for f in $(INCS); do \
 	    rm -f $(INCDIR)/`basename $$f`; \
 	done
+
+else
+uninstall:
+endif

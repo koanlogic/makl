@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.24 2006/11/27 17:27:51 tho Exp $
+# $Id: prog.mk,v 1.25 2006/11/28 15:26:24 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -11,7 +11,7 @@
 # - BIN(OWN,GRP,MODE,DIR) installation path and credentials ...
 #
 # Applicable targets:
-# - all, clean, install, uninstall.
+# - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
 #
 
 include ../etc/map.mk
@@ -29,6 +29,7 @@ __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 ##
 ## all(build) target
 ##
+ifndef NO_ALL
 all: all-hook-pre $(PROG) all-hook-post
 
 all-hook-pre all-hook-post:
@@ -42,9 +43,14 @@ $(PROG): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(__LDS)
 endif
 
+else
+all:
+endif
+
 ##
 ## clean target
 ##
+ifndef NO_CLEAN
 clean: clean-hook-pre realclean clean-hook-post
 
 CLEANFILES += $(PROG) $(OBJS)
@@ -53,10 +59,14 @@ realclean:
 	rm -f $(CLEANFILES)
 
 clean-hook-pre clean-hook-post:
+else
+clean:
+endif
 
 ##
 ## install target
 ## 
+ifndef NO_INSTALL
 install: install-hook-pre install-dir-setup realinstall install-hook-post
 
 include priv/funcs.mk
@@ -75,15 +85,22 @@ realinstall:
 	    -m $(BINMODE) $(PROG) $(BINDIR)
 
 install-hook-pre install-hook-post:
+else
+install:
+endif
 
 ##
 ## uninstall target
 ##
+ifndef NO_UNINSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
 	rm -f $(BINDIR)/$(PROG)
 
 uninstall-hook-pre uninstall-hook-post:
+else
+uninstall:
+endif
 
 include priv/deps.mk

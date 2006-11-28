@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.29 2006/11/10 09:24:07 tho Exp $
+# $Id: lib.mk,v 1.30 2006/11/28 15:26:24 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -9,7 +9,7 @@
 # - LIBOWN, LIBGRP, LIBMODE   Installation credentials.
 #
 # Applicable targets:
-# - all, clean, install, uninstall.
+# - all, clean, depend, cleandepend, install, uninstall.
 
 include ../etc/map.mk
 
@@ -41,6 +41,7 @@ OBJFORMAT ?= elf
 ##
 ## all(build) target
 ##
+ifndef NO_ALL
 all: all-hook-pre all-static all-shared all-hook-post
 
 all-static: lib$(__LIB).a
@@ -52,21 +53,30 @@ lib$(__LIB).a: $(OBJS)
 	$(RANLIB) lib$(__LIB).a
 
 all-hook-pre all-hook-post:
+else
+all:
+endif
 
 ##
 ## clean target
 ##
+ifndef NO_CLEAN
 clean: clean-hook-pre clean-static clean-shared clean-hook-post
 
+CLEANFILES += $(OBJS) lib$(__LIB).a
+
 clean-static:
-	rm -f $(OBJS) $(CLEANFILES)
-	rm -f lib$(__LIB).a
+	rm -f $(CLEANFILES)
 
 clean-hook-pre clean-hook-post:
+else
+clean:
+endif
 
 ##
 ## install target
 ##
+ifndef NO_INSTALL
 install: install-hook-pre install-dir-setup realinstall install-hook-post
 
 # build arguments list for '(before,real)install' operations
@@ -87,9 +97,14 @@ install-static:
 
 install-hook-pre install-hook-post:
 
+else
+install:
+endif
+
 ##
 ## uninstall target
 ##
+ifndef NO_INSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall: uninstall-static uninstall-shared
@@ -98,6 +113,10 @@ uninstall-static:
 	rm -f $(LIBDIR)/lib$(__LIB).a
 
 uninstall-hook-pre uninstall-hook-post:
+
+else
+uninstall:
+endif
 
 ##
 ## Shared library trampoline.
