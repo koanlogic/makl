@@ -1,14 +1,22 @@
-# $Id: subst.mk,v 1.1 2006/11/28 14:33:00 tho Exp $
+# $Id: subst.mk,v 1.2 2006/11/29 22:38:33 tho Exp $
 #
-# targets:      subst
-# variables:    SUBST_RULE
-# with syntax:  SUBST_RULE = <input_file> <output_file> <"sed(1) command">
+# targets: subst
+#
+# variables:    
+#   SUBST_RULE      substitution rule (see further on)
+#   SUBST_SUFFIX    if a substitution is requested to have output file X the 
+#                   input file is read from X.$(SUBST_SUFFIX)
+#
+# we have two different kind of SUBST_RULE, shortcut and full: if SUBST_SUFFIX 
+# is defined, then SUBST_RULE = <output_file> <"sed(1) command">, otherwise
+# SUBST_RULE = <input_file> <output_file> <"sed(1) command">.
 
 ifndef SUBST_RULE
 subst:
 	$(warning SUBST_RULE must be defined when including subst.mk template !)
-else
+else    # SUBST_RULE
 subst:
+ifndef SUBST_SUFFIX
 	@set $(SUBST_RULE) ; \
 	while [ $$# -ge 3 ]; \
 	do \
@@ -18,4 +26,14 @@ subst:
 	    echo "sed '"$$rule"' $$fin > $$fout" ; \
 	    sed -e "$$rule" $$fin > $$fout ; \
 	done
-endif
+else    # SUBST_SUFFIX
+	@set $(SUBST_RULE) ; \
+	while [ $$# -ge 2 ]; \
+	do \
+	    fout=$$1 ; fin=$$fout.$(SUBST_SUFFIX) ; shift ; \
+	    rule=$$1 ; shift ; \
+	    echo "sed '"$$rule"' $$fin > $$fout" ; \
+	    sed -e "$$rule" $$fin > $$fout ; \
+	done
+endif   # !SUBST_SUFFIX
+endif   # !SUBST_RULE
