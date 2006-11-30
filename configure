@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export MAKL_DIR=`pwd`
+export makl_conf_h="/dev/null"
 
 . $MAKL_DIR/cf/makl.init
 makl_args_init "$@"

@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.21 2006/11/30 16:57:48 tho Exp $
+# $Id: Makefile,v 1.22 2006/11/30 17:30:26 tho Exp $
 #
 # User Variables:
 # - MAKLRC      file name for hosting MaKL env variables
@@ -8,6 +8,7 @@
 # Available targets:
 #   all help hints toolchain env install uninstall clean
 
+# this one needs to be exported in the 'toolchain' target
 export MAKL_DIR := $(shell pwd)
 
 # these are available after 'toolchain' actions
@@ -83,4 +84,4 @@ clean:
 	rm -f $(MAKL_DIR)/etc/toolchain.mk
 	rm -f $(MAKL_DIR)/etc/toolchain.cf
 	rm -f $(MAKL_DIR)/mk/priv/shlib.mk
-	rm -f Makefile.conf conf.h
+	rm -f Makefile.conf
