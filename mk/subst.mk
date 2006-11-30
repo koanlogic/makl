@@ -1,4 +1,4 @@
-# $Id: subst.mk,v 1.2 2006/11/29 22:38:33 tho Exp $
+# $Id: subst.mk,v 1.3 2006/11/30 00:31:52 tho Exp $
 #
 # targets: subst
 #
@@ -10,6 +10,12 @@
 # we have two different kind of SUBST_RULE, shortcut and full: if SUBST_SUFFIX 
 # is defined, then SUBST_RULE = <output_file> <"sed(1) command">, otherwise
 # SUBST_RULE = <input_file> <output_file> <"sed(1) command">.
+#
+# NOTE: a '$' sign in the sed(1) command must be escaped (i.e. '$$') if it 
+# wants to survive the GNU make variable expansion:
+#   => SUBST_RULE = A.in A.out "s/\!$$/\?/g" 
+# results into:
+#   => sed 's/\!$/\?/g' A.in > A.out
 
 ifndef SUBST_RULE
 subst:
