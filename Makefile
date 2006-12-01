@@ -1,11 +1,12 @@
 #
-# $Id: Makefile,v 1.24 2006/12/01 07:55:11 tho Exp $
+# $Id: Makefile,v 1.25 2006/12/01 15:32:53 tho Exp $
 #
 # User Variables:
-# - MAKLRC      file name for hosting MaKL env variables
-# - LOGIN_SHELL user shell
-# - MAKL_SHLIB  shared library file
-# - MAKL_TC     toolchain file
+# - MAKLRC          file name for hosting MaKL env variables
+# - LOGIN_SHELL     user shell
+# - MAKL_SHLIB      shared library file
+# - MAKL_TC         toolchain file
+# - MAKL_PLATFORM   forces MAKL_SHLIB and MAKL_TC
 #
 # Available targets:
 #   all help hints toolchain env install uninstall clean
@@ -45,8 +46,9 @@ all help:
 # 'toolchain' target does shared libs and toolchain installation for the 
 # host platform
 toolchain:
-	@setup/shlib_setup.sh $(MAKL_PLATFORM)
-	@setup/toolchain_setup.sh $(MAKL_PLATFORM)
+	@[ ! -z $(MAKL_PLATFORM) ] && \
+        tc_env="MAKL_TC=${MAKL_PLATFORM} MAKL_SHLIB=${MAKL_PLATFORM}" ; \
+	env $$tc_env setup/tc_setup.sh
 
 # 'env' (interactively) and 'rc' (unattendedly) targets create a suitable 
 # (i.e. user login shell specific) $MAKLRC file
