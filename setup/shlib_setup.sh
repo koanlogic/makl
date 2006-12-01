@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: shlib_setup.sh,v 1.4 2006/11/09 21:10:36 tho Exp $
+# $Id: shlib_setup.sh,v 1.5 2006/12/01 07:55:11 tho Exp $
 
 if [ -z ${MAKL_DIR} ]; then
     echo "set MAKL_DIR in the shell environment before running any MaKL script"
@@ -35,7 +35,7 @@ else
                 platform="darwin"
                 ;;
             *)
-                platform="default"
+                platform="null"     # disable shlib build targets
                 ;;
         esac 
 

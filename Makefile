@@ -1,9 +1,11 @@
 #
-# $Id: Makefile,v 1.23 2006/12/01 07:41:27 tho Exp $
+# $Id: Makefile,v 1.24 2006/12/01 07:55:11 tho Exp $
 #
 # User Variables:
 # - MAKLRC      file name for hosting MaKL env variables
 # - LOGIN_SHELL user shell
+# - MAKL_SHLIB  shared library file
+# - MAKL_TC     toolchain file
 #
 # Available targets:
 #   all help hints toolchain env install uninstall clean
