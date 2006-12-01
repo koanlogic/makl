@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.22 2006/11/30 17:30:26 tho Exp $
+# $Id: Makefile,v 1.23 2006/12/01 07:41:27 tho Exp $
 #
 # User Variables:
 # - MAKLRC      file name for hosting MaKL env variables
@@ -50,9 +50,7 @@ toolchain:
 # (i.e. user login shell specific) $MAKLRC file
 env rc:
 	@interactive=0 ; \
-	if [ "$(MAKECMDGOALS)" = env ]; then \
-	    interactive=1 ; \
-	fi; \
+	[ "$(MAKECMDGOALS)" = env ] && interactive=1 ; \
 	setup/env_setup.sh $(MAKL_DIR) $(MAKL_VERSION) $(LOGIN_SHELL) \
         $(MAKLRC) $$interactive
 
