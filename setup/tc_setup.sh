@@ -42,6 +42,10 @@ done
 # guess
 case `makl_os_name`
 in
+    linux*)
+        shlib="linux"
+        toolchain=${shlib}
+        ;;
     openbsd*)
         shlib="openbsd"
         toolchain=${shlib}
