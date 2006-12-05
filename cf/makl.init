@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.24 2006/12/04 15:14:45 stewy Exp $
+# $Id: makl.init,v 1.25 2006/12/05 10:17:26 stewy Exp $
 #
 
 # read in just once
@@ -19,7 +19,7 @@ makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
 if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
-    echo "missing toolchain.sh !"
+    echo "missing toolchain.cf !"
     exit 1
 fi
 
@@ -32,20 +32,19 @@ mkdir -p ${makl_run_dir} || exit 1
 # save the environment 
 env > ${makl_run_dir}/env
 
-# source makl cf macros including helpers the toolchain file 
+# source makl functions and configuration
 for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
-        ${MAKL_DIR}/etc/toolchain.cf ; do
-    . $shenv
+        ${MAKL_DIR}/etc/toolchain.cf \
+        ${MAKL_TC_DIR}/toolchain.cf \
+        ${MAKL_DIR}/etc/vars.cf \
+        ${MAKL_DIR}/etc/args.cf \
+        ${MAKL_DIR}/etc/funcs.cf; do
+    [ -f ${shenv} ] && . ${shenv} 2> /dev/null
 done
 
 # show global variables' values
 makl_dbg_globals
-
-# initialise default variables and command line arguments
-. ${MAKL_DIR}/etc/vars.cf
-. ${MAKL_DIR}/etc/args.cf
-. ${MAKL_DIR}/etc/funcs.cf
 
 # pass the control to the user.
 fi
