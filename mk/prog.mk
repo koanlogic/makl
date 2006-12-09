@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.26 2006/12/09 19:35:25 tho Exp $
+# $Id: prog.mk,v 1.27 2006/12/09 22:42:10 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -67,7 +67,7 @@ endif
 ## install target
 ## 
 ifndef NO_INSTALL
-install: install-hook-pre install-dir-setup realinstall install-hook-post
+install: install-hook-pre realinstall install-hook-post
 
 include priv/funcs.mk
 # build arguments list for 'realinstall' operation

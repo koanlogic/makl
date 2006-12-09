@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2006/11/17 02:49:31 tho Exp $
+# $Id: Makefile,v 1.5 2006/12/09 22:42:10 tho Exp $
 
 include common.mk
 include ../Makefile.conf
@@ -6,7 +6,10 @@ include ../Makefile.conf
 PROG = maklsh
 INSTALL_STRIP =
 
-all depend cleandepend:
+NO_ALL = true
+NO_CLEAN = true
+NO_DEPEND = true
+NO_CLEANDEPEND = true
 
 install-hook-post:
 	rm -f $(BINDIR)/makl && ln -s $(BINDIR)/$(PROG) $(BINDIR)/makl

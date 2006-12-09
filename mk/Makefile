@@ -1,11 +1,16 @@
-# TODO 
+# $Id: Makefile,v 1.4 2006/12/09 22:42:10 tho Exp $
 
-test:
-	for f in deps.mk incs.mk lib.mk prog.mk subdir.mk man.mk party.mk ; do \
-    		for t in " " clean install uninstall depend cleandepend ; do \
-        		cmd="make -f $$f -n $$t" ; \
-        		echo "==> $$cmd" ; \
-        		$$cmd 2>&1 ; \
-        		echo ; \
-    		done \
-	done
+include common.mk
+include ../Makefile.conf
+
+FILES = $(shell echo *.sh)
+FILES_DIR = $(MAKL_ROOT)/mk
+FILES_MODE = 0444
+
+install-hook-post:
+	$(MAKE) -C priv install
+
+uninstall-hook-post:
+	$(MAKE) -C priv uninstall
+
+include files.mk

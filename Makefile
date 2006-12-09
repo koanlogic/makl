@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.25 2006/12/01 15:32:53 tho Exp $
+# $Id: Makefile,v 1.26 2006/12/09 22:42:10 tho Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -62,22 +62,20 @@ env rc:
 hints:
 	@setup/shell_setup.sh $(MAKL_DIR)
 
-# 'install' needs the configure step and 'toolchain' target as dependencies
-install: $(MAKL_DIR)/Makefile.conf toolchain
-	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ install ; \
-	$(MKINSTALLDIRS) $(MAKL_ROOT) ; \
-	for d in VERSION cf/ mk/ tc/ etc/ shlib/ helpers/ setup/ ; do  \
-		cp -r $$d $(MAKL_ROOT)/$$d ;    \
-	done
+# 'uninstall' and 'install' targets need the configure step and 'toolchain' 
+# target as dependencies
+install uninstall: $(MAKL_DIR)/Makefile.conf toolchain
+	@for d in bin cf mk tc etc shlib helpers setup ; do \
+	    $(MAKE) -I$(MAKL_DIR)/mk -C $$d $(MAKECMDGOALS) ; \
+	done ; \
+	if [ "$(MAKECMDGOALS)" = uninstall ] ; then \
+	    rm -rf $(MAKL_ROOT) ; \
+	fi
 
 # warn if the configure step has not been already performed
 $(MAKL_DIR)/Makefile.conf:
 	@echo "first you have to run ./configure --gnu_make=..." && exit 1
 
-# 'uninstall' target removes MaKL installed files
-uninstall: Makefile.conf
-	@$(MAKE) -I$(MAKL_DIR)/mk -C bin/ uninstall
-	@rm -rf $(MAKL_ROOT)
 
 # remove files possibly created by other targets (env, rc, toolchain) and
 # by the configure step

@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.17 2006/12/04 08:40:34 tho Exp $
+# $Id: Makefile.dist,v 1.18 2006/12/09 22:42:10 tho Exp $
 
 include common.mk
 
@@ -10,26 +10,33 @@ DISTFILES += configure configure.help
 
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
+DISTFILES += cf/Makefile cf/helpers/Makefile
 
 # maklsh
-DISTFILES += bin/Makefile bin/maklsh.in
+DISTFILES += bin/maklsh.in
+DISTFILES += bin/Makefile
 
 # build (mk files)
-DISTFILES += $(wildcard mk/*.mk) Makefile
+DISTFILES += $(wildcard mk/*.mk)
 DISTFILES += $(wildcard mk/priv/*.mk)
+DISTFILES += mk/Makefile mk/priv/Makefile
 
 # configuration (etc files)
-DISTFILES += etc/args.cf etc/map.mk etc/vars.cf etc/funcs.cf
+DISTFILES += etc/args.cf etc/map.mk etc/vars.cf etc/funcs.cf 
+DISTFILES += etc/Makefile
 
 # helpers
 DISTFILES += helpers/lorder helpers/mkdep.gcc.sh helpers/mkinstalldirs
+DISTFILES += helpers/Makefile
 
 # setup
 DISTFILES += setup/shell_setup.sh setup/tc_setup.sh setup/env_setup.sh
+DISTFILES += setup/Makefile
 
 # toolchain
 DISTFILES += $(wildcard tc/*tc) tc/README
 DISTFILES += $(wildcard shlib/*.mk) shlib/README
+DISTFILES += tc/Makefile shlib/Makefile
 
 # testing
 DISTFILES += test/configure test/Makefile test/Makefile.subdir 
