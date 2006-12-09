@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.17 2006/11/28 15:26:24 tho Exp $
+# $Id: incs.mk,v 1.18 2006/12/09 19:35:25 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -54,21 +54,21 @@ include priv/funcs.mk
 ## install target 
 ##
 ifndef NO_INSTALL
-install: install-hook-pre beforeinstall realinstall install-hook-post
+install: install-hook-pre realinstall install-hook-post
 
 install-hook-pre install-hook-post:
 
-# build arguments list for '(before,real)install' operations
+# build arguments list for 'realinstall' operation
 __CHOWN_ARGS = $(call calc-chown-args, $(INCOWN), $(INCGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(INCOWN), $(INCGRP))
     
-beforeinstall:
+$(INCDIR):
 	$(MKINSTALLDIRS) $(INCDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	chown $(__CHOWN_ARGS) $(INCDIR)
 endif
 
-realinstall:
+realinstall: $(INCDIR)
 	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
 
 else
@@ -87,6 +87,7 @@ realuninstall:
 	for f in $(INCS); do \
 	    rm -f $(INCDIR)/`basename $$f`; \
 	done
+	-rmdir $(INCDIR) 2>/dev/null
 
 else
 uninstall:

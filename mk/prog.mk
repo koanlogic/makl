@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.25 2006/11/28 15:26:24 tho Exp $
+# $Id: prog.mk,v 1.26 2006/12/09 19:35:25 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -70,17 +70,17 @@ ifndef NO_INSTALL
 install: install-hook-pre install-dir-setup realinstall install-hook-post
 
 include priv/funcs.mk
-# build arguments list for '(before,real)install' operations
+# build arguments list for 'realinstall' operation
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
-install-dir-setup:
+$(BINDIR):
 	$(MKINSTALLDIRS) $(BINDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	chown $(__CHOWN_ARGS) $(BINDIR)
 endif
 
-realinstall:
+realinstall: $(BINDIR)
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
 	    -m $(BINMODE) $(PROG) $(BINDIR)
 
@@ -97,6 +97,7 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
 	rm -f $(BINDIR)/$(PROG)
+	-rmdir $(BINDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 else

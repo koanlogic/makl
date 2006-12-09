@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.30 2006/11/28 15:26:24 tho Exp $
+# $Id: lib.mk,v 1.31 2006/12/09 19:35:25 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -77,20 +77,20 @@ endif
 ## install target
 ##
 ifndef NO_INSTALL
-install: install-hook-pre install-dir-setup realinstall install-hook-post
+install: install-hook-pre realinstall install-hook-post
 
-# build arguments list for '(before,real)install' operations
+# build arguments list for 'realinstall' operation
 include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
-install-dir-setup:
+$(LIBDIR):
 	$(MKINSTALLDIRS) $(LIBDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	chown $(__CHOWN_ARGS) $(LIBDIR)
 endif
 
-realinstall: install-static install-shared
+realinstall: $(LIBDIR) install-static install-shared
 
 install-static:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
@@ -111,6 +111,7 @@ realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
 	rm -f $(LIBDIR)/lib$(__LIB).a
+	-rmdir $(LIBDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 
