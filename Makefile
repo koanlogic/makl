@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.26 2006/12/09 22:42:10 tho Exp $
+# $Id: Makefile,v 1.27 2006/12/09 22:50:49 tho Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -75,7 +75,6 @@ install uninstall: $(MAKL_DIR)/Makefile.conf toolchain
 # warn if the configure step has not been already performed
 $(MAKL_DIR)/Makefile.conf:
 	@echo "first you have to run ./configure --gnu_make=..." && exit 1
-
 
 # remove files possibly created by other targets (env, rc, toolchain) and
 # by the configure step
