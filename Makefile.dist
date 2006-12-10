@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.18 2006/12/09 22:42:10 tho Exp $
+# $Id: Makefile.dist,v 1.19 2006/12/10 19:51:46 tho Exp $
 
 include common.mk
 
@@ -11,6 +11,9 @@ DISTFILES += configure configure.help
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 DISTFILES += cf/Makefile cf/helpers/Makefile
+
+# misc
+DISTFILES += misc/Makefile
 
 # maklsh
 DISTFILES += bin/maklsh.in
