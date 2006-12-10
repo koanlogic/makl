@@ -1,9 +1,9 @@
-# $Id: Makefile,v 1.1 2006/12/10 19:50:53 tho Exp $
+# $Id: Makefile,v 1.2 2006/12/10 20:51:26 tho Exp $
 
 include common.mk
 include ../Makefile.conf
 
-FILES = ../VERSION
+FILES = ../VERSION ../LICENSE
 FILES_DIR = $(MAKL_ROOT)
 FILES_MODE = 0444
 
