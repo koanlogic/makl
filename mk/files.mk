@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.1 2006/12/09 19:35:25 tho Exp $
+# $Id: files.mk,v 1.2 2006/12/10 07:20:40 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -10,6 +10,14 @@
 # - install, uninstall
 
 include ../etc/map.mk
+
+# check preconditions
+ifndef FILES
+$(error FILES must be set when including the files.mk template !)
+endif
+ifndef FILES_DIR
+$(error FILES_DIR must be set when including the files.mk template !)
+endif
 
 ##
 ## all(build) target (nothing but hooks)
