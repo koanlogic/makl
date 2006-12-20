@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.13 2006/11/28 16:55:32 tho Exp $
+# $Id: dist.mk,v 1.14 2006/12/20 20:48:29 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -21,8 +21,10 @@ ifndef PKG_VERSION
 $(error PKG_VERSION must be set !)
 endif
 ifndef DISTFILES
-$(error DISTFILES must be set !)
-endif
+ifndef DISTREMAP
+$(error at least one of DISTFILES or DISTREMAP must be set !)
+endif   # !DISTREMAP
+endif   # !DISTFILES
 
 ZIP ?= bzip2
 ZIPEXT ?= bz2
@@ -42,6 +44,7 @@ dist-hook-pre dist-hook-post:
 
 realdist: normaldist remapdist
 
+ifdef DISTFILES
 normaldist:
 	@for f in $(DISTFILES); do \
 		dir=`dirname $$f` && \
@@ -49,8 +52,11 @@ normaldist:
 		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
 		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
 	done
+else    # !DISTFILES
+normaldist:
+endif   # DISTFILES
 
-ifneq ($(DISTREMAP),)
+ifdef DISTREMAP
 remapdist:
 	@set $(DISTREMAP); \
 	while test $$# -ge 2 ; do \
@@ -59,9 +65,9 @@ remapdist:
 		$(MKINSTALLDIRS) $(DISTDIR)/`dirname $$out` && \
 		cp -fPR $$in $(DISTDIR)/$$out ; \
 	done
-else
+else    # !DISTREMAP
 remapdist:
-endif
+endif   # DISTREMAP
 
 olddir=$(shell pwd)
 ifdef PKG_NODIR 
