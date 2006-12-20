@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.6 2006/11/27 14:40:39 tho Exp $
+# $Id: maklsh.in,v 1.7 2006/12/20 20:58:51 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -55,11 +55,13 @@ in
     makl)
         # exec GNU make with user supplied arguments
         ${PATH_GNUMAKE} $@
+        exit $?
         ;;
     maklconf)
         search_cf_script
         # exec the selected configure script with user supplied arguments
         ${PATH_CF_SCRIPT} $@ 
+        exit $?
         ;;
     maklhelp)
         display_help
@@ -71,4 +73,5 @@ in
         ;;
 esac
 
-exit 0
+# should never reach here
+exit 1
