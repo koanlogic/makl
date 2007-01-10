@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.16 2006/11/10 14:31:58 stewy Exp $
+# $Id: party.mk,v 1.17 2007/01/10 12:14:40 tho Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -7,6 +7,7 @@
 # - PARTY_BASE  Base directory for build 
 # - PARTY_CONF  Configure script to be used
 # - PARTY_ARGS  Arguments to be passed to configure script
+# - PARTY_URL   Base URL for package download
 #
 # Applicable Targets:
 # - party clean
