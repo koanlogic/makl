@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.14 2006/12/20 20:48:29 tho Exp $
+# $Id: dist.mk,v 1.15 2007/01/29 16:50:20 stewy Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -29,10 +29,10 @@ endif   # !DISTFILES
 ZIP ?= bzip2
 ZIPEXT ?= bz2
 
-MD5SUM = md5sum
+MD5SUM ?= md5sum
 
-DISTDIR=$(PKG_NAME)-$(PKG_VERSION)
-DISTNAME=$(DISTDIR)
+DISTDIR ?= $(PKG_NAME)-$(PKG_VERSION)
+DISTNAME ?= $(DISTDIR)
 
 ##
 ## dist target
