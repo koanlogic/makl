@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.27 2006/12/09 22:42:10 tho Exp $
+# $Id: prog.mk,v 1.28 2007/01/29 16:49:08 stewy Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -36,10 +36,10 @@ all-hook-pre all-hook-post:
 
 ## linking stage
 ifndef USE_CXX
-$(PROG): $(OBJS)
+$(PROG): $(OBJS) $(LDADD)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(__LDS)
 else
-$(PROG): $(OBJS)
+$(PROG): $(OBJS) $(LDADD)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(__LDS)
 endif
 
