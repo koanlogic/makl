@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.1 2007/02/10 23:02:50 tho Exp $
+# $Id: xeno.mk,v 1.2 2007/02/11 10:06:54 tho Exp $
 # 
 # User Variables:
 #
@@ -42,12 +42,17 @@
 # Set sensible defaults
 #
 XENO_TARBALL ?= $(notdir $(XENO_FETCH_URI))
+XENO_NAME ?= $(firstword                        \
+        $(sort                                  \
+            $(foreach ext, $(XENO_UNZIP_EXTS),  \
+                $(patsubst %$(ext), %, $(XENO_TARBALL)))))
 
 XENO_FETCH ?= wget
 XENO_FETCH_FLAGS ?= --passive-ftp
 
 XENO_UNZIP ?= tar
 XENO_UNZIP_FLAGS ?= zxvf
+XENO_UNZIP_EXTS ?= .tar.bz2 .tbz .tar.gz .tgz .tbz2
 
 XENO_CONF ?= ./configure
 
@@ -62,8 +67,11 @@ XENO_INSTALL_FLAGS = install
 XENO_BUILD_DIR = $(XENO_NAME)
 
 #
-# Test preconditions (TODO)
+# Test preconditions
 #
+ifndef XENO_FETCH_URI
+$(error XENO_FETCH_URI must be set when including the xeno.mk template !)
+endif
 
 ##
 ## all target (with hooks)
