@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.5 2007/02/11 20:53:32 tho Exp $
+# $Id: xeno.mk,v 1.6 2007/02/11 20:57:32 tho Exp $
 # 
 # User Variables:
 #
@@ -115,9 +115,9 @@ ifndef XENO_FETCH_TREE
 	@if [ ! -f dist/$(XENO_FETCH_LOCAL) ]; then \
 	    (cd dist && $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_FETCH_URI)) ;\
 	fi;
-else
+else    # XENO_FETCH_TREE
 	$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_FETCH_URI)
-endif
+endif   # !XENO_FETCH_TREE
 	@touch .realfetch
 
 fetch-hook-pre fetch-hook-post:
