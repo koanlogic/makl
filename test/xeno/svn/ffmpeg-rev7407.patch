@@ -1,0 +1,234 @@
+diff -Naur ffmpeg-org/ffmpeg.c ffmpeg/ffmpeg.c
+--- ffmpeg-org/ffmpeg.c	Thu Jan 11 12:28:20 2007
++++ ffmpeg/ffmpeg.c	Thu Jan 11 12:28:32 2007
+@@ -199,6 +199,9 @@
+ static char *audio_device = NULL;
+ static int audio_volume = 256;
+ 
++static FILE *waveform = NULL;
++static int wps = 10;
++
+ static int using_stdin = 0;
+ static int using_vhook = 0;
+ static int verbose = 1;
+@@ -1159,6 +1162,65 @@
+                 }
+             }
+ 
++            // write waveform plot data
++            if (waveform && ist->st->codec->codec_type == CODEC_TYPE_AUDIO) {
++                /* number of samples */
++                int sample_count = data_size / sizeof(*samples);
++                /* number of samples per second */
++                int sample_rate = ist->st->codec->sample_rate;
++                /* number of channel packet in each sample */
++                int chans = ist->st->codec->channels;
++                /* i-th frame (that contains sample_count samples) */
++                int frame_number = ist->st->codec->frame_number;
++                /* write a plot_dot every plot_rate samples */
++                int plot_rate = sample_rate / wps; 
++                /* the index of the first sample in this frame */
++                int sample_base = (frame_number-1) * sample_count;
++                int t, plot_dot;
++
++#if 0
++                fprintf(waveform, "sample_count: %d\n", sample_count);
++                fprintf(waveform, "sample_rate: %d\n", sample_rate);
++                fprintf(waveform, "chans: %d\n", chans);
++                fprintf(waveform, "plot_rate: %d\n", plot_rate);
++                fprintf(waveform, "sample_base: %d\n", sample_base);
++
++                fprintf(waveform, "frame_size: %d\n", 
++                        ist->st->codec->frame_size);
++                fprintf(waveform, "frame_number: %d\n", 
++                        ist->st->codec->frame_number);
++#endif
++                if(wps > sample_rate) 
++                {
++                    fprintf(stderr, 
++                            "wps can't be bigger then sample rate. "
++                            "wps: %d, sample rate: %d\n", wps, sample_rate);
++                    exit(1);
++                }
++
++                // for each sample write its value the plot file
++                for(i = 0; i < sample_count; i++) 
++                {
++                    if( ((sample_base + i) % plot_rate) != 0)
++                        continue;
++                    plot_dot = 0;
++                    /* take the highest amplitude in all channels */
++                    for(t = 0; t < chans; t++) {
++                        if(samples[i + t] > 0) {
++                            if(samples[i + t] > plot_dot)
++                                plot_dot = samples[i + t];
++                        } else {
++                            if(samples[i + t] < plot_dot)
++                                plot_dot = samples[i + t];
++                        }
++
++                    }
++                    fprintf(waveform, "%d\n", plot_dot);
++                }
++
++                fflush(waveform);
++            }
++
+             /* frame rate emulation */
+             if (ist->st->codec->rate_emu) {
+                 int64_t pts = av_rescale((int64_t) ist->frame * ist->st->codec->time_base.num, 1000000, ist->st->codec->time_base.den);
+@@ -2543,6 +2605,24 @@
+     input_ts_offset = parse_date(arg, 1);
+ }
+ 
++static void opt_gen_waveform_data(const char *filename)
++{
++    if((waveform = fopen(filename, "w")) == NULL) {
++        fprintf(stderr, "Could not open '%s' for writing\n", filename);
++        exit(1);
++    }
++
++}
++
++static void opt_waveform_wps(const char *wpstr)
++{
++    wps = atoi(wpstr);
++    if(wps == 0) {
++        fprintf(stderr, "Bad wps value (%s)\n", wpstr);
++        exit(1);
++    }
++}
++
+ static void opt_input_file(const char *filename)
+ {
+     AVFormatContext *ic;
+@@ -3691,6 +3771,10 @@
+     { "formats", 0, {(void*)show_formats}, "show available formats, codecs, protocols, ..." },
+     { "f", HAS_ARG, {(void*)opt_format}, "force format", "fmt" },
+     { "i", HAS_ARG, {(void*)opt_input_file}, "input file name", "filename" },
++    { "w", HAS_ARG, {(void*)opt_gen_waveform_data}, 
++           "output waveform plot data file", "filename" },
++    { "wps", HAS_ARG, {(void*)opt_waveform_wps}, 
++           "waveform plot rate (points per second)", "wps" },
+     { "y", OPT_BOOL, {(void*)&file_overwrite}, "overwrite output files" },
+     { "map", HAS_ARG | OPT_EXPERT, {(void*)opt_map}, "set input stream mapping", "file:stream[:syncfile:syncstream]" },
+     { "map_meta_data", HAS_ARG | OPT_EXPERT, {(void*)opt_map_meta_data}, "set meta data information of outfile from infile", "outfile:infile" },
+diff -Naur ffmpeg-org/libavformat/flvenc.c ffmpeg/libavformat/flvenc.c
+--- ffmpeg-org/libavformat/flvenc.c	Thu Jan 11 12:28:17 2007
++++ ffmpeg/libavformat/flvenc.c	Thu Jan 11 12:28:44 2007
+@@ -257,6 +257,9 @@
+     ByteIOContext *pb = &s->pb;
+     FLVContext *flv = s->priv_data;
+ 
++    if(getenv("FFMPEG_FLV_NO_LENGTH"))
++        return 0;
++
+     file_size = url_ftell(pb);
+ 
+     /* update informations */
+@@ -269,6 +272,85 @@
+     return 0;
+ }
+ 
++/* patch:   write a meta tag containing helper cuepoint used by the player
++ *          to handle live streams
++ *
++ * metadata tags format:
++ *
++ *     AMFSTRING="onMetaData"
++ *     ASS_ARRAY (length)
++ *          AMFSTRING=name of the var
++ *          AMFTYPE=value of the var
++ *              ...
++ *          AMFSTRING=name of the var
++ *          AMFTYPE=value of the var
++ */
++static int flv_write_meta_step(AVFormatContext *s)
++{
++    ByteIOContext *pb = &s->pb;
++    FLVContext *flv = s->priv_data;
++    int metadata_size_pos, data_size;
++    char cname[512];
++    static int idx = 0;
++
++    /* write meta_tag */
++    put_byte(pb, 18);         // tag type META
++    metadata_size_pos = url_ftell(pb);
++    put_be24(pb, 0);          // size of data part (sum of all parts below)
++    put_be24(pb, 0);          // time stamp
++    put_be32(pb, 0);          // reserved
++
++    /* now data of data_size size */
++
++    /* first event name as a string */
++    put_byte(pb, AMF_DATA_TYPE_STRING);
++    put_amf_string(pb, "onCuePoint");
++
++    /* mixed array (hash) with size and string/type/data tuples */
++    put_byte(pb, AMF_DATA_TYPE_MIXEDARRAY);
++    put_be32(pb, 4); // number of key/value pair (1: only duration)
++
++    snprintf(cname, 256, "cue%d", idx++);
++
++    put_amf_string(pb, "name");
++    put_byte(pb, AMF_DATA_TYPE_STRING);
++    put_amf_string(pb, cname); // 12 bytes
++
++    put_amf_string(pb, "time");
++    put_amf_double(pb, 1 + flv->duration / (double)1000);
++
++    put_amf_string(pb, "type");
++    put_byte(pb, AMF_DATA_TYPE_STRING);
++    put_amf_string(pb, "navigation"); // "navigation" or "event"
++
++    put_amf_string(pb, "parameters");
++    put_byte(pb, AMF_DATA_TYPE_MIXEDARRAY);
++    put_be32(pb, 1); // number of key/value pair (1: only duration)
++
++    put_amf_string(pb, "file_pos");
++//    put_amf_string(pb, "p0value");
++    put_amf_double(pb, url_ftell(pb));
++
++    put_amf_string(pb, "");
++    put_byte(pb, 9);
++
++    put_amf_string(pb, "");
++    put_byte(pb, 9); // end marker 1 byte
++
++    /* write total size of tag */
++    data_size = url_ftell(pb) - metadata_size_pos - 10;
++    url_fseek(pb, metadata_size_pos, SEEK_SET);
++    put_be24(pb, data_size);
++    url_fseek(pb, data_size + 10 - 3, SEEK_CUR);
++    put_be32(pb, data_size + 11);
++
++    put_flush_packet(pb);
++    /* fprintf(stderr, "cue point written\n"); */
++
++    return 0;
++}
++
++
+ static int flv_write_packet(AVFormatContext *s, AVPacket *pkt)
+ {
+     ByteIOContext *pb = &s->pb;
+@@ -276,6 +358,7 @@
+     FLVContext *flv = s->priv_data;
+     int size= pkt->size;
+     int flags;
++    static int count = 0;
+ 
+ //    av_log(s, AV_LOG_DEBUG, "type:%d pts: %"PRId64" size:%d\n", enc->codec_type, timestamp, size);
+ 
+@@ -314,6 +397,11 @@
+     flv->duration = pkt->pts + pkt->duration;
+ 
+     put_flush_packet(pb);
++
++    /* patch: add a meta tag every 20 frames */
++    if(count++ % 20 == 0)
++       flv_write_meta_step(s);
++
+     return 0;
+ }
+ 

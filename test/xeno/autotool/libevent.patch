@@ -1,0 +1,10 @@
+diff -Naur libevent-1.2a/README libevent-1.2b/README
+--- libevent-1.2a/README	Sat Oct 28 05:28:57 2006
++++ libevent-1.2b/README	Sat Feb 10 22:58:47 2007
+@@ -31,5 +31,6 @@
+   Artur Grabowski
+   Stas Bekman
+   Tassilo von Parseval
++  Bongoman
+ 
+ If I have forgotten your name, please contact me.
