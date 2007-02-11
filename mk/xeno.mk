@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.3 2007/02/11 10:17:49 tho Exp $
+# $Id: xeno.mk,v 1.4 2007/02/11 10:33:51 tho Exp $
 # 
 # User Variables:
 #
@@ -70,8 +70,11 @@ XENO_BUILD_DIR = $(XENO_NAME)
 # Test preconditions
 #
 ifndef XENO_FETCH_URI
-$(error XENO_FETCH_URI must be set when including the xeno.mk template !)
-endif
+    ifndef XENO_TARBALL
+        $(error XENO_FETCH_URI or XENO_TARBALL must be set when including the \
+                xeno.mk template !)
+    endif   # !XENO_TARBALL
+endif   # !XENO_FETCH_URI
 
 ##
 ## all target (with hooks)
@@ -151,7 +154,7 @@ endif   # !XENO_NO_UNZIP
 ##
 ## patch{,-clean,-purge} targets
 ##
-ifndef XENO_NO_PATCH
+ifdef XENO_PATCH_FILE
 patch: patch-hook-pre .realpatch patch-hook-post
 
 .realpatch:
@@ -170,7 +173,7 @@ patch-purge: patch-clean
 
 else
 patch patch-clean patch-purge:
-endif   # !XENO_NO_PATCH
+endif   # !XENO_PATCH_FILE
 
 ##
 ## conf{,-clean,-purge} targets
