@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.7 2007/02/12 08:31:49 tho Exp $
+# $Id: xeno.mk,v 1.8 2007/02/12 13:31:19 tho Exp $
 # 
 # User Variables:
 #
@@ -34,6 +34,8 @@
 #
 #   - XENO_INSTALL          Install command
 #   - XENO_INSTALL_FLAGS    Arguments to be passed to $XENO_INSTALL
+#   - XENO_UNINSTALL        Uninstall command
+#   - XENO_UNINSTALL_FLAGS  Arguments to be passed to $XENO_UNINSTALL
 #   - XENO_NO_INSTALL       If set the install: target is skipped
 #
 # Applicable Targets:
@@ -101,10 +103,27 @@ purge: purge-hook-pre install-purge build-purge conf-purge patch-purge \
 purge-hook-pre purge-hook-post:
 
 ##
+## preconditions (in the forward and backward directions)
+##
+fetch-pre:
+unzip-pre: .realfetch
+patch-pre: unzip-pre .realunzip
+conf-pre: patch-pre .realpatch
+build-pre: conf-pre .realconf
+install-pre:  build-pre .realbuild
+
+fetch-clean-pre: unzip-clean unzip-clean-pre
+unzip-clean-pre: patch-clean patch-clean-pre
+patch-clean-pre: conf-clean conf-clean-pre
+conf-clean-pre: build-clean build-clean-pre
+build-clean-pre: install-clean install-clean-pre
+install-clean-pre:
+
+##
 ## fetch{,-clean,-purge} targets
 ##
 ifndef XENO_NO_FETCH
-fetch: fetch-hook-pre .realfetch fetch-hook-post
+fetch: fetch-pre fetch-hook-pre .realfetch fetch-hook-post
 
 .realfetch:
 	@echo "==> fetching $(XENO_NAME) from $(XENO_FETCH_URI)"
@@ -122,7 +141,7 @@ endif   # !XENO_FETCH_TREE
 
 fetch-hook-pre fetch-hook-post:
 
-fetch-clean:
+fetch-clean: fetch-clean-pre
 	@rm -f .realfetch
 
 fetch-purge: fetch-realpurge fetch-clean
@@ -135,14 +154,19 @@ else    # XENO_FETCH_TREE
 endif   # !XENO_FETCH_TREE
 
 else    # XENO_NO_FETCH
-fetch fetch-clean fetch-purge:
+fetch: fetch-pre
+	@touch .realfetch
+
+fetch-clean fetch-purge: fetch-clean-pre
+	@rm -f .realfetch
+
 endif   # !XENO_NO_FETCH
 
 ##
 ## unzip{,-clean,-purge} targets
 ##
 ifndef XENO_NO_UNZIP
-unzip: unzip-hook-pre .realunzip unzip-hook-post
+unzip: unzip-pre unzip-hook-pre .realunzip unzip-hook-post
 
 .realunzip:
 	@echo "==> unzipping $(XENO_TARBALL)"
@@ -151,7 +175,7 @@ unzip: unzip-hook-pre .realunzip unzip-hook-post
 
 unzip-hook-pre unzip-hook-post:
 
-unzip-clean:
+unzip-clean: unzip-clean-pre
 	@rm -f .realunzip
 
 unzip-purge: unzip-realpurge unzip-clean
@@ -160,14 +184,19 @@ unzip-realpurge:
 	@rm -rf $(XENO_NAME)
 
 else    # XENO_NO_UNZIP
-unzip unzip-clean unzip-purge:
+unzip: unzip-pre
+	@touch .realunzip
+
+unzip-clean unzip-purge: unzip-clean-pre
+	@rm -f .realunzip
+
 endif   # !XENO_NO_UNZIP
 
 ##
 ## patch{,-clean,-purge} targets
 ##
 ifdef XENO_PATCH_FILE
-patch: patch-hook-pre .realpatch patch-hook-post
+patch: patch-pre patch-hook-pre .realpatch patch-hook-post
 
 .realpatch:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
@@ -177,21 +206,26 @@ patch: patch-hook-pre .realpatch patch-hook-post
 
 patch-hook-pre patch-hook-post:
 
-patch-clean:
+patch-clean: patch-clean-pre
 	@rm -f .realpatch
 
 # can't undo anything here ...
 patch-purge: patch-clean
 
 else    # XENO_PATCH_FILE
-patch patch-clean patch-purge:
+patch: patch-pre
+	@touch .realpatch
+
+patch-clean patch-purge: patch-clean-pre
+	@rm -f .realpatch
+
 endif   # !XENO_PATCH_FILE
 
 ##
 ## conf{,-clean,-purge} targets
 ##
 ifndef XENO_NO_CONF
-conf: conf-hook-pre .realconf conf-hook-post
+conf: conf-pre conf-hook-pre .realconf conf-hook-post
 
 .realconf:
 	@echo "==> configuring in $(XENO_BUILD_DIR)/"
@@ -200,20 +234,26 @@ conf: conf-hook-pre .realconf conf-hook-post
 
 conf-hook-pre conf-hook-post:
 
-conf-clean:
+conf-clean: conf-clean-pre
 	@rm -f .realconf
 
 conf-purge: conf-clean
 
 else    # XENO_NO_CONF
-conf conf-clean conf-purge:
+
+conf: conf-pre
+	@touch .realconf
+
+conf-clean conf-purge: conf-clean-pre
+	@rm -f .realconf
+
 endif   # !XENO_NO_CONF
 
 ##
 ## build{,-clean,-purge} targets
 ##
 ifndef XENO_NO_BUILD
-build: build-hook-pre .realbuild build-hook-post
+build: build-pre build-hook-pre .realbuild build-hook-post
 
 .realbuild:
 	@echo "==> building in $(XENO_BUILD_DIR)/"
@@ -222,7 +262,7 @@ build: build-hook-pre .realbuild build-hook-post
 
 build-hook-pre build-hook-post:
 
-build-clean:
+build-clean: build-clean-pre
 	@echo "==> cleaning up in $(XENO_BUILD_DIR)/"
 	@if [ -d $(XENO_BUILD_DIR) ]; then \
 	    (cd $(XENO_BUILD_DIR) && $(XENO_UNBUILD) $(XENO_UNBUILD_FLAGS)) \
@@ -232,14 +272,20 @@ build-clean:
 build-purge: build-clean
 
 else    # XENO_NO_BUILD
-build build-clean build-purge:
+
+build: build-pre
+	@touch .realbuild
+
+build-clean build-purge: build-clean-pre
+	@rm -f .realbuild
+
 endif   # !XENO_NO_BUILD
 
 ##
 ## install{,-clean,-purge} targets
 ##
 ifndef XENO_NO_INSTALL
-install: install-hook-pre .realinstall install-hook-post
+install: install-pre install-hook-pre .realinstall install-hook-post
 
 .realinstall:
 	@echo "==> installing $(XENO_NAME)"
@@ -248,13 +294,16 @@ install: install-hook-pre .realinstall install-hook-post
 
 install-hook-pre install-hook-post:
 
-install-clean:
+install-clean: install-clean-pre
 	@rm -f .realinstall
 
 install-purge: install-clean
 
 else    # XENO_NO_INSTALL
-install install-clean install-purge:
+install: install-pre
+	@touch .realinstall
+
+install-clean install-purge: install-clean-pre
+	@rm -f .realinstall
+
 endif   # !XENO_NO_INSTALL
-
-
