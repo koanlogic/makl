@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.8 2007/02/12 13:31:19 tho Exp $
+# $Id: xeno.mk,v 1.9 2007/02/12 15:59:04 tho Exp $
 # 
 # User Variables:
 #
@@ -65,12 +65,12 @@ XENO_CONF ?= ./configure
 XENO_PATCH ?= patch
 XENO_PATCH_FLAGS ?= -p1 <
 
-XENO_BUILD = $(MAKE)
-XENO_UNBUILD = $(XENO_BUILD)
-XENO_INSTALL = $(XENO_BUILD)
-XENO_UNBUILD_FLAGS = clean
-XENO_INSTALL_FLAGS = install
-XENO_BUILD_DIR = $(XENO_NAME)
+XENO_BUILD ?= $(MAKE)
+XENO_UNBUILD ?= $(XENO_BUILD)
+XENO_INSTALL ?= $(XENO_BUILD)
+XENO_UNBUILD_FLAGS ?= clean
+XENO_INSTALL_FLAGS ?= install
+XENO_BUILD_DIR ?= $(XENO_NAME)
 
 #
 # Test preconditions
@@ -295,6 +295,9 @@ install: install-pre install-hook-pre .realinstall install-hook-post
 install-hook-pre install-hook-post:
 
 install-clean: install-clean-pre
+ifdef XENO_UNINSTALL
+	@(cd $(XENO_BUILD_DIR) && $(XENO_UNINSTALL) $(XENO_UNINSTALL_FLAGS))
+endif
 	@rm -f .realinstall
 
 install-purge: install-clean
