@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.10 2007/02/20 10:24:16 tho Exp $
+# $Id: xeno.mk,v 1.11 2007/02/20 10:34:43 tho Exp $
 # 
 # User Variables:
 #
@@ -14,6 +14,8 @@
 #
 #   - XENO_UNZIP            Tarball decompression command
 #   - XENO_UNZIP_FLAGS      Arguments to be passed to $XENO_UNZIP
+#   - XENO_UNZIP_FLAGS_POST Arguments to be passed to $XENO_UNZIP after the 
+#                           tarball argument (e.g '-C' argument to tar)
 #   - XENO_NO_UNZIP         If set the unzip: target is skipped
 #
 #   - XENO_PATCH            Patch command
@@ -170,7 +172,8 @@ unzip: unzip-pre unzip-hook-pre .realunzip unzip-hook-post
 
 .realunzip:
 	@echo "==> unzipping $(XENO_TARBALL)"
-	@$(XENO_UNZIP) $(XENO_UNZIP_FLAGS) dist/$(XENO_TARBALL) $(XENO_UNZIP_FLAGS_POST)
+	@$(XENO_UNZIP) $(XENO_UNZIP_FLAGS) dist/$(XENO_TARBALL) \
+        $(XENO_UNZIP_FLAGS_POST)
 	@touch .realunzip
 
 unzip-hook-pre unzip-hook-post:
