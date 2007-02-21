@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.11 2007/02/20 10:34:43 tho Exp $
+# $Id: xeno.mk,v 1.12 2007/02/21 13:08:41 tho Exp $
 # 
 # User Variables:
 #
@@ -131,13 +131,30 @@ fetch: fetch-pre fetch-hook-pre .realfetch fetch-hook-post
 	@echo "==> fetching $(XENO_NAME) from $(XENO_FETCH_URI)"
 ifndef XENO_FETCH_TREE
 	@if [ ! -d dist ]; then \
-	    mkdir dist ;\
-	fi;
-	@if [ ! -f dist/$(XENO_FETCH_LOCAL) ]; then \
-	    (cd dist && $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_FETCH_URI)) ;\
+	    mkdir dist ; \
+	fi ; \
+	if [ ! -f dist/$(XENO_FETCH_LOCAL) ]; then \
+	    (cd dist && \
+            set $(XENO_FETCH_URI) ; \
+            while [ $$# -gt 0 ] ; \
+            do \
+                $(XENO_FETCH) $(XENO_FETCH_FLAGS) $$1 ; \
+                ret=$$? ; \
+                [ $$ret = 0 ] && break ; \
+                shift ; \
+            done ; \
+            [ $$ret = 0 ] || exit $$ret) ; \
 	fi;
 else    # XENO_FETCH_TREE
-	$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_FETCH_URI)
+	@set $(XENO_FETCH_URI) ; \
+	while [ $$# -gt 0 ] ; \
+	do \
+	    $(XENO_FETCH) $(XENO_FETCH_FLAGS) $$1 ; \
+	    ret=$$? ; \
+	    [ $$ret = 0 ] && break ; \
+	    shift ; \
+	done ; \
+    [ $$ret = 0 ] || exit $$ret ;
 endif   # !XENO_FETCH_TREE
 	@touch .realfetch
 
