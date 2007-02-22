@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.11 2007/02/22 13:56:42 tat Exp $
+# $Id: subdir.mk,v 1.12 2007/02/22 14:01:32 tat Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -24,7 +24,7 @@ $(MAKECMDGOALS):
 		done; \
 	    $(MAKE) HOOK=$${target} $${target}-post ; \
         [ $$? = 0 ] || exit $$? ; \
-	done ; \
+	done ;
 else
 $(HOOK)-pre:
 $(HOOK)-post:
