@@ -1,4 +1,4 @@
-# $Id: target-options.mk,v 1.1 2007/02/22 19:15:54 tat Exp $
+# $Id: target-options.mk,v 1.2 2007/02/23 10:38:36 tat Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
@@ -12,12 +12,8 @@ ifndef ALL
 $(error ALL variable must be defined)
 endif
 
-ifndef MAKECMDGOALS
-MAKECMDGOALS = $(ALL)
-endif
-
-all:
-	@for target in $(MAKECMDGOALS); do \
+target-options-default:
+	@for target in $(ALL); do \
  	    $(MAKE) HOOK_T=$${target} $${target}-make; \
         [ $$? = 0 ] || exit $$? ; \
  	done;
@@ -47,5 +43,7 @@ clean-flags:
 	@rm -f .real*
 
 clean: clean-flags
+
+purge: clean
 
 

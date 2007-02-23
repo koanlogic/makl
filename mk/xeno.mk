@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.12 2007/02/21 13:08:41 tho Exp $
+# $Id: xeno.mk,v 1.13 2007/02/23 10:38:36 tat Exp $
 # 
 # User Variables:
 #
@@ -20,7 +20,8 @@
 #
 #   - XENO_PATCH            Patch command
 #   - XENO_PATCH_FLAGS      Arguments to be passed to $XENO_PATCH
-#   - XENO_PATCH_FILE       Patch file(s) 
+#   - XENO_PATCH_URI		Remote patch URI (if you need to download it)
+#   - XENO_PATCH_FILE       Local patch file
 #   - XENO_NO_PATCH         If set the patch: target is skipped
 #
 #   - XENO_CONF             Configure script to be used
@@ -125,9 +126,13 @@ install-clean-pre:
 ## fetch{,-clean,-purge} targets
 ##
 ifndef XENO_NO_FETCH
-fetch: fetch-pre fetch-hook-pre .realfetch fetch-hook-post
+fetch: .realfetch
 
-.realfetch:
+.realfetch: 
+	@$(MAKE) fetch-pre fetch-hook-pre fetch-make fetch-hook-post
+	@touch $@
+
+fetch-make: 
 	@echo "==> fetching $(XENO_NAME) from $(XENO_FETCH_URI)"
 ifndef XENO_FETCH_TREE
 	@if [ ! -d dist ]; then \
@@ -156,7 +161,6 @@ else    # XENO_FETCH_TREE
 	done ; \
     [ $$ret = 0 ] || exit $$ret ;
 endif   # !XENO_FETCH_TREE
-	@touch .realfetch
 
 fetch-hook-pre fetch-hook-post:
 
@@ -185,13 +189,16 @@ endif   # !XENO_NO_FETCH
 ## unzip{,-clean,-purge} targets
 ##
 ifndef XENO_NO_UNZIP
-unzip: unzip-pre unzip-hook-pre .realunzip unzip-hook-post
+unzip: .realunzip
 
-.realunzip:
+.realunzip: 
+	@$(MAKE) unzip-pre unzip-hook-pre unzip-make unzip-hook-post
+	@touch $@
+
+unzip-make:
 	@echo "==> unzipping $(XENO_TARBALL)"
 	@$(XENO_UNZIP) $(XENO_UNZIP_FLAGS) dist/$(XENO_TARBALL) \
         $(XENO_UNZIP_FLAGS_POST)
-	@touch .realunzip
 
 unzip-hook-pre unzip-hook-post:
 
@@ -215,22 +222,44 @@ endif   # !XENO_NO_UNZIP
 ##
 ## patch{,-clean,-purge} targets
 ##
-ifdef XENO_PATCH_FILE
-patch: patch-pre patch-hook-pre .realpatch patch-hook-post
+ifdef XENO_PATCH_URI
 
-.realpatch:
+ifndef XENO_PATCH_FILE
+XENO_PATCH_FILE ?= $(notdir $(XENO_PATCH_URI))
+
+$(XENO_PATCH_FILE):
+	$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)
+endif
+
+patch-fetch: $(XENO_PATCH_FILE) 
+else
+patch-fetch: 
+endif
+
+ifdef XENO_PATCH_FILE
+
+patch: .realpatch
+
+.realpatch: 
+	@$(MAKE) patch-pre patch-hook-pre patch-fetch patch-make patch-hook-post
+	@touch $@
+
+patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
 	@(cd $(XENO_NAME) && \
             $(XENO_PATCH) $(XENO_PATCH_FLAGS) ../$(XENO_PATCH_FILE))
-	@touch .realpatch
 
 patch-hook-pre patch-hook-post:
 
 patch-clean: patch-clean-pre
 	@rm -f .realpatch
 
-# can't undo anything here ...
-patch-purge: patch-clean
+patch-purge: patch-realpurge patch-clean
+
+patch-realpurge:
+ifdef XENO_PATCH_URI
+	@rm -f $(XENO_PATCH_FILE)
+endif
 
 else    # XENO_PATCH_FILE
 patch: patch-pre
@@ -245,12 +274,15 @@ endif   # !XENO_PATCH_FILE
 ## conf{,-clean,-purge} targets
 ##
 ifndef XENO_NO_CONF
-conf: conf-pre conf-hook-pre .realconf conf-hook-post
+conf: .realconf
 
-.realconf:
+.realconf: 
+	@$(MAKE) conf-pre conf-hook-pre conf-make conf-hook-post
+	@touch $@
+
+conf-make:
 	@echo "==> configuring in $(XENO_BUILD_DIR)/"
 	@(cd $(XENO_BUILD_DIR) && $(XENO_CONF) $(XENO_CONF_FLAGS))
-	@touch .realconf
 
 conf-hook-pre conf-hook-post:
 
@@ -273,12 +305,15 @@ endif   # !XENO_NO_CONF
 ## build{,-clean,-purge} targets
 ##
 ifndef XENO_NO_BUILD
-build: build-pre build-hook-pre .realbuild build-hook-post
+build: .realbuild
 
-.realbuild:
+.realbuild: 
+	@$(MAKE) build-pre build-hook-pre build-make build-hook-post
+	@touch $@
+
+build-make:
 	@echo "==> building in $(XENO_BUILD_DIR)/"
 	@(cd $(XENO_BUILD_DIR) && $(XENO_BUILD) $(XENO_BUILD_FLAGS))
-	@touch .realbuild
 
 build-hook-pre build-hook-post:
 
@@ -305,12 +340,15 @@ endif   # !XENO_NO_BUILD
 ## install{,-clean,-purge} targets
 ##
 ifndef XENO_NO_INSTALL
-install: install-pre install-hook-pre .realinstall install-hook-post
+install: .realinstall
 
-.realinstall:
+.realinstall: 
+	@$(MAKE) install-pre install-hook-pre install-make install-hook-post
+	@touch $@
+
+install-make:
 	@echo "==> installing $(XENO_NAME)"
 	@(cd $(XENO_BUILD_DIR) && $(XENO_INSTALL) $(XENO_INSTALL_FLAGS))
-	@touch .realinstall
 
 install-hook-pre install-hook-post:
 
