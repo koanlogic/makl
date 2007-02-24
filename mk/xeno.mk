@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.13 2007/02/23 10:38:36 tat Exp $
+# $Id: xeno.mk,v 1.14 2007/02/24 15:42:37 tat Exp $
 # 
 # User Variables:
 #
@@ -75,6 +75,8 @@ XENO_UNBUILD_FLAGS ?= clean
 XENO_INSTALL_FLAGS ?= install
 XENO_BUILD_DIR ?= $(XENO_NAME)
 
+XENO_DIST_DIR ?= dist
+
 #
 # Test preconditions
 #
@@ -135,11 +137,11 @@ fetch: .realfetch
 fetch-make: 
 	@echo "==> fetching $(XENO_NAME) from $(XENO_FETCH_URI)"
 ifndef XENO_FETCH_TREE
-	@if [ ! -d dist ]; then \
-	    mkdir dist ; \
+	@if [ ! -d $(XENO_DIST_DIR) ]; then \
+	    mkdir $(XENO_DIST_DIR); \
 	fi ; \
-	if [ ! -f dist/$(XENO_FETCH_LOCAL) ]; then \
-	    (cd dist && \
+	if [ ! -f $(XENO_DIST_DIR)/$(XENO_FETCH_LOCAL) ]; then \
+	    (cd $(XENO_DIST_DIR) && \
             set $(XENO_FETCH_URI) ; \
             while [ $$# -gt 0 ] ; \
             do \
@@ -171,13 +173,13 @@ fetch-purge: fetch-realpurge fetch-clean
 
 fetch-realpurge:
 ifndef XENO_FETCH_TREE
-	@rm -rf dist/
+	@rm -rf $(XENO_DIST_DIR)
 else    # XENO_FETCH_TREE
 	@rm -rf $(XENO_BUILD_DIR)
 endif   # !XENO_FETCH_TREE
 
 else    # XENO_NO_FETCH
-fetch: fetch-pre
+fetch .realfetch: fetch-pre
 	@touch .realfetch
 
 fetch-clean fetch-purge: fetch-clean-pre
@@ -197,7 +199,7 @@ unzip: .realunzip
 
 unzip-make:
 	@echo "==> unzipping $(XENO_TARBALL)"
-	@$(XENO_UNZIP) $(XENO_UNZIP_FLAGS) dist/$(XENO_TARBALL) \
+	@$(XENO_UNZIP) $(XENO_UNZIP_FLAGS) $(XENO_DIST_DIR)/$(XENO_TARBALL) \
         $(XENO_UNZIP_FLAGS_POST)
 
 unzip-hook-pre unzip-hook-post:
@@ -211,7 +213,7 @@ unzip-realpurge:
 	@rm -rf $(XENO_NAME)
 
 else    # XENO_NO_UNZIP
-unzip: unzip-pre
+unzip .realunzip: unzip-pre
 	@touch .realunzip
 
 unzip-clean unzip-purge: unzip-clean-pre
@@ -228,7 +230,7 @@ ifndef XENO_PATCH_FILE
 XENO_PATCH_FILE ?= $(notdir $(XENO_PATCH_URI))
 
 $(XENO_PATCH_FILE):
-	$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)
+	(cd $(XENO_DIST_DIR) && $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI))
 endif
 
 patch-fetch: $(XENO_PATCH_FILE) 
@@ -241,13 +243,13 @@ ifdef XENO_PATCH_FILE
 patch: .realpatch
 
 .realpatch: 
-	@$(MAKE) patch-pre patch-hook-pre patch-fetch patch-make patch-hook-post
+	@$(MAKE) patch-fetch patch-pre patch-hook-pre patch-make patch-hook-post
 	@touch $@
 
 patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
 	@(cd $(XENO_NAME) && \
-            $(XENO_PATCH) $(XENO_PATCH_FLAGS) ../$(XENO_PATCH_FILE))
+            $(XENO_PATCH) $(XENO_PATCH_FLAGS) $(XENO_DIST_DIR)/$(XENO_PATCH_FILE))
 
 patch-hook-pre patch-hook-post:
 
@@ -262,7 +264,7 @@ ifdef XENO_PATCH_URI
 endif
 
 else    # XENO_PATCH_FILE
-patch: patch-pre
+patch .realpatch: patch-pre
 	@touch .realpatch
 
 patch-clean patch-purge: patch-clean-pre
@@ -293,7 +295,7 @@ conf-purge: conf-clean
 
 else    # XENO_NO_CONF
 
-conf: conf-pre
+conf .realconf: conf-pre
 	@touch .realconf
 
 conf-clean conf-purge: conf-clean-pre
@@ -328,7 +330,7 @@ build-purge: build-clean
 
 else    # XENO_NO_BUILD
 
-build: build-pre
+build .realbuild: build-pre
 	@touch .realbuild
 
 build-clean build-purge: build-clean-pre
@@ -361,7 +363,7 @@ endif
 install-purge: install-clean
 
 else    # XENO_NO_INSTALL
-install: install-pre
+install .realinstall: install-pre
 	@touch .realinstall
 
 install-clean install-purge: install-clean-pre
