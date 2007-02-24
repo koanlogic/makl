@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.12 2007/02/22 14:01:32 tat Exp $
+# $Id: subdir.mk,v 1.13 2007/02/24 15:40:52 tat Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -8,25 +8,28 @@
 # Applicable Targets:
 # - any target (optionally with -pre and -post suffix)
 
-# if not specified, default target is "all"
-ifndef MAKECMDGOALS
-MAKECMDGOALS = all
-endif
-
-ifndef HOOK
-$(MAKECMDGOALS):
-	@for target in $(MAKECMDGOALS) ; do \
-	    $(MAKE) HOOK=$${target} $${target}-pre ; \
-        [ $$? = 0 ] || exit $$? ; \
-		for dir in $(SUBDIR) ; do \
-			$(MAKE) -C $$dir $(MAKECMDGOALS) ; \
-			[ $$? = 0 ] || exit $$? ; \
-		done; \
-	    $(MAKE) HOOK=$${target} $${target}-post ; \
-        [ $$? = 0 ] || exit $$? ; \
-	done ;
+ifdef HOOK_T
+$(HOOK_T)-pre:
+$(HOOK_T)-post:
 else
-$(HOOK)-pre:
-$(HOOK)-post:
+.PHONY: $(SUBDIR)
+
+# no explicit target, run make into subdirs
+$(SUBDIR):
+	@for dir in $(SUBDIR) ; do \
+		$(MAKE) -C $$dir ; \
+		[ $$? = 0 ] || exit $$? ; \
+	 done
+
+# one or more explicit target has been provided. run $target-pre, make
+# subdirs and $target-post
+$(MAKECMDGOALS):
+	@$(MAKE) HOOK_T=$@ $@-pre
+	@for dir in $(SUBDIR) ; do \
+		$(MAKE) -C $$dir $(MAKECMDGOALS) ; \
+		[ $$? = 0 ] || exit $$? ; \
+	 done
+	@$(MAKE) HOOK_T=$@ $@-post
+
 endif
 
