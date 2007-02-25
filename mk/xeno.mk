@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.16 2007/02/25 00:57:33 tat Exp $
+# $Id: xeno.mk,v 1.17 2007/02/25 10:58:15 tat Exp $
 # 
 # User Variables:
 #
@@ -173,7 +173,8 @@ fetch-purge: fetch-realpurge fetch-clean
 
 fetch-realpurge:
 ifndef XENO_FETCH_TREE
-	@rm -rf $(XENO_DIST_DIR)
+	@rm -f $(XENO_DIST_DIR)/$(XENO_FETCH_LOCAL)
+	@rmdir $(XENO_DIST_DIR) 2>/dev/null || true
 else    # XENO_FETCH_TREE
 	@rm -rf $(XENO_BUILD_DIR)
 endif   # !XENO_FETCH_TREE
