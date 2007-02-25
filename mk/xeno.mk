@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.14 2007/02/24 15:42:37 tat Exp $
+# $Id: xeno.mk,v 1.15 2007/02/25 00:53:41 tat Exp $
 # 
 # User Variables:
 #
@@ -230,7 +230,9 @@ ifndef XENO_PATCH_FILE
 XENO_PATCH_FILE ?= $(notdir $(XENO_PATCH_URI))
 
 $(XENO_PATCH_FILE):
-	(cd $(XENO_DIST_DIR) && $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI))
+	@if [ ! -f $(XENO_DIST_DIR)/$(XENO_PATCH_FILE) ]; then \ 
+		(cd $(XENO_DIST_DIR) && $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)) ; \
+	 fi
 endif
 
 patch-fetch: $(XENO_PATCH_FILE) 
