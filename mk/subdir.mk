@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.13 2007/02/24 15:40:52 tat Exp $
+# $Id: subdir.mk,v 1.14 2007/02/26 21:19:00 tat Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -7,6 +7,9 @@
 #
 # Applicable Targets:
 # - any target (optionally with -pre and -post suffix)
+
+# make filename used (Makefile, makefile, Makefile.subdir, mymakefile, etc.)
+MAKEFILENAME = $(firstword $(MAKEFILE_LIST))
 
 ifdef HOOK_T
 $(HOOK_T)-pre:
@@ -24,12 +27,12 @@ $(SUBDIR):
 # one or more explicit target has been provided. run $target-pre, make
 # subdirs and $target-post
 $(MAKECMDGOALS):
-	@$(MAKE) HOOK_T=$@ $@-pre
+	@$(MAKE) -f $(MAKEFILENAME) HOOK_T=$@ $@-pre
 	@for dir in $(SUBDIR) ; do \
 		$(MAKE) -C $$dir $(MAKECMDGOALS) ; \
 		[ $$? = 0 ] || exit $$? ; \
 	 done
-	@$(MAKE) HOOK_T=$@ $@-post
+	@$(MAKE) -f $(MAKEFILENAME) HOOK_T=$@ $@-post
 
 endif
 
