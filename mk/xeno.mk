@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.17 2007/02/25 10:58:15 tat Exp $
+# $Id: xeno.mk,v 1.18 2007/02/27 12:33:50 tat Exp $
 # 
 # User Variables:
 #
@@ -20,7 +20,7 @@
 #
 #   - XENO_PATCH            Patch command
 #   - XENO_PATCH_FLAGS      Arguments to be passed to $XENO_PATCH
-#   - XENO_PATCH_URI		Remote patch URI (if you need to download it)
+#   - XENO_PATCH_URI	    Remote patch URI (if you need to download it)
 #   - XENO_PATCH_FILE       Local patch file
 #   - XENO_NO_PATCH         If set the patch: target is skipped
 #
@@ -77,6 +77,7 @@ XENO_BUILD_DIR ?= $(XENO_NAME)
 
 XENO_DIST_DIR ?= dist
 
+
 #
 # Test preconditions
 #
@@ -92,6 +93,16 @@ endif   # !XENO_FETCH_URI
 ##
 all: all-hook-pre fetch unzip patch conf build install all-hook-post
 all-hook-pre all-hook-post:
+
+# dependencies
+fetch: all-hook-pre
+unzip: fetch
+patch: unzip
+conf: patch
+build: conf
+install: build
+all-hook-post: install
+
 
 ##
 ## clean target (actions are called in the reverse order)
@@ -130,7 +141,7 @@ install-clean-pre:
 ifndef XENO_NO_FETCH
 fetch: .realfetch
 
-.realfetch: 
+.realfetch:
 	@$(MAKE) fetch-pre fetch-hook-pre fetch-make fetch-hook-post
 	@touch $@
 
@@ -166,6 +177,10 @@ endif   # !XENO_FETCH_TREE
 
 fetch-hook-pre fetch-hook-post:
 
+fetch-hook-pre: fetch-pre
+fetch-make: fetch-hook-pre
+fetch-hook-post: fetch-make
+
 fetch-clean: fetch-clean-pre
 	@rm -f .realfetch
 
@@ -194,7 +209,7 @@ endif   # !XENO_NO_FETCH
 ifndef XENO_NO_UNZIP
 unzip: .realunzip
 
-.realunzip: 
+.realunzip: .realfetch
 	@$(MAKE) unzip-pre unzip-hook-pre unzip-make unzip-hook-post
 	@touch $@
 
@@ -204,6 +219,10 @@ unzip-make:
         $(XENO_UNZIP_FLAGS_POST)
 
 unzip-hook-pre unzip-hook-post:
+
+unzip-hook-pre: unzip-pre
+unzip-make: unzip-hook-pre
+unzip-hook-post: unzip-make
 
 unzip-clean: unzip-clean-pre
 	@rm -f .realunzip
@@ -228,34 +247,40 @@ endif   # !XENO_NO_UNZIP
 ifdef XENO_PATCH_URI
 
 ifndef XENO_PATCH_FILE
-XENO_PATCH_FILE ?= $(notdir $(XENO_PATCH_URI))
+XENO_PATCH_LOCALFILE = $(XENO_DIST_DIR)/$(notdir $(XENO_PATCH_URI))
 
-$(XENO_PATCH_FILE):
-	@if [ ! -f $(XENO_DIST_DIR)/$(XENO_PATCH_FILE) ]; then \
-		(cd $(XENO_DIST_DIR) && \
-		 $(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)) ; \
-	 fi
+$(XENO_PATCH_LOCALFILE):
+	(cd $(XENO_DIST_DIR) && \
+		$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)) 
 endif
 
-patch-fetch: $(XENO_PATCH_FILE) 
+patch-fetch: $(XENO_PATCH_LOCALFILE) 
+
 else
+
+XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
 patch-fetch: 
+
 endif
 
-ifdef XENO_PATCH_FILE
+ifdef XENO_PATCH_LOCALFILE
 
 patch: .realpatch
 
-.realpatch: 
+.realpatch: .realunzip
 	@$(MAKE) patch-fetch patch-pre patch-hook-pre patch-make patch-hook-post
 	@touch $@
 
 patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
-	@(cd $(XENO_NAME) && \
-            $(XENO_PATCH) $(XENO_PATCH_FLAGS) $(XENO_DIST_DIR)/$(XENO_PATCH_FILE))
+	( cd $(XENO_NAME) && echo $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
+		$(XENO_PATCH_LOCALFILE) )
 
 patch-hook-pre patch-hook-post:
+
+patch-hook-pre: patch-pre
+patch-make: patch-hook-pre
+patch-hook-post: patch-make
 
 patch-clean: patch-clean-pre
 	@rm -f .realpatch
@@ -282,7 +307,7 @@ endif   # !XENO_PATCH_FILE
 ifndef XENO_NO_CONF
 conf: .realconf
 
-.realconf: 
+.realconf: .realpatch
 	@$(MAKE) conf-pre conf-hook-pre conf-make conf-hook-post
 	@touch $@
 
@@ -291,6 +316,10 @@ conf-make:
 	@(cd $(XENO_BUILD_DIR) && $(XENO_CONF) $(XENO_CONF_FLAGS))
 
 conf-hook-pre conf-hook-post:
+
+conf-hook-pre: conf-pre
+conf-make: conf-hook-pre
+conf-hook-post: conf-make
 
 conf-clean: conf-clean-pre
 	@rm -f .realconf
@@ -313,7 +342,7 @@ endif   # !XENO_NO_CONF
 ifndef XENO_NO_BUILD
 build: .realbuild
 
-.realbuild: 
+.realbuild: .realconf
 	@$(MAKE) build-pre build-hook-pre build-make build-hook-post
 	@touch $@
 
@@ -322,6 +351,10 @@ build-make:
 	@(cd $(XENO_BUILD_DIR) && $(XENO_BUILD) $(XENO_BUILD_FLAGS))
 
 build-hook-pre build-hook-post:
+
+build-hook-pre: build-pre
+build-make: build-hook-pre
+build-hook-post: build-make
 
 build-clean: build-clean-pre
 	@echo "==> cleaning up in $(XENO_BUILD_DIR)/"
@@ -348,7 +381,7 @@ endif   # !XENO_NO_BUILD
 ifndef XENO_NO_INSTALL
 install: .realinstall
 
-.realinstall: 
+.realinstall: .realbuild
 	@$(MAKE) install-pre install-hook-pre install-make install-hook-post
 	@touch $@
 
@@ -357,6 +390,10 @@ install-make:
 	@(cd $(XENO_BUILD_DIR) && $(XENO_INSTALL) $(XENO_INSTALL_FLAGS))
 
 install-hook-pre install-hook-post:
+
+install-hook-pre: install-pre
+install-make: install-hook-pre
+install-hook-post: install-make
 
 install-clean: install-clean-pre
 ifdef XENO_UNINSTALL
@@ -374,3 +411,5 @@ install-clean install-purge: install-clean-pre
 	@rm -f .realinstall
 
 endif   # !XENO_NO_INSTALL
+
+
