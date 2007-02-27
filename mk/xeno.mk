@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.18 2007/02/27 12:33:50 tat Exp $
+# $Id: xeno.mk,v 1.19 2007/02/27 13:05:24 tat Exp $
 # 
 # User Variables:
 #
@@ -273,7 +273,7 @@ patch: .realpatch
 
 patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
-	( cd $(XENO_NAME) && echo $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
+	( cd $(XENO_NAME) && $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
 		$(XENO_PATCH_LOCALFILE) )
 
 patch-hook-pre patch-hook-post:
