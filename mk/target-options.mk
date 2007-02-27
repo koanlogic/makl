@@ -1,4 +1,4 @@
-# $Id: target-options.mk,v 1.2 2007/02/23 10:38:36 tat Exp $
+# $Id: target-options.mk,v 1.3 2007/02/27 13:54:07 tat Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
@@ -14,25 +14,25 @@ endif
 
 target-options-default:
 	@for target in $(ALL); do \
- 	    $(MAKE) HOOK_T=$${target} $${target}-make; \
+ 	    $(MAKE) HOOK_TG=$${target} $${target}-make; \
         [ $$? = 0 ] || exit $$? ; \
  	done;
 
-ifdef HOOK_T
-.PHONY: $(HOOK_T)-pre $(HOOK_T)-post $(HOOK_T)-make
-FLAG=.real-$(HOOK_T)
+ifdef HOOK_TG
+.PHONY: $(HOOK_TG)-pre $(HOOK_TG)-post $(HOOK_TG)-make
+FLAG=.real-$(HOOK_TG)
 
-$(HOOK_T)-pre:
-$(HOOK_T)-post:
+$(HOOK_TG)-pre:
+$(HOOK_TG)-post:
  
 # options bool flags
-OPT_ONCE = $(filter once, $($(HOOK_T)-options))
+OPT_ONCE = $(filter once, $($(HOOK_TG)-options))
 
 # run once
-$(HOOK_T)-make: $(FLAG)
+$(HOOK_TG)-make: $(FLAG)
 
 $(FLAG):
-	@$(MAKE) HOOK_T=$(HOOK_T) $(HOOK_T)-pre $(HOOK_T) $(HOOK_T)-post
+	@$(MAKE) HOOK_TG=$(HOOK_TG) $(HOOK_TG)-pre $(HOOK_TG) $(HOOK_TG)-post
 	@if [ "$(OPT_ONCE)" ]; then \
 		touch $(FLAG) ; \
 	 fi
