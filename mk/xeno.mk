@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.21 2007/03/01 15:08:20 tho Exp $
+# $Id: xeno.mk,v 1.22 2007/03/01 17:52:15 tho Exp $
 # 
 # User Variables:
 #
@@ -253,7 +253,7 @@ ifndef XENO_PATCH_URI
 ifdef XENO_PATCH_FILE
 
 XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
-patch-fetch:
+patch-fetch: $(XENO_PATCH_LOCALFILE)
 
 else    # !XENO_PATCH_FILE && !XENO_PATCH_URI
 
@@ -295,7 +295,9 @@ patch-clean: patch-clean-pre
 patch-purge: patch-realpurge patch-clean
 
 patch-realpurge:
+ifdef XENO_PATCH_URI
 	@rm -f $(XENO_PATCH_LOCALFILE)
+endif
 
 else    # XENO_NO_PATCH
 
@@ -418,4 +420,5 @@ install-clean install-purge: install-clean-pre
 
 endif   # !XENO_NO_INSTALL
 
-
+.PHONY: fetch-make patch-make unzip-make conf-make build-make install-make
+.PHONY: fetch patch unzip conf build install
