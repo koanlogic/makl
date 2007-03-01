@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.22 2007/03/01 17:52:15 tho Exp $
+# $Id: xeno.mk,v 1.23 2007/03/01 18:10:43 tho Exp $
 # 
 # User Variables:
 #
@@ -119,14 +119,14 @@ purge: purge-hook-pre install-purge build-purge conf-purge patch-purge \
 purge-hook-pre purge-hook-post:
 
 ##
-## preconditions (in the forward and backward directions)
+## preconditions targets ... mmm
 ##
 fetch-pre:
-unzip-pre: .realfetch
-patch-pre: unzip-pre .realunzip
-conf-pre: patch-pre .realpatch
-build-pre: conf-pre .realconf
-install-pre:  build-pre .realbuild
+unzip-pre:
+patch-pre:
+conf-pre:
+build-pre:
+install-pre:
 
 fetch-clean-pre: unzip-clean unzip-clean-pre
 unzip-clean-pre: patch-clean patch-clean-pre
