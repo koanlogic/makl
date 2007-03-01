@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.19 2007/02/27 13:05:24 tat Exp $
+# $Id: xeno.mk,v 1.20 2007/03/01 15:05:09 tho Exp $
 # 
 # User Variables:
 #
@@ -244,26 +244,33 @@ endif   # !XENO_NO_UNZIP
 ##
 ## patch{,-clean,-purge} targets
 ##
-ifdef XENO_PATCH_URI
+ifndef XENO_NO_PATCH
 
-ifndef XENO_PATCH_FILE
+# we need to set XENO_PATCH_LOCALFILE from one of XENO_PATCH_URI or
+# XENO_PATCH_FILE
+
+ifndef XENO_PATCH_URI
+ifdef XENO_PATCH_FILE
+
+XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
+patch-fetch:
+
+else    # !XENO_PATCH_FILE && !XENO_PATCH_URI
+
+$(error one of XENO_PATCH_URI or XENO_PATCH_FILE must be defined !)
+
+endif   # XENO_PATCH_FILE && !XENO_PATCH_URI
+else    # XENO_PATCH_URI (has precedence over XENO_PATCH_FILE)
+
 XENO_PATCH_LOCALFILE = $(XENO_DIST_DIR)/$(notdir $(XENO_PATCH_URI))
 
 $(XENO_PATCH_LOCALFILE):
 	(cd $(XENO_DIST_DIR) && \
-		$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI)) 
-endif
+		$(XENO_FETCH) $(XENO_FETCH_FLAGS) $(XENO_PATCH_URI))
 
-patch-fetch: $(XENO_PATCH_LOCALFILE) 
+patch-fetch: $(XENO_PATCH_LOCALFILE)
 
-else
-
-XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
-patch-fetch: 
-
-endif
-
-ifdef XENO_PATCH_LOCALFILE
+endif   # !XENO_PATCH_URI
 
 patch: .realpatch
 
@@ -273,7 +280,7 @@ patch: .realpatch
 
 patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
-	( cd $(XENO_NAME) && $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
+	( cd $(XENO_BUILD_DIR) && $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
 		$(XENO_PATCH_LOCALFILE) )
 
 patch-hook-pre patch-hook-post:
@@ -288,18 +295,17 @@ patch-clean: patch-clean-pre
 patch-purge: patch-realpurge patch-clean
 
 patch-realpurge:
-ifdef XENO_PATCH_URI
-	@rm -f $(XENO_PATCH_FILE)
-endif
+	@rm -f $(XENO_PATCH_LOCALFILE)
 
-else    # XENO_PATCH_FILE
-patch .realpatch: patch-pre
+else    # XENO_NO_PATCH
+
+patch: patch-pre
 	@touch .realpatch
 
 patch-clean patch-purge: patch-clean-pre
 	@rm -f .realpatch
 
-endif   # !XENO_PATCH_FILE
+endif   # !XENO_NO_PATCH
 
 ##
 ## conf{,-clean,-purge} targets

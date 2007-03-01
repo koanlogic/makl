@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.16 2007/03/01 10:08:27 tat Exp $
+# $Id: subdir.mk,v 1.17 2007/03/01 15:05:09 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -21,7 +21,7 @@ ifdef HOOK_T
 $(HOOK_T)-pre:
 $(HOOK_T)-post:
 
-else
+else    # !HOOK_T
 
 .PHONY: subdirs $(SUBDIR)
 
@@ -38,5 +38,4 @@ $(MAKECMDGOALS):
 	@$(MAKE) $(MAKE_ADD_FLAGS) SUBDIR_GOAL=$@
 	@$(MAKE) $(MAKE_ADD_FLAGS) HOOK_T=$@ $@-post
 
-endif
-
+endif   # HOOK_T
