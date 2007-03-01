@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.20 2007/03/01 15:05:09 tho Exp $
+# $Id: xeno.mk,v 1.21 2007/03/01 15:08:20 tho Exp $
 # 
 # User Variables:
 #
@@ -257,7 +257,7 @@ patch-fetch:
 
 else    # !XENO_PATCH_FILE && !XENO_PATCH_URI
 
-$(error one of XENO_PATCH_URI or XENO_PATCH_FILE must be defined !)
+$(error one of XENO_PATCH_URI or XENO_PATCH_FILE must be defined when XENO_NO_PATCH is unset !)
 
 endif   # XENO_PATCH_FILE && !XENO_PATCH_URI
 else    # XENO_PATCH_URI (has precedence over XENO_PATCH_FILE)
