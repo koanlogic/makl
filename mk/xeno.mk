@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.23 2007/03/01 18:10:43 tho Exp $
+# $Id: xeno.mk,v 1.24 2007/03/02 11:15:41 tho Exp $
 # 
 # User Variables:
 #
@@ -118,16 +118,6 @@ purge: purge-hook-pre install-purge build-purge conf-purge patch-purge \
        unzip-purge fetch-purge purge-hook-post
 purge-hook-pre purge-hook-post:
 
-##
-## preconditions targets ... mmm
-##
-fetch-pre:
-unzip-pre:
-patch-pre:
-conf-pre:
-build-pre:
-install-pre:
-
 fetch-clean-pre: unzip-clean unzip-clean-pre
 unzip-clean-pre: patch-clean patch-clean-pre
 patch-clean-pre: conf-clean conf-clean-pre
@@ -142,7 +132,7 @@ ifndef XENO_NO_FETCH
 fetch: .realfetch
 
 .realfetch:
-	@$(MAKE) fetch-pre fetch-hook-pre fetch-make fetch-hook-post
+	@$(MAKE) fetch-hook-pre fetch-make fetch-hook-post
 	@touch $@
 
 fetch-make: 
@@ -177,7 +167,7 @@ endif   # !XENO_FETCH_TREE
 
 fetch-hook-pre fetch-hook-post:
 
-fetch-hook-pre: fetch-pre
+fetch-hook-pre:
 fetch-make: fetch-hook-pre
 fetch-hook-post: fetch-make
 
@@ -195,7 +185,7 @@ else    # XENO_FETCH_TREE
 endif   # !XENO_FETCH_TREE
 
 else    # XENO_NO_FETCH
-fetch .realfetch: fetch-pre
+fetch .realfetch:
 	@touch .realfetch
 
 fetch-clean fetch-purge: fetch-clean-pre
@@ -210,7 +200,7 @@ ifndef XENO_NO_UNZIP
 unzip: .realunzip
 
 .realunzip: .realfetch
-	@$(MAKE) unzip-pre unzip-hook-pre unzip-make unzip-hook-post
+	@$(MAKE) unzip-hook-pre unzip-make unzip-hook-post
 	@touch $@
 
 unzip-make:
@@ -220,7 +210,7 @@ unzip-make:
 
 unzip-hook-pre unzip-hook-post:
 
-unzip-hook-pre: unzip-pre
+unzip-hook-pre: 
 unzip-make: unzip-hook-pre
 unzip-hook-post: unzip-make
 
@@ -233,7 +223,7 @@ unzip-realpurge:
 	@rm -rf $(XENO_NAME)
 
 else    # XENO_NO_UNZIP
-unzip .realunzip: unzip-pre
+unzip .realunzip: 
 	@touch .realunzip
 
 unzip-clean unzip-purge: unzip-clean-pre
@@ -275,7 +265,7 @@ endif   # !XENO_PATCH_URI
 patch: .realpatch
 
 .realpatch: .realunzip
-	@$(MAKE) patch-fetch patch-pre patch-hook-pre patch-make patch-hook-post
+	@$(MAKE) patch-fetch patch-hook-pre patch-make patch-hook-post
 	@touch $@
 
 patch-make:
@@ -285,7 +275,7 @@ patch-make:
 
 patch-hook-pre patch-hook-post:
 
-patch-hook-pre: patch-pre
+patch-hook-pre: 
 patch-make: patch-hook-pre
 patch-hook-post: patch-make
 
@@ -301,7 +291,7 @@ endif
 
 else    # XENO_NO_PATCH
 
-patch: patch-pre
+patch: 
 	@touch .realpatch
 
 patch-clean patch-purge: patch-clean-pre
@@ -316,7 +306,7 @@ ifndef XENO_NO_CONF
 conf: .realconf
 
 .realconf: .realpatch
-	@$(MAKE) conf-pre conf-hook-pre conf-make conf-hook-post
+	@$(MAKE) conf-hook-pre conf-make conf-hook-post
 	@touch $@
 
 conf-make:
@@ -325,7 +315,7 @@ conf-make:
 
 conf-hook-pre conf-hook-post:
 
-conf-hook-pre: conf-pre
+conf-hook-pre:
 conf-make: conf-hook-pre
 conf-hook-post: conf-make
 
@@ -336,7 +326,7 @@ conf-purge: conf-clean
 
 else    # XENO_NO_CONF
 
-conf .realconf: conf-pre
+conf .realconf:
 	@touch .realconf
 
 conf-clean conf-purge: conf-clean-pre
@@ -351,7 +341,7 @@ ifndef XENO_NO_BUILD
 build: .realbuild
 
 .realbuild: .realconf
-	@$(MAKE) build-pre build-hook-pre build-make build-hook-post
+	@$(MAKE) build-hook-pre build-make build-hook-post
 	@touch $@
 
 build-make:
@@ -360,7 +350,7 @@ build-make:
 
 build-hook-pre build-hook-post:
 
-build-hook-pre: build-pre
+build-hook-pre:
 build-make: build-hook-pre
 build-hook-post: build-make
 
@@ -375,7 +365,7 @@ build-purge: build-clean
 
 else    # XENO_NO_BUILD
 
-build .realbuild: build-pre
+build .realbuild:
 	@touch .realbuild
 
 build-clean build-purge: build-clean-pre
@@ -390,7 +380,7 @@ ifndef XENO_NO_INSTALL
 install: .realinstall
 
 .realinstall: .realbuild
-	@$(MAKE) install-pre install-hook-pre install-make install-hook-post
+	@$(MAKE) install-hook-pre install-make install-hook-post
 	@touch $@
 
 install-make:
@@ -399,7 +389,7 @@ install-make:
 
 install-hook-pre install-hook-post:
 
-install-hook-pre: install-pre
+install-hook-pre:
 install-make: install-hook-pre
 install-hook-post: install-make
 
@@ -412,7 +402,7 @@ endif
 install-purge: install-clean
 
 else    # XENO_NO_INSTALL
-install .realinstall: install-pre
+install .realinstall:
 	@touch .realinstall
 
 install-clean install-purge: install-clean-pre
