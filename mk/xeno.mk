@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.25 2007/03/02 11:37:43 tho Exp $
+# $Id: xeno.mk,v 1.26 2007/03/02 15:31:12 tho Exp $
 # 
 # User Variables:
 #
@@ -193,7 +193,10 @@ else    # XENO_FETCH_TREE
 endif   # !XENO_FETCH_TREE
 
 else    # XENO_NO_FETCH
-fetch .realfetch:
+
+fetch: .realfetch
+
+.realfetch:
 	@touch .realfetch
 
 fetch-clean fetch-purge: fetch-clean-pre
@@ -231,7 +234,9 @@ unzip-realpurge:
 	@rm -rf $(XENO_NAME)
 
 else    # XENO_NO_UNZIP
-unzip .realunzip: 
+unzip: .realunzip
+
+.realunzip:
 	@touch .realunzip
 
 unzip-clean unzip-purge: unzip-clean-pre
@@ -300,7 +305,9 @@ endif
 
 else    # XENO_NO_PATCH
 
-patch: 
+patch: .realpatch
+
+.realpatch:
 	@touch .realpatch
 
 patch-clean patch-purge: patch-clean-pre
@@ -335,7 +342,9 @@ conf-purge: conf-clean
 
 else    # XENO_NO_CONF
 
-conf .realconf:
+conf: .realconf
+
+.realconf:
 	@touch .realconf
 
 conf-clean conf-purge: conf-clean-pre
@@ -374,7 +383,9 @@ build-purge: build-clean
 
 else    # XENO_NO_BUILD
 
-build .realbuild:
+build: .realbuild
+
+.realbuild:
 	@touch .realbuild
 
 build-clean build-purge: build-clean-pre
@@ -411,7 +422,9 @@ endif
 install-purge: install-clean
 
 else    # XENO_NO_INSTALL
-install .realinstall:
+install: .realinstall
+
+.realinstall:
 	@touch .realinstall
 
 install-clean install-purge: install-clean-pre
