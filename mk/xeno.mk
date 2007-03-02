@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.24 2007/03/02 11:15:41 tho Exp $
+# $Id: xeno.mk,v 1.25 2007/03/02 11:37:43 tho Exp $
 # 
 # User Variables:
 #
@@ -45,6 +45,14 @@
 # - all, clean, purge, fetch{,-clean,-purge}, unzip{,-clean,-purge}, 
 #   patch{,-clean,-purge}, conf{,-clean,-purge}, build{,-clean,-purge}, 
 #   install{,-clean,-purge}
+
+# make filename used (Makefile, makefile, Makefile.subdir, mymakefile, etc.)
+MAKEFILENAME = $(firstword $(MAKEFILE_LIST))
+
+# additional flags
+ifneq ($(strip $(MAKEFILENAME)),)
+MAKE_ADD_FLAGS = -f $(MAKEFILENAME)
+endif
 
 #
 # Set sensible defaults
@@ -132,7 +140,7 @@ ifndef XENO_NO_FETCH
 fetch: .realfetch
 
 .realfetch:
-	@$(MAKE) fetch-hook-pre fetch-make fetch-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) fetch-hook-pre fetch-make fetch-hook-post
 	@touch $@
 
 fetch-make: 
@@ -200,7 +208,7 @@ ifndef XENO_NO_UNZIP
 unzip: .realunzip
 
 .realunzip: .realfetch
-	@$(MAKE) unzip-hook-pre unzip-make unzip-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) unzip-hook-pre unzip-make unzip-hook-post
 	@touch $@
 
 unzip-make:
@@ -265,7 +273,8 @@ endif   # !XENO_PATCH_URI
 patch: .realpatch
 
 .realpatch: .realunzip
-	@$(MAKE) patch-fetch patch-hook-pre patch-make patch-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) patch-fetch patch-hook-pre patch-make \
+        patch-hook-post
 	@touch $@
 
 patch-make:
@@ -306,7 +315,7 @@ ifndef XENO_NO_CONF
 conf: .realconf
 
 .realconf: .realpatch
-	@$(MAKE) conf-hook-pre conf-make conf-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) conf-hook-pre conf-make conf-hook-post
 	@touch $@
 
 conf-make:
@@ -341,7 +350,7 @@ ifndef XENO_NO_BUILD
 build: .realbuild
 
 .realbuild: .realconf
-	@$(MAKE) build-hook-pre build-make build-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) build-hook-pre build-make build-hook-post
 	@touch $@
 
 build-make:
@@ -380,7 +389,7 @@ ifndef XENO_NO_INSTALL
 install: .realinstall
 
 .realinstall: .realbuild
-	@$(MAKE) install-hook-pre install-make install-hook-post
+	@$(MAKE) $(MAKE_ADD_FLAGS) install-hook-pre install-make install-hook-post
 	@touch $@
 
 install-make:
