@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.8 2007/02/26 15:09:15 tho Exp $
+# $Id: maklsh.in,v 1.9 2007/03/06 16:55:50 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -31,6 +31,23 @@ search_cf_script ()
     echo "no suitable configure script found" && exit 1
 }
 
+search_nearest_maklrc ()
+{
+    cdir="."
+    depth=5 # default search depth value: can be overridden by MAKL_RC_MAXDEPTH
+
+    [ "${MAKL_RC_MAXDEPTH}" ] && depth=${MAKL_RC_MAXDEPTH}
+
+    while expr ${depth} '>' 0 >/dev/null
+    do
+        depth=`expr ${depth} - 1`
+        [ -r ${cdir}"/.maklrc" ] && return 0
+        cdir="../"${cdir}
+    done
+
+    return 1
+}
+
 display_help ()
 {
     echo "MaKL version ${MAKL_VERSION}, (c) 2005-2007 Koanlogic srl         "
@@ -45,6 +62,10 @@ display_help ()
 
 # get overrides from the user 
 [ -f ${HOME}/.maklrc ] && . ${HOME}/.maklrc
+
+# further overrides are taken from per-project .maklrc's
+search_nearest_maklrc
+[ $? == 0 ] && . `(cd ${cdir} && pwd)`/.maklrc
 
 # merge configure scripts naming from user (user settings have precedence)
 CF_SCRIPTS="${MAKL_CF_SCRIPTS} ${CF_SCRIPTS}"

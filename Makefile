@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.29 2006/12/10 19:50:53 tho Exp $
+# $Id: Makefile,v 1.30 2007/03/06 16:55:50 tho Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -30,7 +30,7 @@ MAKLRC ?= $(MAKL_DIR)/makl.env
 # catchall and 'help' targets display a menu of available options
 all help:
 	@echo
-	@echo "# MaKL version $(MAKL_VERSION) - (c) 2005-2006 - KoanLogic srl"
+	@echo "# MaKL version $(MAKL_VERSION) - (c) 2005-2007 - KoanLogic srl"
 	@echo "Available targets:"
 	@echo
 	@echo "   * help        print this menu"
