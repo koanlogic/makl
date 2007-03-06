@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.26 2007/03/02 15:31:12 tho Exp $
+# $Id: xeno.mk,v 1.27 2007/03/06 13:30:05 tat Exp $
 # 
 # User Variables:
 #
@@ -226,12 +226,10 @@ unzip-make: unzip-hook-pre
 unzip-hook-post: unzip-make
 
 unzip-clean: unzip-clean-pre
+	@rm -rf $(XENO_NAME)
 	@rm -f .realunzip
 
-unzip-purge: unzip-realpurge unzip-clean
-
-unzip-realpurge:
-	@rm -rf $(XENO_NAME)
+unzip-purge: unzip-clean
 
 else    # XENO_NO_UNZIP
 unzip: .realunzip

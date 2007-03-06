@@ -1,10 +1,8 @@
-# $Id: target-options.mk,v 1.3 2007/02/27 13:54:07 tat Exp $
+# $Id: target-options.mk,v 1.4 2007/03/06 13:30:05 tat Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
 #               suffixes. 
-# - RUNONCE		A list of targets in $ALL to be executed just once.
-#
 # Applicable Targets:
 # - any target in $ALL and their -pre/-post helper targets
 
