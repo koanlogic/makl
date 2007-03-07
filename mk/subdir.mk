@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.17 2007/03/01 15:05:09 tho Exp $
+# $Id: subdir.mk,v 1.18 2007/03/07 11:23:36 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -37,5 +37,7 @@ $(MAKECMDGOALS):
 	@$(MAKE) $(MAKE_ADD_FLAGS) HOOK_T=$@ $@-pre
 	@$(MAKE) $(MAKE_ADD_FLAGS) SUBDIR_GOAL=$@
 	@$(MAKE) $(MAKE_ADD_FLAGS) HOOK_T=$@ $@-post
+
+all: subdirs
 
 endif   # HOOK_T
