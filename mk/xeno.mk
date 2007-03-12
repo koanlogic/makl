@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.27 2007/03/06 13:30:05 tat Exp $
+# $Id: xeno.mk,v 1.28 2007/03/12 09:37:29 tho Exp $
 # 
 # User Variables:
 #
@@ -20,6 +20,7 @@
 #
 #   - XENO_PATCH            Patch command
 #   - XENO_PATCH_FLAGS      Arguments to be passed to $XENO_PATCH
+#   - XENO_PATCH_DIR        Where the patch command shall be invoked
 #   - XENO_PATCH_URI	    Remote patch URI (if you need to download it)
 #   - XENO_PATCH_FILE       Local patch file
 #   - XENO_NO_PATCH         If set the patch: target is skipped
@@ -75,6 +76,7 @@ XENO_CONF ?= ./configure
 
 XENO_PATCH ?= patch
 XENO_PATCH_FLAGS ?= -p1 <
+XENO_PATCH_DIR ?= $(XENO_NAME)
 
 XENO_BUILD ?= $(MAKE)
 XENO_UNBUILD ?= $(XENO_BUILD)
@@ -282,7 +284,7 @@ patch: .realpatch
 
 patch-make:
 	@echo "==> patching $(XENO_NAME) with $(XENO_PATCH_FILE)"
-	( cd $(XENO_BUILD_DIR) && $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
+	( cd $(XENO_PATCH_DIR) && $(XENO_PATCH) $(XENO_PATCH_FLAGS) \
 		$(XENO_PATCH_LOCALFILE) )
 
 patch-hook-pre patch-hook-post:
