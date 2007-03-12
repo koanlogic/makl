@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.28 2007/03/12 09:37:29 tho Exp $
+# $Id: xeno.mk,v 1.29 2007/03/12 14:24:22 tho Exp $
 # 
 # User Variables:
 #
@@ -79,9 +79,8 @@ XENO_PATCH_FLAGS ?= -p1 <
 XENO_PATCH_DIR ?= $(XENO_NAME)
 
 XENO_BUILD ?= $(MAKE)
-XENO_UNBUILD ?= $(XENO_BUILD)
+XENO_UNBUILD ?= echo "set XENO_UNBUILD and XENO_UNBUILD_FLAGS if you need special clean actions"
 XENO_INSTALL ?= $(XENO_BUILD)
-XENO_UNBUILD_FLAGS ?= clean
 XENO_INSTALL_FLAGS ?= install
 XENO_BUILD_DIR ?= $(XENO_NAME)
 
