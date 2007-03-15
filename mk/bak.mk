@@ -1,5 +1,5 @@
 #
-# $Id: bak.mk,v 1.1 2007/03/15 00:05:09 stewy Exp $ 
+# $Id: bak.mk,v 1.2 2007/03/15 00:44:28 stewy Exp $ 
 #
 # Required Variables:
 #
@@ -20,14 +20,13 @@
 #
 
 BAK_CMD ?= rsync
-BAK_ARGS ?= -varRH --delete --progress --numeric-ids 
+BAK_ARGS ?= -vaRH --delete --progress --numeric-ids 
 BAK_VERBOSE ?= 
 
 BAK_SRC_DIRS ?= /
 BAK_DST_BASE ?= BAK
 BAK_DST_PFX ?= bak-
 BAK_DST_LATEST ?= $(BAK_DST_PFX)latest
-BAK_EXCLUDE_FILE ?= .exclude
 BAK_PERIOD ?= week
 
 BAK_EXCLUDE ?= \
@@ -35,7 +34,13 @@ BAK_EXCLUDE ?= \
 	lost+found \
 	tmp \
 	Tmp \
-	/proc
+	/proc/ \
+	/sys/
+BAK_EXCLUDE_FILE ?= .exclude
+
+#
+# Test preconditions
+#
 
 ifeq ($(strip $(BAK_PERIOD)),week)
 BAK_DATE = $(shell date '+%a')
@@ -47,13 +52,6 @@ $(error BAK_PERIOD bad value! (must be 'week' or 'month'))
 endif
 endif
 
-#
-# Test preconditions
-#
-#ifndef BAK_SRC_DIRS 
-#  $(error BAK_SRC_DIRS must be defined when using the bak.mk template!)
-#endif
-
 ifdef BAK_SRC_HOST
 	BAK_SRC_HOST := $(BAK_SRC_HOST):
 endif
@@ -64,15 +62,21 @@ ifndef BAK_VERBOSE
 	BAK_REDIRECT = 1> /dev/null
 endif
 
-all: bak
+all: pre bak
+
+pre:
+	rm -f $(BAK_EXCLUDE_FILE)
+	for pattern in $(BAK_EXCLUDE); do \
+		echo $$pattern >> $(BAK_EXCLUDE_FILE); \
+	done
 
 $(BAK_DST_BASE):
 	@mkdir -p $(BAK_DST_BASE)
 
 bak: $(BAK_DST_BASE)
-	@for dir in $(BAK_SRC_DIRS); do \
+	for dir in $(BAK_SRC_DIRS); do \
 		echo "Backing up $(BAK_SRC_HOST)$$dir to $(BAK_DST_HOST)$(BAK_DST_BASE)/$(BAK_DST_LATEST)..." ; \
-		$(BAK_CMD) $(BAK_ARGS) --exclude="$(BAK_EXCLUDE)" -b --backup-dir=../$(BAK_DST_PFX)$(BAK_DATE) \
+		$(BAK_CMD) $(BAK_ARGS) --exclude-from=$(BAK_EXCLUDE_FILE) -b --backup-dir=../$(BAK_DST_PFX)$(BAK_DATE) \
 			$(BAK_SRC_HOST)$$dir \
 			$(BAK_DST_HOST)$(BAK_DST_BASE)/$(BAK_DST_LATEST) \
 			$(BAK_REDIRECT); \
