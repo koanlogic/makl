@@ -1,5 +1,5 @@
 #
-# $Id: bak.mk,v 1.2 2007/03/15 00:44:28 stewy Exp $ 
+# $Id: bak.mk,v 1.3 2007/03/15 09:46:20 stewy Exp $ 
 #
 # Required Variables:
 #
@@ -16,7 +16,7 @@
 #	- BAK_DST_PFX           Prefix for backup directories
 #	- BAK_DST_LATEST		Name of directory containing base backup
 #	- BAK_EXCLUDE       	List of patterns to be excluded
-#	- BAK_PERIDO            How often to execute backups ('month' or 'week')
+#	- BAK_PERIOD            How often to execute backups ('month' or 'week')
 #
 
 BAK_CMD ?= rsync
