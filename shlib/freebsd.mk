@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.8 2006/11/10 09:24:07 tho Exp $
+# $Id: freebsd.mk,v 1.9 2007/06/21 15:20:43 tho Exp $
 #
 # FreeBSD (ELF)
 
@@ -40,12 +40,12 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(RELOC)/$(LIBDIR)
+	ln -sf $(SHLIB_NAME) $(RELOC)/$(LIBDIR)/$(SHLIB_LINK)
 
 uninstall-shared:
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
-	rm -f $(LIBDIR)/$(SHLIB_LINK)
+	rm -f $(RELOC)/$(LIBDIR)/$(SHLIB_NAME)
+	rm -f $(RELOC)/$(LIBDIR)/$(SHLIB_LINK)
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)

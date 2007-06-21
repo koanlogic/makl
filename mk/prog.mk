@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.28 2007/01/29 16:49:08 stewy Exp $
+# $Id: prog.mk,v 1.29 2007/06/21 15:20:43 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -74,15 +74,15 @@ include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
-$(BINDIR):
-	$(MKINSTALLDIRS) $(BINDIR)
+$(RELOC)/$(BINDIR):
+	$(MKINSTALLDIRS) $(RELOC)/$(BINDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(BINDIR)
+	chown $(__CHOWN_ARGS) $(RELOC)/$(BINDIR)
 endif
 
-realinstall: $(BINDIR)
+realinstall: $(RELOC)/$(BINDIR)
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
-	    -m $(BINMODE) $(PROG) $(BINDIR)
+	    -m $(BINMODE) $(PROG) $(RELOC)/$(BINDIR)
 
 install-hook-pre install-hook-post:
 else
@@ -96,8 +96,8 @@ ifndef NO_UNINSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
-	rm -f $(BINDIR)/$(PROG)
-	-rmdir $(BINDIR) 2>/dev/null
+	rm -f $(RELOC)/$(BINDIR)/$(PROG)
+	-rmdir $(RELOC)/$(BINDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 else
