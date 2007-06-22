@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.11 2007/06/21 15:20:43 tho Exp $
+# $Id: darwin.mk,v 1.12 2007/06/22 08:15:33 tho Exp $
 #
 # Darwin 
 
@@ -35,7 +35,7 @@ else
     __COMPAT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR)
     __CURRENT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR).$(SHLIB_TEENY)
     SHLIB_LDFLAGS += -dynamiclib -install_name
-    SHLIB_LDFLAGS += $(RELOC)/$(SHLIBDIR)/$(SHLIB_NAME)
+    SHLIB_LDFLAGS += $(RELOC)$(SHLIBDIR)/$(SHLIB_NAME)
     SHLIB_LDFLAGS += -compatibility_version $(__COMPAT_VER)
     SHLIB_LDFLAGS += -current_version $(__CURRENT_VER)
     SHLIB_NAME ?= lib$(__LIB).$(__CURRENT_VER).dylib
@@ -59,17 +59,17 @@ endif
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) \
-        $(RELOC)/$(SHLIBDIR)
+        $(RELOC)$(SHLIBDIR)
 ifndef BUNDLE
-	ln -sf $(SHLIB_NAME) $(RELOC)/$(SHLIBDIR)/$(SHLIB_LINK1)
-	ln -sf $(SHLIB_NAME) $(RELOC)/$(SHLIBDIR)/$(SHLIB_LINK2)
+	ln -sf $(SHLIB_NAME) $(RELOC)$(SHLIBDIR)/$(SHLIB_LINK1)
+	ln -sf $(SHLIB_NAME) $(RELOC)$(SHLIBDIR)/$(SHLIB_LINK2)
 endif
 
 uninstall-shared:
-	rm -f $(RELOC)/$(SHLIBDIR)/$(SHLIB_NAME)
+	rm -f $(RELOC)$(SHLIBDIR)/$(SHLIB_NAME)
 ifndef BUNDLE
-	rm -f $(RELOC)/$(SHLIBDIR)/$(SHLIB_LINK1)
-	rm -f $(RELOC)/$(SHLIBDIR)/$(SHLIB_LINK2)
+	rm -f $(RELOC)$(SHLIBDIR)/$(SHLIB_LINK1)
+	rm -f $(RELOC)$(SHLIBDIR)/$(SHLIB_LINK2)
 endif
 
 clean-shared:

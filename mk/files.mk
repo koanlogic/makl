@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.3 2007/06/21 15:20:43 tho Exp $
+# $Id: files.mk,v 1.4 2007/06/22 08:15:32 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -62,7 +62,7 @@ endif
 
 realinstall: $(FILES_DIR)
 	$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) -m $(FILES_MODE) $(FILES) \
-        $(RELOC)/$(FILES_DIR)
+        $(RELOC)$(FILES_DIR)
 
 install-hook-pre install-hook-post:
 

@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.19 2007/06/21 15:20:43 tho Exp $
+# $Id: incs.mk,v 1.20 2007/06/22 08:15:32 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -69,7 +69,7 @@ ifneq ($(strip $(__CHOWN_ARGS)),)
 endif
 
 realinstall: $(INCDIR)
-	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(RELOC)/$(INCDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(RELOC)$(INCDIR)
 
 else
 install:

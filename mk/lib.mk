@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.32 2007/06/21 15:20:43 tho Exp $
+# $Id: lib.mk,v 1.33 2007/06/22 08:15:32 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -93,7 +93,7 @@ endif
 realinstall: $(LIBDIR) install-static install-shared
 
 install-static:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(RELOC)/$(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(RELOC)$(LIBDIR)
 
 install-hook-pre install-hook-post:
 
