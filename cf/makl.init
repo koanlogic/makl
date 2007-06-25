@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.25 2006/12/05 10:17:26 stewy Exp $
+# $Id: makl.init,v 1.26 2007/06/25 18:28:17 tho Exp $
 #
 
 # read in just once
@@ -36,7 +36,7 @@ env > ${makl_run_dir}/env
 for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
         ${MAKL_DIR}/etc/toolchain.cf \
-        ${MAKL_TC_DIR}/toolchain.cf \
+        ${MAKL_ETC}/toolchain.cf \
         ${MAKL_DIR}/etc/vars.cf \
         ${MAKL_DIR}/etc/args.cf \
         ${MAKL_DIR}/etc/funcs.cf; do

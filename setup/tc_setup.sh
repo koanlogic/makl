@@ -4,6 +4,7 @@
 #   - FETCH       wget like command
 #   - MAKL_TC     toolchain file (basename with no extension)
 #   - MAKL_SHLIB  shlib file (basename with no extension)
+#   - MAKL_ETC    etc directory (where toolchain.{cf,mk} and shlib.mk belong)
 #
 # precedence rules for setting {tc,shlib}_file's is:
 #   - environment, i.e. MAKL_TC | MAKL_SHLIB
@@ -32,6 +33,9 @@ KL_WEBSITE="http://www.koanlogic.com"
 
 # check MAKL_DIR
 [ -z ${MAKL_DIR} ] && exit 1
+
+# check for user supplied MAKL_ETC
+[ -z ${MAKL_ETC} ] && MAKL_ETC=${MAKL_DIR}/etc
 
 # load makl cf functions + makl_tc
 for f in ${MAKL_DIR}/tc/makl_tc ${MAKL_DIR}/cf/makl_*
@@ -93,12 +97,12 @@ locate_file shlib ${shlib_file}
 
 # install shlib
 echo "installing shlib file \"${shlib_file}\""
-cp ${shlib_file} ${MAKL_DIR}/mk/priv/shlib.mk \
+cp ${shlib_file} ${MAKL_ETC}/etc/shlib.mk \
        || err "shlib installation failed"
 
 # install toolchain
 echo "installing toolchain file \"${tc_file}\""
-makl_tc ${tc_file} ${MAKL_DIR}/etc/toolchain.cf ${MAKL_DIR}/etc/toolchain.mk \
+makl_tc ${tc_file} ${MAKL_ETC}/toolchain.cf ${MAKL_ETC}/toolchain.mk \
        || err "toolchain installation failed"
 
 exit 0

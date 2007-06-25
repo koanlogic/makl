@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.33 2007/06/22 08:15:32 tho Exp $
+# $Id: lib.mk,v 1.34 2007/06/25 18:28:17 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -136,5 +136,6 @@ endif
 ## toolchain.
 __CC = $(if $(strip $(USE_CXX)), $(CXX), $(CC))
 
-include priv/shlib.mk
+#include priv/shlib.mk
+include $(MAKL_ETC)/shlib.mk
 include priv/deps.mk
