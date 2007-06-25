@@ -97,7 +97,7 @@ locate_file shlib ${shlib_file}
 
 # install shlib
 echo "installing shlib file \"${shlib_file}\""
-cp ${shlib_file} ${MAKL_ETC}/etc/shlib.mk \
+cp ${shlib_file} ${MAKL_ETC}/shlib.mk \
        || err "shlib installation failed"
 
 # install toolchain
