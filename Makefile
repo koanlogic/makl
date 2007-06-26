@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.30 2007/03/06 16:55:50 tho Exp $
+# $Id: Makefile,v 1.31 2007/06/26 14:36:40 tho Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -13,6 +13,7 @@
 
 # this one needs to be exported in the 'toolchain' target
 export MAKL_DIR := $(shell pwd)
+export MAKL_ETC ?= $(MAKL_DIR)/etc
 
 # these are available after 'toolchain' actions
 -include etc/toolchain.mk
@@ -43,9 +44,12 @@ all help:
 	@echo "   * uninstall   delete MaKL installed objects from host"
 	@echo
 
+$(MAKL_ETC):
+	@helpers/mkinstalldirs $(MAKL_ETC)
+
 # 'toolchain' target does shared libs and toolchain installation for the 
 # host platform
-toolchain:
+toolchain: $(MAKL_ETC)
 	@[ ! -z $(MAKL_PLATFORM) ] && \
         tc_env="MAKL_TC=${MAKL_PLATFORM} MAKL_SHLIB=${MAKL_PLATFORM}" ; \
 	env $$tc_env setup/tc_setup.sh
@@ -80,7 +84,7 @@ $(MAKL_DIR)/Makefile.conf:
 # by the configure step
 clean:
 	rm -f $(MAKLRC)
-	rm -f $(MAKL_DIR)/etc/toolchain.mk
-	rm -f $(MAKL_DIR)/etc/toolchain.cf
-	rm -f $(MAKL_DIR)/mk/priv/shlib.mk
+	rm -f $(MAKL_ETC)/toolchain.mk
+	rm -f $(MAKL_ETC)/toolchain.cf
+	rm -f $(MAKL_ETC)/shlib.mk
 	rm -f Makefile.conf
