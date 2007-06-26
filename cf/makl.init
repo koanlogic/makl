@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.27 2007/06/26 10:19:56 tho Exp $
+# $Id: makl.init,v 1.28 2007/06/26 13:23:49 tho Exp $
 #
 
 # read in just once
@@ -22,7 +22,7 @@ makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
-if [ ! -r ${MAKL_DIR}/etc/toolchain.cf ]; then
+if [ ! -r ${MAKL_ETC}/toolchain.cf ]; then
     echo "missing toolchain.cf !"
     exit 1
 fi
