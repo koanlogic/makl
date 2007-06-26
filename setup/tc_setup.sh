@@ -1,13 +1,16 @@
 #!/bin/sh 
 #
 # environment variables:
-#   - FETCH       wget like command
-#   - MAKL_TC     toolchain file (basename with no extension)
-#   - MAKL_SHLIB  shlib file (basename with no extension)
-#   - MAKL_ETC    etc directory (where toolchain.{cf,mk} and shlib.mk belong)
+#   - FETCH             like command
+#   - MAKL_TC_FILE      toolchain file (full path)
+#   - MAKL_TC           shlib file (full path)
+#   - MAKL_SHLIB_FILE   shlib file (basename with no extension)
+#   - MAKL_SHLIB        file (basename with no extension)
+#   - MAKL_ETC          directory (where toolchain.{cf,mk} and shlib.mk belong)
 #
 # precedence rules for setting {tc,shlib}_file's is:
-#   - environment, i.e. MAKL_TC | MAKL_SHLIB
+#   - environment MAKL_TC_FILE | MAKL_SHLIB_FILE
+#   - environment MAKL_TC | MAKL_SHLIB
 #   - guess platform
 # as a last resort try KL website.
 
@@ -80,20 +83,36 @@ in
         ;;
 esac
 
-# set tc_file: in case toolchain file was not found locally, try to download 
-# from KL site
-[ ! -z ${MAKL_TC} ] && toolchain="${MAKL_TC}"
-tc_file=${MAKL_DIR}/tc/${toolchain}.tc
-locate_file tc ${tc_file}
-[ $? -ne 0 ] && err "toolchain file \"${toolchain}\" could not be located"
+# set tc_file 
+# in case MAKL_TC_FILE is set, set internal 'tc_file' from it, otherwise
+# (toolchain by name) in case toolchain file was not found locally, try 
+# to download from KL site
+if [ -z ${MAKL_TC_FILE} ]
+then
+    [ ! -z ${MAKL_TC} ] && toolchain="${MAKL_TC}"
+    tc_file=${MAKL_DIR}/tc/${toolchain}.tc
+    locate_file tc ${tc_file}
+    [ $? -ne 0 ] && err "toolchain file \"${toolchain}\" could not be located"
+else
+    tc_file=${MAKL_TC_FILE}
+    [ ! -f $tc_file ] && err "toolchain file \"${tc_file}\" not found"
+fi
 
-# set shlib_file: in case shlib file was not found locally, try to download 
-# from KL site
-[ ! -z ${MAKL_SHLIB} ] && shlib="${MAKL_SHLIB}"
-shlib_file=${MAKL_DIR}/shlib/${shlib}.mk
-locate_file shlib ${shlib_file}
-# as a last-last resort install the null shlib file
-[ $? -ne 0 ] && shlib_file=${MAKL_DIR}/shlib/null.mk
+# set shlib_file
+# in case MAKL_SHLIB_FILE is set, use its content to set internal 'shlib_file'
+# otherwise (shlib by name) in case shlib file was not found locally, try to 
+# download from KL site
+if [ -z ${MAKL_SHLIB_FILE} ]
+then
+    [ ! -z ${MAKL_SHLIB} ] && shlib="${MAKL_SHLIB}"
+    shlib_file=${MAKL_DIR}/shlib/${shlib}.mk
+    locate_file shlib ${shlib_file}
+    # as a last-last resort install the null shlib file
+    [ $? -ne 0 ] && shlib_file=${MAKL_DIR}/shlib/null.mk
+else
+    shlib_file=${MAKL_SHLIB_FILE}
+    [ ! -f $shlib_file ] && err "shared lib file \"${shlib_file}\" not found"
+fi
 
 # install shlib
 echo "installing shlib file \"${shlib_file}\""

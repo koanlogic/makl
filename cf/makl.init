@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.26 2007/06/25 18:28:17 tho Exp $
+# $Id: makl.init,v 1.27 2007/06/26 10:19:56 tho Exp $
 #
 
 # read in just once
@@ -12,6 +12,10 @@ if [ -z "${MAKL_DIR}" ]; then
     echo "MAKL_DIR value must be set in the shell environment"
     exit 1
 fi
+
+# when playing with makl nutshells, MAKL_ETC (i.e. where toolchain belongs)
+# can be arbitrarily set by the user
+MAKL_ETC=${MAKL_ETC:-${MAKL_DIR}/etc}
 
 # set globals to sensible defaults if not already set
 makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
