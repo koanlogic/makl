@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.4 2007/06/22 08:15:32 tho Exp $
+# $Id: files.mk,v 1.5 2007/07/03 10:58:05 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -54,13 +54,13 @@ include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(FILES_OWN), $(FILES_GRP))
 __INSTALL_ARGS = $(call calc-install-args, $(FILES_OWN), $(FILES_GRP))
 
-$(FILES_DIR):
-	$(MKINSTALLDIRS) $(FILES_DIR)
+$(RELOC)$(FILES_DIR):
+	$(MKINSTALLDIRS) $(RELOC)$(FILES_DIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(FILES_DIR)
+	chown $(__CHOWN_ARGS) $(RELOC)$(FILES_DIR)
 endif
 
-realinstall: $(FILES_DIR)
+realinstall: $(RELOC)$(FILES_DIR)
 	$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) -m $(FILES_MODE) $(FILES) \
         $(RELOC)$(FILES_DIR)
 
@@ -78,9 +78,9 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
 	for f in $(FILES); do \
-	    rm -f $(FILES_DIR)/`basename $$f` ; \
+	    rm -f $(RELOC)$(FILES_DIR)/`basename $$f` ; \
 	done
-	-rmdir $(FILES_DIR) 2>/dev/null
+	-rmdir $(RELOC)$(FILES_DIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 

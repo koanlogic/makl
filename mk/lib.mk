@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.34 2007/06/25 18:28:17 tho Exp $
+# $Id: lib.mk,v 1.35 2007/07/03 10:58:05 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -84,13 +84,13 @@ include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
-$(LIBDIR):
-	$(MKINSTALLDIRS) $(LIBDIR)
+$(RELOC)$(LIBDIR):
+	$(MKINSTALLDIRS) $(RELOC)$(LIBDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(LIBDIR)
+	chown $(__CHOWN_ARGS) $(RELOC)$(LIBDIR)
 endif
 
-realinstall: $(LIBDIR) install-static install-shared
+realinstall: $(RELOC)$(LIBDIR) install-static install-shared
 
 install-static:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(RELOC)$(LIBDIR)
@@ -110,8 +110,8 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	rm -f $(LIBDIR)/lib$(__LIB).a
-	-rmdir $(LIBDIR) 2>/dev/null
+	rm -f $(RELOC)$(LIBDIR)/lib$(__LIB).a
+	-rmdir $(RELOC)$(LIBDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 

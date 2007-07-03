@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.20 2007/06/22 08:15:32 tho Exp $
+# $Id: incs.mk,v 1.21 2007/07/03 10:58:05 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -62,13 +62,13 @@ install-hook-pre install-hook-post:
 __CHOWN_ARGS = $(call calc-chown-args, $(INCOWN), $(INCGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(INCOWN), $(INCGRP))
     
-$(INCDIR):
-	$(MKINSTALLDIRS) $(INCDIR)
+$(RELOC)$(INCDIR):
+	$(MKINSTALLDIRS) $(RELOC)$(INCDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(INCDIR)
+	chown $(__CHOWN_ARGS) $(RELOC)$(INCDIR)
 endif
 
-realinstall: $(INCDIR)
+realinstall: $(RELOC)$(INCDIR)
 	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(RELOC)$(INCDIR)
 
 else
@@ -85,9 +85,9 @@ uninstall-hook-pre uninstall-hook-post:
 
 realuninstall:
 	for f in $(INCS); do \
-	    rm -f $(INCDIR)/`basename $$f`; \
+	    rm -f $(RELOC)$(INCDIR)/`basename $$f`; \
 	done
-	-rmdir $(INCDIR) 2>/dev/null
+	-rmdir $(RELOC)$(INCDIR) 2>/dev/null
 
 else
 uninstall:
