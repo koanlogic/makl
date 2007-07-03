@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.19 2007/06/22 08:15:32 tho Exp $
+# $Id: man.mk,v 1.20 2007/07/03 13:33:27 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -11,7 +11,7 @@
 # Applicable targets:
 # - install, uninstall.
 
-include ../etc/map.mk
+#include ../etc/map.mk
 
 # check minimal precondition:
 # MANFILES must be set 
@@ -81,20 +81,20 @@ install-hook-pre install-hook-post:
 
 dirs:
 	@for d in $(__SUBDIRS); do \
-		$(MKINSTALLDIRS) $(RELOC)$(MANDIR)/man$$d ; \
+		$(MKINSTALLDIRS) $(MANDIR)/man$$d ; \
 	done
 
 dirperms:
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	@for d in $(__SUBDIRS); do \
-		chown $(__CHOWN_ARGS) $(RELOC)$(MANDIR)/man$$d ; \
+		chown $(__CHOWN_ARGS) $(MANDIR)/man$$d ; \
 	done
 endif
 
 realinstall:
 	@for f in $(MANFILES); do \
 		$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) -m $(MANMODE) \
-            $$f $(RELOC)$(MANDIR)/man$${f##*.} ; \
+            $$f $(MANDIR)/man$${f##*.} ; \
 	done
 
 ifneq ($(MLINKS),)
@@ -103,11 +103,11 @@ manlinks:
 	while test $$# -ge 2 ; do \
 		name=$$1 ; \
 		shift ; \
-		dir=$(RELOC)$(MANDIR)/man$${name##*.} ; \
+		dir=$(MANDIR)/man$${name##*.} ; \
 		l=$$dir/$$name ; \
 		name=$$1 ; \
 		shift ; \
-		dir=$(RELOC)$(MANDIR)/man$${name##*.} ; \
+		dir=$(MANDIR)/man$${name##*.} ; \
 		t=$$dir/$$name ; \
 		if test $$l -nt $$t -o ! -f $$t ; then \
 			echo $$t -\> $$l ; \
@@ -128,10 +128,10 @@ endif
 ifndef NO_UNINSTALL
 uninstall:
 	for f in $(MLINKS) $(MANFILES) ; do \
-		rm -f $(RELOC)$(MANDIR)/man$${f##*.}/$$f ; \
-		rmdir $(RELOC)$(MANDIR)/man$${f##*.} 2>/dev/null; \
+		rm -f $(MANDIR)/man$${f##*.}/$$f ; \
+		rmdir $(MANDIR)/man$${f##*.} 2>/dev/null; \
 	done
-	-rmdir $(RELOC)$(MANDIR) 2>/dev/null
+	-rmdir $(MANDIR) 2>/dev/null
 
 else
 uninstall:

@@ -1,12 +1,12 @@
 #
-# $Id: incs.mk,v 1.21 2007/07/03 10:58:05 tho Exp $
+# $Id: incs.mk,v 1.22 2007/07/03 13:33:27 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
 # - INCS        the list of header files to install.
 #
 
-include ../etc/map.mk
+#include ../etc/map.mk
 
 ##
 ## all target (nothing but hooks)
@@ -62,14 +62,14 @@ install-hook-pre install-hook-post:
 __CHOWN_ARGS = $(call calc-chown-args, $(INCOWN), $(INCGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(INCOWN), $(INCGRP))
     
-$(RELOC)$(INCDIR):
-	$(MKINSTALLDIRS) $(RELOC)$(INCDIR)
+$(INCDIR):
+	$(MKINSTALLDIRS) $(INCDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(RELOC)$(INCDIR)
+	chown $(__CHOWN_ARGS) $(INCDIR)
 endif
 
-realinstall: $(RELOC)$(INCDIR)
-	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(RELOC)$(INCDIR)
+realinstall: $(INCDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(INCMODE) $(INCS) $(INCDIR)
 
 else
 install:
@@ -85,9 +85,9 @@ uninstall-hook-pre uninstall-hook-post:
 
 realuninstall:
 	for f in $(INCS); do \
-	    rm -f $(RELOC)$(INCDIR)/`basename $$f`; \
+	    rm -f $(INCDIR)/`basename $$f`; \
 	done
-	-rmdir $(RELOC)$(INCDIR) 2>/dev/null
+	-rmdir $(INCDIR) 2>/dev/null
 
 else
 uninstall:

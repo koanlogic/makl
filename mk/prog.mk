@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.30 2007/06/22 08:15:32 tho Exp $
+# $Id: prog.mk,v 1.31 2007/07/03 13:33:27 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -14,7 +14,7 @@
 # - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
 #
 
-include ../etc/map.mk
+#include ../etc/map.mk
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS_c = $(SRCS:.c=.o)
@@ -74,15 +74,15 @@ include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
-$(RELOC)$(BINDIR):
-	$(MKINSTALLDIRS) $(RELOC)$(BINDIR)
+$(BINDIR):
+	$(MKINSTALLDIRS) $(BINDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(RELOC)$(BINDIR)
+	chown $(__CHOWN_ARGS) $(BINDIR)
 endif
 
-realinstall: $(RELOC)$(BINDIR)
+realinstall: $(BINDIR)
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
-	    -m $(BINMODE) $(PROG) $(RELOC)$(BINDIR)
+	    -m $(BINMODE) $(PROG) $(BINDIR)
 
 install-hook-pre install-hook-post:
 else
@@ -96,8 +96,8 @@ ifndef NO_UNINSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
-	rm -f $(RELOC)$(BINDIR)/$(PROG)
-	-rmdir $(RELOC)$(BINDIR) 2>/dev/null
+	rm -f $(BINDIR)/$(PROG)
+	-rmdir $(BINDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 else

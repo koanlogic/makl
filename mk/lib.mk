@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.35 2007/07/03 10:58:05 tho Exp $
+# $Id: lib.mk,v 1.36 2007/07/03 13:33:27 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -11,7 +11,7 @@
 # Applicable targets:
 # - all, clean, depend, cleandepend, install, uninstall.
 
-include ../etc/map.mk
+#include ../etc/map.mk
 
 # strip lib name
 __LIB = $(strip $(LIB))
@@ -84,16 +84,16 @@ include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
-$(RELOC)$(LIBDIR):
-	$(MKINSTALLDIRS) $(RELOC)$(LIBDIR)
+$(LIBDIR):
+	$(MKINSTALLDIRS) $(LIBDIR)
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(RELOC)$(LIBDIR)
+	chown $(__CHOWN_ARGS) $(LIBDIR)
 endif
 
-realinstall: $(RELOC)$(LIBDIR) install-static install-shared
+realinstall: $(LIBDIR) install-static install-shared
 
 install-static:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(RELOC)$(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
 
 install-hook-pre install-hook-post:
 
@@ -110,8 +110,8 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	rm -f $(RELOC)$(LIBDIR)/lib$(__LIB).a
-	-rmdir $(RELOC)$(LIBDIR) 2>/dev/null
+	rm -f $(LIBDIR)/lib$(__LIB).a
+	-rmdir $(LIBDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 
