@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.31 2007/07/03 13:33:27 tho Exp $
+# $Id: prog.mk,v 1.32 2007/07/03 14:09:54 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -13,8 +13,6 @@
 # Applicable targets:
 # - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
 #
-
-#include ../etc/map.mk
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS_c = $(SRCS:.c=.o)

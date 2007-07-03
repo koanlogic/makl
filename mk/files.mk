@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.6 2007/07/03 13:33:27 tho Exp $
+# $Id: files.mk,v 1.7 2007/07/03 14:09:54 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -8,8 +8,6 @@
 #
 # Applicable targets:
 # - install, uninstall
-
-#include ../etc/map.mk
 
 # check preconditions
 ifndef FILES

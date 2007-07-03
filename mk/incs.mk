@@ -1,12 +1,10 @@
 #
-# $Id: incs.mk,v 1.22 2007/07/03 13:33:27 tho Exp $
+# $Id: incs.mk,v 1.23 2007/07/03 14:09:54 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
 # - INCS        the list of header files to install.
 #
-
-#include ../etc/map.mk
 
 ##
 ## all target (nothing but hooks)

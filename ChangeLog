@@ -1,6 +1,12 @@
-$Id: ChangeLog,v 1.17 2007/02/11 10:39:42 tho Exp $
+$Id: ChangeLog,v 1.18 2007/07/03 14:09:54 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+
+MaKL 1.5.0:
+	- added "nutshell"s, i.e. a mechanism to create and use completely modular
+	  toolchains (via MAKL_ETC variable)
+	- added RELOC variable for staged install
+	- removed map.mk include's from within template mk other than common.mk
 
 MaKL 1.4.0:
 	- added script.mk template for installing/uninstalling scripts

@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.20 2007/07/03 13:33:27 tho Exp $
+# $Id: man.mk,v 1.21 2007/07/03 14:09:54 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -10,8 +10,6 @@
 #
 # Applicable targets:
 # - install, uninstall.
-
-#include ../etc/map.mk
 
 # check minimal precondition:
 # MANFILES must be set 

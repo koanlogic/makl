@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.36 2007/07/03 13:33:27 tho Exp $
+# $Id: lib.mk,v 1.37 2007/07/03 14:09:54 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -10,8 +10,6 @@
 #
 # Applicable targets:
 # - all, clean, depend, cleandepend, install, uninstall.
-
-#include ../etc/map.mk
 
 # strip lib name
 __LIB = $(strip $(LIB))
