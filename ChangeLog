@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.18 2007/07/03 14:09:54 tho Exp $
+$Id: ChangeLog,v 1.19 2007/07/03 14:57:26 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
@@ -7,6 +7,7 @@ MaKL 1.5.0:
 	  toolchains (via MAKL_ETC variable)
 	- added RELOC variable for staged install
 	- removed map.mk include's from within template mk other than common.mk
+	- maklhelp also prints environment variables in use
 
 MaKL 1.4.0:
 	- added script.mk template for installing/uninstalling scripts
