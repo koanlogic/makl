@@ -35,5 +35,8 @@ all-hook-post:
 clean-hook-pre:
 	@$(ECHO) "==> pre clean action [NONE]"
 
-uninstall-hook-post:
+uninstall-hook-post: uninstall-hook-post-pre
 	@$(ECHO) "==> post uninstall action [NONE]"
+
+uninstall-hook-post-pre:
+	@$(ECHO) "==> DESTDIR now is: $(DESTDIR)"
