@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.10 2007/07/03 14:50:52 tho Exp $
+# $Id: maklsh.in,v 1.11 2007/07/04 20:32:21 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -58,10 +58,10 @@ display_help ()
     echo "maklconf  => configure script wrapper                             "
     echo "maklhelp  => display this help                                    "
     echo "                                                                  "
-    echo "MaKL variable in use are:                                         "
-    echo "MAKL_DIR = ${MAKL_DIR}                                            "
-    echo "MAKEFLAGS = ${MAKEFLAGS}                                          "
-    echo "MAKL_ETC = ${MAKL_ETC}                                            "
+    echo "MaKL variable in use:                                             "
+    echo "MAKL_DIR  [${MAKL_DIR}]"
+    echo "MAKEFLAGS [${MAKEFLAGS}]"
+    echo "MAKL_ETC  [${MAKL_ETC}]"
     exit 0
 }
 
