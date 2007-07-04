@@ -1,9 +1,9 @@
 # handle install relocation (automatically included by Makefile.conf)
 #
-# $Id: reloc.mk,v 1.1 2007/07/03 14:50:52 tho Exp $
+# $Id: reloc.mk,v 1.2 2007/07/04 10:16:27 tho Exp $
 
-# prepend RELOC variable if set on 'install' target
-ifeq ($(MAKECMDGOALS), install)
+# prepend RELOC variable if set on '*install*' target
+ifneq (, $(findstring install, $(MAKECMDGOALS)))
     ifneq ($(RELOC),)
         $(warning RELOC has been set: prepending $(RELOC) to all *DIRS)
         DESTDIR  := $(RELOC)$(DESTDIR)

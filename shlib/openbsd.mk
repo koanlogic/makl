@@ -1,4 +1,4 @@
-# $Id: openbsd.mk,v 1.4 2007/06/22 08:15:33 tho Exp $
+# $Id: openbsd.mk,v 1.5 2007/07/04 10:16:27 tho Exp $
 #
 # OpenBSD
 
@@ -36,10 +36,10 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	$(CC) -shared -fpic -o $(SHLIB_NAME) `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(RELOC)$(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
 
 uninstall-shared:
-	rm -f $(RELOC)$(LIBDIR)/$(SHLIB_NAME)
+	rm -f $(LIBDIR)/$(SHLIB_NAME)
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)
