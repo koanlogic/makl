@@ -1,6 +1,10 @@
-# $Id: linux-cris-axis.tc,v 1.1 2006/03/25 13:14:48 tat Exp $
+# $Id: linux-cris-axis.tc,v 1.2 2007/07/05 08:12:04 tat Exp $
 #
 # Axis ETRAX cris toolchain (see FOX board: www.acmesystems.it)
+
+ifndef EROOT
+$(error EROOT must be set)
+endif
 
 CC = cris-gcc -mlinux -isystem ${EROOT}/include
 CXX = cris-g++ -mlinux -isystem ${EROOT}/include

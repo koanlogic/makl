@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.19 2007/07/04 12:49:57 tat Exp $
+# $Id: subdir.mk,v 1.20 2007/07/05 08:12:04 tat Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -29,7 +29,7 @@ subdirs: $(SUBDIR)
 
 # no explicit target, run make into subdirs
 $(SUBDIR):
-	@$(MAKE) -C $@ $(SUBDIR_GOAL)
+	@$(MAKE) SUBDIR_GOAL= -C $@ $(SUBDIR_GOAL)
 
 ifndef SUBDIR_GOAL
 # one or more explicit target has been provided. run $target-pre, make
