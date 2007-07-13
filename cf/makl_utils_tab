@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.14 2006/11/07 11:24:57 stewy Exp $
+# $Id: makl_utils_tab,v 1.15 2007/07/13 10:47:03 tho Exp $
 #
 
 
@@ -61,10 +61,10 @@ makl_tab_set ()
         line_n="${id}"
 
         n=1
-        lim=$((${col}-1))
+        lim=`expr ${col} - 1`   # avoid bash-ism, was "lim=$((${col}-1))"
         while [ ${n} -lt ${lim} ]; do
             line_n="${line_n}|"
-            n=$((n+1))
+            n=`expr ${n} + 1`   # avoid bash-ism, was: "n=$((n+1))"
         done
 
         line_n="${line_n}|$@|||||||||||"
@@ -103,7 +103,7 @@ makl_tab_set_row ()
             [ -z "${arg}" ] && arg=" "
             line="${line}|${arg}"
         fi
-        i=$((${i}+1))
+        i=`expr ${i} + 1`   # avoid bash-ism, was: "i=$((${i}+1))"
     done
 
     ${ECHO} ${line} >> ${file}
@@ -170,7 +170,7 @@ makl_tab_var ()
             break
         fi
         # stop if we have no separator
-        i=$((${i}+1))
+        i=`expr ${i} + 1`   # avoid bash-ism, was: "i=$((${i}+1))"
     done
 
     if [ ${found} = 0 ]; then
