@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.32 2007/07/19 13:36:18 tat Exp $
+# $Id: Makefile,v 1.33 2007/07/19 13:37:01 tat Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -54,9 +54,9 @@ MAKL_SHLIB ?= $(MAKL_PLATFORM)
 # host platform
 toolchain: $(MAKL_ETC)
 ifdef MAKL_PLATFORM
-	env MAKL_TC=$(MAKL_TC) MAKL_SHLIB=$(MAKL_SHLIB) setup/tc_setup.sh
+	@env MAKL_TC=$(MAKL_TC) MAKL_SHLIB=$(MAKL_SHLIB) setup/tc_setup.sh
 else
-	setup/tc_setup.sh                                         
+	@setup/tc_setup.sh                                         
 endif     
 
 # 'env' (interactively) and 'rc' (unattendedly) targets create a suitable 
