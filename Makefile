@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.31 2007/06/26 14:36:40 tho Exp $
+# $Id: Makefile,v 1.32 2007/07/19 13:36:18 tat Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -47,12 +47,17 @@ all help:
 $(MAKL_ETC):
 	@helpers/mkinstalldirs $(MAKL_ETC)
 
+MAKL_TC ?= $(MAKL_PLATFORM)
+MAKL_SHLIB ?= $(MAKL_PLATFORM)
+
 # 'toolchain' target does shared libs and toolchain installation for the 
 # host platform
 toolchain: $(MAKL_ETC)
-	@[ ! -z $(MAKL_PLATFORM) ] && \
-        tc_env="MAKL_TC=${MAKL_PLATFORM} MAKL_SHLIB=${MAKL_PLATFORM}" ; \
-	env $$tc_env setup/tc_setup.sh
+ifdef MAKL_PLATFORM
+	env MAKL_TC=$(MAKL_TC) MAKL_SHLIB=$(MAKL_SHLIB) setup/tc_setup.sh
+else
+	setup/tc_setup.sh                                         
+endif     
 
 # 'env' (interactively) and 'rc' (unattendedly) targets create a suitable 
 # (i.e. user login shell specific) $MAKLRC file
