@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.29 2007/03/12 14:24:22 tho Exp $
+# $Id: xeno.mk,v 1.30 2007/08/07 20:26:04 tho Exp $
 # 
 # User Variables:
 #
@@ -22,8 +22,10 @@
 #   - XENO_PATCH_FLAGS      Arguments to be passed to $XENO_PATCH
 #   - XENO_PATCH_DIR        Where the patch command shall be invoked
 #   - XENO_PATCH_URI	    Remote patch URI (if you need to download it)
-#   - XENO_PATCH_FILE       Local patch file
 #   - XENO_NO_PATCH         If set the patch: target is skipped
+#   - XENO_PATCH_FILE       Local patch file: absolute path or simple patch 
+#                           file name if in the same directory as the xeno 
+#                           Makefile
 #
 #   - XENO_CONF             Configure script to be used
 #   - XENO_CONF_FLAGS       Arguments to be passed to $XENO_CONF
@@ -254,7 +256,19 @@ ifndef XENO_NO_PATCH
 ifndef XENO_PATCH_URI
 ifdef XENO_PATCH_FILE
 
-XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
+# we need an absolute pathname for XENO_PATCH_LOCALFILE, since the patch 
+# command is executed inside the XENO_PATCH_DIR.  So we check for absolute 
+# vs local file name (i.e. a file in the same dir as xeno Makefile) in order 
+# to set the XENO_PATCH_LOCALFILE variable correctly.
+# The test is quite suboptimal :) we should have used the abspath function 
+# here, but unfortunately it is not available under GNU make 3.79 (very old 
+# but default install on MacOS 10.3).
+ifeq ($(XENO_PATCH_FILE), $(notdir $(XENO_PATCH_FILE)))
+    XENO_PATCH_LOCALFILE = $(CURDIR)/$(XENO_PATCH_FILE)
+else
+    XENO_PATCH_LOCALFILE = $(XENO_PATCH_FILE)
+endif
+
 patch-fetch: $(XENO_PATCH_LOCALFILE)
 
 else    # !XENO_PATCH_FILE && !XENO_PATCH_URI
