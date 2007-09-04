@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.29 2007/06/26 14:36:40 tho Exp $
+# $Id: makl.init,v 1.30 2007/09/04 14:44:27 tat Exp $
 #
 
 # read in just once
@@ -12,6 +12,19 @@ if [ -z "${MAKL_DIR}" ]; then
     echo "MAKL_DIR value must be set in the shell environment"
     exit 1
 fi
+
+# if --help as been used and configure.help exists print it immediately and 
+# exit (this avoids sourcing the whole MaKL lib just to display the help)
+for arg in "$@"; do
+    case ${arg} in 
+        -h | --help)
+            if [ -r configure.help ]; then
+                cat configure.help
+                exit 0 ;
+            fi
+            ;;
+    esac
+done
 
 # when playing with makl nutshells, MAKL_ETC (i.e. where toolchain belongs)
 # can be arbitrarily set by the user
