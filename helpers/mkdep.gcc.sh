@@ -32,11 +32,11 @@
 # SUCH DAMAGE.
 #
 #	@(#)mkdep.gcc.sh	8.1 (Berkeley) 6/6/93
-# $Id: mkdep.gcc.sh,v 1.3 2007/06/26 14:36:40 tho Exp $
+# $Id: mkdep.gcc.sh,v 1.4 2007/09/04 10:02:15 tho Exp $
 
 # get toolchain in use and source its values
 makl_etc=${MAKL_ETC:-${MAKL_DIR}/etc}
-. ${makl_etc}
+. ${makl_etc}/toolchain.cf
 
 D=.depend			# default dependency file is .depend
 append=0
