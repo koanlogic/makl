@@ -1,5 +1,5 @@
 #
-# $Id: makl_tc,v 1.18 2006/12/01 14:44:23 tho Exp $
+# $Id: makl_tc,v 1.19 2007/09/13 10:31:26 tat Exp $
 #
 
 # _makl_tc_cf input output
@@ -15,8 +15,8 @@ _makl_tc_cf ()
         -e '/^$/d'          \
         -e '/^[A-Z]/!d'     \
         -e 's/__UNSET__//'  \
-        -e 's/ //1'         \
-        -e 's/ /"/1'        \
+        -e 's/ *= */=/1'    \
+        -e 's/=/="/1'       \
         -e 's/$/"/' $1 >> $2
 
     [ $? -ne 0 ] && return 1 
