@@ -1,6 +1,9 @@
-$Id: ChangeLog,v 1.21 2007/07/04 20:04:48 tho Exp $
+$Id: ChangeLog,v 1.22 2007/09/27 15:10:34 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+
+MaKL 1.5.x:
+	- added makl_checkextern
 
 MaKL 1.5.0:
 	- added "nutshell"s, i.e. a mechanism to create and use completely modular
