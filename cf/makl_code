@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.27 2007/02/26 17:38:52 tat Exp $
+# $Id: makl_code,v 1.28 2007/09/27 15:09:43 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -216,6 +216,48 @@ makl_checktype ()
         [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!" 
         makl_unset_var "HAVE_"`makl_upper ${def_type}`
         makl_warn "failed check on optional type $2"
+        return 1
+    fi
+}
+
+##\brief Check existence of an extern variable.
+##
+##  Define HAVE_$1 if the extern variable \e $2 is found. 
+##  \e $1 determines whether the feature is optional or required.
+## 
+##  \param $1 0:optional,1:required
+##  \param $2 extern variables
+##  \param $* optional compilation flags
+##
+makl_checkextern()
+{
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_info "checking for extern variable $2"
+
+    opt=$1
+    var=$2
+    shift
+    shift
+
+    {
+        # this fails when the linker doesn't find the variable in any linked
+        # libraries
+        ${ECHO} "
+            extern void* ${var};
+            int main() 
+            {
+                return (int) & ${var};
+            }" 
+    } | makl_compile_code 0 $*
+
+    if [ $? = 0 ]; then
+        makl_set_var "HAVE_"`makl_upper ${var}`
+        return 0
+    else
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required extern variable ${var}!" 
+        makl_unset_var "HAVE_"`makl_upper ${var}`
+        makl_warn "failed check on optional extern variable $2"
         return 1
     fi
 }
