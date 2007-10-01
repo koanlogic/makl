@@ -1,8 +1,8 @@
-$Id: ChangeLog,v 1.22 2007/09/27 15:10:34 tat Exp $
+$Id: ChangeLog,v 1.23 2007/10/01 11:12:13 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
-MaKL 1.5.x:
+MaKL 1.5.1:
 	- added makl_checkextern
 
 MaKL 1.5.0:
