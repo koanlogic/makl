@@ -1,9 +1,12 @@
-# $Id: Makefile.dist,v 1.20 2007/02/12 08:31:49 tho Exp $
+# $Id: Makefile.dist,v 1.21 2007/10/10 22:09:54 tat Exp $
 
 include common.mk
 
 PKG_NAME = makl
 PKG_VERSION = $(shell cat VERSION)
+
+ZIP ?= gzip
+ZIPEXT ?= gz
 
 DISTFILES = Makefile VERSION README LICENSE ChangeLog INSTALL
 DISTFILES += configure configure.help
@@ -11,6 +14,13 @@ DISTFILES += configure configure.help
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 DISTFILES += cf/Makefile cf/helpers/Makefile
+
+# doc
+DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png \
+	doc/src/kl.css doc/src/kl_footer.html
+
+# doxy bits
+DISTFILES += $(shell find doc/html -type f)
 
 # misc
 DISTFILES += misc/Makefile
