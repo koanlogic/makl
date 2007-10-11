@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.28 2007/09/27 15:09:43 tat Exp $
+# $Id: makl_code,v 1.29 2007/10/11 11:19:51 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -128,7 +128,7 @@ makl_checkfunc ()
 
     makl_info "checking for function $2"
 
-    ${ECHO} "$2();" | makl_compile_code 1 $3
+    ${ECHO} "$2();" | makl_compile_code 1 "$3"
 
     if [ $? = 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2`
