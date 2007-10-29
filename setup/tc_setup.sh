@@ -24,15 +24,15 @@ err ()
 # $2: filename
 locate_file ()
 {
+    KL_WEBSITE="http://www.koanlogic.com"
+
     if [ ! -f $2 ] 
     then 
         (cd ${MAKL_DIR}/$1/ && \
-                      ${FETCH:=wget} ${KL_WEBSITE}/makl/`basename $2`) \
+            ${FETCH:=wget} ${KL_WEBSITE}/download/makl/`basename $2`) \
         > /dev/null 2> /dev/null
     fi
 }
-
-KL_WEBSITE="http://www.koanlogic.com"
 
 # check MAKL_DIR
 [ -z ${MAKL_DIR} ] && exit 1

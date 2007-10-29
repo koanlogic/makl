@@ -1,9 +1,10 @@
-$Id: ChangeLog,v 1.25 2007/10/11 11:20:34 tat Exp $
+$Id: ChangeLog,v 1.26 2007/10/29 17:16:33 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL x.y.z:
 	- makl_checkfunc fix
+	- remote toolchain download URL updated
 
 MaKL 1.5.1:
 	- added makl_checkextern
