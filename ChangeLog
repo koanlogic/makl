@@ -1,9 +1,11 @@
-$Id: ChangeLog,v 1.27 2007/11/05 16:23:20 tho Exp $
+$Id: ChangeLog,v 1.28 2007/11/12 11:02:10 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL x.y.z:
-	- force darwin toolchain to use /bin/echo (would break on darwin 9.0.0)
+	- explicit cygwin toolchain (default.tc would fit anyway)
+	- force darwin toolchain to use /bin/echo instead of shell builtin 
+	  (would break on darwin 9.0.0)
 	- makl_checkfunc fix
 	- remote toolchain download URL updated
 

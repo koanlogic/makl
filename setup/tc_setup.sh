@@ -77,6 +77,10 @@ in
         shlib="null"            # not yet supported
         toolchain="mingw"
         ;;
+    *cygwin*)
+        shlib="null"            # not yet supported
+        toolchain="cygwin"
+        ;;
     *)
         shlib="null"
         toolchain="default"
