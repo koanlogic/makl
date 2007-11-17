@@ -96,7 +96,8 @@ then
     [ ! -z ${MAKL_TC} ] && toolchain="${MAKL_TC}"
     tc_file=${MAKL_DIR}/tc/${toolchain}.tc
     locate_file tc ${tc_file}
-    [ $? -ne 0 ] && err "toolchain file \"${toolchain}\" could not be located"
+    [ $? -ne 0 ] && \
+        err "toolchain file \"${toolchain}\" could not be located as ${tc_file}"
 else
     tc_file=${MAKL_TC_FILE}
     [ ! -f $tc_file ] && err "toolchain file \"${tc_file}\" not found"
