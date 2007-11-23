@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.16 2007/11/23 16:19:35 tho Exp $
+# $Id: dist.mk,v 1.17 2007/11/23 16:22:33 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -28,6 +28,9 @@ ifndef DISTREMAP
 $(error at least one of DISTFILES or DISTREMAP must be set !)
 endif   # !DISTREMAP
 endif   # !DISTFILES
+
+TAR ?= tar
+TAR_ARGS ?= cf
 
 ZIP ?= bzip2
 ZIPEXT ?= bz2
