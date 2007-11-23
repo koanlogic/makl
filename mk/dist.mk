@@ -1,11 +1,14 @@
 #
-# $Id: dist.mk,v 1.15 2007/01/29 16:50:20 stewy Exp $
+# $Id: dist.mk,v 1.16 2007/11/23 16:19:35 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
 # - PKG_VERSION     Version number
 # - PKG_NODIR		No base directory in package
 # - ZIP             Compression utility
+# - ZIPEXT          Compressed file extension
+# - TAR             tar command
+# - TAR_ARGS        Arguments to tar(1)
 # - DISTFILES       List of files to be added to distribution
 # - DISTREMAP       Ordered couplets of file name in cvs-src and its alias in
 #                   distribution
@@ -73,7 +76,7 @@ olddir=$(shell pwd)
 ifdef PKG_NODIR 
 tarball:
 	@cd $(DISTDIR) && \
-	tar cf $(olddir)/$(DISTNAME).tar . && \
+	$(TAR) $(TAR_ARGS) $(olddir)/$(DISTNAME).tar . && \
 	rm -f $(olddir)/$(DISTNAME).tar.$(ZIPEXT) && \
 	$(ZIP) $(olddir)/$(DISTNAME).tar && \
 	cd - && \
@@ -81,7 +84,7 @@ tarball:
 	rm -rf $(DISTNAME).tar $(DISTDIR)
 else
 tarball:
-	@tar cf $(DISTNAME).tar $(DISTDIR) && \
+	@$(TAR) $(TAR_ARGS) $(DISTNAME).tar $(DISTDIR) && \
 	rm -f $(DISTNAME).tar.$(ZIPEXT) && \
 	$(ZIP) $(DISTNAME).tar && \
 	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \

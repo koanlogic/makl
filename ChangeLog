@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.29 2007/11/16 14:35:40 tho Exp $
+$Id: ChangeLog,v 1.30 2007/11/23 16:19:35 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
@@ -8,6 +8,7 @@ MaKL 1.5.2:
 	  (would break on darwin 9.0.0)
 	- makl_checkfunc fix
 	- remote toolchain download URL updated
+	- added TAR and TAR_ARGS variables to dist.mk
 
 MaKL 1.5.1:
 	- added makl_checkextern
