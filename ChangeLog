@@ -1,8 +1,9 @@
-$Id: ChangeLog,v 1.30 2007/11/23 16:19:35 tho Exp $
+$Id: ChangeLog,v 1.31 2007/12/07 16:37:04 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.5.2:
+    - makl_checksymbol added to check for #defines, variables or functions
 	- explicit cygwin toolchain (default.tc would fit anyway)
 	- force darwin toolchain to use /bin/echo instead of shell builtin 
 	  (would break on darwin 9.0.0)

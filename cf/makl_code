@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.29 2007/10/11 11:19:51 tat Exp $
+# $Id: makl_code,v 1.30 2007/12/07 16:37:04 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -258,6 +258,58 @@ makl_checkextern()
         [ ${opt} = 0 ] || makl_err 1 "failed check on required extern variable ${var}!" 
         makl_unset_var "HAVE_"`makl_upper ${var}`
         makl_warn "failed check on optional extern variable $2"
+        return 1
+    fi
+}
+
+##\brief Check existence of a symbol
+##
+##  Define HAVE_$1 if the symbol \e $2 is found. 
+##  \e $1 determines whether the feature is optional or required.
+##   
+##  The symbol may be an external variable, function or a #define.
+##   
+##  \param $1 0:optional,1:required
+##  \param $2 symbol
+##  \param $* header files
+##
+makl_checksymbol()
+{
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_info "checking for symbol $2"
+
+    opt=$1
+    var=$2
+    shift
+    shift
+
+    {
+        for arg in $*; do
+            ${ECHO} "#include ${arg}"
+        done
+        # this fails if the symbol is not defined (no #define, no variable, 
+        # no function)
+        ${ECHO} "
+            #ifdef ${var}
+            int main(){ return 0; }
+            #else
+            int main()
+            {
+                void *p = (void*)(${var});
+                return 0;
+            }
+            #endif
+            " 
+    } | makl_compile_code 0 
+
+    if [ $? = 0 ]; then
+        makl_set_var "HAVE_"`makl_upper ${var}`
+        return 0
+    else
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required symbol ${var}!" 
+        makl_unset_var "HAVE_"`makl_upper ${var}`
+        makl_warn "failed check on optional symbol $2"
         return 1
     fi
 }
