@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.30 2007/12/07 16:37:04 tat Exp $
+# $Id: makl_code,v 1.31 2007/12/08 22:38:56 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -264,7 +264,7 @@ makl_checkextern()
 
 ##\brief Check existence of a symbol
 ##
-##  Define HAVE_$1 if the symbol \e $2 is found. 
+##  Define HAVE_$2 if the symbol \e $2 is found. 
 ##  \e $1 determines whether the feature is optional or required.
 ##   
 ##  The symbol may be an external variable, function or a #define.
@@ -309,7 +309,60 @@ makl_checksymbol()
     else
         [ ${opt} = 0 ] || makl_err 1 "failed check on required symbol ${var}!" 
         makl_unset_var "HAVE_"`makl_upper ${var}`
-        makl_warn "failed check on optional symbol $2"
+        makl_warn "failed check on optional symbol ${var}"
+        return 1
+    fi
+}
+
+##\brief Check existence of an element in a struct
+##
+##  Define HAVE_$2_$3 if the element \e $3 exists in the struct \e $2
+##  \e $1 determines whether the feature is optional or required.
+##   
+##  The symbol may be an external variable, function or a #define.
+##   
+##  \param $1 0:optional,1:required
+##  \param $2 type
+##  \param $3 elem
+##  \param $* header files
+##
+makl_checkstructelem()
+{
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    opt=$1
+    type=$2
+    elem=$3
+    shift
+    shift
+    shift
+
+    makl_info "checking for ${elem} in ${type}"
+
+    {
+        for arg in $*; do
+            ${ECHO} "#include ${arg}"
+        done
+        # this fails if the symbol is not defined (no #define, no variable, 
+        # no function)
+        ${ECHO} "
+            ${type} _a_;
+            int main()
+            {
+                void *_p_ = (void*)(&(_a_.${elem}));
+                return 0;
+            }
+            " 
+    } | makl_compile_code 0 
+
+    type=`${ECHO} ${type} | sed 's/\ /_/g'`
+    if [ $? = 0 ]; then
+        makl_set_var "HAVE_"`makl_upper ${type}_${elem}`
+        return 0
+    else
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required struct elem ${elem}!" 
+        makl_unset_var "HAVE_"`makl_upper ${type}_${elem}`
+        makl_warn "failed check on optional struct elem ${elem}"
         return 1
     fi
 }
