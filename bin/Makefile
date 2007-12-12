@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.5 2006/12/09 22:42:10 tho Exp $
+# $Id: Makefile,v 1.6 2007/12/12 08:57:52 tho Exp $
 
 include common.mk
 include ../Makefile.conf
@@ -15,6 +15,7 @@ install-hook-post:
 	rm -f $(BINDIR)/makl && ln -s $(BINDIR)/$(PROG) $(BINDIR)/makl
 	rm -f $(BINDIR)/maklconf && ln -s $(BINDIR)/$(PROG) $(BINDIR)/maklconf
 	rm -f $(BINDIR)/maklhelp && ln -s $(BINDIR)/$(PROG) $(BINDIR)/maklhelp
+	rm -f $(BINDIR)/makltc && ln -s $(BINDIR)/$(PROG) $(BINDIR)/makltc
 
 uninstall-hook-pre:
 	rm -f $(BINDIR)/makl

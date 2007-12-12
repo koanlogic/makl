@@ -3,9 +3,9 @@
 # environment variables:
 #   - FETCH             like command
 #   - MAKL_TC_FILE      toolchain file (full path)
-#   - MAKL_TC           shlib file (full path)
-#   - MAKL_SHLIB_FILE   shlib file (basename with no extension)
-#   - MAKL_SHLIB        file (basename with no extension)
+#   - MAKL_TC           toolchain file (basename relative to ${MAKL_DIR}/tc)
+#   - MAKL_SHLIB_FILE   shlib file (full path)
+#   - MAKL_SHLIB        file (basename relative to ${MAKL_DIR}/shlib)
 #   - MAKL_ETC          directory (where toolchain.{cf,mk} and shlib.mk belong)
 #
 # precedence rules for setting {tc,shlib}_file's is:

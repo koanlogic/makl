@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.11 2007/07/04 20:32:21 tho Exp $
+# $Id: maklsh.in,v 1.12 2007/12/12 08:57:52 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -24,11 +24,12 @@ search_cf_script ()
     do
         if [ -x ${cf} ]; then
             PATH_CF_SCRIPT=${cf} 
-            return
+            return 0
         fi
     done
 
-    echo "no suitable configure script found" && exit 1
+    echo "no suitable configure script found" 
+    return 1
 }
 
 search_nearest_maklrc ()
@@ -62,7 +63,27 @@ display_help ()
     echo "MAKL_DIR  [${MAKL_DIR}]"
     echo "MAKEFLAGS [${MAKEFLAGS}]"
     echo "MAKL_ETC  [${MAKL_ETC}]"
-    exit 0
+
+    return
+}
+
+toolchain_env ()
+{
+    # accumulate the needed variables into ENV
+    [ "${MAKL_TC}" ] && ENV="MAKL_TC=${MAKL_TC}"
+    [ "${MAKL_TC_FILE}" ] && ENV="${ENV} MAKL_TC_FILE=${MAKL_TC_FILE}"
+    [ "${MAKL_SHLIB}" ] && ENV="${ENV} MAKL_SHLIB=${MAKL_SHLIB}"
+    [ "${MAKL_SHLIB_FILE}" ] && ENV="${ENV} MAKL_SHLIB_FILE=${MAKL_SHLIB_FILE}"
+    [ "${MAKL_ETC}" ] && ENV="${ENV} MAKL_ETC=${MAKL_ETC}"
+
+    # check if there's anything into ENV
+    if [ -z "${ENV}" ]
+    then
+        echo "at least one of MAKL_TC, MAKL_SHLIB, MAKL_ETC must be set !"
+        return 1
+    fi
+
+    return 0
 }
 
 # get overrides from the user 
@@ -84,7 +105,7 @@ in
         exit $?
         ;;
     maklconf)
-        search_cf_script
+        search_cf_script || exit 1
         # exec the selected configure script with user supplied arguments
         ${PATH_CF_SCRIPT} $@ 
         exit $?
@@ -92,6 +113,11 @@ in
     maklhelp)
         display_help
         exit 0
+        ;;
+    makltc)
+        toolchain_env || exit 1
+        env ${ENV} ${MAKL_DIR}/setup/tc_setup.sh
+        exit $?
         ;;
     *)
         echo "don't call me directly, instead call me as makl or maklconf"
