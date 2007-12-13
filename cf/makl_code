@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.32 2007/12/09 19:35:56 tat Exp $
+# $Id: makl_code,v 1.33 2007/12/13 17:53:36 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -20,13 +20,22 @@ makl_compile ()
     shift
     flags=$*
     cwd=`pwd`
+
+    makl_info "makl_compile ${c_file}"
    
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
-    ${CC} -o out `basename ${c_file}` ${flags} 2>/dev/null
+    if [ -z `makl_get "__cross_compile__"` ]; then
+        makl_info "compiling and linking"
+        ${CC} -o out `basename ${c_file}` ${flags} 2>/dev/null
+    else 
+        makl_info "cross-compilation (no linking)"
+        ${CC} -c `basename ${c_file}` ${flags} 2>/dev/null
+    fi
 
     if [ $? -ne 0 ]; then
+        makl_info "compilation failed"
         cd ${cwd} 
         return 1
     fi 
