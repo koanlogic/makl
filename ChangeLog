@@ -1,11 +1,12 @@
-$Id: ChangeLog,v 1.33 2007/12/12 08:57:52 tho Exp $
+$Id: ChangeLog,v 1.34 2007/12/14 17:26:07 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.6.0
+	- makl_compile doesn't link when cross compiling
 	- added makltc command to ease the creation of cross compilation 
 	  environment
-	- makl_checkstructelem added 
+	- makl_checkstructelem added to check a specific element in a struct
 	- makl_checksymbol added to check for #defines, variables or functions
 	- explicit cygwin toolchain (default.tc would fit anyway)
 	- force darwin toolchain to use /bin/echo instead of shell builtin 

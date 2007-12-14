@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.13 2007/12/13 13:26:03 tho Exp $
+# $Id: maklsh.in,v 1.14 2007/12/14 17:26:07 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -18,17 +18,24 @@ CF_SCRIPTS="./configure.sh  \
             ./configure     \
             ./Configure"
 
+maklsh_echo ()
+{
+    echo -n "[makl] "
+    echo $@
+}
+
 search_cf_script ()
 {
     for cf in ${CF_SCRIPTS}
     do
         if [ -x ${cf} ]; then
             PATH_CF_SCRIPT=${cf} 
+            maklsh_echo "using configure script: ${PATH_CF_SCRIPT}"
             return 0
         fi
     done
 
-    echo "no suitable configure script found" 
+    maklsh_echo "no suitable configure script found!"
     return 1
 }
 
@@ -42,7 +49,12 @@ search_nearest_maklrc ()
     while expr ${depth} '>' 0 >/dev/null
     do
         depth=`expr ${depth} - 1`
-        [ -r ${cdir}"/.maklrc" ] && return 0
+        if [ -r ${cdir}"/.maklrc" ]
+        then
+            CDIR=`(cd ${cdir} && pwd)`
+            maklsh_echo "reading per-project MAKL vars from ${CDIR}/.maklrc"
+            return 0
+        fi
         cdir="../"${cdir}
     done
 
@@ -80,7 +92,7 @@ toolchain_env ()
     # check if there's anything into ENV
     if [ -z "${ENV}" ]
     then
-        echo "at least one of MAKL_TC, MAKL_SHLIB, MAKL_ETC must be set !"
+        maklsh_echo "at least one of MAKL_TC, MAKL_SHLIB, MAKL_ETC must be set!"
         return 1
     fi
 
@@ -92,7 +104,7 @@ toolchain_env ()
 
 # further overrides are taken from per-project .maklrc's
 search_nearest_maklrc
-[ $? == 0 ] && . `(cd ${cdir} && pwd)`/.maklrc
+[ $? == 0 ] && . "${CDIR}"/.maklrc
 
 # merge configure scripts naming from user (user settings have precedence)
 CF_SCRIPTS="${MAKL_CF_SCRIPTS} ${CF_SCRIPTS}"
@@ -121,7 +133,8 @@ in
         exit $?
         ;;
     *)
-        echo "don't call me directly, instead call me as makl or maklconf"
+        maklsh_echo "don't call me directly!"
+        display_help
         exit 1
         ;;
 esac
