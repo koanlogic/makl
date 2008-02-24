@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.18 2008/02/24 15:09:14 tho Exp $
+# $Id: maklsh.in,v 1.19 2008/02/24 15:16:29 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -63,7 +63,7 @@ search_nearest_maklrc ()
 
 display_help ()
 {
-    echo "MaKL version ${MAKL_VERSION}, (c) 2005-2007 Koanlogic srl         "
+    echo "MaKL version ${MAKL_VERSION}, (c) 2005-2008 Koanlogic srl         "
     echo "This is free software released under the BSD license.             "
     echo "                                                                  "
     echo "Available tools are:                                              "
