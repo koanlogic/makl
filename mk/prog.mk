@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.32 2007/07/03 14:09:54 tho Exp $
+# $Id: prog.mk,v 1.33 2008/02/24 14:52:12 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -103,3 +103,38 @@ uninstall:
 endif
 
 include priv/deps.mk
+
+#
+# explain interface to the user
+#
+.help:
+	@$(ECHO)
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) " Available targets                                               "
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) "all         build the executable (it's the default target)       "
+	@$(ECHO) "clean       remove the executable and intermediate objects       "
+	@$(ECHO) "install     install the program                                  "
+	@$(ECHO) "uninstall   remove the installed program                         "
+	@$(ECHO) "depend      write include and library dependencies to .depend    "
+	@$(ECHO) "cleandepend delete .depend file                                  "
+	@$(ECHO)
+	@$(ECHO) "Each target T given above has T-hook-pre and T-hook-post         "
+	@$(ECHO) "companion targets.  These (void) targets are at client's disposal"
+	@$(ECHO) "and will always be called before and after the associated target "
+	@$(ECHO)
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) " Available variables                                             "
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) "USE_CXX     if defined use C++ compiler instead of C compiler    "
+	@$(ECHO) "PROG        the executable program name                          "
+	@$(ECHO) "OBJS        file objects that build the program                  "
+	@$(ECHO) "LDADD       library dependencies                                 "
+	@$(ECHO) "LDFLAGS     flags to be given to the linker                      "
+	@$(ECHO) "DPADD       additional build dependencies                        "
+	@$(ECHO) "CLEANFILES  additional clean files (use +=)                      "
+	@$(ECHO) "BINOWN      user ID of the installed executable                  "
+	@$(ECHO) "BINGRP      group ID of the installed excutable                  "
+	@$(ECHO) "BINMOD      file mode bits of the installed executable           "
+	@$(ECHO) "BINDIR      destination directory of the installed executable    "
+	@$(ECHO)
