@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.17 2008/02/24 14:52:12 tho Exp $
+# $Id: maklsh.in,v 1.18 2008/02/24 15:09:14 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -70,6 +70,7 @@ display_help ()
     echo "makl      => GNU make wrapper                                     "
     echo "maklconf  => configure script wrapper                             "
     echo "makltc    => toolchain installer                                  "
+    echo "maklnew   => create Makefile from template                        "
     echo "maklhelp  => display this help                                    "
     echo "                                                                  "
     echo "MaKL variable in use:                                             "
