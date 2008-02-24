@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.22 2008/02/24 10:49:14 tho Exp $
+# $Id: Makefile.dist,v 1.23 2008/02/24 16:16:01 tho Exp $
 
 include common.mk
 
@@ -16,11 +16,11 @@ DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 DISTFILES += cf/Makefile cf/helpers/Makefile
 
 # doc
-DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png \
-	doc/src/kl.css doc/src/kl_footer.html
+#DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png
+#DISTFILES += doc/src/kl.css doc/src/kl_footer.html
 
 # doxy bits
-DISTFILES += $(shell find doc/html -type f)
+#DISTFILES += $(shell find doc/html -type f)
 
 # misc
 DISTFILES += misc/Makefile

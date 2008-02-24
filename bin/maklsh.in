@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.19 2008/02/24 15:16:29 tho Exp $
+# $Id: maklsh.in,v 1.20 2008/02/24 16:16:01 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -8,6 +8,8 @@ export MAKEFLAGS="-I ${MAKL_DIR}/mk"
 MAKL_VERSION=`cat ${MAKL_DIR}/VERSION 2>/dev/null`
 PATH_CF_SCRIPT=""       # must be set by search_cf_script()
 PATH_GNUMAKE=@{{GNU_MAKE}}
+
+ECHO="/bin/echo"
 
 # these are the defaults: users can expand it through MAKL_CF_SCRIPTS variable
 # (read from their ${HOME}/.maklrc)
@@ -20,8 +22,8 @@ CF_SCRIPTS="./configure.sh  \
 
 maklsh_echo ()
 {
-    /bin/echo -n "[makl] "
-    /bin/echo $@
+    ${ECHO} -n "[makl] "
+    ${ECHO} $@
 }
 
 search_cf_script ()
@@ -63,20 +65,20 @@ search_nearest_maklrc ()
 
 display_help ()
 {
-    echo "MaKL version ${MAKL_VERSION}, (c) 2005-2008 Koanlogic srl         "
-    echo "This is free software released under the BSD license.             "
-    echo "                                                                  "
-    echo "Available tools are:                                              "
-    echo "makl      => GNU make wrapper                                     "
-    echo "maklconf  => configure script wrapper                             "
-    echo "makltc    => toolchain installer                                  "
-    echo "maklnew   => create Makefile from template                        "
-    echo "maklhelp  => display this help                                    "
-    echo "                                                                  "
-    echo "MaKL variable in use:                                             "
-    echo "MAKL_DIR  [${MAKL_DIR}]"
-    echo "MAKEFLAGS [${MAKEFLAGS}]"
-    echo "MAKL_ETC  [${MAKL_ETC}]"
+    ${ECHO} "MaKL version ${MAKL_VERSION}, (c) 2005-2008 Koanlogic srl         "
+    ${ECHO} "This is free software released under the BSD license.             "
+    ${ECHO} "                                                                  "
+    ${ECHO} "Available tools are:                                              "
+    ${ECHO} "makl      => GNU make wrapper                                     "
+    ${ECHO} "maklconf  => configure script wrapper                             "
+    ${ECHO} "makltc    => toolchain installer                                  "
+    ${ECHO} "maklnew   => create Makefile from template                        "
+    ${ECHO} "maklhelp  => display this help                                    "
+    ${ECHO} "                                                                  "
+    ${ECHO} "MaKL variable in use:                                             "
+    ${ECHO} "MAKL_DIR  [${MAKL_DIR}]"
+    ${ECHO} "MAKEFLAGS [${MAKEFLAGS}]"
+    ${ECHO} "MAKL_ETC  [${MAKL_ETC}]"
 
     return
 }
@@ -102,16 +104,14 @@ toolchain_env ()
 
 display_maklnew_help()
 {
-    /bin/echo
-    /bin/echo "available templates are:"
-    /bin/echo "   prog lib subdir xeno include script file man dist"
-    /bin/echo
+    ${ECHO}
+    ${ECHO} "available templates are:"
+    ${ECHO} "   prog lib subdir xeno include script file man dist"
+    ${ECHO}
 }
 
 clone_from_tmpl ()
 {
-    local rc=0
-
     if [ -z "$1" ]
     then  
         display_maklnew_help
