@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.14 2007/12/14 17:26:07 tho Exp $
+# $Id: maklsh.in,v 1.15 2008/02/24 10:49:14 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -99,6 +99,13 @@ toolchain_env ()
     return 0
 }
 
+clone_from_tmpl ()
+{
+    makl_echo "TODO"
+    return 0
+}
+
+
 # get overrides from the user 
 [ -f ${HOME}/.maklrc ] && . ${HOME}/.maklrc
 
@@ -130,6 +137,10 @@ in
     makltc)
         toolchain_env || exit 1
         env ${ENV} ${MAKL_DIR}/setup/tc_setup.sh
+        exit $?
+        ;;
+    maklnew)
+        clone_from_tmpl
         exit $?
         ;;
     *)

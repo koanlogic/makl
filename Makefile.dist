@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.21 2007/10/10 22:09:54 tat Exp $
+# $Id: Makefile.dist,v 1.22 2008/02/24 10:49:14 tho Exp $
 
 include common.mk
 
@@ -50,6 +50,9 @@ DISTFILES += setup/Makefile
 DISTFILES += $(wildcard tc/*tc) tc/README
 DISTFILES += $(wildcard shlib/*.mk) shlib/README
 DISTFILES += tc/Makefile shlib/Makefile
+
+# templates
+DISTFILES += $(wildcard tmpl/*tmpl) tmpl/Makefile
 
 # testing
 DISTFILES += test/configure test/Makefile test/Makefile.subdir 

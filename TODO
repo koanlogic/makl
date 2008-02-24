@@ -19,3 +19,10 @@
                 MAKL_SHLIB=/my/makl/shlib_file
 
   if MAKL_SHLIB is not set null.shlib will be used
+
+* set of bourne shell helper functions for common tasks that can be invoked 
+  via 'call'
+
+* makl-new <lib|prog|subdir|xeno|include|script|file|man|dist> 
+  takes a template file and writes it to the current working dir
+
