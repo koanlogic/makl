@@ -26,3 +26,5 @@
 * makl-new <lib|prog|subdir|xeno|include|script|file|man|dist> 
   takes a template file and writes it to the current working dir
 
+* add 'help' target to each .mk template that shows available variables
+  and target it exports

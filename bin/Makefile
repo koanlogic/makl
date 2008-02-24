@@ -1,9 +1,10 @@
-# $Id: Makefile,v 1.6 2007/12/12 08:57:52 tho Exp $
+# $Id: Makefile,v 1.7 2008/02/24 12:13:58 tho Exp $
 
 include common.mk
 include ../Makefile.conf
 
 PROG = maklsh
+LINKS = makl maklconf maklhelp makltc maklnew
 INSTALL_STRIP =
 
 NO_ALL = true
@@ -12,14 +13,14 @@ NO_DEPEND = true
 NO_CLEANDEPEND = true
 
 install-hook-post:
-	rm -f $(BINDIR)/makl && ln -s $(BINDIR)/$(PROG) $(BINDIR)/makl
-	rm -f $(BINDIR)/maklconf && ln -s $(BINDIR)/$(PROG) $(BINDIR)/maklconf
-	rm -f $(BINDIR)/maklhelp && ln -s $(BINDIR)/$(PROG) $(BINDIR)/maklhelp
-	rm -f $(BINDIR)/makltc && ln -s $(BINDIR)/$(PROG) $(BINDIR)/makltc
+	for f in $(LINKS) ; do                      \
+	    rm -f $(BINDIR)/$$f ;                   \
+	    ln -s $(BINDIR)/$(PROG) $(BINDIR)/$$f ; \
+	done
 
 uninstall-hook-pre:
-	rm -f $(BINDIR)/makl
-	rm -f $(BINDIR)/maklconf
-	rm -f $(BINDIR)/maklhelp
+	for f in $(LINKS) ; do      \
+	    rm -f $(BINDIR)/$$f ;   \
+	done
 
 include prog.mk

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.15 2008/02/24 10:49:14 tho Exp $
+# $Id: maklsh.in,v 1.16 2008/02/24 12:13:58 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -20,8 +20,8 @@ CF_SCRIPTS="./configure.sh  \
 
 maklsh_echo ()
 {
-    echo -n "[makl] "
-    echo $@
+    /bin/echo -n "[makl] "
+    /bin/echo $@
 }
 
 search_cf_script ()
@@ -99,12 +99,29 @@ toolchain_env ()
     return 0
 }
 
-clone_from_tmpl ()
+display_maklnew_help()
 {
-    makl_echo "TODO"
-    return 0
+    /bin/echo
+    /bin/echo "available templates are:"
+    /bin/echo "   prog lib subdir xeno include script file man dist"
+    /bin/echo
 }
 
+clone_from_tmpl ()
+{
+    case $1
+    in
+        prog|lib|subdir|xeno|include|script|file|man|dist)
+            cp -i ${MAKL_DIR}/tmpl/$1.tmpl ./Makefile
+            return $?
+            ;;
+        *)
+            maklsh_echo "no template for $1"
+            display_maklnew_help
+            return 1
+            ;;
+    esac
+}
 
 # get overrides from the user 
 [ -f ${HOME}/.maklrc ] && . ${HOME}/.maklrc
@@ -140,7 +157,7 @@ in
         exit $?
         ;;
     maklnew)
-        clone_from_tmpl
+        clone_from_tmpl $@
         exit $?
         ;;
     *)
