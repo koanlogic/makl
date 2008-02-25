@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.7 2007/07/03 14:09:54 tho Exp $
+# $Id: files.mk,v 1.8 2008/02/25 11:03:09 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -90,3 +90,9 @@ endif       # !NO_UNINSTALL
 ## dummy depend and cleandepend targets
 ##
 depend cleandepend:
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

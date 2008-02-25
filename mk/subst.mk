@@ -1,5 +1,5 @@
 #
-# $Id: subst.mk,v 1.4 2006/11/30 16:57:48 tho Exp $
+# $Id: subst.mk,v 1.5 2008/02/25 11:03:09 tho Exp $
 #
 # User variables:    
 # - SUBST_RULE      substitution rule (see further on)
@@ -46,3 +46,9 @@ else    # SUBST_SUFFIX
 	done
 endif   # !SUBST_SUFFIX
 endif   # !SUBST_RULE
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

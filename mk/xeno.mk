@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.31 2008/02/25 09:57:19 tho Exp $
+# $Id: xeno.mk,v 1.32 2008/02/25 11:03:09 tho Exp $
 # 
 # User Variables:
 #
@@ -448,9 +448,9 @@ endif   # !XENO_NO_INSTALL
 .PHONY: fetch-make patch-make unzip-make conf-make build-make install-make
 .PHONY: fetch patch unzip conf build install
 
-#
-# explain interface to the user
-#
+##
+## interface description
+##
 .help:
 	@echo
 	@echo "-------------------                                              "

@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.23 2007/07/03 14:09:54 tho Exp $
+# $Id: incs.mk,v 1.24 2008/02/25 11:03:09 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -90,3 +90,9 @@ realuninstall:
 else
 uninstall:
 endif
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

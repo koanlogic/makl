@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.17 2007/11/23 16:22:33 tho Exp $
+# $Id: dist.mk,v 1.18 2008/02/25 11:03:09 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -106,3 +106,9 @@ realdistclean:
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

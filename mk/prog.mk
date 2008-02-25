@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.34 2008/02/25 08:30:34 tho Exp $
+# $Id: prog.mk,v 1.35 2008/02/25 11:03:09 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -104,9 +104,9 @@ endif
 
 include priv/deps.mk
 
-#
-# explain interface to the user
-#
+##
+## interface description
+##
 .help:
 	@$(ECHO)
 	@$(ECHO) "-------------------                                              "

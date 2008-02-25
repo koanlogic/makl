@@ -1,4 +1,4 @@
-# $Id: target-options.mk,v 1.4 2007/03/06 13:30:05 tat Exp $
+# $Id: target-options.mk,v 1.5 2008/02/25 11:03:09 tho Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
@@ -43,5 +43,3 @@ clean-flags:
 clean: clean-flags
 
 purge: clean
-
-

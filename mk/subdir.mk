@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.20 2007/07/05 08:12:04 tat Exp $
+# $Id: subdir.mk,v 1.21 2008/02/25 11:03:09 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -43,3 +43,9 @@ endif
 all: subdirs
 
 endif   # HOOK_T
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

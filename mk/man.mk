@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.21 2007/07/03 14:09:54 tho Exp $
+# $Id: man.mk,v 1.22 2008/02/25 11:03:09 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -134,3 +134,9 @@ uninstall:
 else
 uninstall:
 endif
+
+##
+## interface description
+##
+.help:
+	@echo "TODO"

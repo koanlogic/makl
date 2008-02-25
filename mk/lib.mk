@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.39 2008/02/25 08:30:34 tho Exp $
+# $Id: lib.mk,v 1.40 2008/02/25 11:03:09 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -137,9 +137,9 @@ __CC = $(if $(strip $(USE_CXX)), $(CXX), $(CC))
 include $(MAKL_ETC)/shlib.mk
 include priv/deps.mk
 
-#
-# explain interface to the user
-#
+##
+## interface description
+##
 .help:
 	@$(ECHO)
 	@$(ECHO) "-------------------                                              "
