@@ -1,9 +1,11 @@
-$Id: ChangeLog,v 1.35 2008/02/24 10:49:14 tho Exp $
+$Id: ChangeLog,v 1.36 2008/02/25 11:05:56 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
 
 MaKL 1.6.0
 	- added maklnew command to create Makefile's from templates
+	- added .help target to all .mk to document the available variables and 
+	  targets
 	- makl_compile doesn't link when cross compiling
 	- added makltc command to ease the creation of cross compilation 
 	  environment
