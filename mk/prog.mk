@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.33 2008/02/24 14:52:12 tho Exp $
+# $Id: prog.mk,v 1.34 2008/02/25 08:30:34 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -128,13 +128,15 @@ include priv/deps.mk
 	@$(ECHO) "---------------------                                            "
 	@$(ECHO) "USE_CXX     if defined use C++ compiler instead of C compiler    "
 	@$(ECHO) "PROG        the executable program name                          "
-	@$(ECHO) "OBJS        file objects that build the program                  "
+	@$(ECHO) "CFLAGS      flags given to the C compiler                        "
+	@$(ECHO) "CXXFLAGS    flags given to the C++ compiler                      "
+	@$(ECHO) "OBJS        file objects that build the program (use +=)         "
 	@$(ECHO) "LDADD       library dependencies                                 "
 	@$(ECHO) "LDFLAGS     flags to be given to the linker                      "
 	@$(ECHO) "DPADD       additional build dependencies                        "
 	@$(ECHO) "CLEANFILES  additional clean files (use +=)                      "
 	@$(ECHO) "BINOWN      user ID of the installed executable                  "
 	@$(ECHO) "BINGRP      group ID of the installed excutable                  "
-	@$(ECHO) "BINMOD      file mode bits of the installed executable           "
+	@$(ECHO) "BINMODE     file mode bits of the installed executable           "
 	@$(ECHO) "BINDIR      destination directory of the installed executable    "
 	@$(ECHO)
