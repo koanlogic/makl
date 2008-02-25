@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.30 2007/08/07 20:26:04 tho Exp $
+# $Id: xeno.mk,v 1.31 2008/02/25 09:57:19 tho Exp $
 # 
 # User Variables:
 #
@@ -447,3 +447,77 @@ endif   # !XENO_NO_INSTALL
 
 .PHONY: fetch-make patch-make unzip-make conf-make build-make install-make
 .PHONY: fetch patch unzip conf build install
+
+#
+# explain interface to the user
+#
+.help:
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "all         fetch, patch, configure, build and install the       "
+	@echo "            xeno package (default target)                        "
+	@echo "clean       remove all step indicators                           "
+	@echo "purge       deep clean: also remove fetched files                "
+	@echo
+	@echo "Each target T given below has T-clean and T-purge companion      "
+	@echo "targets which can be used to selectively remove the step         "
+	@echo "indicators and perform deep clean at each stage                  "
+	@echo
+	@echo "fetch       retrieve the package tarball                         "
+	@echo "unzip       deflate the tarball                                  "
+	@echo "patch       apply the needed patches                             "
+	@echo "install     install the package                                  "
+	@echo "uninstall   remove the installed package                         "
+	@echo
+	@echo "Each target T also has T-hook-pre and T-hook-post companion      "
+	@echo "targets. These (void) targets are at client's disposal and will  "
+	@echo "always be called before / after the associated target            "
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "XENO_NAME         package name                                   "
+	@echo
+	@echo "XENO_FETCH        tool used to retrieve the package tarball      "
+	@echo "XENO_FETCH_FLAGS  arguments to XENO_FETCH                        "
+	@echo "XENO_FETCH_URI    remote resource name                           "
+	@echo "XENO_FETCH_LOCAL  local resource name                            "
+	@echo "XENO_FETCH_TREE   set it in case the package were fetched as a   "
+	@echo "                  source tree (e.g. via CVS/SVN)                 "
+	@echo "XENO_NO_FETCH     set it to skip the fetch target                "
+	@echo
+	@echo "XENO_UNZIP        tool used to deflate the package tarball       "
+	@echo "XENO_UNZIP_FLAGS  arguments to XENO_UNZIP                        "
+	@echo "XENO_UNZIP_FLAGS_POST arguments to XENO_UNZIP after the tarball  "
+	@echo "                      argument (e.g. the -C argument to tar(1))  "
+	@echo "XENO_NO_UNZIP     set it to skip the unzip target                "
+	@echo
+	@echo "XENO_PATCH        tool used to patch the retrieved package       "
+	@echo "XENO_PATCH_FLAGS  arguments to XENO_PATCH                        "
+	@echo "XENO_PATCH_URI    remote patch URI (if you need to download it)  "
+	@echo "XENO_PATCH_DIR    where the XENO_PATCH command shall be invoked  "
+	@echo "XENO_PATCH_FILE   local patch file: absolute path or simple patch"
+	@echo "                  file name if in the same directory as the xeno "
+	@echo "                  Makefile                                       "
+	@echo "XENO_NO_PATCH     set it to skip the patch target                "
+	@echo
+	@echo "XENO_CONF         tool used to configure the package             "
+	@echo "XENO_CONF_FLAGS   arguments to XENO_CONF                         "
+	@echo "XENO_NO_CONF      set it to skip the conf target                 "
+	@echo
+	@echo "XENO_BUILD        build command                                  "
+	@echo "XENO_BUILD_FLAGS  arguments to XENO_BUILD                        "
+	@echo "XENO_UNBUILD      unbuild command                                "
+	@echo "XENO_UNBUILD_FLAGS   arguments to XENO_UNBUILD                   "
+	@echo "XENO_BUILD_DIR    top level build directory for the package (i.e."
+	@echo "                  where the package build driver resides)        "
+	@echo "XENO_NO_BUILD     set it to skip the build target                "
+	@echo
+	@echo "XENO_INSTALL      install command                                "
+	@echo "XENO_INSTALL_FLAGS   arguments to XENO_INSTALL                   "
+	@echo "XENO_UNINSTALL    uninstall command                              "
+	@echo "XENO_UNINSTALL_FLAGS arguments to XENO_UNINSTALL                 "
+	@echo "XENO_NO_INSTALL   set it to skip the install target              "
+	@echo
