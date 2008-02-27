@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.23 2008/02/24 16:16:01 tho Exp $
+# $Id: Makefile.dist,v 1.24 2008/02/27 20:25:11 tho Exp $
 
 include common.mk
 
@@ -55,17 +55,17 @@ DISTFILES += tc/Makefile shlib/Makefile
 DISTFILES += $(wildcard tmpl/*tmpl) tmpl/Makefile
 
 # testing
-DISTFILES += test/configure test/Makefile test/Makefile.subdir 
-DISTFILES += $(wildcard test/party/*.c) test/party/party.tar.gz \
+#DISTFILES += test/configure test/Makefile test/Makefile.subdir 
+#DISTFILES += $(wildcard test/party/*.c) test/party/party.tar.gz \
                 test/party/Makefile
-DISTFILES += test/partyplain/proggie-1.0.0.tar.gz test/partyplain/Makefile
-DISTFILES += $(wildcard test/prog/*.c) test/prog/Makefile
-DISTFILES += test/autoprog/Makefile
-DISTFILES += $(wildcard test/lib/*.c*) test/lib/Makefile
-DISTFILES += $(wildcard test/include/*.h) test/include/Makefile
-DISTFILES += $(wildcard test/man/*.[13]) test/man/Makefile
-DISTFILES += test/xeno/Makefile
-DISTFILES += test/xeno/autotool/Makefile test/xeno/autotool/libevent.patch
-DISTFILES += test/xeno/svn/Makefile test/xeno/svn/ffmpeg-rev7407.patch
+#DISTFILES += test/partyplain/proggie-1.0.0.tar.gz test/partyplain/Makefile
+#DISTFILES += $(wildcard test/prog/*.c) test/prog/Makefile
+#DISTFILES += test/autoprog/Makefile
+#DISTFILES += $(wildcard test/lib/*.c*) test/lib/Makefile
+#DISTFILES += $(wildcard test/include/*.h) test/include/Makefile
+#DISTFILES += $(wildcard test/man/*.[13]) test/man/Makefile
+#DISTFILES += test/xeno/Makefile
+#DISTFILES += test/xeno/autotool/Makefile test/xeno/autotool/libevent.patch
+#DISTFILES += test/xeno/svn/Makefile test/xeno/svn/ffmpeg-rev7407.patch
 
 include dist.mk
