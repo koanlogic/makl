@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.20 2008/02/24 16:16:01 tho Exp $
+# $Id: maklsh.in,v 1.21 2008/02/27 20:35:34 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -105,7 +105,9 @@ toolchain_env ()
 display_maklnew_help()
 {
     ${ECHO}
-    ${ECHO} "available templates are:"
+    ${ECHO} "usage: maklnew <template>"
+    ${ECHO}
+    ${ECHO} "available templates:"
     ${ECHO} "   prog lib subdir xeno include script file man dist"
     ${ECHO}
 }
