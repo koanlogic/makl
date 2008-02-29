@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.21 2008/02/27 20:35:34 tho Exp $
+# $Id: maklsh.in,v 1.22 2008/02/29 10:13:56 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -108,7 +108,7 @@ display_maklnew_help()
     ${ECHO} "usage: maklnew <template>"
     ${ECHO}
     ${ECHO} "available templates:"
-    ${ECHO} "   prog lib subdir xeno include script file man dist"
+    ${ECHO} "   prog lib subdir xeno include script file man dist subst"
     ${ECHO}
 }
 
@@ -122,7 +122,7 @@ clone_from_tmpl ()
 
     case $1
     in
-        prog|lib|subdir|xeno|include|script|file|man|dist)
+        prog|lib|subdir|xeno|include|script|file|man|dist|subst)
             cp -i ${MAKL_DIR}/tmpl/$1.tmpl ./Makefile
             if [ $? = 0 ] 
             then
