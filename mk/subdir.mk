@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.21 2008/02/25 11:03:09 tho Exp $
+# $Id: subdir.mk,v 1.22 2008/02/29 11:16:14 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -48,4 +48,18 @@ endif   # HOOK_T
 ## interface description
 ##
 .help:
-	@echo "TODO"
+	@/bin/echo "-------------------                                            "
+	@/bin/echo " Available targets                                             "
+	@/bin/echo "-------------------                                            "
+	@/bin/echo "*any* target provided by the subdirectories' Makefile's        "
+	@/bin/echo
+	@/bin/echo "Each target T has T-pre and T-post companion targets.  These   "
+	@/bin/echo "(void) targets are at client's disposal and will always be     "
+	@/bin/echo "called before and after the associated target                  "
+	@/bin/echo
+	@/bin/echo "---------------------                                          "
+	@/bin/echo " Available variables                                           "
+	@/bin/echo "---------------------                                          "
+	@/bin/echo "SUBDIR   the list of subdirectories that should be built       "
+	@/bin/echo "         as well.                                              "
+	@/bin/echo

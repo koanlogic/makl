@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.18 2008/02/25 11:03:09 tho Exp $
+# $Id: dist.mk,v 1.19 2008/02/29 11:16:14 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -111,4 +111,30 @@ all install uninstall clean depend cleandepend:
 ## interface description
 ##
 .help:
-	@echo "TODO"
+	@/bin/echo
+	@/bin/echo "-------------------                                            "
+	@/bin/echo " Available targets                                             "
+	@/bin/echo "-------------------                                            "
+	@/bin/echo "dist      create the distribution tarball and checksum file    "
+	@/bin/echo "distclean remove the output produced by the dist target        "
+	@/bin/echo
+	@/bin/echo "Each target T given above (and also all other standard MaKL    "
+	@/bin/echo "targets, unless explicitly inhibited) has T-hook-pre and       "
+	@/bin/echo "T-hook-post companion targets.  These (void) targets are at    "
+	@/bin/echo "client's disposal and will always be called before and after   "
+	@/bin/echo "the associated target"
+	@/bin/echo
+	@/bin/echo "---------------------                                          "
+	@/bin/echo " Available variables                                           "
+	@/bin/echo "---------------------                                          "
+	@/bin/echo "PKG_NAME      base name of the package                         "
+	@/bin/echo "PKG_VERSION   package version number                           "
+	@/bin/echo "DISTFILES     list of all files that shall be included in the  "
+	@/bin/echo "              tarball"
+	@/bin/echo "DISTREMAP     ordered couplets of the original file and remap'd"
+	@/bin/echo "              location                                         "
+	@/bin/echo "ZIP           compression utility to use                       "
+	@/bin/echo "ZIPEXT        compressed file extension                        "
+	@/bin/echo "TAR           tar(1) compatible command to use                 "
+	@/bin/echo "TAR_ARGS      arguments to TAR                                 "
+	@/bin/echo

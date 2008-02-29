@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.22 2008/02/25 11:03:09 tho Exp $
+# $Id: man.mk,v 1.23 2008/02/29 11:16:14 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -11,7 +11,8 @@
 # Applicable targets:
 # - install, uninstall.
 
-# check minimal precondition:
+# check minimal precondition when target != .help
+ifneq ($(MAKECMDGOALS), .help)
 # MANFILES must be set 
 ifndef MANFILES
 $(error MANFILES must be set when including the man.mk template !)
@@ -21,6 +22,7 @@ endif
 __SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
 ifeq ($(__SUBDIRS),)
 $(error no valid filenames found in MANFILES !)
+endif
 endif
 
 ##
@@ -139,4 +141,26 @@ endif
 ## interface description
 ##
 .help:
-	@echo "TODO"
+	@$(ECHO)
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) " Available targets                                               "
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) "install     install the files                                    "
+	@$(ECHO) "uninstall   remove the installed files                           "
+	@$(ECHO)
+	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
+	@$(ECHO) "targets, unless explicitly inhibited via NO_<TARGET> variable)   "
+	@$(ECHO) "has T-hook-pre and T-hook-post companion targets.                "
+	@$(ECHO) "These (void) targets are at client's disposal and will always be "
+	@$(ECHO) "called before and after the associated target                    "
+	@$(ECHO)
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) " Available variables                                             "
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) "MANFILES  manual page(s) to be installed                         "
+	@$(ECHO) "MANDIR    top level man pages' directory                         "
+	@$(ECHO) "MANOWN    ID of the installed files                              "
+	@$(ECHO) "MANGRP    ID of the installed files                              "
+	@$(ECHO) "MANMODE   mode bits of the installed files                       "
+	@$(ECHO) "MLINKS    ordered couplets of man page and its symlink           "
+	@$(ECHO)

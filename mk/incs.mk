@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.24 2008/02/25 11:03:09 tho Exp $
+# $Id: incs.mk,v 1.25 2008/02/29 11:16:14 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -95,4 +95,24 @@ endif
 ## interface description
 ##
 .help:
-	@echo "TODO"
+	@$(ECHO)
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) " Available targets                                               "
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) "install     install the header files                             "
+	@$(ECHO) "uninstall   remove the installed header files                    "
+	@$(ECHO)
+	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
+	@$(ECHO) "targets, unless explicitly inhibited) has T-hook-pre and         "
+	@$(ECHO) "T-hook-post companion targets.  These (void) targets are at      "
+	@$(ECHO) "client's disposal and will always be called before and after the "
+	@$(ECHO) "associated target"
+	@$(ECHO)
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) " Available variables                                             "
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) "INCS        the list of header files to install                  "
+	@$(ECHO) "INCOWN      user ID of the installed files                       "
+	@$(ECHO) "INCGRP      group ID of the installed files                      "
+	@$(ECHO) "INCMODE     file mode bits of the installed files                "
+	@$(ECHO)

@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.8 2008/02/25 11:03:09 tho Exp $
+# $Id: files.mk,v 1.9 2008/02/29 11:16:14 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -95,4 +95,25 @@ depend cleandepend:
 ## interface description
 ##
 .help:
-	@echo "TODO"
+	@$(ECHO)
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) " Available targets                                               "
+	@$(ECHO) "-------------------                                              "
+	@$(ECHO) "install     install the files                                    "
+	@$(ECHO) "uninstall   remove the installed files                           "
+	@$(ECHO)
+	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
+	@$(ECHO) "targets, unless explicitly inhibited) has T-hook-pre and         "
+	@$(ECHO) "T-hook-post companion targets.  These (void) targets are at      "
+	@$(ECHO) "client's disposal and will always be called before and after the "
+	@$(ECHO) "associated target"
+	@$(ECHO)
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) " Available variables                                             "
+	@$(ECHO) "---------------------                                            "
+	@$(ECHO) "FILES       the list of file names                               "
+	@$(ECHO) "FILES_DIR   directory where files are installed                  "
+	@$(ECHO) "FILES_OWN   user ID of the installed files                       "
+	@$(ECHO) "FILES_GRP   group ID of the installed files                      "
+	@$(ECHO) "FILES_MODE  file mode bits of the installed files                "
+	@$(ECHO)
