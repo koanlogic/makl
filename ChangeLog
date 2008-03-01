@@ -1,9 +1,10 @@
-$Id: ChangeLog,v 1.37 2008/03/01 17:39:06 tho Exp $
+$Id: ChangeLog,v 1.38 2008/03/01 17:41:15 tho Exp $
 
-ChangeLog file of MaKL - http://www.koanlogic.com/kl/cont/gb/html/makl.html
+ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.6.0
-	- all makl* commands also exist in makl-* fashion
+	- all makl* commands also exist in makl-* fashion, which is the preferred
+	  syntax from now on
 	- added maklnew command to create Makefile's from templates
 	- added .help target to all .mk to document the available variables and 
 	  targets
