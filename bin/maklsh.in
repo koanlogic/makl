@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.22 2008/02/29 10:13:56 tho Exp $
+# $Id: maklsh.in,v 1.23 2008/03/01 17:39:06 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -69,11 +69,11 @@ display_help ()
     ${ECHO} "This is free software released under the BSD license.             "
     ${ECHO} "                                                                  "
     ${ECHO} "Available tools are:                                              "
-    ${ECHO} "makl      => GNU make wrapper                                     "
-    ${ECHO} "maklconf  => configure script wrapper                             "
-    ${ECHO} "makltc    => toolchain installer                                  "
-    ${ECHO} "maklnew   => create Makefile from template                        "
-    ${ECHO} "maklhelp  => display this help                                    "
+    ${ECHO} "makl       => GNU make wrapper                                    "
+    ${ECHO} "makl-conf  => configure script wrapper                            "
+    ${ECHO} "makl-tc    => toolchain installer                                 "
+    ${ECHO} "makl-new   => create Makefile from template                       "
+    ${ECHO} "makl-help  => display this help                                   "
     ${ECHO} "                                                                  "
     ${ECHO} "MaKL variable in use:                                             "
     ${ECHO} "MAKL_DIR  [${MAKL_DIR}]"
@@ -157,22 +157,22 @@ in
         ${PATH_GNUMAKE} $@
         exit $?
         ;;
-    maklconf)
+    maklconf|makl-conf)
         search_cf_script || exit 1
         # exec the selected configure script with user supplied arguments
         ${PATH_CF_SCRIPT} $@ 
         exit $?
         ;;
-    maklhelp)
+    maklhelp|makl-help)
         display_help
         exit 0
         ;;
-    makltc)
+    makltc|makl-tc)
         toolchain_env || exit 1
         env ${ENV} ${MAKL_DIR}/setup/tc_setup.sh
         exit $?
         ;;
-    maklnew)
+    maklnew|makl-new)
         clone_from_tmpl $@
         exit $?
         ;;

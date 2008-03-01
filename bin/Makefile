@@ -1,10 +1,11 @@
-# $Id: Makefile,v 1.7 2008/02/24 12:13:58 tho Exp $
+# $Id: Makefile,v 1.8 2008/03/01 17:39:06 tho Exp $
 
 include common.mk
 include ../Makefile.conf
 
 PROG = maklsh
 LINKS = makl maklconf maklhelp makltc maklnew
+LINKS += makl-conf makl-help makl-tc makl-new
 INSTALL_STRIP =
 
 NO_ALL = true
