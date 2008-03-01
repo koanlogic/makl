@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.23 2008/03/01 17:39:06 tho Exp $
+# $Id: maklsh.in,v 1.24 2008/03/01 18:01:58 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -144,7 +144,7 @@ clone_from_tmpl ()
 
 # further overrides are taken from per-project .maklrc's
 search_nearest_maklrc
-[ $? == 0 ] && . "${CDIR}"/.maklrc
+[ $? = 0 ] && . "${CDIR}"/.maklrc
 
 # merge configure scripts naming from user (user settings have precedence)
 CF_SCRIPTS="${MAKL_CF_SCRIPTS} ${CF_SCRIPTS}"
