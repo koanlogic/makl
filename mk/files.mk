@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.9 2008/02/29 11:16:14 tho Exp $
+# $Id: files.mk,v 1.10 2008/03/01 17:29:18 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -9,12 +9,14 @@
 # Applicable targets:
 # - install, uninstall
 
-# check preconditions
+# check preconditions (when target != .help)
+ifneq ($(MAKECMDGOALS), .help)
 ifndef FILES
 $(error FILES must be set when including the files.mk template !)
 endif
 ifndef FILES_DIR
 $(error FILES_DIR must be set when including the files.mk template !)
+endif
 endif
 
 ##

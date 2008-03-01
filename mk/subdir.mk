@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.22 2008/02/29 11:16:14 tho Exp $
+# $Id: subdir.mk,v 1.23 2008/03/01 17:29:18 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -47,6 +47,7 @@ endif   # HOOK_T
 ##
 ## interface description
 ##
+ifeq ($(MAKECMDGOALS), .help)
 .help:
 	@/bin/echo "-------------------                                            "
 	@/bin/echo " Available targets                                             "
@@ -63,3 +64,4 @@ endif   # HOOK_T
 	@/bin/echo "SUBDIR   the list of subdirectories that should be built       "
 	@/bin/echo "         as well.                                              "
 	@/bin/echo
+endif

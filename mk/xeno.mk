@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.32 2008/02/25 11:03:09 tho Exp $
+# $Id: xeno.mk,v 1.33 2008/03/01 17:29:18 tho Exp $
 # 
 # User Variables:
 #
@@ -90,14 +90,16 @@ XENO_DIST_DIR ?= dist
 
 
 #
-# Test preconditions
+# Test preconditions (target != .help)
 #
+ifneq ($(MAKECMDGOALS), .help)
 ifndef XENO_FETCH_URI
     ifndef XENO_TARBALL
         $(error XENO_FETCH_URI or XENO_TARBALL must be set when including the \
                 xeno.mk template !)
     endif   # !XENO_TARBALL
 endif   # !XENO_FETCH_URI
+endif   # target != .help
 
 ##
 ## all target (with hooks)

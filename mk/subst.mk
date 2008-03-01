@@ -1,5 +1,5 @@
 #
-# $Id: subst.mk,v 1.6 2008/02/29 11:16:14 tho Exp $
+# $Id: subst.mk,v 1.7 2008/03/01 17:29:18 tho Exp $
 #
 # User variables:    
 # - SUBST_RULE      substitution rule (see further on)
@@ -19,7 +19,8 @@
 # results into:
 #   => sed 's/\!$/\?/g' A.in > A.out
 
-# check preconditions
+# check preconditions (when target != .help)
+ifneq ($(MAKECMDGOALS), .help)
 ifndef SUBST_RULE
 subst:
 	$(warning SUBST_RULE must be defined when including subst.mk template !)
@@ -46,6 +47,7 @@ else    # SUBST_SUFFIX
 	done
 endif   # !SUBST_SUFFIX
 endif   # !SUBST_RULE
+endif   # target != .help
 
 ##
 ## interface description
