@@ -1,6 +1,9 @@
-$Id: ChangeLog,v 1.39 2008/03/03 08:03:22 tho Exp $
+$Id: ChangeLog,v 1.40 2008/03/03 20:45:48 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
+
+MaKL 1.7.0
+	- multi-valued XENO_PATCH_URI and XENO_PATCH_FILE variables in xeno.mk
 
 MaKL 1.6.0
 	- all makl* commands also exist in makl-* fashion, which is the preferred
