@@ -1,5 +1,5 @@
 #
-# $Id: subst.mk,v 1.8 2008/03/04 11:16:50 tho Exp $
+# $Id: subst.mk,v 1.9 2008/03/04 20:32:31 tho Exp $
 #
 # User variables:    
 # - SUBST_RULE      substitution rule (see further on)
@@ -53,31 +53,31 @@ endif   # target != .help
 ## interface description
 ##
 .help:
-	@$(ECHO)
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) " Available targets                                               "
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) "subst         do the requested substitutions                     "
-	@$(ECHO)
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) " Available variables                                             "
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) "SUBST_RULE    substitution rule (see further on)                 "
-	@$(ECHO) "SUBST_SUFFIX  if a substitution is requested to have output file "
-	@$(ECHO) "              X the input file is read from X.\$$SUBST_SUFFIX"
-	@$(ECHO)
-	@$(ECHO) "We have two different kind of SUBST_RULE: shortcut and full.     "
-	@$(ECHO) "If SUBST_SUFFIX is defined, then                                 "
-	@$(ECHO) "      SUBST_RULE = <output_file> <sed(1) command>                "
-	@$(ECHO) "otherwise                                                        "
-	@$(ECHO) "      SUBST_RULE = <input_file> <output_file> <sed(1) command>.  "
-	@$(ECHO)
-	@$(ECHO) "NOTE: a \$$ sign in the sed(1) command must be escaped           "
-	@$(ECHO) "(i.e. '\$$\$$') if you want it to survive the GNU make variable  "
-	@$(ECHO) "expansion, e.g.:                                                 "
-	@$(ECHO) "      SUBST_RULE = A.in A.out "s/\\!\$$\$$/\\?/g"                "
-	@$(ECHO) "results into:                                                    "
-	@$(ECHO) "      => sed 's/\!\$$/\?/g' A.in > A.out                         "
-	@$(ECHO)
-	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/subst.mk    "
-	@$(ECHO)
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "subst         do the requested substitutions                     "
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "SUBST_RULE    substitution rule (see further on)                 "
+	@echo "SUBST_SUFFIX  if a substitution is requested to have output file "
+	@echo "              X the input file is read from X.\$$SUBST_SUFFIX"
+	@echo
+	@echo "We have two different kind of SUBST_RULE: shortcut and full.     "
+	@echo "If SUBST_SUFFIX is defined, then                                 "
+	@echo "      SUBST_RULE = <output_file> <sed(1) command>                "
+	@echo "otherwise                                                        "
+	@echo "      SUBST_RULE = <input_file> <output_file> <sed(1) command>.  "
+	@echo
+	@echo "NOTE: a \$$ sign in the sed(1) command must be escaped           "
+	@echo "(i.e. '\$$\$$') if you want it to survive the GNU make variable  "
+	@echo "expansion, e.g.:                                                 "
+	@echo "      SUBST_RULE = A.in A.out "s/\\!\$$\$$/\\?/g"                "
+	@echo "results into:                                                    "
+	@echo "      => sed 's/\!\$$/\?/g' A.in > A.out                         "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/subst.mk    "
+	@echo

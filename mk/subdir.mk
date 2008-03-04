@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.24 2008/03/04 11:16:50 tho Exp $
+# $Id: subdir.mk,v 1.25 2008/03/04 20:32:31 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -49,21 +49,21 @@ endif   # HOOK_T
 ##
 ifeq ($(MAKECMDGOALS), .help)
 .help:
-	@/bin/echo "-------------------                                            "
-	@/bin/echo " Available targets                                             "
-	@/bin/echo "-------------------                                            "
-	@/bin/echo "*any* target provided by the subdirectories' Makefile's        "
-	@/bin/echo
-	@/bin/echo "Each target T has T-pre and T-post companion targets.  These   "
-	@/bin/echo "(void) targets are at client's disposal and will always be     "
-	@/bin/echo "called before and after the associated target                  "
-	@/bin/echo
-	@/bin/echo "---------------------                                          "
-	@/bin/echo " Available variables                                           "
-	@/bin/echo "---------------------                                          "
-	@/bin/echo "SUBDIR   the list of subdirectories that should be built       "
-	@/bin/echo "         as well.                                              "
-	@/bin/echo
-	@/bin/echo "If in doubt, check the source file at $(MAKL_DIR)/mk/subdir.mk "
-	@/bin/echo
+	@echo "-------------------                                            "
+	@echo " Available targets                                             "
+	@echo "-------------------                                            "
+	@echo "*any* target provided by the subdirectories' Makefile's        "
+	@echo
+	@echo "Each target T has T-pre and T-post companion targets.  These   "
+	@echo "(void) targets are at client's disposal and will always be     "
+	@echo "called before and after the associated target                  "
+	@echo
+	@echo "---------------------                                          "
+	@echo " Available variables                                           "
+	@echo "---------------------                                          "
+	@echo "SUBDIR   the list of subdirectories that should be built       "
+	@echo "         as well.                                              "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/subdir.mk "
+	@echo
 endif

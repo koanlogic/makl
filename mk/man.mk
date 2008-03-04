@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.24 2008/03/04 11:16:50 tho Exp $
+# $Id: man.mk,v 1.25 2008/03/04 20:32:31 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -141,28 +141,28 @@ endif
 ## interface description
 ##
 .help:
-	@$(ECHO)
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) " Available targets                                               "
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) "install     install the files                                    "
-	@$(ECHO) "uninstall   remove the installed files                           "
-	@$(ECHO)
-	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
-	@$(ECHO) "targets, unless explicitly inhibited via NO_<TARGET> variable)   "
-	@$(ECHO) "has T-hook-pre and T-hook-post companion targets.                "
-	@$(ECHO) "These (void) targets are at client's disposal and will always be "
-	@$(ECHO) "called before and after the associated target                    "
-	@$(ECHO)
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) " Available variables                                             "
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) "MANFILES  manual page(s) to be installed                         "
-	@$(ECHO) "MANDIR    top level man pages' directory                         "
-	@$(ECHO) "MANOWN    ID of the installed files                              "
-	@$(ECHO) "MANGRP    ID of the installed files                              "
-	@$(ECHO) "MANMODE   mode bits of the installed files                       "
-	@$(ECHO) "MLINKS    ordered couplets of man page and its symlink           "
-	@$(ECHO)
-	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/man.mk      "
-	@$(ECHO)
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "install     install the files                                    "
+	@echo "uninstall   remove the installed files                           "
+	@echo
+	@echo "Each target T given above (and also all other standard MaKL      "
+	@echo "targets, unless explicitly inhibited via NO_<TARGET> variable)   "
+	@echo "has T-hook-pre and T-hook-post companion targets.                "
+	@echo "These (void) targets are at client's disposal and will always be "
+	@echo "called before and after the associated target                    "
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "MANFILES  manual page(s) to be installed                         "
+	@echo "MANDIR    top level man pages' directory                         "
+	@echo "MANOWN    ID of the installed files                              "
+	@echo "MANGRP    ID of the installed files                              "
+	@echo "MANMODE   mode bits of the installed files                       "
+	@echo "MLINKS    ordered couplets of man page and its symlink           "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/man.mk      "
+	@echo

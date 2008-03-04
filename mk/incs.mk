@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.26 2008/03/04 11:16:50 tho Exp $
+# $Id: incs.mk,v 1.27 2008/03/04 20:32:31 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -95,26 +95,26 @@ endif
 ## interface description
 ##
 .help:
-	@$(ECHO)
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) " Available targets                                               "
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) "install     install the header files                             "
-	@$(ECHO) "uninstall   remove the installed header files                    "
-	@$(ECHO)
-	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
-	@$(ECHO) "targets, unless explicitly inhibited) has T-hook-pre and         "
-	@$(ECHO) "T-hook-post companion targets.  These (void) targets are at      "
-	@$(ECHO) "client's disposal and will always be called before and after the "
-	@$(ECHO) "associated target"
-	@$(ECHO)
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) " Available variables                                             "
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) "INCS        the list of header files to install                  "
-	@$(ECHO) "INCOWN      user ID of the installed files                       "
-	@$(ECHO) "INCGRP      group ID of the installed files                      "
-	@$(ECHO) "INCMODE     file mode bits of the installed files                "
-	@$(ECHO)
-	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/incs.mk     "
-	@$(ECHO)
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "install     install the header files                             "
+	@echo "uninstall   remove the installed header files                    "
+	@echo
+	@echo "Each target T given above (and also all other standard MaKL      "
+	@echo "targets, unless explicitly inhibited) has T-hook-pre and         "
+	@echo "T-hook-post companion targets.  These (void) targets are at      "
+	@echo "client's disposal and will always be called before and after the "
+	@echo "associated target"
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "INCS        the list of header files to install                  "
+	@echo "INCOWN      user ID of the installed files                       "
+	@echo "INCGRP      group ID of the installed files                      "
+	@echo "INCMODE     file mode bits of the installed files                "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/incs.mk     "
+	@echo

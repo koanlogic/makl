@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.20 2008/03/04 11:16:50 tho Exp $
+# $Id: dist.mk,v 1.21 2008/03/04 20:32:31 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -111,32 +111,32 @@ all install uninstall clean depend cleandepend:
 ## interface description
 ##
 .help:
-	@/bin/echo
-	@/bin/echo "-------------------                                            "
-	@/bin/echo " Available targets                                             "
-	@/bin/echo "-------------------                                            "
-	@/bin/echo "dist      create the distribution tarball and checksum file    "
-	@/bin/echo "distclean remove the output produced by the dist target        "
-	@/bin/echo
-	@/bin/echo "Each target T given above (and also all other standard MaKL    "
-	@/bin/echo "targets, unless explicitly inhibited) has T-hook-pre and       "
-	@/bin/echo "T-hook-post companion targets.  These (void) targets are at    "
-	@/bin/echo "client's disposal and will always be called before and after   "
-	@/bin/echo "the associated target"
-	@/bin/echo
-	@/bin/echo "---------------------                                          "
-	@/bin/echo " Available variables                                           "
-	@/bin/echo "---------------------                                          "
-	@/bin/echo "PKG_NAME      base name of the package                         "
-	@/bin/echo "PKG_VERSION   package version number                           "
-	@/bin/echo "DISTFILES     list of all files that shall be included in the  "
-	@/bin/echo "              tarball"
-	@/bin/echo "DISTREMAP     ordered couplets of the original file and remap'd"
-	@/bin/echo "              location                                         "
-	@/bin/echo "ZIP           compression utility to use                       "
-	@/bin/echo "ZIPEXT        compressed file extension                        "
-	@/bin/echo "TAR           tar(1) compatible command to use                 "
-	@/bin/echo "TAR_ARGS      arguments to TAR                                 "
-	@/bin/echo
-	@/bin/echo "If in doubt, check the source file at $(MAKL_DIR)/mk/dist.mk   "
-	@/bin/echo
+	@echo
+	@echo "-------------------                                            "
+	@echo " Available targets                                             "
+	@echo "-------------------                                            "
+	@echo "dist      create the distribution tarball and checksum file    "
+	@echo "distclean remove the output produced by the dist target        "
+	@echo
+	@echo "Each target T given above (and also all other standard MaKL    "
+	@echo "targets, unless explicitly inhibited) has T-hook-pre and       "
+	@echo "T-hook-post companion targets.  These (void) targets are at    "
+	@echo "client's disposal and will always be called before and after   "
+	@echo "the associated target"
+	@echo
+	@echo "---------------------                                          "
+	@echo " Available variables                                           "
+	@echo "---------------------                                          "
+	@echo "PKG_NAME      base name of the package                         "
+	@echo "PKG_VERSION   package version number                           "
+	@echo "DISTFILES     list of all files that shall be included in the  "
+	@echo "              tarball"
+	@echo "DISTREMAP     ordered couplets of the original file and remap'd"
+	@echo "              location                                         "
+	@echo "ZIP           compression utility to use                       "
+	@echo "ZIPEXT        compressed file extension                        "
+	@echo "TAR           tar(1) compatible command to use                 "
+	@echo "TAR_ARGS      arguments to TAR                                 "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/dist.mk   "
+	@echo

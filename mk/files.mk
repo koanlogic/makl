@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.11 2008/03/04 11:16:50 tho Exp $
+# $Id: files.mk,v 1.12 2008/03/04 20:32:31 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -97,27 +97,27 @@ depend cleandepend:
 ## interface description
 ##
 .help:
-	@$(ECHO)
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) " Available targets                                               "
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) "install     install the files                                    "
-	@$(ECHO) "uninstall   remove the installed files                           "
-	@$(ECHO)
-	@$(ECHO) "Each target T given above (and also all other standard MaKL      "
-	@$(ECHO) "targets, unless explicitly inhibited) has T-hook-pre and         "
-	@$(ECHO) "T-hook-post companion targets.  These (void) targets are at      "
-	@$(ECHO) "client's disposal and will always be called before and after the "
-	@$(ECHO) "associated target"
-	@$(ECHO)
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) " Available variables                                             "
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) "FILES       the list of file names                               "
-	@$(ECHO) "FILES_DIR   directory where files are installed                  "
-	@$(ECHO) "FILES_OWN   user ID of the installed files                       "
-	@$(ECHO) "FILES_GRP   group ID of the installed files                      "
-	@$(ECHO) "FILES_MODE  file mode bits of the installed files                "
-	@$(ECHO)
-	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/files.mk    "
-	@$(ECHO)
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "install     install the files                                    "
+	@echo "uninstall   remove the installed files                           "
+	@echo
+	@echo "Each target T given above (and also all other standard MaKL      "
+	@echo "targets, unless explicitly inhibited) has T-hook-pre and         "
+	@echo "T-hook-post companion targets.  These (void) targets are at      "
+	@echo "client's disposal and will always be called before and after the "
+	@echo "associated target"
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "FILES       the list of file names                               "
+	@echo "FILES_DIR   directory where files are installed                  "
+	@echo "FILES_OWN   user ID of the installed files                       "
+	@echo "FILES_GRP   group ID of the installed files                      "
+	@echo "FILES_MODE  file mode bits of the installed files                "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/files.mk    "
+	@echo

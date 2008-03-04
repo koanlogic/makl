@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.36 2008/03/04 11:16:50 tho Exp $
+# $Id: prog.mk,v 1.37 2008/03/04 20:32:31 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -108,37 +108,37 @@ include priv/deps.mk
 ## interface description
 ##
 .help:
-	@$(ECHO)
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) " Available targets                                               "
-	@$(ECHO) "-------------------                                              "
-	@$(ECHO) "all         build the executable (it's the default target)       "
-	@$(ECHO) "clean       remove the executable and intermediate objects       "
-	@$(ECHO) "install     install the program                                  "
-	@$(ECHO) "uninstall   remove the installed program                         "
-	@$(ECHO) "depend      write include and library dependencies to .depend    "
-	@$(ECHO) "cleandepend delete .depend file                                  "
-	@$(ECHO)
-	@$(ECHO) "Each target T given above has T-hook-pre and T-hook-post         "
-	@$(ECHO) "companion targets.  These (void) targets are at client's disposal"
-	@$(ECHO) "and will always be called before and after the associated target "
-	@$(ECHO)
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) " Available variables                                             "
-	@$(ECHO) "---------------------                                            "
-	@$(ECHO) "USE_CXX     if defined use C++ compiler instead of C compiler    "
-	@$(ECHO) "PROG        the executable program name                          "
-	@$(ECHO) "CFLAGS      flags given to the C compiler                        "
-	@$(ECHO) "CXXFLAGS    flags given to the C++ compiler                      "
-	@$(ECHO) "OBJS        file objects that build the program (use +=)         "
-	@$(ECHO) "LDADD       library dependencies                                 "
-	@$(ECHO) "LDFLAGS     flags to be given to the linker                      "
-	@$(ECHO) "DPADD       additional build dependencies                        "
-	@$(ECHO) "CLEANFILES  additional clean files (use +=)                      "
-	@$(ECHO) "BINOWN      user ID of the installed executable                  "
-	@$(ECHO) "BINGRP      group ID of the installed excutable                  "
-	@$(ECHO) "BINMODE     file mode bits of the installed executable           "
-	@$(ECHO) "BINDIR      destination directory of the installed executable    "
-	@$(ECHO)
-	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk     "
-	@$(ECHO)
+	@echo
+	@echo "-------------------                                              "
+	@echo " Available targets                                               "
+	@echo "-------------------                                              "
+	@echo "all         build the executable (it's the default target)       "
+	@echo "clean       remove the executable and intermediate objects       "
+	@echo "install     install the program                                  "
+	@echo "uninstall   remove the installed program                         "
+	@echo "depend      write include and library dependencies to .depend    "
+	@echo "cleandepend delete .depend file                                  "
+	@echo
+	@echo "Each target T given above has T-hook-pre and T-hook-post         "
+	@echo "companion targets.  These (void) targets are at client's disposal"
+	@echo "and will always be called before and after the associated target "
+	@echo
+	@echo "---------------------                                            "
+	@echo " Available variables                                             "
+	@echo "---------------------                                            "
+	@echo "USE_CXX     if defined use C++ compiler instead of C compiler    "
+	@echo "PROG        the executable program name                          "
+	@echo "CFLAGS      flags given to the C compiler                        "
+	@echo "CXXFLAGS    flags given to the C++ compiler                      "
+	@echo "OBJS        file objects that build the program (use +=)         "
+	@echo "LDADD       library dependencies                                 "
+	@echo "LDFLAGS     flags to be given to the linker                      "
+	@echo "DPADD       additional build dependencies                        "
+	@echo "CLEANFILES  additional clean files (use +=)                      "
+	@echo "BINOWN      user ID of the installed executable                  "
+	@echo "BINGRP      group ID of the installed excutable                  "
+	@echo "BINMODE     file mode bits of the installed executable           "
+	@echo "BINDIR      destination directory of the installed executable    "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk     "
+	@echo
