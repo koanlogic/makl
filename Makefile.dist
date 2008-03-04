@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.24 2008/02/27 20:25:11 tho Exp $
+# $Id: Makefile.dist,v 1.25 2008/03/04 09:57:35 tho Exp $
 
 include common.mk
 
@@ -15,12 +15,12 @@ DISTFILES += configure configure.help
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 DISTFILES += cf/Makefile cf/helpers/Makefile
 
-# doc
-#DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png
-#DISTFILES += doc/src/kl.css doc/src/kl_footer.html
+# doc (!!! needed by KL/priv/site/www.koanlogic.com)
+DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png
+DISTFILES += doc/src/kl.css doc/src/kl_footer.html
 
-# doxy bits
-#DISTFILES += $(shell find doc/html -type f)
+# and doxy bits (!!! needed by KL/priv/site/www.koanlogic.com)
+DISTFILES += $(shell find doc/html -type f)
 
 # misc
 DISTFILES += misc/Makefile
