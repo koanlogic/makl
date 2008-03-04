@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.40 2008/02/25 11:03:09 tho Exp $
+# $Id: lib.mk,v 1.41 2008/03/04 11:16:50 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -186,4 +186,6 @@ include priv/deps.mk
 	@$(ECHO) "SHLIB_LINK1   first link name (Darwin only)                      "
 	@$(ECHO) "SHLIB_LINK2   second link name (Darwin only)                     "
 	@$(ECHO) "PICNAME       name of the pic archive (NetBSD only)              "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/lib.mk      "
 	@$(ECHO)

@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.25 2008/02/29 11:16:14 tho Exp $
+# $Id: incs.mk,v 1.26 2008/03/04 11:16:50 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -115,4 +115,6 @@ endif
 	@$(ECHO) "INCOWN      user ID of the installed files                       "
 	@$(ECHO) "INCGRP      group ID of the installed files                      "
 	@$(ECHO) "INCMODE     file mode bits of the installed files                "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/incs.mk     "
 	@$(ECHO)

@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.10 2008/03/01 17:29:18 tho Exp $
+# $Id: files.mk,v 1.11 2008/03/04 11:16:50 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -118,4 +118,6 @@ depend cleandepend:
 	@$(ECHO) "FILES_OWN   user ID of the installed files                       "
 	@$(ECHO) "FILES_GRP   group ID of the installed files                      "
 	@$(ECHO) "FILES_MODE  file mode bits of the installed files                "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/files.mk    "
 	@$(ECHO)

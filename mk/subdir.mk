@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.23 2008/03/01 17:29:18 tho Exp $
+# $Id: subdir.mk,v 1.24 2008/03/04 11:16:50 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -63,5 +63,7 @@ ifeq ($(MAKECMDGOALS), .help)
 	@/bin/echo "---------------------                                          "
 	@/bin/echo "SUBDIR   the list of subdirectories that should be built       "
 	@/bin/echo "         as well.                                              "
+	@/bin/echo
+	@/bin/echo "If in doubt, check the source file at $(MAKL_DIR)/mk/subdir.mk "
 	@/bin/echo
 endif

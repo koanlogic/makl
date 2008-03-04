@@ -1,4 +1,4 @@
-# $Id: script.mk,v 1.3 2008/03/01 17:29:18 tho Exp $
+# $Id: script.mk,v 1.4 2008/03/04 11:16:50 tho Exp $
 #
 # Helper for shell or other interpreted scripts installation|removal which
 # uses the prog.mk template.
@@ -46,5 +46,7 @@ else    # target == .help
 	@$(ECHO) " Available variables                                             "
 	@$(ECHO) "---------------------                                            "
 	@$(ECHO) "SCRIPT        the script file name                               "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/script.mk   "
 	@$(ECHO)
 endif   # target != .help

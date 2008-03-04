@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.35 2008/03/04 07:59:04 tho Exp $
+# $Id: xeno.mk,v 1.36 2008/03/04 11:16:50 tho Exp $
 # 
 # User Variables:
 #
@@ -528,6 +528,8 @@ endif   # !XENO_NO_INSTALL
 	@echo "XENO_UNINSTALL    uninstall command                              "
 	@echo "XENO_UNINSTALL_FLAGS arguments to XENO_UNINSTALL                 "
 	@echo "XENO_NO_INSTALL   set it to skip the install target              "
+	@echo
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/xeno.mk     "
 	@echo
 
 .PHONY: fetch-make patch-make unzip-make conf-make build-make install-make

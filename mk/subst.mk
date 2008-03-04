@@ -1,5 +1,5 @@
 #
-# $Id: subst.mk,v 1.7 2008/03/01 17:29:18 tho Exp $
+# $Id: subst.mk,v 1.8 2008/03/04 11:16:50 tho Exp $
 #
 # User variables:    
 # - SUBST_RULE      substitution rule (see further on)
@@ -78,4 +78,6 @@ endif   # target != .help
 	@$(ECHO) "      SUBST_RULE = A.in A.out "s/\\!\$$\$$/\\?/g"                "
 	@$(ECHO) "results into:                                                    "
 	@$(ECHO) "      => sed 's/\!\$$/\?/g' A.in > A.out                         "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/subst.mk    "
 	@$(ECHO)

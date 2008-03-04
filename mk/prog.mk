@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.35 2008/02/25 11:03:09 tho Exp $
+# $Id: prog.mk,v 1.36 2008/03/04 11:16:50 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -139,4 +139,6 @@ include priv/deps.mk
 	@$(ECHO) "BINGRP      group ID of the installed excutable                  "
 	@$(ECHO) "BINMODE     file mode bits of the installed executable           "
 	@$(ECHO) "BINDIR      destination directory of the installed executable    "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk     "
 	@$(ECHO)

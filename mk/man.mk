@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.23 2008/02/29 11:16:14 tho Exp $
+# $Id: man.mk,v 1.24 2008/03/04 11:16:50 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -163,4 +163,6 @@ endif
 	@$(ECHO) "MANGRP    ID of the installed files                              "
 	@$(ECHO) "MANMODE   mode bits of the installed files                       "
 	@$(ECHO) "MLINKS    ordered couplets of man page and its symlink           "
+	@$(ECHO)
+	@$(ECHO) "If in doubt, check the source file at $(MAKL_DIR)/mk/man.mk      "
 	@$(ECHO)
