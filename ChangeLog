@@ -1,9 +1,11 @@
-$Id: ChangeLog,v 1.40 2008/03/03 20:45:48 tho Exp $
+$Id: ChangeLog,v 1.41 2008/03/04 17:22:27 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.7.0
 	- multi-valued XENO_PATCH_URI and XENO_PATCH_FILE variables in xeno.mk
+	- added XENO_FETCH_MULTI_URI to xeno-fetch.mk to allow multiple different
+	  tarballs' download
 
 MaKL 1.6.0
 	- all makl* commands also exist in makl-* fashion, which is the preferred
