@@ -1,10 +1,11 @@
-# $Id: xeno-fetch.mk,v 1.2 2008/03/04 16:49:59 tho Exp $
+# $Id: xeno-fetch.mk,v 1.3 2008/03/04 17:06:29 tho Exp $
 #
 # xeno helper for just fetching a package from a given set of locations
 # to a local XENO_DIST_DIR.
 # NOTE: when using multiple XENO_FETCH_URIs set XENO_TARBALL explicitly
 # XENO_FETCH_MULTI_URI can be used instead of XENO_FETCH_URI for fetching
 # multiple different tarballs from different locations into XENO_DIST_DIR.
+# XENO_FETCH_MULTI_CLEANFILES can be set to supply explicit clean files.
 #
 # Available Targets:
 # - all, clean (and fetch hooks)
@@ -20,14 +21,18 @@ include xeno.mk
 ifdef XENO_FETCH_MULTI_URI
 
 ##
-## rewrite .realfetch and fetch-{clean,purge}
+## override fetch and fetch-{clean,purge}
 ##
-XENO_NO_FETCH = true
-
 XENO_FETCH_MULTI_CLEANFILES ?= $(addprefix $(XENO_DIST_DIR)/, \
         $(foreach cf, $(XENO_FETCH_MULTI_URI), $(notdir $(cf))))
 
+fetch: .realfetch
+
 .realfetch:
+	@$(MAKE) $(MAKE_ADD_FLAGS) fetch-hook-pre fetch-make fetch-hook-post
+	@touch $@
+
+fetch-make:
 	[ -d $(XENO_DIST_DIR) ] || mkdir -p $(XENO_DIST_DIR) ; \
     ( \
         cd $(XENO_DIST_DIR) ; \
