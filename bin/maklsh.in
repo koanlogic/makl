@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.24 2008/03/01 18:01:58 tho Exp $
+# $Id: maklsh.in,v 1.25 2008/03/05 17:21:24 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -114,6 +114,8 @@ display_maklnew_help()
 
 clone_from_tmpl ()
 {
+    local mf="./Makefile"
+
     if [ -z "$1" ]
     then  
         display_maklnew_help
@@ -123,10 +125,11 @@ clone_from_tmpl ()
     case $1
     in
         prog|lib|subdir|xeno|include|script|file|man|dist|subst)
-            cp -i ${MAKL_DIR}/tmpl/$1.tmpl ./Makefile
+            [ $1 = "dist" ] && mf="Makefile.dist"
+            cp -i ${MAKL_DIR}/tmpl/$1.tmpl $mf
             if [ $? = 0 ] 
             then
-                maklsh_echo "'$1' template successfully saved to Makefile."
+                maklsh_echo "'$1' template successfully saved to $mf."
                 maklsh_echo "type 'makl .help' to get the list of" \
                     "available targets and variables."
             fi
