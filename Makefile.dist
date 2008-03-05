@@ -1,8 +1,12 @@
-# $Id: Makefile.dist,v 1.25 2008/03/04 09:57:35 tho Exp $
+# $Id: Makefile.dist,v 1.26 2008/03/05 13:25:13 tho Exp $
 
 include common.mk
 
+ifndef DOCS
 PKG_NAME = makl
+else    # DOCS
+PKG_NAME = makl-and-docs
+endif
 PKG_VERSION = $(shell cat VERSION)
 
 ZIP ?= gzip
@@ -15,12 +19,11 @@ DISTFILES += configure configure.help
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
 DISTFILES += cf/Makefile cf/helpers/Makefile
 
-# doc (!!! needed by KL/priv/site/www.koanlogic.com)
+ifdef DOCS
 DISTFILES += doc/Makefile doc/dokl.sh doc/makl.doxy doc/images/kl_bg.png
 DISTFILES += doc/src/kl.css doc/src/kl_footer.html
-
-# and doxy bits (!!! needed by KL/priv/site/www.koanlogic.com)
 DISTFILES += $(shell find doc/html -type f)
+endif   # DOCS
 
 # misc
 DISTFILES += misc/Makefile
@@ -69,3 +72,8 @@ DISTFILES += $(wildcard tmpl/*tmpl) tmpl/Makefile
 #DISTFILES += test/xeno/svn/Makefile test/xeno/svn/ffmpeg-rev7407.patch
 
 include dist.mk
+
+ifdef DOCS
+dist-hook-pre:
+	(cd doc/ && $(MAKE))
+endif   # DOCS
