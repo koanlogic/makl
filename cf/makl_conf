@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.23 2007/07/03 14:50:52 tho Exp $
+# $Id: makl_conf,v 1.24 2008/03/07 00:49:04 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
@@ -72,7 +72,7 @@ makl_process_h ()
     {
         if [ ${set} = 1 ]; then
             ${ECHO} "#undef ${var}"
-            if [ -z ${val} ]; then
+            if [ -z "${val}" ]; then
                 ${ECHO} "#define ${var}"
             else    
                 ${ECHO} "#define ${var} ${val}"
