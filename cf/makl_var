@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.20 2006/11/14 22:32:04 stewy Exp $
+# $Id: makl_var,v 1.21 2008/03/07 01:07:53 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -131,8 +131,8 @@ makl_unset_var_mk ()
 ##
 makl_set_var ()
 {
-    makl_set_var_mk $1 $2 
-    makl_set_var_h $1 $2 $3
+    makl_set_var_mk "$1" "$2" 
+    makl_set_var_h "$1" "$2" $3
 }
 
 ##\brief Unset a variable in both makefile and header.
