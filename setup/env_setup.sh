@@ -51,7 +51,7 @@ validate_shell ()
     # stdin must be associated with the terminal
     [ ! -t 0 ] && return
 
-    echo -n "Pick up a shell [$__login_shell]: "
+    /bin/echo -n "Pick up a shell [$__login_shell]: "
 
     while read -p "$*" ans 
     do
@@ -80,7 +80,7 @@ pickup_envfile ()
     # stdin must be associated with the terminal
     [ ! -t 0 ] && return
 
-    echo -n "Pick a suitable environment file [$__maklrc]: "
+    /bin/echo -n "Pick a suitable environment file [$__maklrc]: "
 
     while read -p "$*" ans 
     do
