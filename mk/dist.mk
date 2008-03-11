@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.22 2008/03/11 15:31:09 tat Exp $
+# $Id: dist.mk,v 1.23 2008/03/11 15:43:05 tat Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -12,7 +12,7 @@
 # - DISTFILES       List of files to be added to distribution
 # - DISTREMAP       Ordered couplets of file name in cvs-src and its alias in
 #                   distribution
-# - DISTFILE        Name of the file containing the list of files to be 
+# - DISTRECIPE      Name of the file containing the list of files to be 
 #                   included
 #
 # Available targets: 
@@ -27,9 +27,9 @@ $(error PKG_VERSION must be set !)
 endif
 ifndef DISTFILES
 ifndef DISTREMAP
-ifndef DISTFILE
-$(error at least one of DISTFILES, DISTREMAP or DISTFILE must be set !)
-endif   # !DISTFILE
+ifndef DISTRECIPE
+$(error at least one of DISTFILES, DISTREMAP or DISTRECIPE must be set !)
+endif   # !DISTRECIPE
 endif   # !DISTREMAP
 endif   # !DISTFILES
 
@@ -52,7 +52,7 @@ dist: dist-hook-pre realdist tarball dist-hook-post
 # targets available to users
 dist-hook-pre dist-hook-post:
 
-realdist: normaldist distfile remapdist
+realdist: normaldist distrecipe remapdist
 
 ifdef DISTFILES
 normaldist:
@@ -66,16 +66,16 @@ else    # !DISTFILES
 normaldist:
 endif   # DISTFILES
 
-ifdef DISTFILE
-distfile:
-	@for f in `xargs -n1 < $(DISTFILE)`; do \
+ifdef DISTRECIPE
+distrecipe:
+	@for f in `xargs -n1 < $(DISTRECIPE)`; do \
 		dir=`dirname $$f` && \
 		file=`basename $$f` && \
 		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
 		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
 	done
 else    # !DISTFILES
-distfile:
+distrecipe:
 endif   # DISTFILES
 
 
@@ -150,7 +150,7 @@ all install uninstall clean depend cleandepend:
 	@echo "              tarball"
 	@echo "DISTREMAP     ordered couplets of the original file and remap'd"
 	@echo "              location                                         "
-	@echo "DISTFILE      Name of the file containing the list of files    "
+	@echo "DISTRECIPE    Name of the file containing the list of files    "
 	@echo "              to be included                                   "
 	@echo "ZIP           compression utility to use                       "
 	@echo "ZIPEXT        compressed file extension                        "
