@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.21 2008/03/04 20:32:31 tho Exp $
+# $Id: dist.mk,v 1.22 2008/03/11 15:31:09 tat Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -12,6 +12,8 @@
 # - DISTFILES       List of files to be added to distribution
 # - DISTREMAP       Ordered couplets of file name in cvs-src and its alias in
 #                   distribution
+# - DISTFILE        Name of the file containing the list of files to be 
+#                   included
 #
 # Available targets: 
 #   dist, distclean and user defined dist{,clean}-hook-(pre,post)
@@ -25,7 +27,9 @@ $(error PKG_VERSION must be set !)
 endif
 ifndef DISTFILES
 ifndef DISTREMAP
-$(error at least one of DISTFILES or DISTREMAP must be set !)
+ifndef DISTFILE
+$(error at least one of DISTFILES, DISTREMAP or DISTFILE must be set !)
+endif   # !DISTFILE
 endif   # !DISTREMAP
 endif   # !DISTFILES
 
@@ -48,7 +52,7 @@ dist: dist-hook-pre realdist tarball dist-hook-post
 # targets available to users
 dist-hook-pre dist-hook-post:
 
-realdist: normaldist remapdist
+realdist: normaldist distfile remapdist
 
 ifdef DISTFILES
 normaldist:
@@ -61,6 +65,19 @@ normaldist:
 else    # !DISTFILES
 normaldist:
 endif   # DISTFILES
+
+ifdef DISTFILE
+distfile:
+	@for f in `xargs -n1 < $(DISTFILE)`; do \
+		dir=`dirname $$f` && \
+		file=`basename $$f` && \
+		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
+		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
+	done
+else    # !DISTFILES
+distfile:
+endif   # DISTFILES
+
 
 ifdef DISTREMAP
 remapdist:
@@ -133,6 +150,8 @@ all install uninstall clean depend cleandepend:
 	@echo "              tarball"
 	@echo "DISTREMAP     ordered couplets of the original file and remap'd"
 	@echo "              location                                         "
+	@echo "DISTFILE      Name of the file containing the list of files    "
+	@echo "              to be included                                   "
 	@echo "ZIP           compression utility to use                       "
 	@echo "ZIPEXT        compressed file extension                        "
 	@echo "TAR           tar(1) compatible command to use                 "
