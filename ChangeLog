@@ -1,12 +1,12 @@
-$Id: ChangeLog,v 1.45 2008/03/11 15:53:01 tho Exp $
+$Id: ChangeLog,v 1.46 2008/03/12 11:00:18 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.7.0
-	- added new DISTRECIPE var to dist.mk template to load dist files from
+	- added new DISTRECIPE var to dist.mk template to load dist objects from
 	  an external file (can be mixed with DISTFILES and DISTREMAP)
 	- fix in multiple word representation of header macros
-	- fix linking also for cross-compilation
+	- do linking also for cross-compilation
 	- multi-valued XENO_PATCH_URI and XENO_PATCH_FILE variables in xeno.mk
 	- added XENO_FETCH_MULTI_URI to xeno-fetch.mk to allow download of multiple
 	  different tarballs'
