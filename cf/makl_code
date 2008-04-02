@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.35 2008/03/05 23:43:55 stewy Exp $
+# $Id: makl_code,v 1.36 2008/04/02 14:32:36 tho Exp $
 #
 
 ##\brief Compile a C file.
@@ -137,7 +137,7 @@ makl_checkfunc ()
         makl_set_var "HAVE_"`makl_upper $2`
         return 0
     else
-        [ $1 = 0 ] || makl_err 1 "failed check on required function $2!" 
+        [ $1 = 0 ] || makl_err 1 "failed check on required function $2!"
         makl_warn "failed check on optional function $2"
         makl_unset_var "HAVE_"`makl_upper $2`
         return 1
@@ -216,7 +216,7 @@ makl_checktype ()
         makl_set_var "HAVE_"`makl_upper ${def_type}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!" 
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!"
         makl_unset_var "HAVE_"`makl_upper ${def_type}`
         makl_warn "failed check on optional type $2"
         return 1
@@ -258,7 +258,8 @@ makl_checkextern()
         makl_set_var "HAVE_"`makl_upper ${var}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required extern variable ${var}!" 
+        [ ${opt} = 0 ] || \
+            makl_err 1 "failed check on required extern variable ${var}!"
         makl_unset_var "HAVE_"`makl_upper ${var}`
         makl_warn "failed check on optional extern variable $2"
         return 1
@@ -310,7 +311,7 @@ makl_checksymbol()
         makl_set_var "HAVE_"`makl_upper ${var}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required symbol ${var}!" 
+        [ ${opt} = 0 ] || makl_err 1 "failed check on required symbol ${var}!"
         makl_unset_var "HAVE_"`makl_upper ${var}`
         makl_warn "failed check on optional symbol ${var}"
         return 1
@@ -321,8 +322,6 @@ makl_checksymbol()
 ##
 ##  Define HAVE_$2_$3 if the element \e $3 exists in the struct \e $2
 ##  \e $1 determines whether the feature is optional or required.
-##   
-##  The symbol may be an external variable, function or a #define.
 ##   
 ##  \param $1 0:optional,1:required
 ##  \param $2 type
@@ -348,8 +347,7 @@ makl_checkstructelem()
         for arg in $*; do
             ${ECHO} "#include ${arg}"
         done
-        # this fails if the symbol is not defined (no #define, no variable, 
-        # no function)
+        # this fails if elem is not a field of the supplied type
         ${ECHO} "
             ${type} _a_;
             int main()
@@ -365,7 +363,8 @@ makl_checkstructelem()
         makl_set_var "HAVE_"`makl_upper ${def_type}_${elem}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required struct elem ${elem}!" 
+        [ ${opt} = 0 ] || \
+            makl_err 1 "failed check on required struct elem ${elem}!"
         makl_unset_var "HAVE_"`makl_upper ${def_type}_${elem}`
         makl_warn "failed check on optional struct elem ${elem}"
         return 1
