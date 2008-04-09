@@ -1,6 +1,9 @@
-$Id: ChangeLog,v 1.46 2008/03/12 11:00:18 tho Exp $
+$Id: ChangeLog,v 1.47 2008/04/09 22:02:32 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
+
+MaKL 1.7.1
+	- fix usage of toolchain variables from configure scripts 
 
 MaKL 1.7.0
 	- added new DISTRECIPE var to dist.mk template to load dist objects from
