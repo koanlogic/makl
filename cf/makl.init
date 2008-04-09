@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.30 2007/09/04 14:44:27 tat Exp $
+# $Id: makl.init,v 1.31 2008/04/09 21:14:09 stewy Exp $
 #
 
 # read in just once
@@ -40,6 +40,9 @@ if [ ! -r ${MAKL_ETC}/toolchain.cf ]; then
     exit 1
 fi
 
+# import toolchain variables locally
+. ${MAKL_DIR}/etc/toolchain.cf
+
 # create a fresh makl run dir
 if [ -d ${makl_run_dir} ]; then
     rm -rf ${makl_run_dir} || exit 1
@@ -52,12 +55,21 @@ env > ${makl_run_dir}/env
 # source makl functions and configuration
 for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/cf/helpers/makl_* \
-        ${MAKL_ETC}/toolchain.cf \
         ${MAKL_DIR}/etc/vars.cf \
         ${MAKL_DIR}/etc/args.cf \
         ${MAKL_DIR}/etc/funcs.cf; do
     [ -f ${shenv} ] && . ${shenv} 2> /dev/null
 done
+
+# set all toolchain variables explicitly
+cat ${MAKL_ETC}/toolchain.cf | {
+    while read line; do 
+        var=`${ECHO} ${line} | cut -f1 -d"="`
+        val=`${ECHO} ${line} | cut -s -f2 -d"="` 
+        val=`${ECHO} ${val} | sed -e 's/"//g'` 
+        makl_set_var_mk ${var} ${val}
+    done
+}
 
 # show global variables' values
 makl_dbg_globals
