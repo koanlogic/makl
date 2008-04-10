@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.21 2008/03/07 01:07:53 stewy Exp $
+# $Id: makl_var,v 1.22 2008/04/10 22:14:29 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -43,7 +43,8 @@ makl_set_var_h ()
 makl_set_var_mk ()
 {
     f_env=${makl_run_dir}/env
-     
+    file=${makl_run_dir}/vars_mk
+
     var=$1
     val=$2
     [ "${val}" ] || val="1"
@@ -54,6 +55,10 @@ makl_set_var_mk ()
 
     makl_dbg "setting makefile variable $1 to ${val}"
     _makl_var_set "mk" "$1" 1 "${val}"
+
+    # flag the fact that variables has been set, which 
+    # overrides any previous environment value
+    makl_tab_set ${file} "${var}" 4 1
 }
 
 ##\brief Append a value to a makefile variable.
@@ -72,8 +77,6 @@ makl_add_var_mk ()
     # grab from environment if defined
     if [ $? = 0 ]; then
         val=`${ECHO} ${str} | cut -d "=" -f 2-` 
-        grep -v "^${var}=" ${f_env} > ${f_env}.tmp
-        mv ${f_env}.tmp ${f_env}
     else
         val=`makl_get_var_mk "${var}"`
     fi
@@ -85,8 +88,8 @@ makl_add_var_mk ()
 	done
 
     makl_dbg "appending ${val} to makefile variable ${var}"
-    ${ECHO} "${var}=${val}" >> ${f_env}
     _makl_var_set "mk" "${var}" 1 "${val}"
+
 }
 
 #\brief Alias: makl_add_var_mk
