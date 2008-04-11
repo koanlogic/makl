@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.22 2008/04/10 22:14:29 stewy Exp $
+# $Id: makl_var,v 1.23 2008/04/11 13:47:12 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -13,15 +13,11 @@
 ##
 makl_set_var_h ()
 {
-    f_env=${makl_run_dir}/env
-
     var=$1
     val=$2
-    [ "${val}" ] || val="1"
 
-    # grab from environment if defined
-    str=`grep "^${var}=" ${f_env}`
-    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2-` 
+    # if value is not defined, set to 1
+    [ "${val}" ] || val="1"
 
     if [ $3 ];  then                #string
         val="\"${val}\""
@@ -42,21 +38,18 @@ makl_set_var_h ()
 ##
 makl_set_var_mk ()
 {
-    f_env=${makl_run_dir}/env
     file=${makl_run_dir}/vars_mk
 
     var=$1
     val=$2
-    [ "${val}" ] || val="1"
 
-    # grab from environment if defined
-    str=`grep "^${var}=" ${f_env}`
-    [ $? = 0 ] && val=`${ECHO} ${str} | cut -d "=" -f 2-` 
+    # if value is not defined, set to 1
+    [ "${val}" ] || val="1"
 
     makl_dbg "setting makefile variable $1 to ${val}"
     _makl_var_set "mk" "$1" 1 "${val}"
 
-    # flag the fact that variables has been set, which 
+    # flag the fact that variable has been set, which 
     # overrides any previous environment value
     makl_tab_set ${file} "${var}" 4 1
 }
@@ -70,15 +63,19 @@ makl_set_var_mk ()
 ##
 makl_add_var_mk ()
 {
-    f_env=${makl_run_dir}/env
-    var=$1
-    str=`grep "^${var}=" ${f_env}`
+    file=${makl_run_dir}/vars_mk
 
-    # grab from environment if defined
-    if [ $? = 0 ]; then
-        val=`${ECHO} ${str} | cut -d "=" -f 2-` 
-    else
-        val=`makl_get_var_mk "${var}"`
+    var=$1
+    val=$2
+
+    isset=`makl_tab_get "${file}" "${var}" 4`
+    found=`env | grep "^${var}="`
+
+    val=`makl_get_var_mk "${var}"`
+
+    # grab from environment if defined and not already set
+    if [ $? = 0 -a ! "${isset}" = "1" ]; then
+        val=`${ECHO} ${found} | cut -s -d= -f 2`" ${val}"
     fi
 
 	shift
@@ -89,7 +86,6 @@ makl_add_var_mk ()
 
     makl_dbg "appending ${val} to makefile variable ${var}"
     _makl_var_set "mk" "${var}" 1 "${val}"
-
 }
 
 #\brief Alias: makl_add_var_mk

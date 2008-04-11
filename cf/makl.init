@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.33 2008/04/10 18:17:17 stewy Exp $
+# $Id: makl.init,v 1.34 2008/04/11 13:47:12 stewy Exp $
 #
 
 # read in just once
@@ -35,6 +35,17 @@ makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
+# create a fresh makl run dir
+if [ -d ${makl_run_dir} ]; then
+    rm -rf ${makl_run_dir} || exit 1
+fi
+mkdir -p ${makl_run_dir} || exit 1
+
+# save environment 
+# assumes that variables cannot contain \nVAR=VAL as part of their value
+env > ${makl_run_dir}/env.orig
+env | sed -e '/^[A-Za-z_].*=/s/=/="/' -e '/\\$/!s/$/"/' > ${makl_run_dir}/env
+
 if [ ! -r ${MAKL_ETC}/toolchain.cf ]; then
     echo "missing toolchain.cf !"
     exit 1
@@ -43,14 +54,8 @@ fi
 # import toolchain variables locally
 . ${MAKL_DIR}/etc/toolchain.cf
 
-# create a fresh makl run dir
-if [ -d ${makl_run_dir} ]; then
-    rm -rf ${makl_run_dir} || exit 1
-fi
-mkdir -p ${makl_run_dir} || exit 1
-
-# save the environment 
-env > ${makl_run_dir}/env
+# environment has priority over toolchain
+. ${makl_run_dir}/env
 
 # source makl functions and configuration
 for shenv in ${MAKL_DIR}/cf/makl_* \
