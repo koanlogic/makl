@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.18 2008/04/14 17:53:04 stewy Exp $
+# $Id: party.mk,v 1.19 2008/04/15 08:55:38 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -12,7 +12,7 @@
 # Applicable Targets:
 # - party clean
 
-PARTY_CONF ?= maklconf 
+PARTY_CONF ?= ./configure
 PARTY_DECOMP ?= tar
 PARTY_DECOMP_ARGS ?= xzvf
 PARTY_DOWN ?= wget --passive-ftp
