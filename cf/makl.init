@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.36 2008/04/15 10:38:19 stewy Exp $
+# $Id: makl.init,v 1.37 2008/04/15 11:08:54 stewy Exp $
 #
 
 # read in just once
@@ -44,7 +44,7 @@ mkdir -p ${makl_run_dir} || exit 1
 # save environment 
 # assumes that variables cannot contain \nVAR=VAL as part of their value
 env > ${makl_run_dir}/env.orig
-env | grep -v MAKEOVERRIDES \
+env | grep -v "^MAKEOVERRIDES=" \
     | sed -e '/^[A-Za-z_].*=/s/=/="/' -e '/\\$/!s/$/"/' \
   > ${makl_run_dir}/env
 
