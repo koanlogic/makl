@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.10 2006/11/07 19:08:29 stewy Exp $
+# $Id: args.cf,v 1.11 2008/04/17 08:03:31 stewy Exp $
 #
 
 # general settings
@@ -91,7 +91,7 @@ makl_args_def   "libs" \
 # feature configuration
 makl_args_def   "featx" \
                 "-X=BASE" \
-                "BASE=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin" \
+                "BASE=${PATH}" \
                 "set file for execution feature"
 
 # feature enable / disable
