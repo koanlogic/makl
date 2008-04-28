@@ -6,13 +6,15 @@ function err ()
     exit 1
 }
 
-[ -x `which checkbashisms` ] || err "checkbashisms tool not found"
+cb="`which checkbashisms`"
+[ $? = 0 ] || err "checkbashisms tool not found"
+[ -x "${cb}" ] || err "checkbashism is not executable"
 
 for i in makl_* makl.* helpers/makl_*
 do 
     tmpf="/tmp/`basename $i`"
     echo '#!/bin/sh' > ${tmpf}
     cat $i >> ${tmpf}
-    checkbashisms ${tmpf}
+    ${cb} ${tmpf}
     rm ${tmpf}
 done
