@@ -1,4 +1,4 @@
-# $Id: funcs.mk,v 1.1 2006/11/06 09:37:01 tho Exp $
+# $Id: funcs.mk,v 1.2 2008/05/05 15:25:31 tho Exp $
 #
 # common functions
 
@@ -29,4 +29,15 @@ $(if $(strip $(1)),             \
             -g$(2)              \
         )                       \
 )
+endef
+
+# subdir makefile template (used by subdir.mk)
+# $1 = goal 
+# $2 = subdir list
+define subdir_mk
+    $(1)_SUBGOAL = $(addsuffix .$(1),$(2))
+    $(1): $(1)-pre $$($(1)_SUBGOAL) $(1)-post
+    $(1)-pre $(1)-post:
+    $$($(1)_SUBGOAL) : %.$(1): ; @$(MAKE) -C $$* $(1)
+    .PHONY: $(1) $$($(1)_SUBGOAL) $(1)-pre $(1)-post
 endef

@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.25 2008/03/04 20:32:31 tho Exp $
+# $Id: subdir.mk,v 1.26 2008/05/05 15:25:31 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -8,46 +8,30 @@
 # Applicable Targets:
 # - any target (optionally with -pre and -post suffix)
 
-# make filename used (Makefile, makefile, Makefile.subdir, mymakefile, etc.)
-MAKEFILENAME = $(firstword $(MAKEFILE_LIST))
+ifeq ($(findstring .help, $(MAKECMDGOALS)),)
 
-# additional flags
-ifneq ($(strip $(MAKEFILENAME)),)
-MAKE_ADD_FLAGS = -f $(MAKEFILENAME)
+.DEFAULT_GOAL := all
+MAKECMDGOALS ?= $(.DEFAULT_GOAL)
+
+ifndef SUBDIR
+$(error SUBDIR must be set when including the subdir.mk template !)
 endif
-
-ifdef HOOK_T
-
-$(HOOK_T)-pre:
-$(HOOK_T)-post:
-
-else    # !HOOK_T
 
 .PHONY: subdirs $(SUBDIR)
+# the following implies each generated template
+subdirs: $(MAKECMDGOALS)
 
-subdirs: $(SUBDIR)
+# source subdir_mk template generator
+include priv/funcs.mk
 
-# no explicit target, run make into subdirs
-$(SUBDIR):
-	@$(MAKE) SUBDIR_GOAL= -C $@ $(SUBDIR_GOAL)
+# create rules using the subdir_mk template for each supplied target 
+$(foreach T,$(MAKECMDGOALS),$(eval $(call subdir_mk,$(T),$(SUBDIR))))
 
-ifndef SUBDIR_GOAL
-# one or more explicit target has been provided. run $target-pre, make
-# subdirs and $target-post
-$(MAKECMDGOALS):
-	@$(MAKE) $(MAKE_ADD_FLAGS) HOOK_T=$@ $@-pre
-	@$(MAKE) $(MAKE_ADD_FLAGS) SUBDIR_GOAL=$@ subdirs
-	@$(MAKE) $(MAKE_ADD_FLAGS) HOOK_T=$@ $@-post
-endif
-
-all: subdirs
-
-endif   # HOOK_T
+else    # .help
 
 ##
 ## interface description
 ##
-ifeq ($(MAKECMDGOALS), .help)
 .help:
 	@echo "-------------------                                            "
 	@echo " Available targets                                             "
@@ -56,7 +40,18 @@ ifeq ($(MAKECMDGOALS), .help)
 	@echo
 	@echo "Each target T has T-pre and T-post companion targets.  These   "
 	@echo "(void) targets are at client's disposal and will always be     "
-	@echo "called before and after the associated target                  "
+	@echo "called before and after the associated target.                 "
+	@echo "A set of target with pattern <subdir>.<goal> is used internally"
+	@echo "to handle recursion.  Should you need to explicitly set a      "
+	@echo "given build dependency between subdirectories in any of the    "
+	@echo "goals, you must use the internal target format to express it.  "
+	@echo "E.g. to tell MaKL that the directory then_dir must be built    "
+	@echo "after the prerequisite_dir has been successfully built, you    "
+	@echo "will add the following line:                                   "
+	@echo "     then_dir.all: prerequisite_dir.all                        "
+	@echo "This is particularly important when doing parallel builds where"
+	@echo "the order in which subdirectories are specified in the SUBDIR  "
+	@echo "variable is not necessarily honoured by GNU make.              "
 	@echo
 	@echo "---------------------                                          "
 	@echo " Available variables                                           "
@@ -66,4 +61,5 @@ ifeq ($(MAKECMDGOALS), .help)
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/subdir.mk "
 	@echo
+
 endif
