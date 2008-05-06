@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.37 2008/03/04 20:32:31 tho Exp $
+# $Id: prog.mk,v 1.38 2008/05/06 15:20:35 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -15,12 +15,8 @@
 #
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
-OBJS_c = $(SRCS:.c=.o)
-OBJS_cpp = $(OBJS_c:.cpp=.o)
-OBJS_cc = $(OBJS_cpp:.cc=.o)
-OBJS_cxx = $(OBJS_cc:.cxx=.o)
-OBJS_C = $(OBJS_cxx:.C=.o)
-OBJS = $(OBJS_C)
+ALL_EXTS = .c .cc .C .cpp .cxx .c++
+OBJS = $(foreach e,$(ALL_EXTS),$(patsubst %$(e),%.o,$(filter %$(e),$(SRCS))))
 
 __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 
