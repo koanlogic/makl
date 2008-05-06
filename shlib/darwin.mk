@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.13 2007/07/04 10:16:27 tho Exp $
+# $Id: darwin.mk,v 1.14 2008/05/06 10:54:54 tho Exp $
 #
 # Darwin 
 
@@ -14,12 +14,12 @@ BUNDLE_EXT ?= bundle
 ##
 ## Automatic rules for shared objects.
 ##
-.SUFFIXES: .so .c .cc .C .cpp .cxx
+.SUFFIXES: .so $(ALL_EXTS)
 
-.cc.so .C.so .cpp.so .cxx.so:
+$(foreach e,$(CXX_EXTS),$(addsuffix .so,$(e))):
 	$(CXX) -fno-common $(CPICFLAGS) -DPIC $(CXXFLAGS) -c $< -o $*.so
 
-.c.so:
+$(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
 	$(CC) -fno-common $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
 
 ##

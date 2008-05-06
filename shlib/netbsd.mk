@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.8 2007/07/04 10:16:27 tho Exp $
+# $Id: netbsd.mk,v 1.9 2008/05/06 10:54:54 tho Exp $
 #
 # NetBSD
 
@@ -11,13 +11,13 @@ SHLIB_MINOR ?= 0
 ##
 ## Automatic rules for shared objects.
 ##
-.SUFFIXES: .so .c .cc .C .cpp .cxx
+.SUFFIXES: .so $(ALL_EXTS)
 
-.c.so:
-	$(CC) -fpic -DPIC $(CFLAGS) -c $< -o $*.so
-
-.cc.so .C.so .cpp.so .cxx.so:
+$(foreach e,$(CXX_EXTS),$(addsuffix .so,$(e))):
 	$(CXX) -fpic -DPIC $(CXXFLAGS) -c $< -o $*.so
+
+$(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
+	$(CC) -fpic -DPIC $(CFLAGS) -c $< -o $*.so
 
 ##
 ## Set library naming vars

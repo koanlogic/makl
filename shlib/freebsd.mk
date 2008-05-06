@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.11 2007/07/04 10:16:27 tho Exp $
+# $Id: freebsd.mk,v 1.12 2008/05/06 10:54:54 tho Exp $
 #
 # FreeBSD (ELF)
 
@@ -11,13 +11,13 @@ SHLIB_MINOR ?= 0
 ##
 ## Automatic rules for shared objects.
 ##
-.SUFFIXES: .so .c .cc .C .cpp .cxx
+.SUFFIXES: .so $(ALL_EXTS)
 
-.c.so:
-	$(CC) $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
-
-.cc.so .C.so .cpp.so .cxx.so:
+$(foreach e,$(CXX_EXTS),$(addsuffix .so,$(e))):
 	$(CXX) $(CPICFLAGS) -DPIC $(CXXFLAGS) -c $< -o $*.so
+
+$(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
+	$(CC) $(CPICFLAGS) -DPIC $(CFLAGS) -c $< -o $*.so
 
 ##
 ## Set library naming vars

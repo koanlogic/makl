@@ -1,4 +1,4 @@
-# $Id: openbsd.mk,v 1.5 2007/07/04 10:16:27 tho Exp $
+# $Id: openbsd.mk,v 1.6 2008/05/06 10:54:54 tho Exp $
 #
 # OpenBSD
 
@@ -11,14 +11,14 @@ SHLIB_MINOR ?= 0
 #
 # automatic rules for shared objects
 #
-.SUFFIXES: .so .c .cc .C .cpp .cxx
+.SUFFIXES: .so $(ALL_EXTS)
 
-.c.so:
+$(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
 	$(CC) -fpic -DPIC $(CFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
 	rm -f $*.so.o
 
-.cc.so .C.so .cpp.so .cxx.so:
+$(foreach e,$(CXX_EXTS),$(addsuffix .so,$(e))):
 	$(CXX) -fpic -DPIC $(CXXFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
 	rm -f $*.so.o

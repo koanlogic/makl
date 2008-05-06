@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.42 2008/03/04 20:32:31 tho Exp $
+# $Id: lib.mk,v 1.43 2008/05/06 10:54:54 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -14,13 +14,13 @@
 # strip lib name
 __LIB = $(strip $(LIB))
 
+# handled file extensions
+C_EXTS = .c
+CXX_EXTS = .cc .C .cpp .cxx .c++
+ALL_EXTS = $(C_EXTS) $(CXX_EXTS)
+
 # filter out all possible C/C++ extensions to get the objects from SRCS
-OBJS_c = $(SRCS:.c=.o)
-OBJS_cpp = $(OBJS_c:.cpp=.o)
-OBJS_cc = $(OBJS_cpp:.cc=.o)
-OBJS_cxx = $(OBJS_cc:.cxx=.o)
-OBJS_C = $(OBJS_cxx:.C=.o)
-OBJS = $(OBJS_C)
+OBJS = $(foreach e,$(ALL_EXTS),$(patsubst %$(e),%.o,$(filter %$(e),$(SRCS))))
 
 ##
 ## Default obj format is ELF
@@ -28,12 +28,12 @@ OBJS = $(OBJS_C)
 OBJFORMAT ?= elf
 
 # automatic build rules
-.SUFFIXES: .o .c .cc .C .cpp .cxx
+.SUFFIXES: .o $(ALL_EXTS)
 
-.c.o:
+$(foreach e,$(C_EXTS),$(addsuffix .o,$(e))):
 	$(CC) $(CFLAGS) -c $< -o $*.o
 
-.cc.o .C.o .cpp.o .cxx.o:
+$(foreach e,$(CXX_EXTS),$(addsuffix .o,$(e))):
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
 ##
