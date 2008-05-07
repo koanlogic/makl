@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.12 2008/05/06 10:54:54 tho Exp $
+# $Id: freebsd.mk,v 1.13 2008/05/07 12:32:14 tho Exp $
 #
 # FreeBSD (ELF)
 
@@ -26,9 +26,9 @@ SHLIB_LINK ?= lib$(__LIB).so
 SONAME ?= $(SHLIB_LINK).$(SHLIB_MAJOR)
 SHLIB_NAME ?= $(SONAME)
 
-#
-# build rules
-#
+##
+## build rules
+##
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
