@@ -1,6 +1,11 @@
-$Id: ChangeLog,v 1.47 2008/04/09 22:02:32 stewy Exp $
+$Id: ChangeLog,v 1.48 2008/05/07 07:35:27 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
+
+MaKL xxx
+	- subdir.mk template rewritten using $(eval ...) to create on-the-fly
+	  recursion rules for generic target(s)
+	- small refactoring of lib.mk and prog.mk templates
 
 MaKL 1.7.1
 	- fix usage of toolchain variables from configure scripts 
