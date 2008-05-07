@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.26 2008/05/05 15:25:31 tho Exp $
+# $Id: subdir.mk,v 1.27 2008/05/07 09:41:45 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -21,8 +21,16 @@ endif
 # the following implies each generated template
 subdirs: $(MAKECMDGOALS)
 
-# source subdir_mk template generator
-include priv/funcs.mk
+# subdir_mk template generator
+# $1 = goal 
+# $2 = subdir list
+define subdir_mk
+    $(1)_SUBGOAL = $(addsuffix .$(1),$(2))
+    $(1): $(1)-pre $$($(1)_SUBGOAL) $(1)-post
+    $(1)-pre $(1)-post:
+    $$($(1)_SUBGOAL) : %.$(1): ; @$(MAKE) -C $$* $(1)
+    .PHONY: $(1) $$($(1)_SUBGOAL) $(1)-pre $(1)-post
+endef
 
 # create rules using the subdir_mk template for each supplied target 
 $(foreach T,$(MAKECMDGOALS),$(eval $(call subdir_mk,$(T),$(SUBDIR))))
