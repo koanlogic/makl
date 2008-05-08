@@ -1,19 +1,26 @@
 #
-# $Id: prog.mk,v 1.39 2008/05/08 08:39:36 tho Exp $
+# $Id: prog.mk,v 1.40 2008/05/08 15:53:35 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
-# - PROG        Program name.
+# - PROG        Program name
 # - SRCS        Source files that build $(PROG)
-# - LDADD       Library dependencies ...
-# - LDFLAGS     ...
-# - CLEANFILES  Additional clean files.
-# - BIN(OWN,GRP,MODE,DIR) installation path and credentials ...
+# - LDADD       Library dependencies 
+# - LDFLAGS     Flags to be passed to the linker
+# - CLEANFILES  Additional clean files
+# - BIN(OWN,GRP,MODE,DIR) Installation path and credentials
+# - ...
 #
 # Applicable targets:
 # - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
 #
 include priv/funcs.mk
+
+# check non-optional user variables (PROG and SRCS)
+ifneq ($(MAKECMDGOALS), .help)
+    $(call assert-var, PROG)
+    $(call assert-var, SRCS)
+endif
 
 ALL_EXTS = .c .cc .C .cpp .cxx .c++
 
@@ -66,7 +73,6 @@ endif
 ifndef NO_INSTALL
 install: install-hook-pre realinstall install-hook-post
 
-include priv/funcs.mk
 # build arguments list for 'realinstall' operation
 __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
@@ -100,8 +106,6 @@ uninstall-hook-pre uninstall-hook-post:
 else
 uninstall:
 endif
-
-include priv/deps.mk
 
 ##
 ## interface description

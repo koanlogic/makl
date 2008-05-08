@@ -1,10 +1,17 @@
 #
-# $Id: incs.mk,v 1.27 2008/03/04 20:32:31 tho Exp $
+# $Id: incs.mk,v 1.28 2008/05/08 15:53:35 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
 # - INCS        the list of header files to install.
 #
+
+include priv/funcs.mk
+
+# check non-optional user variable (INCS)
+ifneq ($(MAKECMDGOALS), .help)
+    $(call assert-var, INCS)
+endif
 
 ##
 ## all target (nothing but hooks)

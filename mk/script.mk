@@ -1,4 +1,4 @@
-# $Id: script.mk,v 1.5 2008/03/04 20:32:31 tho Exp $
+# $Id: script.mk,v 1.6 2008/05/08 15:53:35 tho Exp $
 #
 # Helper for shell or other interpreted scripts installation|removal which
 # uses the prog.mk template.
@@ -9,14 +9,15 @@
 # Available Targets:
 # - install, uninstall
 
+include priv/funcs.mk 
+
 # check preconditions (when target != .help)
 ifneq ($(MAKECMDGOALS), .help)
-ifndef SCRIPT
-    $(warning SCRIPT must be defined when including script.mk template !)
-endif
+    $(call assert-var, SCRIPT)
 endif
 
 PROG = $(SCRIPT)
+SRCS = __unset__        # must be faked because prog.mk assert on it
 NO_ALL = true
 NO_CLEAN = true
 NO_DEPEND = true

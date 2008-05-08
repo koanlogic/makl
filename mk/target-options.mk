@@ -1,4 +1,4 @@
-# $Id: target-options.mk,v 1.5 2008/02/25 11:03:09 tho Exp $
+# $Id: target-options.mk,v 1.6 2008/05/08 15:53:35 tho Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
@@ -6,9 +6,9 @@
 # Applicable Targets:
 # - any target in $ALL and their -pre/-post helper targets
 
-ifndef ALL
-$(error ALL variable must be defined)
-endif
+include priv/funcs.mk
+
+$(call assert-var, ALL)
 
 target-options-default:
 	@for target in $(ALL); do \

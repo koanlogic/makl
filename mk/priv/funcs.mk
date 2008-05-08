@@ -1,4 +1,4 @@
-# $Id: funcs.mk,v 1.4 2008/05/08 08:39:36 tho Exp $
+# $Id: funcs.mk,v 1.5 2008/05/08 15:53:35 tho Exp $
 #
 # common functions
 
@@ -36,4 +36,25 @@ endef
 # $2 = file extensions' set
 define calc-objs
 $(strip $(foreach e,$(2),$(patsubst %$(e),%.o,$(filter %$(e),$(1)))))
+endef
+
+# return the empty string (i.e. false) when strings are equal, a non-empty 
+# string (i.e. true) otherwise
+#   $1 = a string
+#   $2 = another string
+define strneq
+$(filter-out xx,x$(subst $1,,$2)$(subst $2,,$1)x)
+endef
+
+# pretend the supplied variable exist and is non-empty, otherwise bail out
+#   $1 = a variable name
+define assert-var
+$(if $(call strneq, $(origin $(strip $(1))), undefined),    \
+    $(if $($(strip $(1))),                                  \
+        ,                                                   \
+        $(error $(strip $(1)) must be non-empty)            \
+    )                                                       \
+    ,                                                       \
+    $(error $(strip $(1)) must be defined)                  \
+)
 endef

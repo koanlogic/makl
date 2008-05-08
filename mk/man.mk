@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.25 2008/03/04 20:32:31 tho Exp $
+# $Id: man.mk,v 1.26 2008/05/08 15:53:35 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -11,18 +11,16 @@
 # Applicable targets:
 # - install, uninstall.
 
-# check minimal precondition when target != .help
-ifneq ($(MAKECMDGOALS), .help)
-# MANFILES must be set 
-ifndef MANFILES
-$(error MANFILES must be set when including the man.mk template !)
-endif
+include priv/funcs.mk
 
-# MANFILES must be set correctly
-__SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
-ifeq ($(__SUBDIRS),)
-$(error no valid filenames found in MANFILES !)
-endif
+# check minimal precondition when target != .help
+# i.e. MANFILES must be set and __SUBDIRS must evaluate to something
+ifneq ($(MAKECMDGOALS), .help)
+    $(call assert-var, MANFILES)
+    __SUBDIRS = $(strip $(patsubst .%, %, $(sort $(suffix $(MANFILES)))))
+    ifeq ($(__SUBDIRS),)
+        $(error no valid filenames found in MANFILES !)
+    endif
 endif
 
 ##

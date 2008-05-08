@@ -1,5 +1,5 @@
 #
-# $Id: subst.mk,v 1.9 2008/03/04 20:32:31 tho Exp $
+# $Id: subst.mk,v 1.10 2008/05/08 15:53:35 tho Exp $
 #
 # User variables:    
 # - SUBST_RULE      substitution rule (see further on)
@@ -19,12 +19,13 @@
 # results into:
 #   => sed 's/\!$/\?/g' A.in > A.out
 
+include priv/funcs.mk
+
 # check preconditions (when target != .help)
 ifneq ($(MAKECMDGOALS), .help)
-ifndef SUBST_RULE
-subst:
-	$(warning SUBST_RULE must be defined when including subst.mk template !)
-else    # SUBST_RULE
+    $(call assert-var, SUBST_RULE)
+endif
+
 subst:
 ifndef SUBST_SUFFIX
 	@set $(SUBST_RULE) ; \
@@ -46,8 +47,6 @@ else    # SUBST_SUFFIX
 	    sed -e "$$rule" $$fin > $$fout ; \
 	done
 endif   # !SUBST_SUFFIX
-endif   # !SUBST_RULE
-endif   # target != .help
 
 ##
 ## interface description

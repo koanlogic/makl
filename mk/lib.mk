@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.45 2008/05/08 09:19:12 tho Exp $
+# $Id: lib.mk,v 1.46 2008/05/08 15:53:35 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -13,8 +13,15 @@
 
 include priv/funcs.mk
 
-# strip lib name
-LIB_NAME = lib$(strip $(LIB)).a
+# check non-optional user variables (LIB and SRCS)
+ifneq ($(MAKECMDGOALS), .help)
+    $(call assert-var, LIB)
+    $(call assert-var, SRCS)
+endif
+
+# strip lib name (__LIB is exported to shlib.mk)
+__LIB = $(strip $(LIB))
+LIB_NAME = lib$(__LIB).a
 
 # handled file extensions
 C_EXTS = .c
@@ -32,9 +39,12 @@ OBJFORMAT ?= elf
 # automatic build rules
 .SUFFIXES: .o $(ALL_EXTS)
 
+# i.e. .c.o:
 $(foreach e,$(C_EXTS),$(addsuffix .o,$(e))):
 	$(CC) $(CFLAGS) -c $< -o $*.o
 
+# use more compact old-fashioned suffix rules instead of implicit rules here
+# .cc.o .C.o .cpp.o .cxx.o .c++.o:
 $(foreach e,$(CXX_EXTS),$(addsuffix .o,$(e))):
 	$(CXX) $(CXXFLAGS) -c $< -o $*.o
 
@@ -48,7 +58,7 @@ all-static: $(LIB_NAME)
 
 # always create archive ex-nihil
 $(LIB_NAME): $(OBJS)
-	@echo "===> building standard $(LIB) library"
+	@echo "===> building standard $(__LIB) library"
 	rm -f $@
 	$(AR) $(ARFLAGS) $@ `$(LORDER) $< | $(TSORT)`
 	$(RANLIB) $@
@@ -81,7 +91,6 @@ ifndef NO_INSTALL
 install: install-hook-pre realinstall install-hook-post
 
 # build arguments list for 'realinstall' operation
-include priv/funcs.mk
 __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 

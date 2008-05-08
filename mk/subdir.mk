@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.27 2008/05/07 09:41:45 tho Exp $
+# $Id: subdir.mk,v 1.28 2008/05/08 15:53:35 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -13,8 +13,10 @@ ifeq ($(findstring .help, $(MAKECMDGOALS)),)
 .DEFAULT_GOAL := all
 MAKECMDGOALS ?= $(.DEFAULT_GOAL)
 
+# can't use assert-var here because klone top-level Makefile uses subdir.mk 
+# without MAKEFLAGS set so we can't locate priv/funcs.mk
 ifndef SUBDIR
-$(error SUBDIR must be set when including the subdir.mk template !)
+    $(error SUBDIR must be set when including the subdir.mk template !)
 endif
 
 .PHONY: subdirs $(SUBDIR)

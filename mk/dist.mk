@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.23 2008/03/11 15:43:05 tat Exp $
+# $Id: dist.mk,v 1.24 2008/05/08 15:53:35 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -18,20 +18,21 @@
 # Available targets: 
 #   dist, distclean and user defined dist{,clean}-hook-(pre,post)
 
-# check preconditions
-ifndef PKG_NAME
-$(error PKG_NAME must be set !)
-endif
-ifndef PKG_VERSION
-$(error PKG_VERSION must be set !)
-endif
-ifndef DISTFILES
-ifndef DISTREMAP
-ifndef DISTRECIPE
-$(error at least one of DISTFILES, DISTREMAP or DISTRECIPE must be set !)
-endif   # !DISTRECIPE
-endif   # !DISTREMAP
-endif   # !DISTFILES
+include priv/funcs.mk
+
+# check preconditions (when target != .help)
+ifneq ($(MAKECMDGOALS), .help)
+    $(call assert-var, PKG_NAME)
+    $(call assert-var, PKG_VERSION)
+
+    ifndef DISTFILES
+    ifndef DISTREMAP
+    ifndef DISTRECIPE
+        $(error at least one of DISTFILES, DISTREMAP or DISTRECIPE must be set)
+    endif   # !DISTRECIPE
+    endif   # !DISTREMAP
+    endif   # !DISTFILES
+endif   # !.help
 
 TAR ?= tar
 TAR_ARGS ?= cf
