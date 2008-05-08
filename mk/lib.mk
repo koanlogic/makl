@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.44 2008/05/08 08:39:36 tho Exp $
+# $Id: lib.mk,v 1.45 2008/05/08 09:19:12 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -49,9 +49,9 @@ all-static: $(LIB_NAME)
 # always create archive ex-nihil
 $(LIB_NAME): $(OBJS)
 	@echo "===> building standard $(LIB) library"
-	rm -f $(LIB_NAME)
-	$(AR) $(ARFLAGS) $(LIB_NAME) `$(LORDER) $(OBJS) | $(TSORT)`
-	$(RANLIB) $(LIB_NAME)
+	rm -f $@
+	$(AR) $(ARFLAGS) $@ `$(LORDER) $< | $(TSORT)`
+	$(RANLIB) $@
 
 all-hook-pre all-hook-post:
 else
