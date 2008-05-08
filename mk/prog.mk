@@ -1,10 +1,10 @@
 #
-# $Id: prog.mk,v 1.38 2008/05/06 15:20:35 tho Exp $
+# $Id: prog.mk,v 1.39 2008/05/08 08:39:36 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
 # - PROG        Program name.
-# - OBJS        File objects that build the program.
+# - SRCS        Source files that build $(PROG)
 # - LDADD       Library dependencies ...
 # - LDFLAGS     ...
 # - CLEANFILES  Additional clean files.
@@ -13,11 +13,14 @@
 # Applicable targets:
 # - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
 #
+include priv/funcs.mk
+
+ALL_EXTS = .c .cc .C .cpp .cxx .c++
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
-ALL_EXTS = .c .cc .C .cpp .cxx .c++
-OBJS = $(foreach e,$(ALL_EXTS),$(patsubst %$(e),%.o,$(filter %$(e),$(SRCS))))
+OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
 
+# dependency chain
 __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 
 ##

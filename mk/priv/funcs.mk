@@ -1,4 +1,4 @@
-# $Id: funcs.mk,v 1.3 2008/05/07 09:41:45 tho Exp $
+# $Id: funcs.mk,v 1.4 2008/05/08 08:39:36 tho Exp $
 #
 # common functions
 
@@ -29,4 +29,11 @@ $(if $(strip $(1)),             \
             -g$(2)              \
         )                       \
 )
+endef
+
+# retrieve object files from a set of source files, given a set of extensions
+# $1 = sources
+# $2 = file extensions' set
+define calc-objs
+$(strip $(foreach e,$(2),$(patsubst %$(e),%.o,$(filter %$(e),$(1)))))
 endef

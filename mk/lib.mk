@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.43 2008/05/06 10:54:54 tho Exp $
+# $Id: lib.mk,v 1.44 2008/05/08 08:39:36 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -11,8 +11,10 @@
 # Applicable targets:
 # - all, clean, depend, cleandepend, install, uninstall.
 
+include priv/funcs.mk
+
 # strip lib name
-__LIB = $(strip $(LIB))
+LIB_NAME = lib$(strip $(LIB)).a
 
 # handled file extensions
 C_EXTS = .c
@@ -20,7 +22,7 @@ CXX_EXTS = .cc .C .cpp .cxx .c++
 ALL_EXTS = $(C_EXTS) $(CXX_EXTS)
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
-OBJS = $(foreach e,$(ALL_EXTS),$(patsubst %$(e),%.o,$(filter %$(e),$(SRCS))))
+OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
 
 ##
 ## Default obj format is ELF
@@ -42,13 +44,14 @@ $(foreach e,$(CXX_EXTS),$(addsuffix .o,$(e))):
 ifndef NO_ALL
 all: all-hook-pre all-static all-shared all-hook-post
 
-all-static: lib$(__LIB).a
+all-static: $(LIB_NAME)
 
-lib$(__LIB).a: $(OBJS)
-	@echo "===> building standard $(__LIB) library"
-	rm -f lib$(__LIB).a
-	$(AR) $(ARFLAGS) lib$(__LIB).a `$(LORDER) $(OBJS) | $(TSORT)`
-	$(RANLIB) lib$(__LIB).a
+# always create archive ex-nihil
+$(LIB_NAME): $(OBJS)
+	@echo "===> building standard $(LIB) library"
+	rm -f $(LIB_NAME)
+	$(AR) $(ARFLAGS) $(LIB_NAME) `$(LORDER) $(OBJS) | $(TSORT)`
+	$(RANLIB) $(LIB_NAME)
 
 all-hook-pre all-hook-post:
 else
@@ -61,7 +64,7 @@ endif
 ifndef NO_CLEAN
 clean: clean-hook-pre clean-static clean-shared clean-hook-post
 
-CLEANFILES += $(OBJS) lib$(__LIB).a
+CLEANFILES += $(OBJS) $(LIB_NAME)
 
 clean-static:
 	rm -f $(CLEANFILES)
@@ -91,7 +94,7 @@ endif
 realinstall: $(LIBDIR) install-static install-shared
 
 install-static:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) lib$(__LIB).a $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(LIB_NAME) $(LIBDIR)
 
 install-hook-pre install-hook-post:
 
@@ -108,7 +111,7 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	rm -f $(LIBDIR)/lib$(__LIB).a
+	rm -f $(LIBDIR)/$(LIB_NAME)
 	-rmdir $(LIBDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
