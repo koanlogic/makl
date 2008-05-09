@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.46 2008/05/08 15:53:35 tho Exp $
+# $Id: lib.mk,v 1.47 2008/05/09 08:31:39 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -30,6 +30,7 @@ ALL_EXTS = $(C_EXTS) $(CXX_EXTS)
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
+$(info OBJS=$(OBJS))
 
 ##
 ## Default obj format is ELF
@@ -60,7 +61,7 @@ all-static: $(LIB_NAME)
 $(LIB_NAME): $(OBJS)
 	@echo "===> building standard $(__LIB) library"
 	rm -f $@
-	$(AR) $(ARFLAGS) $@ `$(LORDER) $< | $(TSORT)`
+	$(AR) $(ARFLAGS) $@ `$(LORDER) $^ | $(TSORT)`
 	$(RANLIB) $@
 
 all-hook-pre all-hook-post:
