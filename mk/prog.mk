@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.40 2008/05/08 15:53:35 tho Exp $
+# $Id: prog.mk,v 1.41 2008/05/09 08:19:39 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -106,6 +106,8 @@ uninstall-hook-pre uninstall-hook-post:
 else
 uninstall:
 endif
+
+include priv/deps.mk
 
 ##
 ## interface description
