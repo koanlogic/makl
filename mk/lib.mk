@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.47 2008/05/09 08:31:39 tho Exp $
+# $Id: lib.mk,v 1.48 2008/05/09 08:33:11 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -30,7 +30,6 @@ ALL_EXTS = $(C_EXTS) $(CXX_EXTS)
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
-$(info OBJS=$(OBJS))
 
 ##
 ## Default obj format is ELF
