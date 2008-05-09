@@ -1,4 +1,4 @@
-# $Id: script.mk,v 1.6 2008/05/08 15:53:35 tho Exp $
+# $Id: script.mk,v 1.7 2008/05/09 15:00:30 tho Exp $
 #
 # Helper for shell or other interpreted scripts installation|removal which
 # uses the prog.mk template.
@@ -9,14 +9,20 @@
 # Available Targets:
 # - install, uninstall
 
+# SCRIPT full name (!= SCRIPT in case {pre,suf}fix has been supplied
+__SCRIPT = $(strip $(SCRIPT_PREFIX))$(strip $(SCRIPT))$(strip $(SCRIPT_SUFFIX))
+
+ifneq ($(MAKECMDGOALS), .help)
+
 include priv/funcs.mk 
 
-# check preconditions (when target != .help)
-ifneq ($(MAKECMDGOALS), .help)
-    $(call assert-var, SCRIPT)
-endif
+# check preconditions 
+$(call assert-var, SCRIPT)
 
+# use prog interface cleanly
 PROG = $(SCRIPT)
+PROG_PREFIX = $(SCRIPT_PREFIX)
+PROG_SUFFIX = $(SCRIPT_SUFFIX)
 SRCS = __unset__        # must be faked because prog.mk assert on it
 NO_ALL = true
 NO_CLEAN = true
@@ -24,9 +30,14 @@ NO_DEPEND = true
 NO_CLEANDEPEND = true
 INSTALL_STRIP =
 
-# private .help target 
-ifneq ($(MAKECMDGOALS), .help)
+# if any of SCRIPT_{PRE,SUF}FIX is set handle aliasing on all and clean goals
+ifneq ($(__SCRIPT),$(strip $(SCRIPT)))
+all: ; @cp $(SCRIPT) $(__SCRIPT)
+clean: ; @rm $(__SCRIPT)
+endif
+
 include prog.mk
+
 else    # target == .help
 ##
 ## interface description 
@@ -36,6 +47,10 @@ else    # target == .help
 	@echo "-------------------                                              "
 	@echo " Available targets                                               "
 	@echo "-------------------                                              "
+ifneq ($(__SCRIPT),$(strip $(SCRIPT)))
+	@echo "all         create alias of the original script                  "
+	@echo "clean       delete alias of the original script                  "
+endif
 	@echo "install     install the script                                   "
 	@echo "uninstall   remove the installed script                          "
 	@echo
@@ -46,8 +61,12 @@ else    # target == .help
 	@echo "---------------------                                            "
 	@echo " Available variables                                             "
 	@echo "---------------------                                            "
-	@echo "SCRIPT        the script file name                               "
+	@echo "SCRIPT           the script file name                            "
+	@echo "SCRIPT_PREFIX    concatenate this as prefix to SCRIPT            "
+	@echo "SCRIPT_SUFFIX    concatenate this as postfix to SCRIPT           "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/script.mk   "
 	@echo
 endif   # target != .help
+
+

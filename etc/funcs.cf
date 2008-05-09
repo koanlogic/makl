@@ -1,3 +1,6 @@
+#
+# handle shared libs flags
+#
 makl_args_def "enable_shared"   "" "" "enable shared library build"
 
 __makl_enable_shared ()
@@ -8,4 +11,62 @@ __makl_enable_shared ()
     makl_set_var_mk "SHLIB_MAJOR" `makl_get "__ver_major__"`
     makl_set_var_mk "SHLIB_MINOR" `makl_get "__ver_minor__"`
     makl_set_var_mk "SHLIB_TEENY" `makl_get "__ver_teeny__"` 
+}
+
+#
+# set PROG_SUFFIX
+#
+makl_args_def                                   \
+    "program_suffix"                            \
+    "=SUFFIX"                                   \
+    ""                                          \
+    "append SUFFIX to installed program names"
+
+__makl_program_suffix ()
+{
+    [ -z "$1" ] && makl_err 1 "program_suffix needs an argument"
+    makl_set_var_mk "PROG_SUFFIX" "$1"
+}
+
+#
+# set PROG_PREFIX
+#
+makl_args_def                                   \
+    "program_prefix"                            \
+    "=PREFIX"                                   \
+    ""                                          \
+    "append PREFIX to installed program names"
+
+__makl_program_prefix ()
+{
+    [ -z "$1" ] && makl_err 1 "program_prefix needs an argument"
+    makl_set_var_mk "PROG_PREFIX" "$1"
+}
+
+#
+# set SCRIPT_SUFFIX
+#
+makl_args_def                                   \
+    "script_suffix"                             \
+    "=SUFFIX"                                   \
+    ""                                          \
+    "append SUFFIX to installed script names"
+
+__makl_script_suffix ()
+{
+    [ -z "$1" ] && makl_err 1 "script_suffix needs an argument"
+    makl_set_var_mk "SCRIPT_SUFFIX" "$1"
+}
+
+# set SCRIPT_PREFIX
+makl_args_def                                   \
+    "script_prefix"                             \
+    "=PREFIX"                                   \
+    ""                                          \
+    "append PREFIX to installed script names"
+
+__makl_script_prefix ()
+{
+    [ -z "$1" ] && makl_err 1 "script_prefix needs an argument"
+    makl_set_var_mk "SCRIPT_PREFIX" "$1"
 }

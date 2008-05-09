@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.41 2008/05/09 08:19:39 tho Exp $
+# $Id: prog.mk,v 1.42 2008/05/09 15:00:30 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -22,6 +22,9 @@ ifneq ($(MAKECMDGOALS), .help)
     $(call assert-var, SRCS)
 endif
 
+# set complete PROG name
+__PROG = $(strip $(PROG_PREFIX))$(strip $(PROG))$(strip $(PROG_SUFFIX))
+
 ALL_EXTS = .c .cc .C .cpp .cxx .c++
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
@@ -34,16 +37,16 @@ __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
 ## all(build) target
 ##
 ifndef NO_ALL
-all: all-hook-pre $(PROG) all-hook-post
+all: all-hook-pre $(__PROG) all-hook-post
 
 all-hook-pre all-hook-post:
 
 ## linking stage
 ifndef USE_CXX
-$(PROG): $(OBJS) $(LDADD)
+$(__PROG): $(OBJS) $(LDADD)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(__LDS)
 else
-$(PROG): $(OBJS) $(LDADD)
+$(__PROG): $(OBJS) $(LDADD)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(__LDS)
 endif
 
@@ -57,7 +60,7 @@ endif
 ifndef NO_CLEAN
 clean: clean-hook-pre realclean clean-hook-post
 
-CLEANFILES += $(PROG) $(OBJS)
+CLEANFILES += $(__PROG) $(OBJS)
 
 realclean:
 	rm -f $(CLEANFILES)
@@ -85,7 +88,7 @@ endif
 
 realinstall: $(BINDIR)
 	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
-	    -m $(BINMODE) $(PROG) $(BINDIR)
+	    -m $(BINMODE) $(__PROG) $(BINDIR)
 
 install-hook-pre install-hook-post:
 else
@@ -99,7 +102,7 @@ ifndef NO_UNINSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
-	rm -f $(BINDIR)/$(PROG)
+	rm -f $(BINDIR)/$(__PROG)
 	-rmdir $(BINDIR) 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
@@ -131,19 +134,21 @@ include priv/deps.mk
 	@echo "---------------------                                            "
 	@echo " Available variables                                             "
 	@echo "---------------------                                            "
-	@echo "USE_CXX     if defined use C++ compiler instead of C compiler    "
-	@echo "PROG        the executable program name                          "
-	@echo "CFLAGS      flags given to the C compiler                        "
-	@echo "CXXFLAGS    flags given to the C++ compiler                      "
-	@echo "OBJS        file objects that build the program (use +=)         "
-	@echo "LDADD       library dependencies                                 "
-	@echo "LDFLAGS     flags to be given to the linker                      "
-	@echo "DPADD       additional build dependencies                        "
-	@echo "CLEANFILES  additional clean files (use +=)                      "
-	@echo "BINOWN      user ID of the installed executable                  "
-	@echo "BINGRP      group ID of the installed excutable                  "
-	@echo "BINMODE     file mode bits of the installed executable           "
-	@echo "BINDIR      destination directory of the installed executable    "
+	@echo "USE_CXX      if defined use C++ compiler instead of C compiler   "
+	@echo "PROG         the executable program name                         "
+	@echo "PROG_PREFIX  concatenate this as prefix to PROG                  "
+	@echo "PROG_SUFFIX  concatenate this as postfix to PROG                 "
+	@echo "CFLAGS       flags given to the C compiler                       "
+	@echo "CXXFLAGS     flags given to the C++ compiler                     "
+	@echo "OBJS         file objects that build the program (use +=)        "
+	@echo "LDADD        library dependencies                                "
+	@echo "LDFLAGS      flags to be given to the linker                     "
+	@echo "DPADD        additional build dependencies                       "
+	@echo "CLEANFILES   additional clean files (use +=)                     "
+	@echo "BINOWN       user ID of the installed executable                 "
+	@echo "BINGRP       group ID of the installed excutable                 "
+	@echo "BINMODE      file mode bits of the installed executable          "
+	@echo "BINDIR       destination directory of the installed executable   "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk     "
 	@echo

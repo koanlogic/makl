@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.4 2006/11/28 16:24:24 tho Exp $
+# $Id: deps.mk,v 1.5 2008/05/09 15:00:30 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -25,12 +25,12 @@ realdepend:
 	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) -a $(SRCS)
 
 afterdepend: realdepend
-ifdef PROG
+ifdef __PROG
 ifdef DPADD
-	echo $(PROG): $(DPADD) >> $(DEPENDFILE)
+	echo $(__PROG): $(DPADD) >> $(DEPENDFILE)
 endif
 ifdef LDADD
-	echo $(PROG): $(LDADD) >> $(DEPENDFILE)
+	echo $(__PROG): $(LDADD) >> $(DEPENDFILE)
 endif
 endif
 ifdef SHLIB

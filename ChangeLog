@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.49 2008/05/08 15:56:56 tho Exp $
+$Id: ChangeLog,v 1.50 2008/05/09 15:00:30 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
+	- added PROG_{PRE,POST}FIX and SCRIPT_{PRE,POST}FIX variables to modify
+	  the built/installed program/script name
 	- subdir.mk template rewritten using $(eval ...) to create on-the-fly
 	  recursion rules for generic target(s)
 	- small refactoring of lib.mk and prog.mk templates
