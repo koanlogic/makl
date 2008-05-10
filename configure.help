@@ -13,8 +13,11 @@ OPTION can be defined as follows:
 --dir-bin=BASE      set BASE directory for binaries [BASE=/usr/local/bin]
 --dir-share=BASE    set BASE directory for shared data [BASE=/usr/local/share]
 
---defown=USERID     set default file owner id
---defgrp=GROUPID    set default file group id
---defmode=MODE      set default mode for regular files
---defbinmode=MODE   set default mode for binary files
---gnu_make          set GNU make executable path on this system
+--defown=USERID         set default file owner id
+--defgrp=GROUPID        set default file group id
+--defmode=MODE          set default mode for regular files
+--defbinmode=MODE       set default mode for binary files
+--gnu_make              set GNU make executable path on this system
+--script_suffix=SUFFIX  append SUFFIX to installed script names
+--script_prefix=PREFIX  append PREFIX to installed script names
+

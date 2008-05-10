@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.25 2008/03/05 17:21:24 tho Exp $
+# $Id: maklsh.in,v 1.26 2008/05/10 07:07:13 tho Exp $
 
 export MAKL_DIR="@{{MAKL_ROOT}}"
 export MAKEFLAGS="-I ${MAKL_DIR}/mk"
@@ -8,6 +8,20 @@ export MAKEFLAGS="-I ${MAKL_DIR}/mk"
 MAKL_VERSION=`cat ${MAKL_DIR}/VERSION 2>/dev/null`
 PATH_CF_SCRIPT=""       # must be set by search_cf_script()
 PATH_GNUMAKE=@{{GNU_MAKE}}
+
+# set maklsh and links with optional {pre,suf}fix
+PFX="@{{SCRIPT_PREFIX}}" ; [ ${PFX} = @"{{SCRIPT_PREFIX}}" ] && PFX=""
+SFX="@{{SCRIPT_SUFFIX}}" ; [ ${SFX} = @"{{SCRIPT_SUFFIX}}" ] && SFX=""
+
+MAKL_CMD="${PFX}makl${SFX}"
+MAKLCONF_CMD="${PFX}makl-conf${SFX}"
+MAKLCONF_CMD_COMPAT="${PFX}maklconf${SFX}"
+MAKLHELP_CMD="${PFX}makl-help${SFX}"
+MAKLHELP_CMD_COMPAT="${PFX}maklhelp${SFX}"
+MAKLTC_CMD="${PFX}makl-tc${SFX}"
+MAKLTC_CMD_COMPAT="${PFX}makltc${SFX}"
+MAKLNEW_CMD="${PFX}makl-new${SFX}"
+MAKLNEW_CMD_COMPAT="${PFX}maklnew${SFX}"
 
 ECHO="/bin/echo"
 
@@ -155,27 +169,27 @@ CF_SCRIPTS="${MAKL_CF_SCRIPTS} ${CF_SCRIPTS}"
 # dispatch action based on how we were called
 case `basename $0`
 in
-    makl)
+    ${MAKL_CMD})
         # exec GNU make with user supplied arguments
         ${PATH_GNUMAKE} $@
         exit $?
         ;;
-    maklconf|makl-conf)
+    ${MAKLCONF_CMD} | ${MAKLCONF_CMD_COMPAT})
         search_cf_script || exit 1
         # exec the selected configure script with user supplied arguments
         ${PATH_CF_SCRIPT} $@ 
         exit $?
         ;;
-    maklhelp|makl-help)
+    ${MAKLHELP_CMD} | ${MAKLHELP_CMD_COMPAT})
         display_help
         exit 0
         ;;
-    makltc|makl-tc)
+    ${MAKLTC_CMD} | ${MAKLTC_CMD_COMPAT})
         toolchain_env || exit 1
         env ${ENV} ${MAKL_DIR}/setup/tc_setup.sh
         exit $?
         ;;
-    maklnew|makl-new)
+    ${MAKLNEW_CMD} | ${MAKLNEW_CMD_COMPAT})
         clone_from_tmpl $@
         exit $?
         ;;
