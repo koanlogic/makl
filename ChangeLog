@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.50 2008/05/09 15:00:30 tho Exp $
+$Id: ChangeLog,v 1.51 2008/05/10 07:08:55 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
+	- installed makl commands can be {pre,suf}fixed via --script_{pre,suf}fix 
+	  configure arguments
 	- added PROG_{PRE,POST}FIX and SCRIPT_{PRE,POST}FIX variables to modify
 	  the built/installed program/script name
 	- subdir.mk template rewritten using $(eval ...) to create on-the-fly
