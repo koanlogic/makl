@@ -17,7 +17,7 @@ OPTION can be defined as follows:
 --defgrp=GROUPID        set default file group id
 --defmode=MODE          set default mode for regular files
 --defbinmode=MODE       set default mode for binary files
---gnu_make              set GNU make executable path on this system
+--gnu_make=GNUMAKEPATH  set GNU make executable path on this system
 --script_suffix=SUFFIX  append SUFFIX to installed script names
 --script_prefix=PREFIX  append PREFIX to installed script names
 

@@ -7,11 +7,14 @@ export makl_conf_h="/dev/null"
 makl_args_init "$@"
 
 # accept override from the command line
-makl_args_def "gnu_make" "" "" "set GNU make executable path on this system"
+makl_args_def           \
+    "gnu_make"          \
+    "=GNUMAKEPATH" ""   \
+    "set GNU make executable path on this system"
 __makl_gnu_make ()
 {
-    [ $# -eq 1 ] || makl_err 1 "--gnu_make: wrong number of arguments!"
-    makl_set_var_mk GNU_MAKE $1
+    [ $# -eq 1 ] || makl_err 1 "--gnu_make needs one argument"
+    makl_set_var_mk GNU_MAKE "$@"
 }
 
 makl_args_handle "$@"
