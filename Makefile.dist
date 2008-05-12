@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.26 2008/03/05 13:25:13 tho Exp $
+# $Id: Makefile.dist,v 1.27 2008/05/12 08:05:58 tho Exp $
 
 include common.mk
 
@@ -12,7 +12,7 @@ PKG_VERSION = $(shell cat VERSION)
 ZIP ?= gzip
 ZIPEXT ?= gz
 
-DISTFILES = Makefile VERSION README LICENSE ChangeLog INSTALL
+DISTFILES = Makefile VERSION README LICENSE ChangeLog INSTALL THANKS
 DISTFILES += configure configure.help
 
 # auto configuration (cf files)
