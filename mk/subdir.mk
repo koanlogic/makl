@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.30 2008/05/21 12:02:06 tho Exp $
+# $Id: subdir.mk,v 1.31 2008/05/21 12:31:01 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -24,6 +24,7 @@ MAKECMDGOALS ?= $(.DEFAULT_GOAL)
 ifeq ($(MAKE_VERSION), 3.81)
     include subdir-hooks.mk
 else
+    $(warning using GNU make $(MAKE_VERSION): hook targets not supported !)
     include subdir-basic.mk
 endif
 
