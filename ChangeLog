@@ -1,8 +1,9 @@
-$Id: ChangeLog,v 1.51 2008/05/10 07:08:55 tho Exp $
+$Id: ChangeLog,v 1.52 2008/05/21 12:20:11 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
+	- subdir target hooks supported only in case GNU make version is 3.81
 	- installed makl commands can be {pre,suf}fixed via --script_{pre,suf}fix 
 	  configure arguments
 	- added PROG_{PRE,POST}FIX and SCRIPT_{PRE,POST}FIX variables to modify
