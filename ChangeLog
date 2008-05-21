@@ -1,15 +1,15 @@
-$Id: ChangeLog,v 1.52 2008/05/21 12:20:11 tho Exp $
+$Id: ChangeLog,v 1.53 2008/05/21 16:18:31 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
-	- subdir target hooks supported only in case GNU make version is 3.81
+	- subdir template does not support pre/post hooks anymore
+	- hooks are supported by subdir-hooks template but are available only
+	  when using GNU make with version = 3.81
 	- installed makl commands can be {pre,suf}fixed via --script_{pre,suf}fix 
 	  configure arguments
 	- added PROG_{PRE,POST}FIX and SCRIPT_{PRE,POST}FIX variables to modify
 	  the built/installed program/script name
-	- subdir.mk template rewritten using $(eval ...) to create on-the-fly
-	  recursion rules for generic target(s)
 	- small refactoring of lib.mk and prog.mk templates
 	- add assert-var function to test variables before use
 
