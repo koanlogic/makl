@@ -1,4 +1,4 @@
-# $Id: target-options.mk,v 1.8 2008/05/17 12:48:29 tho Exp $
+# $Id: target-options.mk,v 1.9 2008/05/21 14:35:05 tho Exp $
 #
 # Variables:
 # - ALL			A list of targets. Each target can be hooked with -pre or -post
@@ -7,10 +7,10 @@
 # - any target in $ALL and their -pre/-post helper targets
 
 # the following conditional is needed for backward compatibility with klone
-ifdef MAKL_DIR
-include priv/funcs.mk
-$(call assert-var, ALL)
-endif
+#ifdef MAKL_DIR
+#include priv/funcs.mk
+#$(call assert-var, ALL)
+#endif
 
 target-options-default:
 	@for target in $(ALL); do \
