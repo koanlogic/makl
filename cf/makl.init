@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.37 2008/04/15 11:08:54 stewy Exp $
+# $Id: makl.init,v 1.38 2008/05/21 18:51:33 stewy Exp $
 #
 
 # read in just once
@@ -36,7 +36,7 @@ makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
 makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
 # create a fresh makl run dir
-if [ -d ${makl_run_dir} ]; then
+if [ -d "${makl_run_dir}" ]; then
     rm -rf ${makl_run_dir} || exit 1
 fi
 mkdir -p ${makl_run_dir} || exit 1
@@ -48,7 +48,7 @@ env | grep -v "^MAKEOVERRIDES=" \
     | sed -e '/^[A-Za-z_].*=/s/=/="/' -e '/\\$/!s/$/"/' \
   > ${makl_run_dir}/env
 
-if [ ! -r ${MAKL_ETC}/toolchain.cf ]; then
+if [ ! -r "${MAKL_ETC}"/toolchain.cf ]; then
     echo "missing toolchain.cf !"
     exit 1
 fi
@@ -65,7 +65,7 @@ for shenv in ${MAKL_DIR}/cf/makl_* \
         ${MAKL_DIR}/etc/vars.cf \
         ${MAKL_DIR}/etc/args.cf \
         ${MAKL_DIR}/etc/funcs.cf; do
-    [ -f ${shenv} ] && . ${shenv} 2> /dev/null
+    [ -f "${shenv}" ] && . ${shenv} 2> /dev/null
 done
 
 # show global variables' values

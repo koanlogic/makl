@@ -1,5 +1,5 @@
 #
-# $Id: party.mk,v 1.19 2008/04/15 08:55:38 stewy Exp $
+# $Id: party.mk,v 1.20 2008/05/21 18:51:33 stewy Exp $
 # 
 # User Variables:
 # - PARTY_NAME  The name of the 3rd party package
@@ -25,7 +25,7 @@ PARTY_FILE_CHK ?= $(PARTY_FILE).md5
 all: .pre $(PARTY_FILE) $(PARTY_FILE_CHK) $(PARTY_BASE) conf make install
 
 .pre:
-	@[ ! -e $(PARTY_LOG) ] || rm -f $(PARTY_LOG)
+	@[ ! -e "$(PARTY_LOG)" ] || rm -f $(PARTY_LOG)
 	@touch $(PARTY_LOG)
 	@touch .pre
 	@echo "==> processing $(PARTY_NAME)   [see $(PARTY_LOG) for details]"

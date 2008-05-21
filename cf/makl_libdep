@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.19 2006/07/11 18:02:42 stewy Exp $
+# $Id: makl_libdep,v 1.20 2008/05/21 18:51:33 stewy Exp $
 #
 
 ##\brief Evaluate the dependency
@@ -21,9 +21,9 @@ makl_libdep ()
     ID=`makl_upper $1`
     cwd=`pwd`
     tst=${makl_run_dir}/lib_testcode_$1.c
-    if [ ! -r ${tst} ]; then
+    if [ ! -r "${tst}" ]; then
         tst=`pwd`/build/lib$1.c
-        if [ ! -r ${tst} ]; then
+        if [ ! -r "${tst}" ]; then
             makl_warn "makl_libdep: no test file for $1 (${tst})!" 
             return 2
         fi

@@ -26,7 +26,7 @@ locate_file ()
 {
     KL_WEBSITE="http://www.koanlogic.com"
 
-    if [ ! -f $2 ] 
+    if [ ! -f "$2" ] 
     then 
         (cd ${MAKL_DIR}/$1/ && \
             ${FETCH:=wget} ${KL_WEBSITE}/download/makl/`basename $2`) \
@@ -35,10 +35,10 @@ locate_file ()
 }
 
 # check MAKL_DIR
-[ -z ${MAKL_DIR} ] && exit 1
+[ -z "${MAKL_DIR}" ] && exit 1
 
 # check for user supplied MAKL_ETC
-[ -z ${MAKL_ETC} ] && MAKL_ETC=${MAKL_DIR}/etc
+[ -z "${MAKL_ETC}" ] && MAKL_ETC=${MAKL_DIR}/etc
 
 # load makl cf functions + makl_tc
 for f in ${MAKL_DIR}/tc/makl_tc ${MAKL_DIR}/cf/makl_*
@@ -91,32 +91,32 @@ esac
 # in case MAKL_TC_FILE is set, set internal 'tc_file' from it, otherwise
 # (toolchain by name) in case toolchain file was not found locally, try 
 # to download from KL site
-if [ -z ${MAKL_TC_FILE} ]
+if [ -z "${MAKL_TC_FILE}" ]
 then
-    [ ! -z ${MAKL_TC} ] && toolchain="${MAKL_TC}"
+    [ ! -z "${MAKL_TC}" ] && toolchain="${MAKL_TC}"
     tc_file=${MAKL_DIR}/tc/${toolchain}.tc
     locate_file tc ${tc_file}
     [ $? -ne 0 ] && \
         err "toolchain file \"${toolchain}\" could not be located as ${tc_file}"
 else
     tc_file=${MAKL_TC_FILE}
-    [ ! -f $tc_file ] && err "toolchain file \"${tc_file}\" not found"
+    [ ! -f "${tc_file}" ] && err "toolchain file \"${tc_file}\" not found"
 fi
 
 # set shlib_file
 # in case MAKL_SHLIB_FILE is set, use its content to set internal 'shlib_file'
 # otherwise (shlib by name) in case shlib file was not found locally, try to 
 # download from KL site
-if [ -z ${MAKL_SHLIB_FILE} ]
+if [ -z "${MAKL_SHLIB_FILE}" ]
 then
-    [ ! -z ${MAKL_SHLIB} ] && shlib="${MAKL_SHLIB}"
+    [ ! -z "${MAKL_SHLIB}" ] && shlib="${MAKL_SHLIB}"
     shlib_file=${MAKL_DIR}/shlib/${shlib}.mk
     locate_file shlib ${shlib_file}
     # as a last-last resort install the null shlib file
     [ $? -ne 0 ] && shlib_file=${MAKL_DIR}/shlib/null.mk
 else
     shlib_file=${MAKL_SHLIB_FILE}
-    [ ! -f $shlib_file ] && err "shared lib file \"${shlib_file}\" not found"
+    [ ! -f "${shlib_file}" ] && err "shared lib file \"${shlib_file}\" not found"
 fi
 
 # install shlib

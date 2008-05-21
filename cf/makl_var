@@ -1,5 +1,5 @@
 #
-# $Id: makl_var,v 1.23 2008/04/11 13:47:12 stewy Exp $
+# $Id: makl_var,v 1.24 2008/05/21 18:51:33 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -19,7 +19,7 @@ makl_set_var_h ()
     # if value is not defined, set to 1
     [ "${val}" ] || val="1"
 
-    if [ $3 ];  then                #string
+    if [ "$3" ];  then                #string
         val="\"${val}\""
     else                            #constant
         val="${val}"
@@ -74,8 +74,8 @@ makl_add_var_mk ()
     val=`makl_get_var_mk "${var}"`
 
     # grab from environment if defined and not already set
-    if [ $? = 0 -a ! "${isset}" = "1" ]; then
-        val=`${ECHO} ${found} | cut -s -d= -f 2`" ${val}"
+    if [ $? -eq 0 -a ! "${isset}" = "1" ]; then
+            val=`${ECHO} ${found} | cut -s -d= -f 2`" ${val}"
     fi
 
 	shift
@@ -245,7 +245,7 @@ makl_vars_def ()
     file=${makl_run_dir}/vars
     
     makl_tab_find ${file} $1
-    [ $? = 0 ] && return
+    [ $? -eq 0 ] && return
     
     makl_tab_set_row ${file} $1 "$2"
 

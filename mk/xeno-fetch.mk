@@ -1,4 +1,4 @@
-# $Id: xeno-fetch.mk,v 1.3 2008/03/04 17:06:29 tho Exp $
+# $Id: xeno-fetch.mk,v 1.4 2008/05/21 18:51:33 stewy Exp $
 #
 # xeno helper for just fetching a package from a given set of locations
 # to a local XENO_DIST_DIR.
@@ -33,14 +33,14 @@ fetch: .realfetch
 	@touch $@
 
 fetch-make:
-	[ -d $(XENO_DIST_DIR) ] || mkdir -p $(XENO_DIST_DIR) ; \
+	[ -d "$(XENO_DIST_DIR)" ] || mkdir -p $(XENO_DIST_DIR) ; \
     ( \
         cd $(XENO_DIST_DIR) ; \
         set $(XENO_FETCH_MULTI_URI) ; \
         while [ $$# -gt 0 ]; do \
             echo "now fetching $$1 into $(XENO_DIST_DIR)" ; \
             $(XENO_FETCH) $(XENO_FETCH_FLAGS) $$1 ; \
-            [ $$? = 0 ] || exit 1 ; \
+            [ $$? -eq 0 ] || exit 1 ; \
             shift; \
         done \
     ) && touch .realfetch

@@ -7,7 +7,7 @@ function err ()
 }
 
 cb="`which checkbashisms`"
-[ $? = 0 ] || err "checkbashisms tool not found"
+[ $? -eq 0 ] || err "checkbashisms tool not found"
 [ -x "${cb}" ] || err "checkbashism is not executable"
 
 for i in makl_* makl.* helpers/makl_*

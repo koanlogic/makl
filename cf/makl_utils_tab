@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab,v 1.16 2008/05/14 14:04:17 tat Exp $
+# $Id: makl_utils_tab,v 1.17 2008/05/21 18:51:33 stewy Exp $
 #
 
 
@@ -13,7 +13,7 @@
 ##
 makl_tab_find ()
 {
-    [ -r $1 ] || return 1
+    [ -r "$1" ] || return 1
 
     grep "^$2|" $1 > /dev/null
 
@@ -41,11 +41,11 @@ makl_tab_set ()
     i=1
 
     # create file if doesn't exist
-    [ -e ${tab} ] || touch ${tab}
+    [ -e "${tab}" ] || touch ${tab}
 
     line=`grep "^${id}|" ${tab}`
 
-    if [ $? = 0 ]; then     
+    if [ $? -eq 0 ]; then     
        # subst the value
 
        # delete the old line
@@ -89,15 +89,15 @@ makl_tab_set_row ()
     i=1
 
     # create file if doesn't exist
-    [ -e $1 ] || touch $1
+    [ -e "$1" ] || touch $1
 
     shift
 
     makl_tab_find ${file} $1
-    [ $? = 0 ] && return
+    [ $? -eq 0 ] && return
 
     for arg in "$@"; do
-        if [ ${i} = 1 ]; then
+        if [ ${i} -eq 1 ]; then
             line="${arg}"
         else
             [ -z "${arg}" ] && arg=" "
@@ -120,10 +120,10 @@ makl_tab_set_row ()
 ##
 makl_tab_get ()
 {
-    [ -r $1 ] || return 1
+    [ -r "$1" ] || return 1
 
     found=`grep "^$2|" $1`
-    [ $? = 0 ] || return $? 
+    [ $? -eq 0 ] || return $? 
 
     val=`${ECHO} ${found} | cut -s -f $3 -d "|"`
     ret=$?
@@ -164,7 +164,7 @@ makl_tab_var ()
         [ -z "${elem}" ] && break
         var=`${ECHO} ${elem} | cut -f 1 -d "="`
         val=`${ECHO} ${elem} | cut -f 2 -d "="`
-        if [ ${var} = $2 ] || [ -z ${delim} ]; then
+        if [ "${var}" = "$2" ] || [ -z "${delim}" ]; then
             found=1
             ${ECHO} ${val}
             break
@@ -173,7 +173,7 @@ makl_tab_var ()
         i=`expr ${i} + 1`   # avoid bash-ism, was: "i=$((${i}+1))"
     done
 
-    if [ ${found} = 0 ]; then
+    if [ ${found} -eq 0 ]; then
         return 1
     else
         return 0

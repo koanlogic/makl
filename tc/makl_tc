@@ -1,5 +1,5 @@
 #
-# $Id: makl_tc,v 1.19 2007/09/13 10:31:26 tat Exp $
+# $Id: makl_tc,v 1.20 2008/05/21 18:51:34 stewy Exp $
 #
 
 # _makl_tc_cf input output
@@ -55,7 +55,7 @@ _makl_tc_mk ()
 makl_tc ()
 {
     [ $# -ne 3 ] && makl_err 1 "makl_tc: ${makl_tc_usage}"
-    [ ! -f $1 ] && makl_err 1 "$1 is not a valid file pathname"
+    [ ! -f "$1" ] && makl_err 1 "$1 is not a valid file pathname"
 
     tc_default=${MAKL_DIR}/tc/default.tc
 

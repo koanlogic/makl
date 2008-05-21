@@ -17,8 +17,8 @@ help ()
 }
 
 
-[ $1 ] || help
-[ -r $1 ] || die 1 "Input file unreadable"
+[ "$1" ] || help
+[ -r "$1" ] || die 1 "Input file unreadable"
 
 file=`basename $1`
 echo "namespace ${file} {"

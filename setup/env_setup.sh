@@ -98,7 +98,7 @@ pickup_envfile ()
 }
 
 [ ${__interactive} -eq 1 ] && validate_shell && pickup_envfile
-[ -e ${__maklrc} ] && echo "warning: overriding an existing file"
+[ -e "${__maklrc}" ] && echo "warning: overriding an existing file"
 touch ${__maklrc}
 [ $? -ne 0 ] && exit 1
 

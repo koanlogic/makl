@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.38 2008/04/10 18:17:17 stewy Exp $
+# $Id: makl_code,v 1.39 2008/05/21 18:51:33 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -12,7 +12,7 @@
 ##
 makl_compile ()
 {
-    if [ ! "$1" ]; then
+    if [ -z "$1" ]; then
         makl_err 1 "makl_compile called with no arguments"
     fi
 
@@ -49,9 +49,9 @@ makl_compile ()
 makl_write_c ()
 {
     # create a clean file
-    [ -r $1 ] && rm -f $1
+    [ -r "$1" ] && rm -f $1
 
-    if [ $2 = 1 ]; then
+    if [ $2 -eq 1 ]; then
         ${ECHO} "int main() {" >> $1
     fi
     
@@ -59,7 +59,7 @@ makl_write_c ()
         ${ECHO} ${line} >> $1
     done
     
-    if [ $2 = 1 ]; then
+    if [ $2 -eq 1 ]; then
         {
         ${ECHO} "return 0;"
         ${ECHO} "}"
@@ -83,7 +83,7 @@ makl_compile_code ()
     makl_write_c ${file} $1
 
     makl_compile ${file} $2
-    [ $? = 0 ] || return 1
+    [ $? -eq 0 ] || return 1
 
     return 0
 }
@@ -102,7 +102,7 @@ makl_exec_code ()
     
     makl_write_c ${file} $1
     makl_compile ${file} $2 
-    [ $? = 0 ] || return 1
+    [ $? -eq 0 ] || return 1
 
     # skip execution on cross-compilation
     [ -z `makl_get "__cross_compile__"` ] || return 0
@@ -134,11 +134,11 @@ makl_checkfunc ()
 
     ${ECHO} "$2();" | makl_compile_code 1 "$3"
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2`
         return 0
     else
-        [ $1 = 0 ] || makl_err 1 "failed check on required function $2!"
+        [ $1 -eq 0 ] || makl_err 1 "failed check on required function $2!"
         makl_warn "failed check on optional function $2"
         makl_unset_var "HAVE_"`makl_upper $2`
         return 1
@@ -165,11 +165,11 @@ makl_checkheader ()
         ${ECHO} "int main() { return 0; }"
     } | makl_compile_code 0
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2`
         return 0
     else
-        [ $1 = 0 ] || makl_err 1 "failed check on required header $2!"
+        [ $1 -eq 0 ] || makl_err 1 "failed check on required header $2!"
         makl_unset_var "HAVE_"`makl_upper $2`
         makl_warn "failed check on optional header $2"
         return 1
@@ -213,11 +213,11 @@ makl_checktype ()
             }" 
     } | makl_compile_code 0 
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required type ${type}!"
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required type ${type}!"
         makl_unset_var "HAVE_"`makl_upper ${def_type}`
         makl_warn "failed check on optional type $2"
         return 1
@@ -255,11 +255,11 @@ makl_checkextern()
             }" 
     } | makl_compile_code 0 $*
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
         return 0
     else
-        [ ${opt} = 0 ] || \
+        [ ${opt} -eq 0 ] || \
             makl_err 1 "failed check on required extern variable ${var}!"
         makl_unset_var "HAVE_"`makl_upper ${var}`
         makl_warn "failed check on optional extern variable $2"
@@ -308,11 +308,11 @@ makl_checksymbol()
             " 
     } | makl_compile_code 0 
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
         return 0
     else
-        [ ${opt} = 0 ] || makl_err 1 "failed check on required symbol ${var}!"
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required symbol ${var}!"
         makl_unset_var "HAVE_"`makl_upper ${var}`
         makl_warn "failed check on optional symbol ${var}"
         return 1
@@ -360,11 +360,11 @@ makl_checkstructelem()
     } | makl_compile_code 0 
 
 
-    if [ $? = 0 ]; then
+    if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}_${elem}`
         return 0
     else
-        [ ${opt} = 0 ] || \
+        [ ${opt} -eq 0 ] || \
             makl_err 1 "failed check on required struct elem ${elem}!"
         makl_unset_var "HAVE_"`makl_upper ${def_type}_${elem}`
         makl_warn "failed check on optional struct elem ${elem}"
