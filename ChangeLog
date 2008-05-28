@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.53 2008/05/21 16:18:31 tho Exp $
+$Id: ChangeLog,v 1.54 2008/05/28 14:53:01 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
@@ -12,6 +12,7 @@ MaKL xxx
 	  the built/installed program/script name
 	- small refactoring of lib.mk and prog.mk templates
 	- add assert-var function to test variables before use
+	- fix toolchain hardcoding error in configure
 
 MaKL 1.7.1
 	- fix usage of toolchain variables from configure scripts 

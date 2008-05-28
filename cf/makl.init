@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.38 2008/05/21 18:51:33 stewy Exp $
+# $Id: makl.init,v 1.39 2008/05/28 14:53:01 tho Exp $
 #
 
 # read in just once
@@ -54,7 +54,7 @@ if [ ! -r "${MAKL_ETC}"/toolchain.cf ]; then
 fi
 
 # import toolchain variables locally
-. ${MAKL_DIR}/etc/toolchain.cf
+. ${MAKL_ETC}/toolchain.cf
 
 # environment has priority over toolchain
 . ${makl_run_dir}/env 2> /dev/null
