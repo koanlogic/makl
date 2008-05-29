@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.39 2008/05/21 18:51:33 stewy Exp $
+# $Id: makl_code,v 1.40 2008/05/29 16:11:33 tat Exp $
 #
 
 ##\brief Compile a C file.
@@ -153,25 +153,34 @@ makl_checkfunc ()
 ##  \param $1 0:optional,1:required
 ##  \param $2 id of header
 ##  \param $3 header file
+##  \param $* header files to include first
 ##
 makl_checkheader ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
 
-    makl_info "checking for header $2"
+    opt=$1
+    id=$2
+    header=$3
+    shift; shift; shift;
+
+    makl_info "checking for header ${id}"
 
     {
-        ${ECHO} "#include $3"
+        for arg in $* ; do
+            ${ECHO} "#include ${arg}"
+        done
+        ${ECHO} "#include ${header}"
         ${ECHO} "int main() { return 0; }"
     } | makl_compile_code 0
 
     if [ $? -eq 0 ]; then
-        makl_set_var "HAVE_"`makl_upper $2`
+        makl_set_var "HAVE_"`makl_upper ${id}`
         return 0
     else
-        [ $1 -eq 0 ] || makl_err 1 "failed check on required header $2!"
-        makl_unset_var "HAVE_"`makl_upper $2`
-        makl_warn "failed check on optional header $2"
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required header ${id}!"
+        makl_unset_var "HAVE_"`makl_upper ${id}`
+        makl_warn "failed check on optional header ${id}"
         return 1
     fi
 }

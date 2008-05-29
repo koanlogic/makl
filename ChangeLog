@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.55 2008/05/29 11:26:57 tho Exp $
+$Id: ChangeLog,v 1.56 2008/05/29 16:11:33 tat Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
+	- makl_checkheader: new arg to specify any header file to include before 
+      the one we're looking for
 	- subdir template rewrite
 	- installed makl commands can be {pre,suf}fixed via --script_{pre,suf}fix 
 	  configure arguments
