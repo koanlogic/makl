@@ -1,4 +1,4 @@
-# $Id: subdir.mk,v 1.33 2008/05/29 11:26:57 tho Exp $
+# $Id: subdir.mk,v 1.34 2008/05/29 12:11:07 tho Exp $
 #
 # Variables:
 # - SUBDIR      A list of subdirectories that should be built as well.
@@ -28,11 +28,9 @@ G_PLAIN = $(filter-out %-pre %-post, $(G))
 # hook'd MAKECMDGOALS
 G_HOOK = $(filter %-pre %-post, $(G))
 
-.PHONY: $(G) goals
+.PHONY: $(G)
 
-$(MAKECMDGOALS): goals
-
-goals: $(G)
+$(MAKECMDGOALS): $(G)
 
 # empty hooks (caller may override them)
 $(G_HOOK):
