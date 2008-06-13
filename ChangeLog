@@ -1,10 +1,12 @@
-$Id: ChangeLog,v 1.56 2008/05/29 16:11:33 tat Exp $
+$Id: ChangeLog,v 1.57 2008/06/13 21:09:31 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
-	- makl_checkheader: new arg to specify any header file to include before 
-      the one we're looking for
+	- explicit 'distclean' target (and related DISTCLEANFILES variable) added
+	  to all mk templates
+	- makl_checkheader: new arg to specify any header file to include before
+	  the one we're looking for
 	- subdir template rewrite
 	- installed makl commands can be {pre,suf}fixed via --script_{pre,suf}fix 
 	  configure arguments

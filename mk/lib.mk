@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.48 2008/05/09 08:33:11 tho Exp $
+# $Id: lib.mk,v 1.49 2008/06/13 21:09:31 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -83,6 +83,11 @@ clean-hook-pre clean-hook-post:
 else
 clean:
 endif
+
+##
+## distclean target
+##
+include distclean.mk
 
 ##
 ## install target
@@ -171,33 +176,34 @@ include priv/deps.mk
 	@echo "The targets all, clean, install, uninstall also exist in -shared "
 	@echo "flavour in case SHLIB is set."
 	@echo
-	@echo "---------------------                                            "
-	@echo " Available variables                                             "
-	@echo "---------------------                                            "
-	@echo "LIB           the library name                                   "
-	@echo "DPADD         additional build dependencies                      "
-	@echo "CLEANFILES    additional clean files (use +=)                    "
-	@echo "CFLAGS        flags to be supplied to the C compiler             "
-	@echo "CXXFLAGS      flags supplied to be supplied to the C++ compiler  "
-	@echo "LIBOWN        user ID of the installed executable                "
-	@echo "LIBGRP        group ID of the installed excutable                "
-	@echo "LIBMODE       file mode bits of the installed executable         "
-	@echo "LIBDIR        destination directory of the installed executable  "
-	@echo "SHLIB         if set shared library will also be built           "
+	@echo "---------------------                                               "
+	@echo " Available variables                                                "
+	@echo "---------------------                                               "
+	@echo "LIB              the library name                                   "
+	@echo "DPADD            additional build dependencies                      "
+	@echo "CLEANFILES       additional clean files (use +=)                    "
+	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
+	@echo "CFLAGS           flags to be supplied to the C compiler             "
+	@echo "CXXFLAGS         flags supplied to be supplied to the C++ compiler  "
+	@echo "LIBOWN           user ID of the installed executable                "
+	@echo "LIBGRP           group ID of the installed excutable                "
+	@echo "LIBMODE          file mode bits of the installed executable         "
+	@echo "LIBDIR           destination directory of the installed executable  "
+	@echo "SHLIB            if set shared library will also be built           "
 	@echo
-	@echo "The following flags are available only if SHLIB is set:          "
-	@echo "SHLIB_MAJOR   shared library major number (i.e. the 1 in 1.2.3)  "
-	@echo "SHLIB_MINOR   shared library minor number (i.e. the 2 in 1.2.3)  "
-	@echo "SHLIB_TEENY   shared library teeny number (i.e. the 3 in 1.2.3)  "
-	@echo "CPICFLAGS     extra compiler flags (Linux, Darwin, FreeBSD)      "
-	@echo "BUNDLE        (Darwin only) build a loadable module instead      "
-	@echo "SHLIB_LDFLAGS flags to be supplied to the linker (use +=)        "
-	@echo "SHLIB_NAME    complete name of the shared library or bundle      "
-	@echo "SONAME        shared object name (all but Darwin)                "
-	@echo "SHLIB_LINK    link name (all but Darwin)                         "
-	@echo "SHLIB_LINK1   first link name (Darwin only)                      "
-	@echo "SHLIB_LINK2   second link name (Darwin only)                     "
-	@echo "PICNAME       name of the pic archive (NetBSD only)              "
+	@echo "The following flags are available only if SHLIB is set:             "
+	@echo "SHLIB_MAJOR   shared library major number (i.e. the 1 in 1.2.3)     "
+	@echo "SHLIB_MINOR   shared library minor number (i.e. the 2 in 1.2.3)     "
+	@echo "SHLIB_TEENY   shared library teeny number (i.e. the 3 in 1.2.3)     "
+	@echo "CPICFLAGS     extra compiler flags (Linux, Darwin, FreeBSD)         "
+	@echo "BUNDLE        (Darwin only) build a loadable module instead         "
+	@echo "SHLIB_LDFLAGS flags to be supplied to the linker (use +=)           "
+	@echo "SHLIB_NAME    complete name of the shared library or bundle         "
+	@echo "SONAME        shared object name (all but Darwin)                   "
+	@echo "SHLIB_LINK    link name (all but Darwin)                            "
+	@echo "SHLIB_LINK1   first link name (Darwin only)                         "
+	@echo "SHLIB_LINK2   second link name (Darwin only)                        "
+	@echo "PICNAME       name of the pic archive (NetBSD only)                 "
 	@echo
-	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/lib.mk      "
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/lib.mk         "
 	@echo

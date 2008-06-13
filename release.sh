@@ -31,7 +31,7 @@ yesno ()
         case ${answer} in
             [Yy]) return 0 ;;
             [nN]) return 1 ;;
-            *) /bin/echo -n "please say [yY] or [nN]: " ;; 
+            *) /bin/echo -n "please say [yY] or [nN]: " ;;
         esac
     done 
 }       

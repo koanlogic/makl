@@ -1,5 +1,5 @@
 #
-# $Id: incs.mk,v 1.28 2008/05/08 15:53:35 tho Exp $
+# $Id: incs.mk,v 1.29 2008/06/13 21:09:31 tho Exp $
 #
 # Only define the install and uninstall targets.
 #
@@ -32,6 +32,11 @@ clean-hook-pre clean-hook-post:
 else
 clean:
 endif
+
+##
+## distclean target
+##
+include distclean.mk
 
 ##
 ## depend target (nothing but hooks)
@@ -103,25 +108,26 @@ endif
 ##
 .help:
 	@echo
-	@echo "-------------------                                              "
-	@echo " Available targets                                               "
-	@echo "-------------------                                              "
-	@echo "install     install the header files                             "
-	@echo "uninstall   remove the installed header files                    "
+	@echo "-------------------                                                 "
+	@echo " Available targets                                                  "
+	@echo "-------------------                                                 "
+	@echo "install     install the header files                                "
+	@echo "uninstall   remove the installed header files                       "
 	@echo
-	@echo "Each target T given above (and also all other standard MaKL      "
-	@echo "targets, unless explicitly inhibited) has T-hook-pre and         "
-	@echo "T-hook-post companion targets.  These (void) targets are at      "
-	@echo "client's disposal and will always be called before and after the "
+	@echo "Each target T given above (and also all other standard MaKL         "
+	@echo "targets, unless explicitly inhibited) has T-hook-pre and            "
+	@echo "T-hook-post companion targets.  These (void) targets are at         "
+	@echo "client's disposal and will always be called before and after the    "
 	@echo "associated target"
 	@echo
-	@echo "---------------------                                            "
-	@echo " Available variables                                             "
-	@echo "---------------------                                            "
-	@echo "INCS        the list of header files to install                  "
-	@echo "INCOWN      user ID of the installed files                       "
-	@echo "INCGRP      group ID of the installed files                      "
-	@echo "INCMODE     file mode bits of the installed files                "
+	@echo "---------------------                                               "
+	@echo " Available variables                                                "
+	@echo "---------------------                                               "
+	@echo "INCS             the list of header files to install                "
+	@echo "INCOWN           user ID of the installed files                     "
+	@echo "INCGRP           group ID of the installed files                    "
+	@echo "INCMODE          file mode bits of the installed files              "
+	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/incs.mk     "
 	@echo

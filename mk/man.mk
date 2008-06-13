@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.26 2008/05/08 15:53:35 tho Exp $
+# $Id: man.mk,v 1.27 2008/06/13 21:09:31 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -42,6 +42,11 @@ clean-hook-pre clean-hook-post:
 else
 clean:
 endif
+
+##
+## distclean target
+##
+include distclean.mk
 
 ##
 ## depend target (nothing but hooks)
@@ -140,27 +145,28 @@ endif
 ##
 .help:
 	@echo
-	@echo "-------------------                                              "
-	@echo " Available targets                                               "
-	@echo "-------------------                                              "
-	@echo "install     install the files                                    "
-	@echo "uninstall   remove the installed files                           "
+	@echo "-------------------                                                 "
+	@echo " Available targets                                                  "
+	@echo "-------------------                                                 "
+	@echo "install     install the files                                       "
+	@echo "uninstall   remove the installed files                              "
 	@echo
-	@echo "Each target T given above (and also all other standard MaKL      "
-	@echo "targets, unless explicitly inhibited via NO_<TARGET> variable)   "
-	@echo "has T-hook-pre and T-hook-post companion targets.                "
-	@echo "These (void) targets are at client's disposal and will always be "
-	@echo "called before and after the associated target                    "
+	@echo "Each target T given above (and also all other standard MaKL         "
+	@echo "targets, unless explicitly inhibited via NO_<TARGET> variable)      "
+	@echo "has T-hook-pre and T-hook-post companion targets.                   "
+	@echo "These (void) targets are at client's disposal and will always be    "
+	@echo "called before and after the associated target                       "
 	@echo
-	@echo "---------------------                                            "
-	@echo " Available variables                                             "
-	@echo "---------------------                                            "
-	@echo "MANFILES  manual page(s) to be installed                         "
-	@echo "MANDIR    top level man pages' directory                         "
-	@echo "MANOWN    ID of the installed files                              "
-	@echo "MANGRP    ID of the installed files                              "
-	@echo "MANMODE   mode bits of the installed files                       "
-	@echo "MLINKS    ordered couplets of man page and its symlink           "
+	@echo "---------------------                                               "
+	@echo " Available variables                                                "
+	@echo "---------------------                                               "
+	@echo "MANFILES         manual page(s) to be installed                     "
+	@echo "MANDIR           top level man pages' directory                     "
+	@echo "MANOWN           ID of the installed files                          "
+	@echo "MANGRP           ID of the installed files                          "
+	@echo "MANMODE          mode bits of the installed files                   "
+	@echo "MLINKS           ordered couplets of man page and its symlink       "
+	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
 	@echo
-	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/man.mk      "
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/man.mk         "
 	@echo

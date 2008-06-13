@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.13 2008/05/08 15:53:35 tho Exp $
+# $Id: files.mk,v 1.14 2008/06/13 21:09:31 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -40,6 +40,11 @@ clean-hook-pre clean-hook-post:
 else    # NO_CLEAN
 clean:
 endif   # !NO_CLEAN
+
+##
+## distclean target
+##
+include distclean.mk
 
 ##
 ## install target

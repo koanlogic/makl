@@ -1,4 +1,4 @@
-# $Id: script.mk,v 1.8 2008/05/10 07:07:13 tho Exp $
+# $Id: script.mk,v 1.9 2008/06/13 21:09:31 tho Exp $
 #
 # Helper for shell or other interpreted scripts installation|removal which
 # uses the prog.mk template.
@@ -44,29 +44,29 @@ else    # target == .help
 ##
 .help:
 	@echo
-	@echo "-------------------                                              "
-	@echo " Available targets                                               "
-	@echo "-------------------                                              "
+	@echo "-------------------                                                 "
+	@echo " Available targets                                                  "
+	@echo "-------------------                                                 "
 ifneq ($(__SCRIPT),$(strip $(SCRIPT)))
-	@echo "all         create alias of the original script                  "
-	@echo "clean       delete alias of the original script                  "
+	@echo "all         create alias of the original script                     "
+	@echo "clean       delete alias of the original script                     "
 endif
-	@echo "install     install the script                                   "
-	@echo "uninstall   remove the installed script                          "
+	@echo "install     install the script                                      "
+	@echo "uninstall   remove the installed script                             "
 	@echo
-	@echo "Each target T given above has T-hook-pre and T-hook-post         "
-	@echo "companion targets.  These (void) targets are at client's disposal"
-	@echo "and will always be called before and after the associated target "
+	@echo "Each target T given above has T-hook-pre and T-hook-post            "
+	@echo "companion targets.  These (void) targets are at client's disposal   "
+	@echo "and will always be called before and after the associated target    "
 	@echo
-	@echo "---------------------                                            "
-	@echo " Available variables                                             "
-	@echo "---------------------                                            "
-	@echo "SCRIPT           the script file name                            "
-	@echo "SCRIPT_PREFIX    concatenate this as prefix to SCRIPT            "
-	@echo "SCRIPT_SUFFIX    concatenate this as postfix to SCRIPT           "
+	@echo "---------------------                                               "
+	@echo " Available variables                                                "
+	@echo "---------------------                                               "
+	@echo "SCRIPT           the script file name                               "
+	@echo "SCRIPT_PREFIX    concatenate this as prefix to SCRIPT               "
+	@echo "SCRIPT_SUFFIX    concatenate this as postfix to SCRIPT              "
+	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
 	@echo
-	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/script.mk   "
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/script.mk      "
 	@echo
 endif   # target != .help
-
 

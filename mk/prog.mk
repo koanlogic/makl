@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.42 2008/05/09 15:00:30 tho Exp $
+# $Id: prog.mk,v 1.43 2008/06/13 21:09:31 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -71,6 +71,11 @@ clean:
 endif
 
 ##
+## distclean target
+##
+include distclean.mk
+
+##
 ## install target
 ## 
 ifndef NO_INSTALL
@@ -117,38 +122,39 @@ include priv/deps.mk
 ##
 .help:
 	@echo
-	@echo "-------------------                                              "
-	@echo " Available targets                                               "
-	@echo "-------------------                                              "
-	@echo "all         build the executable (it's the default target)       "
-	@echo "clean       remove the executable and intermediate objects       "
-	@echo "install     install the program                                  "
-	@echo "uninstall   remove the installed program                         "
-	@echo "depend      write include and library dependencies to .depend    "
-	@echo "cleandepend delete .depend file                                  "
+	@echo "-------------------                                                 "
+	@echo " Available targets                                                  "
+	@echo "-------------------                                                 "
+	@echo "all         build the executable (it's the default target)          "
+	@echo "clean       remove the executable and intermediate objects          "
+	@echo "install     install the program                                     "
+	@echo "uninstall   remove the installed program                            "
+	@echo "depend      write include and library dependencies to .depend       "
+	@echo "cleandepend delete .depend file                                     "
 	@echo
-	@echo "Each target T given above has T-hook-pre and T-hook-post         "
-	@echo "companion targets.  These (void) targets are at client's disposal"
-	@echo "and will always be called before and after the associated target "
+	@echo "Each target T given above has T-hook-pre and T-hook-post            "
+	@echo "companion targets.  These (void) targets are at client's disposal   "
+	@echo "and will always be called before and after the associated target    "
 	@echo
-	@echo "---------------------                                            "
-	@echo " Available variables                                             "
-	@echo "---------------------                                            "
-	@echo "USE_CXX      if defined use C++ compiler instead of C compiler   "
-	@echo "PROG         the executable program name                         "
-	@echo "PROG_PREFIX  concatenate this as prefix to PROG                  "
-	@echo "PROG_SUFFIX  concatenate this as postfix to PROG                 "
-	@echo "CFLAGS       flags given to the C compiler                       "
-	@echo "CXXFLAGS     flags given to the C++ compiler                     "
-	@echo "OBJS         file objects that build the program (use +=)        "
-	@echo "LDADD        library dependencies                                "
-	@echo "LDFLAGS      flags to be given to the linker                     "
-	@echo "DPADD        additional build dependencies                       "
-	@echo "CLEANFILES   additional clean files (use +=)                     "
-	@echo "BINOWN       user ID of the installed executable                 "
-	@echo "BINGRP       group ID of the installed excutable                 "
-	@echo "BINMODE      file mode bits of the installed executable          "
-	@echo "BINDIR       destination directory of the installed executable   "
+	@echo "---------------------                                               "
+	@echo " Available variables                                                "
+	@echo "---------------------                                               "
+	@echo "USE_CXX          if defined use C++ linker instead of C linker      "
+	@echo "PROG             the executable program name                        "
+	@echo "PROG_PREFIX      concatenate this as prefix to PROG                 "
+	@echo "PROG_SUFFIX      concatenate this as postfix to PROG                "
+	@echo "CFLAGS           flags given to the C compiler                      "
+	@echo "CXXFLAGS         flags given to the C++ compiler                    "
+	@echo "OBJS             file objects that build the program (use +=)       "
+	@echo "LDADD            library dependencies                               "
+	@echo "LDFLAGS          flags to be given to the linker                    "
+	@echo "DPADD            additional build dependencies                      "
+	@echo "CLEANFILES       additional clean files (use +=)                    "
+	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
+	@echo "BINOWN           user ID of the installed executable                "
+	@echo "BINGRP           group ID of the installed excutable                "
+	@echo "BINMODE          file mode bits of the installed executable         "
+	@echo "BINDIR           destination directory of the installed executable  "
 	@echo
-	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk     "
+	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk        "
 	@echo
