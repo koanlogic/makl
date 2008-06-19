@@ -1,4 +1,4 @@
-# $Id: makl_deps,v 1.25 2008/05/21 18:57:03 stewy Exp $
+# $Id: makl_deps,v 1.26 2008/06/19 19:00:00 stewy Exp $
 #
 
 ##\brief Add a required dependency.
@@ -8,6 +8,7 @@
 ##   \li 'lib' $1 $2 $3 $4, where \e $3 are CFLAGS, and \e $4 LDFLAGS for the
 ##                        library (both optional). By default the flags are
 ##                        determined by the library name.
+##   \li 'slib' $1 $2 $3, where \e $3 are CFLAGS (optional)
 ##   \li 'featx' $1 $2 $3, where \e $3 (optional) is the name of the variable 
 ##                       to be defined containing the path to the feature. 
 ##                       If undefined, no variables will be set.
@@ -30,6 +31,9 @@ makl_require ()
             lib)
                 ${ECHO} "$2|$3|$4" >> ${file}
             ;;
+            slib)
+                ${ECHO} "$2|$3" >> ${file}
+            ;;
             featx)
                 ${ECHO} "$2|$3" >> ${file}
             ;;
@@ -49,6 +53,9 @@ makl_require ()
 ##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
 ##                             library (both optional). By default the flags are
 ##                             determined by the library name.
+##   \li 'lib' $1 $2 $3 $4, where \e $4 are CFLAGS (optional).
+##                             By default the flags are determined by the 
+##                             library name.
 ##   \li 'featx' $1 $2 $3 $4, where \e $4 (optional) is the name of the variable
 ##                            to be defined containing the path to the feature. 
 ##                            If undefined, no variables will be set.
@@ -71,6 +78,9 @@ makl_optional ()
         case $2 in
             lib)
                 ${ECHO} "$3|$1|$4|$5" >> ${file}
+            ;;
+            slib)
+                ${ECHO} "$3|$1|$4" >> ${file}
             ;;
             featx)
                 ${ECHO} "$3|$1|$4" >> ${file}
@@ -101,9 +111,10 @@ makl_req_found ()
     ${ECHO} $2 >> ${file}
 }
 
-##\brief Search for library in default directories.
+##\brief Search for dynamic library in default directories.
 ##
-##  Search for library \e $1 in default directories (as defined in etc/args.cf).
+##  Search for dynamic library \e $1 in default directories (as defined in 
+##        etc/args.cf).
 ##  Compilation is tested with CFLAGS \e $2 and LDFLAGS \e $3.
 ##
 ##   \param $1 required lib  
@@ -126,8 +137,8 @@ _makl_search_lib ()
         # look for base dir in __libs__ 
         libs=`makl_get "__libs__"`
         if [ "${libs}" ]; then
-          makl_libdep $1 ${libs} "$2" "$3"
-          [ $? -eq 0 ] && return 0
+            makl_libdep $1 ${libs} "$2" "$3"
+            [ $? -eq 0 ] && return 0
         fi
         val=`makl_tab_var "${dft}" "BASE"` 
         dirs=`${ECHO} ${val} | sed 's/:/ /g'`
@@ -137,6 +148,48 @@ _makl_search_lib ()
 
     for dir in ${dirs}; do
         makl_libdep $1 ${dir} "$2" "$3"
+        [ $? -eq 0 ] && return 0
+    done 
+
+    return 1
+}
+
+#\brief Search for static library in default directories.
+#
+#  Search for static library \e $1 in default directories (as defined in 
+#        etc/args.cf).
+#  Compilation is tested with CFLAGS.
+#
+#   \param $1 required lib  
+#   \param $2 cflags
+#   \param 0 on success, 1 on lib not found.
+#
+_makl_search_slib ()
+{
+    f_args=${makl_run_dir}/args
+    f_args_lib=${makl_run_dir}/args_slib
+    
+    # get feature argument defaults
+    dft=`makl_tab_get ${f_args} "lib" 3`
+
+    # get specific options
+    path=`makl_tab_get ${f_args_lib} $1 2`
+
+    if [ -z "${path}" ]; then
+        # look for base dir in __libs__ 
+        libs=`makl_get "__libs__"`
+        if [ "${libs}" ]; then
+          makl_slibdep $1 ${libs} "$2" 
+          [ $? -eq 0 ] && return 0
+        fi
+        val=`makl_tab_var "${dft}" "BASE"` 
+        dirs=`${ECHO} ${val} | sed 's/:/ /g'`
+    else
+        dirs=${path} 
+    fi
+
+    for dir in ${dirs}; do
+        makl_slibdep $1 ${dir} "$2" 
         [ $? -eq 0 ] && return 0
     done 
 
@@ -211,6 +264,10 @@ _makl_require_check ()
                     cflags=`makl_tab_elem "${line}" 2`
                     ldflags=`makl_tab_elem "${line}" 3`
                     ;;
+                slib)
+                    cflags=`makl_tab_elem "${line}" 2`
+                    libname=`makl_tab_elem "${line}" 3`
+                    ;;
             esac
             cat ${f_have} | {
                 found=0
@@ -225,6 +282,9 @@ _makl_require_check ()
                     case $1 in
                         lib)
                             _makl_search_lib "${req}" "${cflags}" "${ldflags}"
+                            ;;
+                        slib)
+                            _makl_search_slib "${req}" "${cflags}" 
                             ;;
                         featx) 
                             _makl_search_featx "${req}"
@@ -252,6 +312,14 @@ _makl_require_check ()
                     ldflags=`makl_tab_elem "${line}" 4`
                     if [ "${dft}" = "1" ]; then
                         _makl_search_lib "${opt}" "${cflags}" "${ldflags}"
+                        [ $? -eq 0 ] || \
+                            makl_warn "could not find optional $1 dependency ${opt}"
+                    fi
+                    ;;
+                slib)
+                    cflags=`makl_tab_elem "${line}" 3`
+                    if [ "${dft}" = "1" ]; then
+                        _makl_search_slib "${opt}" "${cflags}" 
                         [ $? -eq 0 ] || \
                             makl_warn "could not find optional $1 dependency ${opt}"
                     fi
@@ -301,5 +369,6 @@ _makl_deps_check ()
     [ -z `makl_get "__noconfig__"` ] || return
     makl_info "checking dependencies"
     _makl_require_check "lib"
+    _makl_require_check "slib"
     _makl_require_check "featx"
 }

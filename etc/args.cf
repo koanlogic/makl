@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.12 2008/04/18 09:27:20 stewy Exp $
+# $Id: args.cf,v 1.13 2008/06/19 19:00:00 stewy Exp $
 #
 
 # general settings
@@ -81,7 +81,12 @@ makl_args_def   "defbinmode" \
 makl_args_def   "lib" \
                 "-X=BASE" \
                 "BASE=/usr/local:/usr" \
-                "set libX to have BASE dir"
+                "set shared lib X to have BASE dir"
+
+makl_args_def   "slib" \
+                "-X=BASE" \
+                "BASE=/usr/local:/usr" \
+                "set static lib X to have BASE dir"
 
 makl_args_def   "libs" \
                 "=BASE" \

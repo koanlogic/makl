@@ -1,8 +1,9 @@
-$Id: ChangeLog,v 1.57 2008/06/13 21:09:31 tho Exp $
+$Id: ChangeLog,v 1.58 2008/06/19 19:00:00 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL xxx
+	- support for static library dependencies
 	- explicit 'distclean' target (and related DISTCLEANFILES variable) added
 	  to all mk templates
 	- makl_checkheader: new arg to specify any header file to include before
