@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.5 2008/05/09 15:00:30 tho Exp $
+# $Id: deps.mk,v 1.6 2008/06/24 16:00:20 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -73,6 +73,7 @@ endif
 #
 # NOTE that basename of grammar and lexical files must differ from that of any 
 # other source file which otherwise would be overwritten/lost.
+ifndef NO_LY_AUTODEP
 ifdef SRCS
 __YSRCS = $(wildcard *.y)
 ifneq ($(__YSRCS),)
@@ -85,3 +86,4 @@ ifneq ($(__LSRCS),)
     LDADD += -ll
 endif
 endif
+endif   # NO_LY_AUTODEP

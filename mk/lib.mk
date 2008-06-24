@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.49 2008/06/13 21:09:31 tho Exp $
+# $Id: lib.mk,v 1.50 2008/06/24 16:00:20 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -30,6 +30,7 @@ ALL_EXTS = $(C_EXTS) $(CXX_EXTS)
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
+OBJS += $(EXTRA_OBJS)
 
 ##
 ## Default obj format is ELF
@@ -185,6 +186,7 @@ include priv/deps.mk
 	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
 	@echo "CFLAGS           flags to be supplied to the C compiler             "
 	@echo "CXXFLAGS         flags supplied to be supplied to the C++ compiler  "
+	@echo "EXTRA_OBJS       other file objects that build the library          "
 	@echo "LIBOWN           user ID of the installed executable                "
 	@echo "LIBGRP           group ID of the installed excutable                "
 	@echo "LIBMODE          file mode bits of the installed executable         "

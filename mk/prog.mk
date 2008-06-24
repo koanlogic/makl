@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.43 2008/06/13 21:09:31 tho Exp $
+# $Id: prog.mk,v 1.44 2008/06/24 16:00:20 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -29,6 +29,7 @@ ALL_EXTS = .c .cc .C .cpp .cxx .c++
 
 # filter out all possible C/C++ extensions to get the objects from SRCS
 OBJS = $(call calc-objs, $(SRCS), $(ALL_EXTS))
+OBJS += $(EXTRA_OBJS)
 
 # dependency chain
 __LDS = $(PRE_LDADD) $(LDADD) $(POST_LDADD) $(LDFLAGS)
@@ -145,7 +146,7 @@ include priv/deps.mk
 	@echo "PROG_SUFFIX      concatenate this as postfix to PROG                "
 	@echo "CFLAGS           flags given to the C compiler                      "
 	@echo "CXXFLAGS         flags given to the C++ compiler                    "
-	@echo "OBJS             file objects that build the program (use +=)       "
+	@echo "EXTRA_OBJS       other file objects that build the program          "
 	@echo "LDADD            library dependencies                               "
 	@echo "LDFLAGS          flags to be given to the linker                    "
 	@echo "DPADD            additional build dependencies                      "
