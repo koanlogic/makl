@@ -1,53 +1,66 @@
 #
-# $Id: makl_libdep,v 1.21 2008/06/19 19:00:00 stewy Exp $
+# $Id: makl_libdep,v 1.22 2008/06/25 22:33:55 stewy Exp $
 #
 
-##\brief Evaluate the dynamic library dependency
+##\brief Evaluate the library dependency
 ##
-##  Evaluate a dynamic library dependency \e $1, given a base directory
-##  \e $2, test file \e $3 and flags \e $4, \e $5.
+##  Evaluate a library dependency \e $1, given a base directory
+##  \e $2, CFLAGS \e $3, LDFLAGS \e $4 and directory for lib search $5.
 ##  If no flags are specified, the id is used as a library name
 ##  for linking. 
-##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDFLAGS are defined.
+##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDADD and/or 
+##  HAVE_$1_LDFLAGS are defined.
 ##
 ##   \param $1 id
 ##   \param $2 base directory ("" if not specified)
 ##   \param $3 CFLAGS 
 ##   \param $4 LDFLAGS
+##   \param $5 lib directory name
 ##   \return '0' on success, '1' on failure.
 ##
 makl_libdep ()
 {
-    ID=`makl_upper $1`
+    _id=$1
+    ID=`makl_upper ${_id}`
+    base=$2
+    cflags=$3
+    ldflags=$4
+    libdir=$5
     cwd=`pwd`
-    tst=${makl_run_dir}/lib_testcode_$1.c
+    tst="${makl_run_dir}/lib_testcode_${_id}.c"
+
+    ldadd=${base}/${libdir}/lib${_id}.a
+
     if [ ! -r "${tst}" ]; then
-        tst=`pwd`/build/lib$1.c
+        tst=`pwd`/build/lib${_id}.c
         if [ ! -r "${tst}" ]; then
-            makl_warn "makl_libdep: no test file for $1 (${tst})!" 
+            makl_warn "makl_libdep: no test file for ${_id} (${tst})!" 
             return 2
         fi
     fi
 
-    [ -z "$3" ] && [ ! "$3" = "" ] || iflags="$3"
-    [ -z "$2" ] || iflags="${iflags} -I$2/include" 
+    [ -z "${base}" ] || cflags="${cflags} -I${base}/include" 
+    [ -z "${base}" ] || ldflags="${ldflags} -L${base}/${libdir}"
 
-    [ -z "$2" ] || ldflags="-L$2/lib"
-    if [ -z "$4" ]; then 
-        ldflags="${ldflags} -l$1"
-    else
-        ldflags="${ldflags} $4"
-    fi
-    
-    # compile and link the test program
+    # compile and link the test program (static linkage)
     if [ -z `makl_get "__verbose__"` ]; then
-        eval makl_compile ${tst} "${iflags}" "${ldflags}" 1> /dev/null \
+        eval makl_compile ${tst} "${cflags}" "${ldflags}" "${ldadd}" \
+            1> /dev/null 2> /dev/null
+    else 
+        eval makl_compile ${tst} "${cflags}" "${ldflags}" "${ldadd}"
+    fi
+    rc_s=$?
+
+    # try also dynamic linkage
+    if [ -z `makl_get "__verbose__"` ]; then
+        eval makl_compile ${tst} "${cflags}" "${ldflags}" 1> /dev/null \
                           2> /dev/null
     else 
-        eval makl_compile ${tst} "${iflags}" "${ldflags}" 
+        eval makl_compile ${tst} "${cflags}" "${ldflags}" 
     fi
+    rc_d=$?
 
-    if [ $? -ne 0 ]; then
+    if [ ${rc_s} -ne 0 -a ${rc_d} -ne 0 ]; then
         makl_unset_var "HAVE_LIB${ID}"
         return 1
     fi
@@ -56,7 +69,7 @@ makl_libdep ()
     if [ -z `makl_get "__cross_compile__"` ]; then
         cd ${makl_run_dir} && eval ./out > /dev/null 2> /dev/null
         if [ $? -ne 0 ]; then
-            makl_dbg "Test file execution for lib$1 failed!"
+            makl_dbg "Test file execution for lib${_id} failed!"
             cd ${cwd}
             makl_unset_var "HAVE_LIB${ID}"
             return 2 
@@ -64,77 +77,15 @@ makl_libdep ()
     fi
 
     # set LIBID_CFLAGS and LIBID_LDADD in Makefile.conf
-    makl_set_var_mk "LIB${ID}_CFLAGS" "${iflags}"
-    makl_set_var_mk "LIB${ID}_LDFLAGS" "${ldflags}"
+    makl_set_var_mk "LIB${ID}_CFLAGS" "${cflags}"
+    if [ ${rc_s} -eq 0 ]; then
+        makl_set_var_mk "LIB${ID}_LDADD" "${ldadd}"
+    fi
+    if [ ${rc_d} -eq 0 ]; then
+        makl_set_var_mk "LIB${ID}_LDFLAGS" "${ldflags}"
+    fi
 
     # set HAVE_LIBID in Makefile.conf and conf.h 
-    makl_set_var "HAVE_LIB${ID}"
-
-    cd ${cwd}
-    return 0
-}
-
-##\brief Evaluate the static library dependency
-##
-##  Evaluate a static library dependency \e $1, given a base directory
-##  \e $2, test file \e $3 and flags \e $4, \e $5.
-##  If no flags are specified, the id is used as a library name
-##  for linking. 
-##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDADD are defined.
-##
-##   \param $1 id
-##   \param $2 base directory 
-##   \param $3 CFLAGS 
-##   \return '0' on success, '1' on failure.
-##
-makl_slibdep ()
-{
-    id=$1
-    base=$2
-    [ -z "$3" ] || cflags="$3"
-    ID=`makl_upper ${id}`
-    cwd=`pwd`
-    tst=${makl_run_dir}/lib_testcode_$1.c
-    ldadd=${base}/lib/lib${id}.a
-
-    if [ ! -r "${tst}" ]; then
-        tst=`pwd`/build/lib$1.c
-        if [ ! -r "${tst}" ]; then
-            makl_warn "makl_libdep: no test file for $1 (${tst})!" 
-            return 2
-        fi
-    fi
-
-    # compile and link the test program
-    if [ -z `makl_get "__verbose__"` ]; then
-        eval makl_compile ${tst} "${cflags} ${ldadd}" 1> /dev/null \
-                          2> /dev/null
-    else 
-        eval makl_compile ${tst} "${cflags} ${ldadd}"
-    fi
-
-    if [ $? -ne 0 ]; then
-        makl_unset_var "HAVE_LIB${ID}"
-        return 1
-    fi
-
-    # skip execution on cross-compilation
-    if [ -z `makl_get "__cross_compile__"` ]; then
-        cd ${makl_run_dir} && eval ./out > /dev/null 2> /dev/null
-        if [ $? -ne 0 ]; then
-            makl_dbg "Test file execution for lib$1 failed!"
-            cd ${cwd}
-            makl_unset_var "HAVE_LIB${ID}"
-            return 2 
-        fi
-    fi
-
-    # set LIB${ID}_CFLAGS and LIB${ID}_LDADD in Makefile.conf
-    [ -z "${cflags}" ] || \
-        makl_set_var_mk "LIB${ID}_CFLAGS" "${cflags}"
-    makl_set_var_mk "LIB${ID}_LDADD" "${ldadd}"
-
-    # set HAVE_LIB${ID} in Makefile.conf and conf.h 
     makl_set_var "HAVE_LIB${ID}"
 
     cd ${cwd}

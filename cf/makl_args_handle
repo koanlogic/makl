@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.41 2008/06/19 19:00:00 stewy Exp $
+# $Id: makl_args_handle,v 1.42 2008/06/25 22:33:54 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -11,12 +11,13 @@
 ##
 makl_args_init ()
 {
-    makl_dbg "preprocessing command-line arguments"
+    makl_info "preprocessing command-line arguments"
     
     makl_set "__args__" "$@"
 
     for arg in "$@"; do
-        case ${arg} in 
+        cmd=`${ECHO} ${arg} | cut -f1 -d "="`
+        case ${cmd} in 
             -h | --help)
                 makl_set "__noconfig__"
                 if [ -r configure.help ]; then
@@ -30,6 +31,9 @@ makl_args_init ()
                 ;;
             -v | --verbose)
                 __makl_verbose
+                ;;
+            --prefix)
+                _makl_arg_handle "${arg}"
                 ;;
         esac
     done
@@ -55,17 +59,18 @@ makl_args_handle ()
 
     for arg in "$@"; do
         pref=`${ECHO} ${arg} | cut -c1,2`
-        cmd=`${ECHO} ${arg} | cut -f3 -d"-" | cut -f1 -d"="`
-        case ${arg} in 
-            -h | --help)
-                __makl_help
-                makl_die 0
-                ;;
+        cmd=`${ECHO} ${arg} | cut -f1 -d"="`
+        case ${cmd} in 
             -g | --help_gen)
                 __makl_help_gen  
                 ;;
-            -v | --version)
-                ;;
+
+            # pass through previously-handled arguments
+            -h | --help) ;;
+            -V | --version) ;;
+            -v | --verbose) ;;
+            --prefix) ;;
+               
             *)
                 [ "${pref}" = "--" ] || _makl_args_err "Undefined command: ${arg}!"
                 _makl_arg_handle "${arg}"
@@ -362,7 +367,7 @@ __makl_featx ()
     makl_tab_set ${f_featx} $1 2 $2
 }
 
-##\brief Handler. Set parameters for a dynamic library dependency.
+##\brief Handler. Set parameters for a library dependency.
 ##
 ##  Set parameters for a library dependency \e $1. 
 ##  \e $2 is the path of the base directory for the library.
@@ -374,7 +379,7 @@ __makl_featx ()
 __makl_lib ()
 {
     [ $# -eq 2 ] || _makl_args_err "--lib: wrong number of arguments!"
-    [ "$1" ] || _makl_args_err "--makl_lib: missing package name!"
+    [ "$1" ] || _makl_args_err "--makl_lib: missing library id!"
 
     libs=${makl_run_dir}/args_lib
     makl_tab_find ${libs} $1
@@ -383,25 +388,21 @@ __makl_lib ()
     makl_tab_set ${libs} $1 2 $2
 }
 
-##\brief Handler. Set parameters for a static library dependency.
+##\brief Handler. Set name of dir in which library should be sought.
 ##
-##  Set parameters for a library dependency \e $1. 
-##  \e $2 is the path of the base directory for the library.
+## Set the name of the directory \e $2 from prefix in which 
+## library $1 should be sought. The default is 'lib' otherwise.
 ##
-##   \param $1 library id
-##   \param $2 library base directory
-##   \return 0 on success, 1 on argument error 
-##
-__makl_slib ()
+__makl_find_lib ()
 {
-    [ $# -eq 2 ] || _makl_args_err "--lib: wrong number of arguments!"
-    [ "$1" ] || _makl_args_err "--makl_lib: missing package name!"
+    [ $# -eq 2 ] || _makl_args_err "--find_lib: wrong number of arguments!"
+    [ "$1" ] || _makl_args_err "--find_lib: missing lib name!"
 
-    libs=${makl_run_dir}/args_slib
+    libs=${makl_run_dir}/args_lib
     makl_tab_find ${libs} $1
-    [ $? -eq 0 ] || _makl_args_err "--makl_lib: undefined library $1"
-    
-    makl_tab_set ${libs} $1 2 $2
+    [ $? -eq 0 ] || _makl_args_err "--find_lib: undefined library $1"
+
+    makl_tab_set ${libs} $1 4 $2
 }
 
 ##\brief Handler. Set parameters for all library dependencies.
@@ -447,6 +448,8 @@ _makl_arg_handle ()
     
     cmd=`${ECHO} ${lval} | cut -f3 -d"-"`
     id=`${ECHO} ${lval} | cut -f4 -d"-"` 
+
+    makl_dbg "running command '${cmd}' id '${id}'"
 
     __makl_${cmd} ${id} ${rval}
     [ $? -eq 0 ] || _makl_args_err "Failed command: '${cmd}'!"

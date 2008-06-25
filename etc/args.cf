@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.13 2008/06/19 19:00:00 stewy Exp $
+# $Id: args.cf,v 1.14 2008/06/25 22:33:55 stewy Exp $
 #
 
 # general settings
@@ -37,6 +37,10 @@ makl_args_def   "dir" \
                 "-X=BASE" \
                 "" \
                 "set BASE directory for X"
+makl_args_def   "find_lib-X=DIRNAME" \
+                "-X=DIRNAME" \
+                "" \
+                "set name of directory from BASE to find for lib X"
 makl_args_add   "dir" "bin"     "BASE=/usr/local/bin"       "" \
                 "binaries"
 makl_args_add   "dir" "sbin"    "BASE=/usr/local/sbin"      "" \
@@ -47,8 +51,6 @@ makl_args_add   "dir" "inc"     "BASE=/usr/local/includes"  "" \
                 "includes"
 makl_args_add   "dir" "lib"     "BASE=/usr/local/lib"       "" \
                 "libraries"
-makl_args_add   "dir" "shlib"   "BASE=/usr/local/shlib"     "" \
-                "shared libraries"
 makl_args_add   "dir" "libex"   "BASE=/usr/local/libexec"   "" \
                 "executables run by programmes"
 makl_args_add   "dir" "var"     "BASE=/usr/local/var"       "" \
@@ -81,12 +83,7 @@ makl_args_def   "defbinmode" \
 makl_args_def   "lib" \
                 "-X=BASE" \
                 "BASE=/usr/local:/usr" \
-                "set shared lib X to have BASE dir"
-
-makl_args_def   "slib" \
-                "-X=BASE" \
-                "BASE=/usr/local:/usr" \
-                "set static lib X to have BASE dir"
+                "set lib X to have BASE dir"
 
 makl_args_def   "libs" \
                 "=BASE" \
