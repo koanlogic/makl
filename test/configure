@@ -1,12 +1,18 @@
 #!/bin/sh
 #
-# $Id: configure,v 1.3 2006/11/05 11:22:03 tho Exp $
+# $Id: configure,v 1.4 2008/06/29 21:19:18 stewy Exp $
 
 export MAKL_DIR=`pwd`/../
 
 . ${MAKL_DIR}/cf/makl.init
 
 makl_args_init "$@"
+
+#makl_require         "lib"   "u"
+makl_optional   1    "lib"   "openssl"   ""  "-lssl -lcrypto"
+#makl_depend     "lib" "openssl"   "u"
+
+#makl_require    "featx"     "doxygen"
 
 makl_args_handle "$@"
 

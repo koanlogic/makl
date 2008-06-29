@@ -1,5 +1,45 @@
-# $Id: makl_deps,v 1.27 2008/06/25 22:33:55 stewy Exp $
+# $Id: makl_deps,v 1.28 2008/06/29 21:19:18 stewy Exp $
 #
+
+# Save required or optional dependency to file
+_makl_req ()
+{
+    if [ -z `makl_get "__noconfig__"` ]; then
+
+        if [ $1 -eq 1 ]; then
+            makl_info "adding required $3 dependency $4"
+            dft="1"
+        else    # [ $1 -eq 0 ]
+            makl_info "adding optional $3 dependency $4"
+            if [ $2 -eq 0 ]; then
+                dft="00"
+            else    # [ $2 -eq 1 ]
+                dft="01"
+            fi
+            shift
+        fi
+
+        file=${makl_run_dir}/deps_$2
+        
+        # check if requirement is already defined
+        makl_tab_find ${file} $3
+        [ $? -eq 0 ] && return
+
+        case $2 in
+            lib)
+                ${ECHO} "$3|${dft}|$4|$5||" >> ${file}
+            ;;
+            featx)
+                ${ECHO} "$3|${dft}|$4" >> ${file}
+            ;;
+            *)
+                makl_err 2 "Invalid dependency type: $2"
+            ;;
+        esac
+    fi
+
+    makl_args_add $2 $3 "" "<*>" ""
+}
 
 ##\brief Add a required dependency.
 ##
@@ -18,28 +58,7 @@
 ##   
 makl_require ()
 {
-    if [ -z `makl_get "__noconfig__"` ]; then
-        makl_info "adding required $1 dependency $2"
-
-        file=${makl_run_dir}/deps_$1.require
-
-        makl_tab_find ${file} $2
-        [ $? -eq 0 ] && return
-
-        case $1 in
-            lib)
-                ${ECHO} "$2|$3|$4||" >> ${file}
-            ;;
-            featx)
-                ${ECHO} "$2|$3" >> ${file}
-            ;;
-            *)
-                makl_err 2 "Invalid dependency type: $2"
-            ;;
-        esac
-    fi
-
-    makl_args_add $1 $2 "" "<*>" ""
+    _makl_req 1 "$1" "$2" "$3" "$4"
 }
 
 ##\brief Add an optional dependency.
@@ -49,9 +68,6 @@ makl_require ()
 ##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
 ##                             library (both optional). By default the flags are
 ##                             determined by the library name.
-##   \li 'lib' $1 $2 $3 $4, where \e $4 are CFLAGS (optional).
-##                             By default the flags are determined by the 
-##                             library name.
 ##   \li 'featx' $1 $2 $3 $4, where \e $4 (optional) is the name of the variable
 ##                            to be defined containing the path to the feature. 
 ##                            If undefined, no variables will be set.
@@ -63,28 +79,7 @@ makl_require ()
 ##   
 makl_optional ()
 {
-    if [ -z `makl_get "__noconfig__"` ]; then
-        makl_info "adding optional $2 dependency $3"
-
-        file=${makl_run_dir}/deps_$2.optional
-        
-        makl_tab_find ${file} $3
-        [ $? -eq 0 ] && return
-        
-        case $2 in
-            lib)
-                ${ECHO} "$3|$1|$4|$5" >> ${file}
-            ;;
-            featx)
-                ${ECHO} "$3|$1|$4" >> ${file}
-            ;;
-            *)
-                makl_err 2 "Invalid dependency type: $2"
-            ;;
-        esac
-    fi
-    
-    makl_args_add $2 $3 "" "<?>" ""
+    _makl_req 0 "$1" "$2" "$3" "$4" "$5"
 }
 
 ##\brief Create a dependency between dependencies.
@@ -98,37 +93,27 @@ makl_optional ()
 ##
 makl_depend ()
 {
+    file=${makl_run_dir}/deps_$1
+
     makl_info "adding $1 dependency ($2->$3)"
+
+    makl_tab_get ${file} $2 1
+    [ $? = 0 ] || makl_err 2 "invalid source dependency: $2"
+    
+    makl_tab_get ${file} $3 1
+    [ $? = 0 ] || makl_err 2 "invalid target dependency: $3"
 
     case $1 in 
         lib)
-            file=${makl_run_dir}/deps_$1.require
-            makl_tab_set ${file} $2 4 $3
+            makl_tab_set ${file} $2 5 $3
         ;;
         *)
-            makl_err 2 "Dependency behaviour not implemented for type: $1"
+            makl_err 2 "dependency behaviour not implemented for type: $1"
         ;;
     esac
 }
 
-##\brief Mark a dependency as found.
-##
-##  Mark a dependency of type \e $1 and id \e $2 as found.
-##
-##   \param $1 dependency type
-##   \param $2 dependency id
-##
-makl_req_found ()
-{
-    file=${makl_run_dir}/deps_$1.found
-
-    makl_tab_find ${file} $2
-    [ $? -eq 0 ] && return
-    
-    ${ECHO} $2 >> ${file}
-}
-
-##\brief Search for dynamic library in default directories.
+##\brief Search for dynamic library in default directories or specified.
 ##
 ##  Search for dynamic library \e $1 in default directories (as defined in 
 ##        etc/args.cf).
@@ -141,7 +126,7 @@ makl_req_found ()
 ##
 _makl_search_lib ()
 {
-    _id=$1
+    req=$1
     cflags=$2
     ldflags=$3
     f_args=${makl_run_dir}/args
@@ -151,8 +136,8 @@ _makl_search_lib ()
     dft=`makl_tab_get ${f_args} "lib" 3`
 
     # get specific options
-    path=`makl_tab_get ${f_args_lib} ${_id} 2`
-    libdir=`makl_tab_get ${f_args_lib} ${_id} 4`
+    path=`makl_tab_get ${f_args_lib} ${req} 2`
+    libdir=`makl_tab_get ${f_args_lib} ${req} 4`
 
     if [ -z "${libdir}" ]; then
         libdir="lib"
@@ -162,7 +147,7 @@ _makl_search_lib ()
         # look for base dir in __libs__ 
         libs=`makl_get "__libs__"`
         if [ "${libs}" ]; then
-            makl_libdep ${_id} ${libs} "${cflags}" "${ldflags}" ${libdir}
+            makl_libdep "${req}" "${libs}" "${cflags}" "${ldflags}" "${libdir}"
             [ $? -eq 0 ] && return 0
         fi
         val=`makl_tab_var "${dft}" "BASE"` 
@@ -172,7 +157,7 @@ _makl_search_lib ()
     fi
 
     for dir in ${dirs}; do
-        makl_libdep ${_id} ${dir} "${cflags}" "${ldflags}" ${libdir}
+        makl_libdep "${req}" "${dir}" "${cflags}" "${ldflags}" "${libdir}"
         [ $? -eq 0 ] && return 0
     done 
 
@@ -191,7 +176,7 @@ _makl_search_featx ()
 {
     f_args=${makl_run_dir}/args
     f_args_x=${makl_run_dir}/args_featx
-    f_deps_x=${makl_run_dir}/deps_featx.optional
+    f_deps_x=${makl_run_dir}/deps_featx
 
     # get feature argument defaults
     dft=`makl_tab_get ${f_args} "featx" 3`
@@ -229,96 +214,63 @@ _makl_search_featx ()
 ##   
 _makl_require_check ()
 {
-    f_req=${makl_run_dir}/deps_$1.require
-    f_opt=${makl_run_dir}/deps_$1.optional
+    f_req=${makl_run_dir}/deps_$1
     f_have=${makl_run_dir}/deps_$1.found
 
-    [ ! -r "${f_req}" ] && [ ! -r "${f_opt}" ] && return 0
+    [ ! -r "${f_req}" ] && return 0
     [ -r "${f_have}" ] || touch ${f_have}
 
     rm -f ${makl_run_dir}/err
 
-    [ -r "${f_req}" ] && \
     cat ${f_req} | {
         while read line; do
-            req=`makl_tab_elem "${line}" 1`
-            case $1 in
-                lib)
-                    cflags=`makl_tab_elem "${line}" 2`
-                    ldflags=`makl_tab_elem "${line}" 3`
-                    deps=`makl_tab_elem "${line}" 4`
+            _dep=`makl_tab_elem "${line}" 1`
+            _req=`makl_tab_elem "${line}" 2`
 
-                    # default link directive
-                    if [ -z "${ldflags}" ]; then
-                        ldflags="-l${req}"
-                    fi
-
-                    # append CFLAGS,LDFLAGS of dependency
-                    for dep in ${deps}; do
-                        depid=`makl_upper ${dep}`
-                        cflags="${cflags} `makl_get_var_mk LIB${depid}_CFLAGS`"
-                        ldflags="${ldflags} `makl_get_var_mk LIB${depid}_LDFLAGS`"
-                    done
-                    ;;
+            case "${_req}" in 
+                1)  makl_info "searching for required $1 feature ${_dep}" ;;
+                01) makl_info "searching for optional $1 feature ${_dep}" ;;
+                00) makl_info "disabled optional $1 feature ${_dep}" ; break ;;
+                *)  makl_err  2 "bad req: ${_req}" ; break ;;
             esac
-            cat ${f_have} | {
-                found=0
-                while read have; do
-                    if [ "${have}" = "${req}" ]; then
-                        found=1
-                    fi
-                done
-                if [ ${found} -eq 0 ]; then
-                    # look in default directories before panic
-                    makl_info "searching for required $1 feature ${req}" 
-                    case $1 in
-                        lib)
-                            _makl_search_lib "${req}" "${cflags}" "${ldflags}"
-                            ;;
-                        featx) 
-                            _makl_search_featx "${req}"
-                            ;;
-                    esac
-                    if [ ! $? -eq 0 ]; then
-                        ${ECHO} -n ${req} > ${makl_run_dir}/err
-                        break
-                    fi
-                fi
-            }
-        done
-    }
 
-    # try to find optional dependencies which are enabled by default   
-    [ -r "${f_opt}" ] && \
-    cat ${f_opt} | {
-        while read line; do
-            opt=`makl_tab_elem "${line}" 1`
-            dft=`makl_tab_elem "${line}" 2`
-            [ "${dft}" = 1 ] && makl_info "searching for optional $1 feature ${opt}" 
             case $1 in
                 lib)
                     cflags=`makl_tab_elem "${line}" 3`
                     ldflags=`makl_tab_elem "${line}" 4`
-                    if [ "${dft}" = "1" ]; then
-                        _makl_search_lib "${opt}" "${cflags}" "${ldflags}"
-                        [ $? -eq 0 ] || \
-                            makl_warn "could not find optional $1 dependency ${opt}"
+
+                    # default link directive
+                    if [ -z "${ldflags}" ]; then
+                        ldflags="-l${_dep}"
                     fi
+                    _makl_search_lib "${_dep}" "${cflags}" "${ldflags}"
                     ;;
                 featx) 
-                    if [ "${dft}" = "1" ]; then 
-                        _makl_search_featx "${opt}"
-                        [ $? -eq 0 ] || \
-                            makl_warn "could not find optional $1 dependency ${opt}"
-                    fi
+                    _makl_search_featx "${_dep}"
                     ;;
             esac
+
+            if [ $? -ne 0 ]; then
+                if [ "${_req}" = "1" ]; then
+                    ${ECHO} -n ${_dep} > ${makl_run_dir}/err
+                    break
+                else
+                    if [ "${_req}" = "01" ]; then
+                        ${ECHO} -n ${_dep} > ${makl_run_dir}/warn
+                    fi
+                fi
+            fi
         done
     }
-   
+
     if [ -r "${makl_run_dir}/err" ]; then
         makl_err 3 "unfulfilled dependency: '`cat ${makl_run_dir}/err`'!"
+        rm ${makl_run_dir}/err
     fi  
+    if [ -r "${makl_run_dir}/warn" ]; then
+        makl_warn "could not find optional dependency '`cat ${makl_run_dir}/warn`'"
+        rm ${makl_run_dir}/warn
+    fi
 }
 
 ##\brief Set the test code for a library.

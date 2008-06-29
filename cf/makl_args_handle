@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.42 2008/06/25 22:33:54 stewy Exp $
+# $Id: makl_args_handle,v 1.43 2008/06/29 21:19:18 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -324,10 +324,12 @@ __makl_enable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--enable: wrong number of arguments!"
 
-    f_feat=${makl_run_dir}/deps_$1.optional
+    f_feat=${makl_run_dir}/deps_$1
     [ -f "${f_feat}" ] || _makl_args_err "--makl_enable: Invalid feature type $1"
 
-    makl_tab_set ${f_feat} $2 2 1
+    req=`makl_tab_get ${f_feat} $2 2`
+    [ "${req}" = "1" ] && makl_err 2 "cannot enable a required feature!"
+    makl_tab_set ${f_feat} $2 2 "01"
 }
 
 ##\brief Handler. Disable a feature.
@@ -342,10 +344,12 @@ __makl_disable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--disable: wrong number of arguments!"
 
-    f_feat=${makl_run_dir}/deps_$1.optional
+    f_feat=${makl_run_dir}/deps_$1
     [ -f "${f_feat}" ] || _makl_args_err "--makl_disable: Invalid feature type $1"
     
-    makl_tab_set ${f_feat} $2 2 0
+    req=`makl_tab_get ${f_feat} $2 2`
+    [ "${req}" = "1" ] && makl_err 2 "cannot disable a required feature!"
+    makl_tab_set ${f_feat} $2 3 "00"
 }
 
 ##\brief Handler. Set parameters for an executable feature.
