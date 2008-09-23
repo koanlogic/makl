@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.24 2008/05/08 15:53:35 tho Exp $
+# $Id: dist.mk,v 1.25 2008/09/23 15:28:03 tat Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -69,11 +69,11 @@ endif   # DISTFILES
 
 ifdef DISTRECIPE
 distrecipe:
-	@for f in `xargs -n1 < $(DISTRECIPE)`; do \
-		dir=`dirname $$f` && \
-		file=`basename $$f` && \
-		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
-		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
+	@cat $(DISTRECIPE) | while read f; do \
+		dir=`dirname "$$f"` && \
+		file=`basename "$$f"` && \
+		$(MKINSTALLDIRS) "$(DISTDIR)/$$dir" && \
+		cp -fpR "$$dir/$$file" "$(DISTDIR)/$$dir/$$file" ; \
 	done
 else    # !DISTFILES
 distrecipe:
