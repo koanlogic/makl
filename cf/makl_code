@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.41 2008/10/03 19:34:35 stewy Exp $
+# $Id: makl_code,v 1.42 2008/10/03 19:44:43 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -93,15 +93,16 @@ makl_compile_code ()
 ##  Execute C code.
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 flags to be passed to the compiler
+##   \param $2 file containing code
+##   \param $3 flags to be passed to the compiler
 ## 
 makl_exec_code ()
 {
     file=${makl_run_dir}/makl_code.c
     cwd=`pwd`
     
-    makl_write_c ${file} $1
-    makl_compile ${file} $2 
+    makl_write_c ${file} $1 $2
+    makl_compile ${file} $3 
     [ $? -eq 0 ] || return 1
 
     # skip execution on cross-compilation
