@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.61 2008/09/30 15:52:03 tho Exp $
+$Id: ChangeLog,v 1.62 2008/10/03 19:34:35 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
-MaKL xxx
+MaKL 1.7.2
+	- fix shell expansion errors by passing file parameter to compilation
+	  function instead of using pipe
 	- dist.mk: blanks in DISTRECIPE filenames fix
 	- NO_LY_AUTODEP added to explicitly disable lex/yacc autodep features
 	- EXTRA_OBJS added to extend the list of objects that build a program

@@ -1,5 +1,5 @@
 #
-# $Id: makl_func_strerror_r,v 1.8 2008/05/21 18:51:33 stewy Exp $
+# $Id: makl_func_strerror_r,v 1.9 2008/10/03 19:34:35 stewy Exp $
 #
 
 #\brief Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P
@@ -11,6 +11,8 @@
 #
 makl_func_strerror_r ()
 {
+    tmpfile=${makl_run_dir}/snippet.c
+
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking for function strerror_r"
@@ -19,7 +21,9 @@ makl_func_strerror_r ()
     ${ECHO} "
         char buf[100];
         strerror_r(0, buf, sizeof(buf));
-    " | makl_compile_code 1
+    " > ${tmpfile}
+    
+    makl_compile_code 1 ${tmpfile}
 
     if [ $? -eq 0 ]; then
 
@@ -38,7 +42,9 @@ makl_func_strerror_r ()
                 char buf[1024];
                 return ((strerror_r(EACCES, buf, sizeof(buf)) == 0));
             }
-        " | makl_exec_code 0
+        " > ${tmpfile} 
+
+        makl_exec_code 0 ${tmpfile}
 
         if [ $? -eq 0 ]; then
             makl_set_var_h "STRERROR_R_CHAR_P"

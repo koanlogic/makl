@@ -1,5 +1,5 @@
 #
-# $Id: makl_code,v 1.40 2008/05/29 16:11:33 tat Exp $
+# $Id: makl_code,v 1.41 2008/10/03 19:34:35 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -45,6 +45,7 @@ makl_compile ()
 ## 
 ##   \param $1 name of file to be written
 ##   \param $2 whether the code is a snippet (1) or entire C file (0)
+##   \param $3 file containing code
 ##
 makl_write_c ()
 {
@@ -55,9 +56,7 @@ makl_write_c ()
         ${ECHO} "int main() {" >> $1
     fi
     
-    while read line; do
-        ${ECHO} ${line} >> $1
-    done
+    cat $3 >> $1
     
     if [ $2 -eq 1 ]; then
         {
@@ -74,15 +73,16 @@ makl_write_c ()
 ##  Compile C code.
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 flags to be passed to the compiler
+##   \param $2 file containing code 
+##   \param $3 flags to be passed to the compiler
 ##
 makl_compile_code ()
 {
     file=${makl_run_dir}/makl_code.c
 
-    makl_write_c ${file} $1
+    makl_write_c ${file} $1 $2
 
-    makl_compile ${file} $2
+    makl_compile ${file} $3
     [ $? -eq 0 ] || return 1
 
     return 0
@@ -128,11 +128,15 @@ makl_exec_code ()
 ##
 makl_checkfunc ()
 {
+    tmpfile=${makl_run_dir}/snippet.c
+
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking for function $2"
 
-    ${ECHO} "$2();" | makl_compile_code 1 "$3"
+    ${ECHO} "$2();" > ${tmpfile}
+   
+    makl_compile_code 1 ${tmpfile} "$3"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2`
@@ -163,6 +167,7 @@ makl_checkheader ()
     id=$2
     header=$3
     shift; shift; shift;
+    tmpfile=${makl_run_dir}/snippet.c
 
     makl_info "checking for header ${id}"
 
@@ -172,7 +177,9 @@ makl_checkheader ()
         done
         ${ECHO} "#include ${header}"
         ${ECHO} "int main() { return 0; }"
-    } | makl_compile_code 0
+    } > ${tmpfile}
+    
+    makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${id}`
@@ -205,6 +212,7 @@ makl_checktype ()
     type=$2
     shift
     shift
+    tmpfile=${makl_run_dir}/snippet.c
 
     # substitute whitespace with underscores 
     def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
@@ -220,7 +228,9 @@ makl_checktype ()
                 ${type} x;
                 return (sizeof(${type}) && 0);  
             }" 
-    } | makl_compile_code 0 
+    } > ${tmpfile}
+    
+    makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}`
@@ -252,17 +262,19 @@ makl_checkextern()
     var=$2
     shift
     shift
+    tmpfile=${makl_run_dir}/snippet.c
 
-    {
-        # this fails when the linker doesn't find the variable in any linked
-        # libraries
-        ${ECHO} "
-            extern void* ${var};
-            int main() 
-            {
-                return (int) & ${var};
-            }" 
-    } | makl_compile_code 0 $*
+    # this fails when the linker doesn't find the variable in any linked
+    # libraries
+    ${ECHO} "
+        extern void* ${var};
+        int main() 
+        {
+            return (int) & ${var};
+        }
+        " > ${tmpfile}
+    
+    makl_compile_code 0 ${tmpfile} $*
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
@@ -297,6 +309,7 @@ makl_checksymbol()
     var=$2
     shift
     shift
+    tmpfile=${makl_run_dir}/snippet.c
 
     {
         for arg in $*; do
@@ -315,7 +328,9 @@ makl_checksymbol()
             }
             #endif
             " 
-    } | makl_compile_code 0 
+    } > ${tmpfile}
+    
+    makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
@@ -348,6 +363,7 @@ makl_checkstructelem()
     shift
     shift
     shift
+    tmpfile=${makl_run_dir}/snippet.c
 
     def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
 
@@ -366,8 +382,9 @@ makl_checkstructelem()
                 return 0;
             }
             " 
-    } | makl_compile_code 0 
-
+    } > ${tmpfile}
+    
+    makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}_${elem}`
