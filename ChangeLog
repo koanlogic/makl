@@ -1,6 +1,9 @@
-$Id: ChangeLog,v 1.62 2008/10/03 19:34:35 stewy Exp $
+$Id: ChangeLog,v 1.63 2008/10/07 10:53:54 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
+
+MaKL 1.7.X
+	- fix help file generation if configure.help file doesn't exist
 
 MaKL 1.7.2
 	- fix shell expansion errors by passing file parameter to compilation
