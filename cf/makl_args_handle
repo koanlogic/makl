@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.43 2008/06/29 21:19:18 stewy Exp $
+# $Id: makl_args_handle,v 1.44 2008/10/07 10:45:55 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -64,9 +64,15 @@ makl_args_handle ()
             -g | --help_gen)
                 __makl_help_gen  
                 ;;
-
+            -h | --help) 
+                # if help file doesn't exist yet, generate it
+                if [ ! -r configure.help ]; then
+                    __makl_help_gen  
+                   cat configure.help
+                   makl_die 0
+                fi                        
+                ;;
             # pass through previously-handled arguments
-            -h | --help) ;;
             -V | --version) ;;
             -v | --verbose) ;;
             --prefix) ;;
