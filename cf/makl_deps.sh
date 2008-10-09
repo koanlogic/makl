@@ -1,4 +1,4 @@
-# $Id: makl_deps,v 1.28 2008/06/29 21:19:18 stewy Exp $
+# $Id: makl_deps.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 # Save required or optional dependency to file

@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils,v 1.39 2008/05/21 18:51:33 stewy Exp $
+# $Id: makl_utils.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Set the package name.

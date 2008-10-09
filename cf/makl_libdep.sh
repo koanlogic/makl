@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep,v 1.23 2008/06/29 21:19:18 stewy Exp $
+# $Id: makl_libdep.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Evaluate the library dependency

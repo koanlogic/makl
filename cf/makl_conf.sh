@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf,v 1.27 2008/05/21 18:51:33 stewy Exp $
+# $Id: makl_conf.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.

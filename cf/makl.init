@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.39 2008/05/28 14:53:01 tho Exp $
+# $Id: makl.init,v 1.40 2008/10/09 09:48:46 stewy Exp $
 #
 
 # read in just once
@@ -60,8 +60,8 @@ fi
 . ${makl_run_dir}/env 2> /dev/null
 
 # source makl functions and configuration
-for shenv in ${MAKL_DIR}/cf/makl_* \
-        ${MAKL_DIR}/cf/helpers/makl_* \
+for shenv in ${MAKL_DIR}/cf/makl_*.sh \
+        ${MAKL_DIR}/cf/helpers/makl_*.sh \
         ${MAKL_DIR}/etc/vars.cf \
         ${MAKL_DIR}/etc/args.cf \
         ${MAKL_DIR}/etc/funcs.cf; do

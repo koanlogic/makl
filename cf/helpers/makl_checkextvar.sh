@@ -1,5 +1,5 @@
 #
-# $Id: makl_checkextvar,v 1.4 2008/10/03 19:34:35 stewy Exp $
+# $Id: makl_checkextvar.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Check if an extern variable is available

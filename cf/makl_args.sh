@@ -1,6 +1,7 @@
 #
-# $Id: makl_args,v 1.9 2005/12/13 16:11:42 stewy Exp $
+# $Id: makl_args.sh,v 1.1 2008/10/09 09:48:46 stewy Exp $
 #
+
 
 ##\brief Define a command line argument from multiple strings.
 ##

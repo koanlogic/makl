@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle,v 1.44 2008/10/07 10:45:55 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 

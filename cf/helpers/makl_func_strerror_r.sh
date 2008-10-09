@@ -1,5 +1,5 @@
 #
-# $Id: makl_func_strerror_r,v 1.9 2008/10/03 19:34:35 stewy Exp $
+# $Id: makl_func_strerror_r.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 #\brief Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P

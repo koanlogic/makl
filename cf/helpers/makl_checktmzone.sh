@@ -1,5 +1,5 @@
 #
-# $Id: makl_checktmzone,v 1.3 2008/10/03 19:34:35 stewy Exp $
+# $Id: makl_checktmzone.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
 #
 
 ##\brief Check if tm_zone is defined into "struct tm"
