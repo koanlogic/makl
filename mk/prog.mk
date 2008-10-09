@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.44 2008/06/24 16:00:20 tho Exp $
+# $Id: prog.mk,v 1.45 2008/10/09 20:58:01 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -9,7 +9,7 @@
 # - LDFLAGS     Flags to be passed to the linker
 # - CLEANFILES  Additional clean files
 # - BIN(OWN,GRP,MODE,DIR) Installation path and credentials
-# - ...
+# - OBJDIR      Directory where compiled/linked files go
 #
 # Applicable targets:
 # - all, clean, install, uninstall (depend and cleandend via priv/deps.mk).
@@ -21,6 +21,15 @@ ifneq ($(MAKECMDGOALS), .help)
     $(call assert-var, PROG)
     $(call assert-var, SRCS)
 endif
+
+ifndef OBJDIR
+OBJDIR = $(CURDIR)
+endif
+
+ifneq ($(notdir $(CURDIR)),$(notdir $(OBJDIR)))
+include priv/obj.mk
+else
+VPATH = $(SRCDIR)
 
 # set complete PROG name
 __PROG = $(strip $(PROG_PREFIX))$(strip $(PROG))$(strip $(PROG_SUFFIX))
@@ -156,6 +165,9 @@ include priv/deps.mk
 	@echo "BINGRP           group ID of the installed excutable                "
 	@echo "BINMODE          file mode bits of the installed executable         "
 	@echo "BINDIR           destination directory of the installed executable  "
+	@echo "OBJDIR           directory where the compiled/linked objects reside "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk        "
 	@echo
+
+endif   #...

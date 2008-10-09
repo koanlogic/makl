@@ -1,5 +1,5 @@
 #
-# $Id: deps.mk,v 1.6 2008/06/24 16:00:20 tho Exp $
+# $Id: deps.mk,v 1.7 2008/10/09 20:58:01 tho Exp $
 #
 # User variables:
 # SRCS      C sources to be included in the dependency list.
@@ -20,9 +20,15 @@ depend: depend-hook-pre realdepend afterdepend depend-hook-post
 
 depend-hook-pre depend-hook-post:
 
+ifdef OBJDIR
+__SRCS = $(foreach s, $(SRCS), $(SRCDIR)/$(s))
+else
+__SRCS = $(SRCS)
+endif
+
 realdepend:
 	touch $(DEPENDFILE)
-	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) -a $(SRCS)
+	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) -a $(__SRCS)
 
 afterdepend: realdepend
 ifdef __PROG

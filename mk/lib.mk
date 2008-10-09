@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.50 2008/06/24 16:00:20 tho Exp $
+# $Id: lib.mk,v 1.51 2008/10/09 20:58:01 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -7,6 +7,7 @@
 # - CFLAGS      Compiler flags.
 # - CPICFLAGS   Shared libs extra compiler flags
 # - LIBOWN, LIBGRP, LIBMODE   Installation credentials.
+# - OBJDIR      Directory where compiled/linked files go
 #
 # Applicable targets:
 # - all, clean, depend, cleandepend, install, uninstall.
@@ -18,6 +19,15 @@ ifneq ($(MAKECMDGOALS), .help)
     $(call assert-var, LIB)
     $(call assert-var, SRCS)
 endif
+
+ifndef OBJDIR
+OBJDIR = $(CURDIR)
+endif
+
+ifneq ($(notdir $(CURDIR)),$(notdir $(OBJDIR)))
+include priv/obj.mk
+else
+VPATH = $(SRCDIR)
 
 # strip lib name (__LIB is exported to shlib.mk)
 __LIB = $(strip $(LIB))
@@ -192,6 +202,7 @@ include priv/deps.mk
 	@echo "LIBMODE          file mode bits of the installed executable         "
 	@echo "LIBDIR           destination directory of the installed executable  "
 	@echo "SHLIB            if set shared library will also be built           "
+	@echo "OBJDIR           directory where the compiled/linked objects reside "
 	@echo
 	@echo "The following flags are available only if SHLIB is set:             "
 	@echo "SHLIB_MAJOR   shared library major number (i.e. the 1 in 1.2.3)     "
@@ -209,3 +220,5 @@ include priv/deps.mk
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/lib.mk         "
 	@echo
+
+endif
