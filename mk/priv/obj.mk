@@ -1,13 +1,16 @@
-# $Id: obj.mk,v 1.1 2008/10/09 20:58:01 tho Exp $
+# $Id: obj.mk,v 1.2 2008/10/09 21:42:47 tho Exp $
 
 .SUFFIXES:
 
-MAKEOBJ = $(MAKE) -C $@ -f $(CURDIR)/Makefile SRCDIR=$(CURDIR) $(MAKECMDGOALS)
+MAKEFN = $(firstword $(basename $(MAKEFILE_LIST)))
+MAKEOBJ = $(MAKE) -C $@ -f $(CURDIR)/$(MAKEFN) SRCDIR=$(CURDIR) $(MAKECMDGOALS)
 
 .PHONY: $(OBJDIR) 
 
+# + is for performing subdir creation even when the -n option is given
+#   +@[ -d $@ ] || mkdir -p $@ 
 $(OBJDIR): 
-	+@[ -d $@ ] || mkdir -p $@ 
+	+@[ -d $@ ] || $(MKINSTALLDIRS) $@
 	+@$(MAKEOBJ) 
 
 Makefile : ; 
@@ -17,4 +20,4 @@ Makefile : ;
 
 .PHONY: clean
 clean:
-	-echo rm $(OBJDIR)/*
+	-rm $(OBJDIR)/*
