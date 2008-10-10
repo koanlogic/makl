@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.45 2008/10/09 20:58:01 tho Exp $
+# $Id: prog.mk,v 1.46 2008/10/10 08:39:40 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -26,10 +26,14 @@ ifndef OBJDIR
 OBJDIR = $(CURDIR)
 endif
 
+# tell makl to go into the OBJDIR and restart itself (see priv/obj.mk for
+# details): when re-invoked, the 'else' branch is entered, which contains all 
+# the target rules with the 'right' VPATH settings
 ifneq ($(notdir $(CURDIR)),$(notdir $(OBJDIR)))
 include priv/obj.mk
 else
-VPATH = $(SRCDIR)
+# __SRCDIR has been set in obj.mk
+VPATH = $(__SRCDIR)
 
 # set complete PROG name
 __PROG = $(strip $(PROG_PREFIX))$(strip $(PROG))$(strip $(PROG_SUFFIX))

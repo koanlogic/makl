@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.51 2008/10/09 20:58:01 tho Exp $
+# $Id: lib.mk,v 1.52 2008/10/10 08:39:40 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -27,7 +27,7 @@ endif
 ifneq ($(notdir $(CURDIR)),$(notdir $(OBJDIR)))
 include priv/obj.mk
 else
-VPATH = $(SRCDIR)
+VPATH = $(__SRCDIR)
 
 # strip lib name (__LIB is exported to shlib.mk)
 __LIB = $(strip $(LIB))
