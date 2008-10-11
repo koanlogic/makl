@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.29 2008/10/11 19:24:57 tho Exp $
+# $Id: maklsh.in,v 1.30 2008/10/11 22:01:29 tho Exp $
 
 MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 
@@ -50,6 +50,7 @@ in
         . ${MAKLSH_LIB}/maklsh_run
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
         maklsh_run
+        [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc_clean
         ;;
     ${MAKL_CMD_CONF} | ${MAKL_CMD_CONF_COMPAT})
         . ${MAKLSH_LIB}/maklsh_conf

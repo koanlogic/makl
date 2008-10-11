@@ -1,4 +1,4 @@
-# $Id: maklsh_tc,v 1.1 2008/10/11 19:24:58 tho Exp $
+# $Id: maklsh_tc,v 1.2 2008/10/11 22:01:29 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -7,6 +7,17 @@
 # - MAKLSH_TC_ENV
 # internal:
 # - ...
+
+function maklsh_tc_clean ()
+{
+    if [ ! -z "${MAKLSH_MAKL_ETC}" ]
+    then
+        rm -f ${MAKLSH_MAKL_ETC}/toolchain.mk
+        rm -f ${MAKLSH_MAKL_ETC}/shlib.mk
+        rm -f ${MAKLSH_MAKL_ETC}/toolchain.cf
+        rmdir ${MAKLSH_MAKL_ETC}
+    fi
+}
 
 ##
 # install toolchain
