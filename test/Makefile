@@ -18,6 +18,9 @@ test: build
 clean: 
 	${MAKE} -f Makefile.subdir clean
 
+clean cleandepend: 
+	${MAKE} -f Makefile.subdir $(MAKECMDGOALS)
+
 purge: 
 	make clean
 	rm -f Makefile.conf conf.h

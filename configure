@@ -25,7 +25,9 @@ makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
 [ -z `makl_get_var_mk GNU_MAKE` ] && \
         makl_err 1 "set GNU make path using --gnu_make command line switch"
 
-makl_file_sub "bin/maklsh_catalog" "bin/maklsh_funcs"
+makl_file_sub "bin/maklsh"              \
+              "bin/lib/maklsh_catalog"  \
+              "bin/lib/maklsh_funcs"
 
 . $MAKL_DIR/cf/makl.term
 

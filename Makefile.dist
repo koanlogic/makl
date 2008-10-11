@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.28 2008/10/11 15:15:48 tho Exp $
+# $Id: Makefile.dist,v 1.29 2008/10/11 19:24:57 tho Exp $
 
 include common.mk
 
@@ -29,8 +29,10 @@ endif   # DOCS
 DISTFILES += misc/Makefile
 
 # maklsh
-DISTFILES += $(wildcard bin/maklsh*)
+DISTFILES += bin/maklsh.in
 DISTFILES += bin/Makefile
+DISTFILES += bin/lib/Makefile
+DISTFILES += $(wildcard bin/lib/maklsh*)
 
 # build (mk files)
 DISTFILES += $(wildcard mk/*.mk)

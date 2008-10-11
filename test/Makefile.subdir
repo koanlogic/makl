@@ -1,5 +1,7 @@
 include Makefile.conf
 
-SUBDIR = lib party prog partyplain autoprog include man
+#SUBDIR = lib party prog partyplain autoprog include man
+SUBDIR = lib prog
+#SUBDIR = lib
 
 include subdir.mk

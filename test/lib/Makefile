@@ -1,9 +1,9 @@
 include common.mk
-include ../Makefile.conf
+include Makefile.conf
 
 LIB = x
 SRCS = a.c b.c x.cc
-CFLAGS += -I../include
+CFLAGS += -I$(TOPDIR)/include
 
 USE_CXX = true
 # '+=' => in order to inherit CFLAGS settings

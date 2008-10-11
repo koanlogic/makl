@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.1 2008/10/11 15:15:48 tho Exp $
+# $Id: maklsh_funcs.in,v 1.1 2008/10/11 19:24:57 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -152,10 +152,10 @@ function maklsh_proc_makl_args ()
 
 function maklsh_context_init ()
 {
-    MAKLSH_MAKL_DIR="/usr/local/share/makl-1.7.2"
+    MAKLSH_MAKL_DIR="@{{MAKL_ROOT}}"
     MAKLSH_MAKE_FLAGS="-I ${MAKLSH_MAKL_DIR}/mk"
     MAKLSH_MAKL_ETC=""
-    MAKLSH_GNUMAKE_PATH="/usr/bin/gnumake"
+    MAKLSH_GNUMAKE_PATH="@{{GNU_MAKE}}"
     MAKLSH_MAKL_VERSION="`cat ${MAKLSH_MAKL_DIR}/VERSION 2>/dev/null`"
     MAKLSH_MAKL_RC_MAXDEPTH="5"
     MAKLSH_MAKL_TC=""
@@ -176,7 +176,7 @@ function maklsh_context_init ()
 function maklsh_context_push ()
 {
     export MAKL_DIR="${MAKLSH_MAKL_DIR}"
-    export MAKEFLAGS="${MAKLSH_MAKEFLAGS}"
+    export MAKEFLAGS="${MAKLSH_MAKE_FLAGS}"
     [ ! -z ${MAKLSH_MAKL_ETC} ] && export MAKL_ETC="${MAKLSH_MAKL_ETC}"
     export MAKL_GNUMAKE="${MAKLSH_MAKL_GNUMAKE}"
     export MAKL_VERSION="${MAKLSH_MAKL_VERSION}"
@@ -237,7 +237,7 @@ function maklsh_load_from_file ()
     [ ! -z "${MAKL_DIR}" ] && \
         MAKLSH_MAKL_DIR="${MAKL_DIR}"
     [ ! -z "${MAKEFLAGS}" ] && \
-        MAKLSH_MAKEFLAGS="${MAKEFLAGS}"
+        MAKLSH_MAKE_FLAGS="${MAKEFLAGS}"
     [ ! -z "${MAKL_ETC}" ] && \
         MAKLSH_MAKL_ETC="${MAKL_ETC}"
     [ ! -z "${MAKL_CF_SCRIPTS}" ] && \
