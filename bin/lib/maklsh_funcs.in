@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.1 2008/10/11 19:24:57 tho Exp $
+# $Id: maklsh_funcs.in,v 1.2 2008/10/11 20:13:01 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -275,7 +275,7 @@ function maklsh_load_per_proj_settings ()
 {
     local cdir="."
     local depth=5
-    local maklrc="maklrc"
+    local maklrc="makl.conf"
 
     [ "${MAKLSH_MAKL_RC_MAXDEPTH}" ] && depth=${MAKLSH_MAKL_RC_MAXDEPTH}
 
