@@ -1,0 +1,74 @@
+<manpage>
+<docdate>$Date: 2008/10/11 22:01:46 $</docdate>
+<doctitle>MAKL(1)</doctitle>
+<os>UNIX</os>
+<section>1</section>
+<names>
+    <name>makl<desc>A GNU make wrapper</desc></name>
+</names>
+
+<description> 
+<name>makl</name> is a GNU <manpage>make<section>1</section></manpage> wrapper which can be used, instead of plain <name>make</name> to automatically bring into a C/C++ project the facilities provided by the MaKL build template library.
+</description>
+
+<usage>
+    <flag optional="1">-makl-verbose<desc>Let makl chat a bit more then usual.</desc></flag>
+    <flag optional="1">-makl-tc=&lt;toolchain&gt;<desc>Tell makl to use this toolchain.</desc></flag>
+    <flag optional="1">-makl-tc-file=&lt;file&gt;<desc>Tell makl to use the supplied file as toolchain.</desc></flag>
+    <flag optional="1">-makl-shlib=&lt;shlib&gt;<desc>Tell makl to use this shared library build template.</desc></flag>
+    <flag optional="1">-makl-shlib-file=&lt;file&gt;<desc>Tell makl to use the supplied file as shared library build template.</desc></flag>
+    <flag optional="1">-makl-etc=&lt;dir&gt;<desc>Override default MAKL_ETC setting for this run.</desc></flag>
+    <flag optional="1">-makl-rc=&lt;file&gt;<desc>Use file as further source for settings.</desc></flag>
+    <flag optional="1">-makl-gnumake=&lt;prog&gt;<desc>Use prog instead of the default GNU make program.</desc></flag>
+    <flag optional="1">-makl-tc-onthefly<desc>Use the toolchain supplied via --makl-tc or --makl-tc-file for this makl run only.</desc></flag>
+    <arg optional="1">option ...<desc>Any GNU make option.</desc></arg>
+    <arg optional="1">targets ...<desc>Any defined target.</desc></arg>
+</usage>
+
+<environment>
+    <name>makl</name> access the following environment variables:
+    <dl>
+        <dd>MAKL_DIR</dd><dt>MaKL root directory which contains all the build templates, the autoconfiguration bourne shell functions, the ready-made toolchains, and any other bit used by <name>makl</name> and friends.</dt>
+        <dd>MAKEFLAGS</dd><dt>This variable is used by GNU <name>make</name> to pass default flags at each invocation.  MaKL uses it to feed <name>make</name> the include path for its build templates' library, should you need to add other flags, feel free to push them here.</dt>
+        <dd>MAKL_ETC</dd><dt>The directory containing the toolchain and shlib settings in use.  The default is in <path>${MAKL_DIR}/etc</path>, but its value can be changed on the fly to accomodate a toolchain different from the default.  See also the --makl-tc-onthefly argument.</dt>
+        <dd>MAKL_TC</dd><dt>Usually void, this variable tells which toolchain is to be used.  Take a look at <path>${MAKL_DIR}/tc</path> for a list of ready made toolchains.</dt>
+        <dd>MAKL_TC_FILE</dd><dt>This variable can be useful in case you have crafted your own toolchain and want to use it instead of the default.  Supply the full pathname of your .tc file here.</dt>
+        <dd>MAKL_SHLIB</dd><dt>Usually void, this variable tells which shared library build template is to be used.  Take a look at <path>${MAKL_DIR}/shlib</path> for a list of ready made shared library templates.</dt>
+        <dd>MAKL_SHLIB_FILE</dd><dt>This variable can be useful in case you have crafted your own shlib file and want to use it instead of the default.  Supply the full pathname of your <path>shlib.mk</path> file here.</dt>
+        <dd>MAKL_RC_MAXDEPTH</dd><dt>Used to tell <name>makl</name> the maximum depth at which a per-project <path>makl.conf</path> must be searched starting from the directory in which <name>makl</name> has been invoked.  If unset a default value of 5 is used.</dt>
+    </dl>
+</environment>
+
+<files>
+    <file>$HOME/.maklrc<desc>Per-user makl settings' file.</desc></file>
+    <file>makl.conf<desc>Per-project makl settings' file</desc></file>
+</files>
+
+<examples>
+Do the default target with extra chat bits on:
+<literal>
+    $ makl --makl-verbose
+</literal>
+Use an one-shot Linux ARM toolchain to execute the build (plus the depend step) into an ad-hoc target directory:
+<literal>
+    $ makl --makl-tc=linux-arm --makl-tc-onthefly OBJDIR=arm depend all
+</literal>
+</examples>
+
+<diagnostics>
+    In case of error (be it a <name>makl</name> error or a <name>make</name> errror), <name>makl</name> will bail out with non-zero exit code and appropriate diagnostic message on standard output.
+</diagnostics>
+
+<seealso>
+    <manpage>make<section>1</section>, </manpage>
+    <manpage>gnumake<section>1</section></manpage>
+    <manpage>makl-conf<section>1</section></manpage>
+    <manpage>makl-tc<section>1</section></manpage>
+    <manpage>makl-new<section>1</section></manpage>
+</seealso>
+
+<bugs>
+    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+</bugs>
+
+</manpage>
