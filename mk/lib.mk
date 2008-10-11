@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.52 2008/10/10 08:39:40 tho Exp $
+# $Id: lib.mk,v 1.53 2008/10/11 15:16:19 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -202,7 +202,7 @@ include priv/deps.mk
 	@echo "LIBMODE          file mode bits of the installed executable         "
 	@echo "LIBDIR           destination directory of the installed executable  "
 	@echo "SHLIB            if set shared library will also be built           "
-	@echo "OBJDIR           directory where the compiled/linked objects reside "
+	@echo "OBJDIR           directory where the compiled/linked objects go     "
 	@echo
 	@echo "The following flags are available only if SHLIB is set:             "
 	@echo "SHLIB_MAJOR   shared library major number (i.e. the 1 in 1.2.3)     "

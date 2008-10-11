@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.46 2008/10/10 08:39:40 tho Exp $
+# $Id: prog.mk,v 1.47 2008/10/11 15:16:19 tho Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -22,6 +22,7 @@ ifneq ($(MAKECMDGOALS), .help)
     $(call assert-var, SRCS)
 endif
 
+# always set an OBJDIR (defaulting to CURDIR)
 ifndef OBJDIR
 OBJDIR = $(CURDIR)
 endif
@@ -169,7 +170,7 @@ include priv/deps.mk
 	@echo "BINGRP           group ID of the installed excutable                "
 	@echo "BINMODE          file mode bits of the installed executable         "
 	@echo "BINDIR           destination directory of the installed executable  "
-	@echo "OBJDIR           directory where the compiled/linked objects reside "
+	@echo "OBJDIR           directory where the compiled/linked objects go     "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/prog.mk        "
 	@echo
