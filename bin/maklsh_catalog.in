@@ -1,0 +1,26 @@
+# 
+# $Id: maklsh_catalog.in,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+
+# maklsh and links with optional {pre,suf}fix
+PFX="@{{SCRIPT_PREFIX}}" ; [ "${PFX}" = @"{{SCRIPT_PREFIX}}" ] && PFX=""
+SFX="@{{SCRIPT_SUFFIX}}" ; [ "${SFX}" = @"{{SCRIPT_SUFFIX}}" ] && SFX=""
+
+# GNU make wrapper
+MAKL_CMD_RUN="${PFX}makl${SFX}"
+
+# configure script wrapper
+MAKL_CMD_CONF="${PFX}makl-conf${SFX}"
+MAKL_CMD_CONF_COMPAT="${PFX}maklconf${SFX}"
+
+# synoptical
+MAKL_CMD_HELP="${PFX}makl-help${SFX}"
+MAKL_CMD_HELP_COMPAT="${PFX}maklhelp${SFX}"
+
+# toolchain creator
+MAKL_CMD_TC="${PFX}makl-tc${SFX}"
+MAKL_CMD_TC_COMPAT="${PFX}makltc${SFX}"
+
+# Makefiles' cloning from template
+MAKL_CMD_NEW="${PFX}makl-new${SFX}"
+MAKL_CMD_NEW_COMPAT="${PFX}maklnew${SFX}"

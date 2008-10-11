@@ -1,0 +1,46 @@
+# $Id: maklsh_help,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+# import:
+# - MAKLSH_ECHO
+# - MAKLSH_MAKL_VERSION
+# - MAKLSH_MAKL_ETC
+# - MAKLSH_MAKL_DIR
+# - MAKLSH_MAKE_FLAGS
+# export:
+# - nothing
+# internal:
+# - ver, etc
+
+function maklsh_help ()
+{
+    local ver="${MAKLSH_MAKL_VERSION}"
+    local etc=""
+
+    if [ ! -z "${MAKLSH_MAKL_ETC}" ]
+    then
+        etc="${MAKLSH_MAKL_ETC}"
+    else
+        # MAKLSH_MAKL_DIR can't be in place
+        etc="${MAKLSH_MAKL_DIR}/etc"
+    fi
+
+    ${MAKLSH_ECHO} "                                                         "
+    ${MAKLSH_ECHO} "MaKL version ${ver}, (c) 2005-2008 Koanlogic srl         "
+    ${MAKLSH_ECHO} "This is free software released under the BSD license.    "
+    ${MAKLSH_ECHO} "                                                         "
+    ${MAKLSH_ECHO} "Available tools are:                                     "
+    ${MAKLSH_ECHO} "makl       => GNU make wrapper                           "
+    ${MAKLSH_ECHO} "makl-conf  => configure script wrapper                   "
+    ${MAKLSH_ECHO} "makl-tc    => toolchain installer                        "
+    ${MAKLSH_ECHO} "makl-new   => create Makefile from template              "
+    ${MAKLSH_ECHO} "makl-help  => display this help                          "
+    ${MAKLSH_ECHO} "                                                         "
+    ${MAKLSH_ECHO} "MaKL variable in use:                                    "
+    ${MAKLSH_ECHO} "MAKL_DIR  [${MAKLSH_MAKL_DIR}]                           "
+    ${MAKLSH_ECHO} "MAKEFLAGS [${MAKLSH_MAKE_FLAGS}]                         "
+    ${MAKLSH_ECHO} "MAKL_ETC  [${etc}]                                       "
+    ${MAKLSH_ECHO} "                                                         "
+    ${MAKLSH_ECHO} "For makl specific command line switches, please consult  "
+    ${MAKLSH_ECHO} "the makl(1) man page.                                    "
+    ${MAKLSH_ECHO} "                                                         "
+}

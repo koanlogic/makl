@@ -1,9 +1,23 @@
-# $Id: Makefile,v 1.10 2008/05/10 07:07:13 tho Exp $
+# $Id: Makefile,v 1.11 2008/10/11 15:15:48 tho Exp $
 
 include common.mk
 include ../Makefile.conf
 
-SCRIPT = maklsh
+BINDIR = /tmp/bin
+
+MAKLSH = maklsh
+
+FILES = $(MAKLSH)
+FILES += maklsh_funcs
+FILES += maklsh_catalog
+FILES += maklsh_conf
+FILES += maklsh_funcs
+FILES += maklsh_help
+FILES += maklsh_new
+FILES += maklsh_run
+FILES += maklsh_tc
+FILES_DIR = $(BINDIR)
+FILES_MODE = 0755
 
 # $1 name is framed with prefix and suffix
 frame-it = $(strip $(SCRIPT_PREFIX))$(strip $(1))$(strip $(SCRIPT_SUFFIX))
@@ -28,7 +42,7 @@ install-hook-pre: all
 install-hook-post:
 	for f in $(LINKS) ; do                      \
 	    rm -f $(BINDIR)/$$f ;                   \
-	    ln -s $(BINDIR)/$(call frame-it, $(SCRIPT)) $(BINDIR)/$$f ; \
+	    ln -s $(BINDIR)/$(call frame-it, $(MAKLSH)) $(BINDIR)/$$f ; \
 	done
 
 uninstall-hook-pre:
@@ -36,4 +50,4 @@ uninstall-hook-pre:
 	    rm -f $(BINDIR)/$$f ;   \
 	done
 
-include script.mk
+include files.mk

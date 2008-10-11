@@ -1,0 +1,26 @@
+# $Id: maklsh_tc,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+# import:
+# - MAKLSH_ECHO
+# - ...
+# export:
+# - MAKLSH_TC_ENV
+# internal:
+# - ...
+
+##
+# install toolchain
+##
+function maklsh_tc ()
+{
+    # TODO check consistency of parameters supplied to setup_tc script
+
+    # try to create MAKL_ETC dir if it doesn't exist
+    if [ ! -e "${MAKLSH_MAKL_ETC}" ] 
+    then
+        mkdir -p "${MAKLSH_MAKL_ETC}" 2>&1 > /dev/null
+        [ $? -eq 0 ] || maklsh_err "Could not create ${MAKLSH_MAKL_ETC}"
+    fi
+
+    ${MAKLSH_MAKL_DIR}/setup/tc_setup.sh
+}

@@ -1,0 +1,73 @@
+#!/bin/sh
+#
+# $Id: maklsh,v 1.1 2008/10/11 15:15:48 tho Exp $
+
+# source-in utility code
+. `dirname $0`/maklsh_funcs
+. `dirname $0`/maklsh_catalog
+
+MAKLSH_ARGS="$@"
+MAKLSH_MAKL_ARGS=""
+MAKLSH_NOMAKL_ARGS=""
+
+##
+# main
+##
+
+# initialize runtime context
+maklsh_context_init
+
+# get overrides from the user 
+maklsh_load_user_settings
+
+# further overrides are taken from per-project maklrc's
+maklsh_load_per_proj_settings
+
+# process command line args
+maklsh_argsep "${MAKLSH_ARGS}"
+maklsh_proc_makl_args "${MAKLSH_MAKL_ARGS}"
+
+# ==> from now on we could use maklsh_chat()
+
+# take in other overrides from explicit --makl-rc=file
+[ ! -z "${MAKLSH_MAKL_RC}" ] && maklsh_load_from_file "${MAKLSH_MAKL_RC}"
+
+# dump settings if --makl-verbose
+[ ! -z "${MAKLSH_VERBOSE}" ] && maklsh_context_dump
+
+# before dispatching push the accumulated context in the env
+maklsh_context_push
+
+## 
+# dispatch action based on how we have been called
+## 
+case `basename $0`
+in
+    ${MAKL_CMD_RUN})
+        . `dirname $0`/maklsh_tc
+        . `dirname $0`/maklsh_run
+        [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
+        maklsh_run
+        ;;
+    ${MAKL_CMD_CONF} | ${MAKL_CMD_CONF_COMPAT})
+        . `dirname $0`/maklsh_conf
+        maklsh_conf
+        ;;
+    ${MAKL_CMD_NEW} | ${MAKL_CMD_NEW_COMPAT})
+        . `dirname $0`/maklsh_new
+        maklsh_new
+        ;;
+    ${MAKL_CMD_HELP} | ${MAKL_CMD_HELP_COMPAT})
+        . `dirname $0`/maklsh_help
+        maklsh_help
+        ;;
+    ${MAKL_CMD_TC} | ${MAKL_CMD_TC_COMPAT})
+        . `dirname $0`/maklsh_tc
+        maklsh_tc
+        ;;
+    *)
+        maklsh_err "you should not call me directly !"
+        ;;
+esac
+
+exit 0

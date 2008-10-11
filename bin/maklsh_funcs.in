@@ -1,0 +1,297 @@
+#
+# $Id: maklsh_funcs.in,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+
+MAKLSH_ECHO="/bin/echo makl > "
+MAKLSH_ARG_SET="__MAKLSH_ARG_SET__"
+MAKLSH_ARG_UNSET=""
+
+function maklsh_err ()
+{
+    ${MAKLSH_ECHO} "Error: $@"
+    exit 1
+}
+
+function maklsh_chat ()
+{
+    [ -z ${MAKLSH_VERBOSE} ] && return
+    ${MAKLSH_ECHO} $@
+}
+
+# separate --makl-*... and friends from supposed GNU make commands, i.e.
+# append to MAKLSH_MAKL_ARGS or MAKLSH_NOMAKL_ARGS respectively
+# - $1 is the argument to be processed
+function maklsh_argsep ()
+{
+    set - $@
+
+    while [ ! -z "$1" ]
+    do
+        echo "$1" | grep '^\-\-makl\-[a-z].*' 2>&1 > /dev/null
+        if [ $? = 0 ]
+        then
+            MAKLSH_MAKL_ARGS="${MAKLSH_MAKL_ARGS} $1"
+        else
+            MAKLSH_NOMAKL_ARGS="${MAKLSH_NOMAKL_ARGS} $1"
+        fi
+        shift
+    done
+}
+
+# test if the supplied command matches a given one, in which case try to
+# extract and assign the value part
+# - $1 string to test (command=value)
+# - $2 acceptable command
+# - $3 variable to assign with the supplied value
+# return 0 if $2 has been found, 1 if not found.  can also exit with error.
+function maklsh_get_argval ()
+{
+    local val=""
+
+    echo "$1" | grep "^$2=" 2>&1 > /dev/null
+    if [ $? -eq 0 ]
+    then
+        val=`echo "$1" | cut -d'=' -f2`
+        [ -z "${val}" ] && maklsh_err "--makl-$2 needs an argument"
+        eval $3="${val}"
+        return 0
+    else
+        return 1
+    fi
+}
+
+# test if the supplied command matches a given one
+# - $1 string to test (command)
+# - $2 acceptable command
+# - $3 variable to assign with the constant string MAKLSH_ARG_SET
+# return 0 if $2 has been found, 1 if not found.  can also exit with error.
+function maklsh_get_arg ()
+{
+    local val=""
+
+    echo "$1" | grep "^$2$" 2>&1 > /dev/null
+    if [ $? -eq 0 ]
+    then
+        val=${MAKLSH_ARG_SET}
+        eval $3="${val}"
+        return 0
+    else
+        return 1
+    fi
+}
+
+
+# process the supplied string containing --makl-* arguments
+# - $1
+# may set the following globals:
+#   - MAKLSH_MAKL_TC (--makl-tc=...)
+#   - MAKLSH_MAKL_TC_FILE (--makl-tc-file=...)
+#   - MAKLSH_MAKL_SHLIB (--makl-shlib=...)
+#   - MAKLSH_MAKL_SHLIB_FILE (--makl-shlib-file=...)
+#   - MAKLSH_MAKL_ETC (--makl-etc=...)
+#   - MAKLSH_MAKL_RC (--makl-rc=...)
+#   - MAKLSH_GNUMAKE_PATH (--makl-gnumake=...)
+#   - MAKLSH_VERBOSE (--makl-verbose)
+#   - MAKLSH_TC_ONTHEFLY (--makl-tc-onthefly)
+function maklsh_proc_makl_args ()
+{
+    local cmd=""
+
+    set - $@
+
+    while [ ! -z "$1" ]
+    do
+        # zap '--makl-' string to obtain the command argument
+        cmd=`echo $1 | cut -c8-`
+
+        # --makl-tc=...
+        maklsh_get_argval "${cmd}" "tc" MAKLSH_MAKL_TC
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-tc-file=...
+        maklsh_get_argval "${cmd}" "tc-file" MAKLSH_MAKL_TC_FILE
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-shlib=...
+        maklsh_get_argval "${cmd}" "shlib" MAKLSH_MAKL_SHLIB
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-shlib-file=...
+        maklsh_get_argval "${cmd}" "shlib-file" MAKLSH_MAKL_SHLIB_FILE
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-etc=...
+        maklsh_get_argval "${cmd}" "etc" MAKLSH_MAKL_ETC
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-rc=...
+        maklsh_get_argval "${cmd}" "rc" MAKLSH_MAKL_RC
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-gnumake=...
+        maklsh_get_argval "${cmd}" "gnumake" MAKLSH_GNUMAKE_PATH
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-verbose
+        maklsh_get_arg "${cmd}" "verbose" MAKLSH_VERBOSE
+        [ $? -eq 0 ] && shift && continue
+
+        # --makl-tc-onthefly
+        maklsh_get_arg "${cmd}" "tc-onthefly" MAKLSH_TC_ONTHEFLY
+        if [ $? -eq 0 ] 
+        then
+            MAKLSH_ETC_ONTHEFLY=`mktemp -d /tmp/makl-etc-onthefly.XXXXXX`
+            [ $? -eq 0 ] || \
+                maklsh_err "Could not create on-the-fly MAKL_ETC directory"
+            shift && continue
+        fi
+
+        maklsh_err "unknown argument $1"
+    done
+}
+
+function maklsh_context_init ()
+{
+    MAKLSH_MAKL_DIR="/usr/local/share/makl-1.7.2"
+    MAKLSH_MAKE_FLAGS="-I ${MAKLSH_MAKL_DIR}/mk"
+    MAKLSH_MAKL_ETC=""
+    MAKLSH_GNUMAKE_PATH="/usr/bin/gnumake"
+    MAKLSH_MAKL_VERSION="`cat ${MAKLSH_MAKL_DIR}/VERSION 2>/dev/null`"
+    MAKLSH_MAKL_RC_MAXDEPTH="5"
+    MAKLSH_MAKL_TC=""
+    MAKLSH_MAKL_TC_FILE=""
+    MAKLSH_MAKL_SHLIB=""
+    MAKLSH_MAKL_SHLIB_FILE=""
+    MAKLSH_MAKL_RC=""
+    MAKLSH_VERBOSE=""
+    MAKLSH_TC_ONTHEFLY=""
+    MAKLSH_ETC_ONTHEFLY=""
+    MAKLSH_CF_SCRIPTS="./configure.sh ./Config.sh ./config.sh ./Configure.sh"
+    MAKLSH_CF_SCRIPTS="${MAKLSH_CF_SCRIPTS} ./configure ./Configure"
+
+    return
+}
+
+# reverse maklsh_load_from_file() ops
+function maklsh_context_push ()
+{
+    export MAKL_DIR="${MAKLSH_MAKL_DIR}"
+    export MAKEFLAGS="${MAKLSH_MAKEFLAGS}"
+    [ ! -z ${MAKLSH_MAKL_ETC} ] && export MAKL_ETC="${MAKLSH_MAKL_ETC}"
+    export MAKL_GNUMAKE="${MAKLSH_MAKL_GNUMAKE}"
+    export MAKL_VERSION="${MAKLSH_MAKL_VERSION}"
+
+    export MAKL_CF_SCRIPTS="${MAKLSH_CF_SCRIPTS}"
+
+    # toolchain stuff
+    export MAKL_TC="${MAKLSH_MAKL_TC}"
+    export MAKL_TC_FILE="${MAKLSH_MAKL_TC_FILE}"
+    export MAKL_SHLIB="${MAKLSH_MAKL_SHLIB}"
+    export MAKLSH_MAKL_SHLIB_FILE="${MAKL_SHLIB_FILE}"
+
+    export MAKL_RC_MAXDEPTH="${MAKLSH_MAKL_RC_MAXDEPTH}"
+
+    # on-the-fly toolchain handling
+    if [ ! -z "{MAKLSH_TC_ONTHEFLY}" -a ! -z "${MAKLSH_ETC_ONTHEFLY}" ]
+    then
+        maklsh_chat "Using ${MAKLSH_ETC_ONTHEFLY} as on-the-fly toolchain dir"
+        MAKLSH_MAKL_ETC="${MAKLSH_ETC_ONTHEFLY}"
+        export MAKL_ETC="${MAKLSH_ETC_ONTHEFLY}"
+    fi
+
+    return
+}
+
+function maklsh_context_dump ()
+{
+    ${MAKLSH_ECHO} "MaKL settings:"
+    ${MAKLSH_ECHO} "MAKL_DIR: ${MAKLSH_MAKL_DIR}"
+    ${MAKLSH_ECHO} "MAKEFLAGS: ${MAKLSH_MAKE_FLAGS}"
+    ${MAKLSH_ECHO} "MAKL_GNUMAKE: ${MAKLSH_GNUMAKE_PATH}"
+    ${MAKLSH_ECHO} "MAKL_VERSION: ${MAKLSH_MAKL_VERSION}"
+    ${MAKLSH_ECHO} "MAKL_RC_MAXDEPTH: ${MAKLSH_MAKL_RC_MAXDEPTH}"
+    ${MAKLSH_ECHO} "MAKL_TC: ${MAKLSH_MAKL_TC}"
+    ${MAKLSH_ECHO} "MAKL_TC_FILE: ${MAKLSH_MAKL_TC_FILE}"
+    ${MAKLSH_ECHO} "MAKL_SHLIB: ${MAKLSH_MAKL_SHLIB}"
+    ${MAKLSH_ECHO} "MAKL_SHLIB_FILE: ${MAKLSH_MAKL_SHLIB_FILE}"
+    ${MAKLSH_ECHO} "MAKL_ETC: ${MAKLSH_MAKL_ETC}"
+    ${MAKLSH_ECHO} "MAKL_RC: ${MAKLSH_MAKL_RC}"
+    ${MAKLSH_ECHO} "MAKLSH_VERBOSE: ${MAKLSH_VERBOSE}"
+    ${MAKLSH_ECHO} "MAKL_CF_SCRIPTS: ${MAKLSH_CF_SCRIPTS}"
+    ${MAKLSH_ECHO} "MAKLSH_TC_ONTHEFLY: ${MAKLSH_TC_ONTHEFLY}"
+    ${MAKLSH_ECHO} "MAKLSH_ETC_ONTHEFLY: ${MAKLSH_ETC_ONTHEFLY}"
+
+    # ... other ...
+
+    return
+}
+
+# load makl settings from file (merge with env)
+# - $1 the file from which settings are read in
+function maklsh_load_from_file ()
+{
+    [ -f "$1" ] || maklsh_err "no such file: $1"  
+    . $1
+
+    # map user vars to MAKLSH_* vars
+    [ ! -z "${MAKL_DIR}" ] && \
+        MAKLSH_MAKL_DIR="${MAKL_DIR}"
+    [ ! -z "${MAKEFLAGS}" ] && \
+        MAKLSH_MAKEFLAGS="${MAKEFLAGS}"
+    [ ! -z "${MAKL_ETC}" ] && \
+        MAKLSH_MAKL_ETC="${MAKL_ETC}"
+    [ ! -z "${MAKL_CF_SCRIPTS}" ] && \
+        MAKLSH_CF_SCRIPTS="${MAKL_CF_SCRIPTS}"
+    [ ! -z "${MAKL_TC}" ] && \
+        MAKLSH_MAKL_TC="${MAKL_TC}"
+    [ ! -z "${MAKL_TC_FILE}" ] && \
+        MAKLSH_MAKL_TC_FILE="${MAKL_TC_FILE}"
+    [ ! -z "${MAKL_SHLIB}" ] && \
+        MAKLSH_MAKL_SHLIB="${MAKL_SHLIB}"
+    [ ! -z "${MAKL_SHLIB_FILE}" ] && \
+        MAKLSH_MAKL_SHLIB_FILE="${MAKL_SHLIB_FILE}"
+    [ ! -z "${MAKL_GNUMAKE}" ] && \
+        MAKLSH_MAKL_GNUMAKE="${MAKL_GNUMAKE}"
+    [ ! -z "${MAKL_RC_MAXDEPTH}" ] && \
+        MAKLSH_MAKL_RC_MAXDEPTH="${MAKL_RC_MAXDEPTH}"
+    [ ! -z "${MAKL_VERSION}" ] && \
+        MAKLSH_MAKL_VERSION="${MAKL_VERSION}"
+
+    # ... other ...
+
+    return
+}
+
+function maklsh_load_user_settings ()
+{
+    local ums="${HOME}/.maklrc"
+
+    [ -f "${ums}" ] || return
+    ${MAKLSH_ECHO} "Reading user MaKL settings from ${ums}"
+    maklsh_load_from_file "${ums}"
+}
+
+function maklsh_load_per_proj_settings ()
+{
+    local cdir="."
+    local depth=5
+    local maklrc="maklrc"
+
+    [ "${MAKLSH_MAKL_RC_MAXDEPTH}" ] && depth=${MAKLSH_MAKL_RC_MAXDEPTH}
+
+    while expr ${depth} '>' 0 >/dev/null
+    do
+        depth=`expr ${depth} - 1`
+        if [ -r "${cdir}/${maklrc}" ]
+        then
+            cdir_fqn=`(cd ${cdir} && pwd)`
+            ${MAKLSH_ECHO} "Reading per-project MaKL settings from" \
+                           "${cdir_fqn}/${maklrc}"
+            maklsh_load_from_file "${cdir_fqn}/${maklrc}"
+            return
+        fi
+        cdir="../"${cdir}
+    done
+
+    return
+}

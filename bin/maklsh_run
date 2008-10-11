@@ -1,0 +1,11 @@
+# $Id: maklsh_run,v 1.1 2008/10/11 15:15:48 tho Exp $
+
+##
+# call GNU make with purged args
+##
+function maklsh_run ()
+{
+    maklsh_chat "Running: ${MAKLSH_GNUMAKE_PATH} ${MAKLSH_NOMAKL_ARGS}"
+    ${MAKLSH_GNUMAKE_PATH} ${MAKLSH_NOMAKL_ARGS}
+    return $?
+}

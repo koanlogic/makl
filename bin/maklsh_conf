@@ -1,0 +1,38 @@
+# $Id: maklsh_conf,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+# import:
+# - MAKLSH_ECHO
+# - MAKLSH_CF_SCRIPTS
+# - MAKLSH_NOMAKL_ARGS
+# - maklsh_err
+# export:
+# - nothing
+# internal:
+# - MAKLSH_CF_SCRIPT_PATH
+
+function maklsh_select_configure ()
+{
+    local cf
+
+    for cf in ${MAKLSH_CF_SCRIPTS}
+    do
+        if [ -x "${cf}" ]
+        then
+            MAKLSH_CF_SCRIPT_PATH="${cf}"
+            ${MAKLSH_ECHO} "Using configure script ${MAKLSH_CF_SCRIPT_PATH}"
+            return
+        fi
+    done
+
+    maklsh_err "no suitable configure script found !"
+}
+
+##
+# call configure script
+##
+function maklsh_conf ()
+{
+    maklsh_select_configure
+    ${MAKLSH_CF_SCRIPT_PATH} ${MAKLSH_NOMAKL_ARGS}
+    return $?
+}

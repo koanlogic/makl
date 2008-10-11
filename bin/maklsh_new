@@ -1,0 +1,57 @@
+# $Id: maklsh_new,v 1.1 2008/10/11 15:15:48 tho Exp $
+#
+# import:
+# - MAKLSH_MAKL_DIR
+# - MAKLSH_ECHO
+# export:
+# - ...
+# internal:
+# - ...
+
+function maklsh_new_display_help ()
+{
+    ${MAKLSH_ECHO}
+    ${MAKLSH_ECHO} "Usage: makl-new <template>"
+    ${MAKLSH_ECHO}
+    ${MAKLSH_ECHO} "Available templates:"
+    ${MAKLSH_ECHO} "   prog lib subdir xeno include script file man dist subst"
+    ${MAKLSH_ECHO}
+}
+
+function maklsh_clone_from_tmpl ()
+{
+    local mf="./Makefile"
+
+    if [ -z "$1" ]
+    then
+        ${MAKLSH_ECHO} "No template specified !"
+        maklsh_new_display_help
+        return 1
+    fi
+
+    case $1
+    in
+        prog|lib|subdir|xeno|include|script|file|man|dist|subst)
+            [ "$1" = "dist" ] && mf="Makefile.dist"
+            cp -i ${MAKLSH_MAKL_DIR}/tmpl/$1.tmpl ${mf}
+            if [ $? -eq 0 ]
+            then
+                ${MAKLSH_ECHO} "The '$1' template has been successfully saved" \
+                               "to ${mf}"
+                ${MAKLSH_ECHO} "Type 'makl .help' to get the list of" \
+                               "available targets and variables."
+            fi
+            ;;
+        *)
+            ${MAKLSH_ECHO} "No template for '$1'"
+            maklsh_new_display_help
+            return 1
+            ;;
+    esac
+}
+
+function maklsh_new ()
+{
+    maklsh_clone_from_tmpl ${MAKLSH_NOMAKL_ARGS}
+    return $?
+}

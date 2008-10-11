@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.63 2008/10/07 10:53:54 stewy Exp $
+$Id: ChangeLog,v 1.64 2008/10/11 15:15:48 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
-MaKL 1.7.X
+MaKL 1.8.z
+	- added OBJDIR to prog and lib templates for multiple target builds
+	- added --makl-* command line flags to maklsh
 	- fix help file generation if configure.help file doesn't exist
 
 MaKL 1.7.2
