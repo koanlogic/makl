@@ -1,5 +1,5 @@
 #
-# $Id: xeno.mk,v 1.38 2008/06/13 21:09:31 tho Exp $
+# $Id: xeno.mk,v 1.39 2008/10/13 13:10:33 tho Exp $
 # 
 # User Variables:
 #
@@ -481,8 +481,9 @@ endif   # !XENO_NO_INSTALL
 	@echo "fetch       retrieve the package tarball                            "
 	@echo "unzip       deflate the tarball                                     "
 	@echo "patch       apply the needed patches                                "
+	@echo "conf        configure the package for the target platform           "
+	@echo "build       build the package                                       "
 	@echo "install     install the package                                     "
-	@echo "uninstall   remove the installed package                            "
 	@echo
 	@echo "Each target T also has T-hook-pre and T-hook-post companion         "
 	@echo "targets. These (void) targets are at client's disposal and will     "
