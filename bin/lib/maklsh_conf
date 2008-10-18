@@ -1,4 +1,4 @@
-# $Id: maklsh_conf,v 1.1 2008/10/11 19:24:57 tho Exp $
+# $Id: maklsh_conf,v 1.2 2008/10/18 13:10:08 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -10,7 +10,7 @@
 # internal:
 # - MAKLSH_CF_SCRIPT_PATH
 
-function maklsh_select_configure ()
+maklsh_select_configure ()
 {
     local cf
 
@@ -30,7 +30,7 @@ function maklsh_select_configure ()
 ##
 # call configure script
 ##
-function maklsh_conf ()
+maklsh_conf ()
 {
     maklsh_select_configure
     ${MAKLSH_CF_SCRIPT_PATH} ${MAKLSH_NOMAKL_ARGS}

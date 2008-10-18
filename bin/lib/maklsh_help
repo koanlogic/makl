@@ -1,4 +1,4 @@
-# $Id: maklsh_help,v 1.1 2008/10/11 19:24:57 tho Exp $
+# $Id: maklsh_help,v 1.2 2008/10/18 13:10:08 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -11,7 +11,7 @@
 # internal:
 # - ver, etc
 
-function maklsh_help ()
+maklsh_help ()
 {
     local ver="${MAKLSH_MAKL_VERSION}"
     local etc=""

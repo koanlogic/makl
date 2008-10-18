@@ -1,4 +1,4 @@
-# $Id: maklsh_new,v 1.1 2008/10/11 19:24:57 tho Exp $
+# $Id: maklsh_new,v 1.2 2008/10/18 13:10:08 tho Exp $
 #
 # import:
 # - MAKLSH_MAKL_DIR
@@ -8,7 +8,7 @@
 # internal:
 # - ...
 
-function maklsh_new_display_help ()
+maklsh_new_display_help ()
 {
     ${MAKLSH_ECHO}
     ${MAKLSH_ECHO} "Usage: makl-new <template>"
@@ -18,7 +18,7 @@ function maklsh_new_display_help ()
     ${MAKLSH_ECHO}
 }
 
-function maklsh_clone_from_tmpl ()
+maklsh_clone_from_tmpl ()
 {
     local mf="./Makefile"
 
@@ -50,7 +50,7 @@ function maklsh_clone_from_tmpl ()
     esac
 }
 
-function maklsh_new ()
+maklsh_new ()
 {
     maklsh_clone_from_tmpl ${MAKLSH_NOMAKL_ARGS}
     return $?

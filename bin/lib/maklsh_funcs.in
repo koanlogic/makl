@@ -1,18 +1,18 @@
 #
-# $Id: maklsh_funcs.in,v 1.2 2008/10/11 20:13:01 tho Exp $
+# $Id: maklsh_funcs.in,v 1.3 2008/10/18 13:10:08 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
 MAKLSH_ARG_SET="__MAKLSH_ARG_SET__"
 MAKLSH_ARG_UNSET=""
 
-function maklsh_err ()
+maklsh_err ()
 {
     ${MAKLSH_ECHO} "Error: $@"
     exit 1
 }
 
-function maklsh_chat ()
+maklsh_chat ()
 {
     [ -z ${MAKLSH_VERBOSE} ] && return
     ${MAKLSH_ECHO} $@
@@ -21,7 +21,7 @@ function maklsh_chat ()
 # separate --makl-*... and friends from supposed GNU make commands, i.e.
 # append to MAKLSH_MAKL_ARGS or MAKLSH_NOMAKL_ARGS respectively
 # - $1 is the argument to be processed
-function maklsh_argsep ()
+maklsh_argsep ()
 {
     set - $@
 
@@ -44,7 +44,7 @@ function maklsh_argsep ()
 # - $2 acceptable command
 # - $3 variable to assign with the supplied value
 # return 0 if $2 has been found, 1 if not found.  can also exit with error.
-function maklsh_get_argval ()
+maklsh_get_argval ()
 {
     local val=""
 
@@ -65,7 +65,7 @@ function maklsh_get_argval ()
 # - $2 acceptable command
 # - $3 variable to assign with the constant string MAKLSH_ARG_SET
 # return 0 if $2 has been found, 1 if not found.  can also exit with error.
-function maklsh_get_arg ()
+maklsh_get_arg ()
 {
     local val=""
 
@@ -93,7 +93,7 @@ function maklsh_get_arg ()
 #   - MAKLSH_GNUMAKE_PATH (--makl-gnumake=...)
 #   - MAKLSH_VERBOSE (--makl-verbose)
 #   - MAKLSH_TC_ONTHEFLY (--makl-tc-onthefly)
-function maklsh_proc_makl_args ()
+maklsh_proc_makl_args ()
 {
     local cmd=""
 
@@ -150,7 +150,7 @@ function maklsh_proc_makl_args ()
     done
 }
 
-function maklsh_context_init ()
+maklsh_context_init ()
 {
     MAKLSH_MAKL_DIR="@{{MAKL_ROOT}}"
     MAKLSH_MAKE_FLAGS="-I ${MAKLSH_MAKL_DIR}/mk"
@@ -173,7 +173,7 @@ function maklsh_context_init ()
 }
 
 # reverse maklsh_load_from_file() ops
-function maklsh_context_push ()
+maklsh_context_push ()
 {
     export MAKL_DIR="${MAKLSH_MAKL_DIR}"
     export MAKEFLAGS="${MAKLSH_MAKE_FLAGS}"
@@ -202,7 +202,7 @@ function maklsh_context_push ()
     return
 }
 
-function maklsh_context_dump ()
+maklsh_context_dump ()
 {
     ${MAKLSH_ECHO} "MaKL settings:"
     ${MAKLSH_ECHO} "MAKL_DIR: ${MAKLSH_MAKL_DIR}"
@@ -228,7 +228,7 @@ function maklsh_context_dump ()
 
 # load makl settings from file (merge with env)
 # - $1 the file from which settings are read in
-function maklsh_load_from_file ()
+maklsh_load_from_file ()
 {
     [ -f "$1" ] || maklsh_err "no such file: $1"  
     . $1
@@ -262,7 +262,7 @@ function maklsh_load_from_file ()
     return
 }
 
-function maklsh_load_user_settings ()
+maklsh_load_user_settings ()
 {
     local ums="${HOME}/.maklrc"
 
@@ -271,7 +271,7 @@ function maklsh_load_user_settings ()
     maklsh_load_from_file "${ums}"
 }
 
-function maklsh_load_per_proj_settings ()
+maklsh_load_per_proj_settings ()
 {
     local cdir="."
     local depth=5

@@ -1,4 +1,4 @@
-# $Id: maklsh_tc,v 1.2 2008/10/11 22:01:29 tho Exp $
+# $Id: maklsh_tc,v 1.3 2008/10/18 13:10:08 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -8,7 +8,7 @@
 # internal:
 # - ...
 
-function maklsh_tc_clean ()
+maklsh_tc_clean ()
 {
     if [ ! -z "${MAKLSH_MAKL_ETC}" ]
     then
@@ -22,7 +22,7 @@ function maklsh_tc_clean ()
 ##
 # install toolchain
 ##
-function maklsh_tc ()
+maklsh_tc ()
 {
     # TODO check consistency of parameters supplied to setup_tc script
 
