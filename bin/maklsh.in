@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: maklsh.in,v 1.30 2008/10/11 22:01:29 tho Exp $
+# $Id: maklsh.in,v 1.31 2008/10/19 12:25:16 tho Exp $
 
 MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 
@@ -8,8 +8,6 @@ MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 . ${MAKLSH_LIB}/maklsh_funcs
 . ${MAKLSH_LIB}/maklsh_catalog
 
-MAKLSH_ARGS="$@"
-MAKLSH_MAKL_ARGS=""
 MAKLSH_NOMAKL_ARGS=""
 
 ##
@@ -26,8 +24,7 @@ maklsh_load_user_settings
 maklsh_load_per_proj_settings
 
 # process command line args
-maklsh_argsep "${MAKLSH_ARGS}"
-maklsh_proc_makl_args "${MAKLSH_MAKL_ARGS}"
+maklsh_argsep "$@"
 
 # ==> from now on we could use maklsh_chat()
 

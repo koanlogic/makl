@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.3 2008/10/18 13:10:08 tho Exp $
+# $Id: maklsh_funcs.in,v 1.4 2008/10/19 12:25:16 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -19,18 +19,19 @@ maklsh_chat ()
 }
 
 # separate --makl-*... and friends from supposed GNU make commands, i.e.
-# append to MAKLSH_MAKL_ARGS or MAKLSH_NOMAKL_ARGS respectively
+# append to MAKLSH_MAKL_ARGS or dispatch to maklsh_proc_makl_arg function
+# respectively
 # - $1 is the argument to be processed
 maklsh_argsep ()
 {
-    set - $@
+    set - "$@"
 
     while [ ! -z "$1" ]
     do
         echo "$1" | grep '^\-\-makl\-[a-z].*' 2>&1 > /dev/null
         if [ $? = 0 ]
         then
-            MAKLSH_MAKL_ARGS="${MAKLSH_MAKL_ARGS} $1"
+            maklsh_proc_makl_arg "$1"
         else
             MAKLSH_NOMAKL_ARGS="${MAKLSH_NOMAKL_ARGS} $1"
         fi
@@ -40,20 +41,20 @@ maklsh_argsep ()
 
 # test if the supplied command matches a given one, in which case try to
 # extract and assign the value part
-# - $1 string to test (command=value)
+# - $1 variable to assign with the supplied value
 # - $2 acceptable command
-# - $3 variable to assign with the supplied value
+# - $3 string to test (command=value)
 # return 0 if $2 has been found, 1 if not found.  can also exit with error.
 maklsh_get_argval ()
 {
     local val=""
 
-    echo "$1" | grep "^$2=" 2>&1 > /dev/null
+    echo "$3" | grep "^$2=" 2>&1 > /dev/null
     if [ $? -eq 0 ]
     then
-        val=`echo "$1" | cut -d'=' -f2`
+        val=`echo "$3" | cut -d'=' -f2-`
         [ -z "${val}" ] && maklsh_err "--makl-$2 needs an argument"
-        eval $3="${val}"
+        eval $1=\"${val}\"
         return 0
     else
         return 1
@@ -61,93 +62,23 @@ maklsh_get_argval ()
 }
 
 # test if the supplied command matches a given one
-# - $1 string to test (command)
+# - $1 variable to assign with the constant string MAKLSH_ARG_SET
 # - $2 acceptable command
-# - $3 variable to assign with the constant string MAKLSH_ARG_SET
+# - $3 string to test (command)
 # return 0 if $2 has been found, 1 if not found.  can also exit with error.
 maklsh_get_arg ()
 {
     local val=""
 
-    echo "$1" | grep "^$2$" 2>&1 > /dev/null
+    echo "$3" | grep "^$2$" 2>&1 > /dev/null
     if [ $? -eq 0 ]
     then
         val=${MAKLSH_ARG_SET}
-        eval $3="${val}"
+        eval $1=\"${val}\"
         return 0
     else
         return 1
     fi
-}
-
-
-# process the supplied string containing --makl-* arguments
-# - $1
-# may set the following globals:
-#   - MAKLSH_MAKL_TC (--makl-tc=...)
-#   - MAKLSH_MAKL_TC_FILE (--makl-tc-file=...)
-#   - MAKLSH_MAKL_SHLIB (--makl-shlib=...)
-#   - MAKLSH_MAKL_SHLIB_FILE (--makl-shlib-file=...)
-#   - MAKLSH_MAKL_ETC (--makl-etc=...)
-#   - MAKLSH_MAKL_RC (--makl-rc=...)
-#   - MAKLSH_GNUMAKE_PATH (--makl-gnumake=...)
-#   - MAKLSH_VERBOSE (--makl-verbose)
-#   - MAKLSH_TC_ONTHEFLY (--makl-tc-onthefly)
-maklsh_proc_makl_args ()
-{
-    local cmd=""
-
-    set - $@
-
-    while [ ! -z "$1" ]
-    do
-        # zap '--makl-' string to obtain the command argument
-        cmd=`echo $1 | cut -c8-`
-
-        # --makl-tc=...
-        maklsh_get_argval "${cmd}" "tc" MAKLSH_MAKL_TC
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-tc-file=...
-        maklsh_get_argval "${cmd}" "tc-file" MAKLSH_MAKL_TC_FILE
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-shlib=...
-        maklsh_get_argval "${cmd}" "shlib" MAKLSH_MAKL_SHLIB
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-shlib-file=...
-        maklsh_get_argval "${cmd}" "shlib-file" MAKLSH_MAKL_SHLIB_FILE
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-etc=...
-        maklsh_get_argval "${cmd}" "etc" MAKLSH_MAKL_ETC
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-rc=...
-        maklsh_get_argval "${cmd}" "rc" MAKLSH_MAKL_RC
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-gnumake=...
-        maklsh_get_argval "${cmd}" "gnumake" MAKLSH_GNUMAKE_PATH
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-verbose
-        maklsh_get_arg "${cmd}" "verbose" MAKLSH_VERBOSE
-        [ $? -eq 0 ] && shift && continue
-
-        # --makl-tc-onthefly
-        maklsh_get_arg "${cmd}" "tc-onthefly" MAKLSH_TC_ONTHEFLY
-        if [ $? -eq 0 ] 
-        then
-            MAKLSH_ETC_ONTHEFLY=`mktemp -d /tmp/makl-etc-onthefly.XXXXXX`
-            [ $? -eq 0 ] || \
-                maklsh_err "Could not create on-the-fly MAKL_ETC directory"
-            shift && continue
-        fi
-
-        maklsh_err "unknown argument $1"
-    done
 }
 
 maklsh_context_init ()
@@ -294,4 +225,68 @@ maklsh_load_per_proj_settings ()
     done
 
     return
+}
+
+# process the supplied string containing --makl-* arguments
+# - $1
+# may set the following globals:
+#   - MAKLSH_MAKL_TC (--makl-tc=...)
+#   - MAKLSH_MAKL_TC_FILE (--makl-tc-file=...)
+#   - MAKLSH_MAKL_SHLIB (--makl-shlib=...)
+#   - MAKLSH_MAKL_SHLIB_FILE (--makl-shlib-file=...)
+#   - MAKLSH_MAKL_ETC (--makl-etc=...)
+#   - MAKLSH_MAKL_RC (--makl-rc=...)
+#   - MAKLSH_GNUMAKE_PATH (--makl-gnumake=...)
+#   - MAKLSH_VERBOSE (--makl-verbose)
+#   - MAKLSH_TC_ONTHEFLY (--makl-tc-onthefly)
+maklsh_proc_makl_arg ()
+{
+    local cmd=""
+
+    # zap '--makl-' string to obtain the command argument
+    cmd=`echo $@ | cut -c8-`
+
+    # --makl-tc=...
+    maklsh_get_argval MAKLSH_MAKL_TC "tc" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-tc-file=...
+    maklsh_get_argval MAKLSH_MAKL_TC_FILE "tc-file" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-shlib=...
+    maklsh_get_argval MAKLSH_MAKL_SHLIB "shlib" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-shlib-file=...
+    maklsh_get_argval MAKLSH_MAKL_SHLIB_FILE "shlib-file" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-etc=...
+    maklsh_get_argval MAKLSH_MAKL_ETC "etc" MAKLSH_MAKL_ETC "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-rc=...
+    maklsh_get_argval MAKLSH_MAKL_RC "rc" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-gnumake=...
+    maklsh_get_argval MAKLSH_GNUMAKE_PATH "gnumake" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-verbose
+    maklsh_get_arg MAKLSH_VERBOSE "verbose" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-tc-onthefly
+    maklsh_get_arg MAKLSH_TC_ONTHEFLY "tc-onthefly" "${cmd}"
+    if [ $? -eq 0 ]
+    then
+        MAKLSH_ETC_ONTHEFLY=`mktemp -d /tmp/makl-etc-onthefly.XXXXXX`
+        [ $? -eq 0 ] || \
+            maklsh_err "Could not create on-the-fly MAKL_ETC directory"
+        return
+    fi
+
+    maklsh_err "unknown argument $1"
 }
