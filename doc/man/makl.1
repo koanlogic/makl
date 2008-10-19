@@ -1,5 +1,5 @@
 .\" Automatically generated from mdocxml
-.Dd $Date: 2008/10/11 22:01:46 $
+.Dd $Date: 2008/10/19 12:38:58 $
 .Dt "MAKL(1)" 1
 .Os UNIX
 .Sh NAME
@@ -15,12 +15,13 @@
 .Op Fl -makl-etc=<dir>
 .Op Fl -makl-rc=<file>
 .Op Fl -makl-gnumake=<prog>
+.Op Fl -makl-gnumake-flags=<flags>
 .Op Fl -makl-tc-onthefly
 .Op Ar option ...
 .Op Ar targets ...
 .Sh OPTIONS
 The available options are as follows:
-.Bl -tag -width XXXXXXXXXXXXXXXXXXXXXXXXXXX
+.Bl -tag -width XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 .It Fl -makl-verbose
 Let makl chat a bit more then usual.
 .It Fl -makl-tc=<toolchain>
@@ -37,6 +38,8 @@ Override default MAKL_ETC setting for this run.
 Use file as further source for settings.
 .It Fl -makl-gnumake=<prog>
 Use prog instead of the default GNU make program.
+.It Fl -makl-gnumake-flags=<flags>
+Use flags instead of the default GNU make flags.
 .It Fl -makl-tc-onthefly
 Use the toolchain supplied via --makl-tc or --makl-tc-file for this makl run only.
 .It Ar "option ..."
@@ -65,7 +68,7 @@ This variable is used by GNU
 .Nm make
 to pass default flags at each invocation.  MaKL uses it to feed 
 .Nm make
-the include path for its build templates' library, should you need to add other flags, feel free to push them here.
+the include path for its build templates' library, should you need to add other flags, feel free to push them here, or equivalently, use the --makl-gnumake-flags command line option.
 
 .It MAKL_ETC
 The directory containing the toolchain and shlib settings in use.  The default is in 

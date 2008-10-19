@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/11 22:01:46 $</docdate>
+<docdate>$Date: 2008/10/19 12:38:58 $</docdate>
 <doctitle>MAKL(1)</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -20,6 +20,7 @@
     <flag optional="1">-makl-etc=&lt;dir&gt;<desc>Override default MAKL_ETC setting for this run.</desc></flag>
     <flag optional="1">-makl-rc=&lt;file&gt;<desc>Use file as further source for settings.</desc></flag>
     <flag optional="1">-makl-gnumake=&lt;prog&gt;<desc>Use prog instead of the default GNU make program.</desc></flag>
+    <flag optional="1">-makl-gnumake-flags=&lt;flags&gt;<desc>Use flags instead of the default GNU make flags.</desc></flag>
     <flag optional="1">-makl-tc-onthefly<desc>Use the toolchain supplied via --makl-tc or --makl-tc-file for this makl run only.</desc></flag>
     <arg optional="1">option ...<desc>Any GNU make option.</desc></arg>
     <arg optional="1">targets ...<desc>Any defined target.</desc></arg>
@@ -29,7 +30,7 @@
     <name>makl</name> access the following environment variables:
     <dl>
         <dd>MAKL_DIR</dd><dt>MaKL root directory which contains all the build templates, the autoconfiguration bourne shell functions, the ready-made toolchains, and any other bit used by <name>makl</name> and friends.</dt>
-        <dd>MAKEFLAGS</dd><dt>This variable is used by GNU <name>make</name> to pass default flags at each invocation.  MaKL uses it to feed <name>make</name> the include path for its build templates' library, should you need to add other flags, feel free to push them here.</dt>
+        <dd>MAKEFLAGS</dd><dt>This variable is used by GNU <name>make</name> to pass default flags at each invocation.  MaKL uses it to feed <name>make</name> the include path for its build templates' library, should you need to add other flags, feel free to push them here, or equivalently, use the --makl-gnumake-flags command line option.</dt>
         <dd>MAKL_ETC</dd><dt>The directory containing the toolchain and shlib settings in use.  The default is in <path>${MAKL_DIR}/etc</path>, but its value can be changed on the fly to accomodate a toolchain different from the default.  See also the --makl-tc-onthefly argument.</dt>
         <dd>MAKL_TC</dd><dt>Usually void, this variable tells which toolchain is to be used.  Take a look at <path>${MAKL_DIR}/tc</path> for a list of ready made toolchains.</dt>
         <dd>MAKL_TC_FILE</dd><dt>This variable can be useful in case you have crafted your own toolchain and want to use it instead of the default.  Supply the full pathname of your .tc file here.</dt>
