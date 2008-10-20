@@ -1,8 +1,6 @@
 #
-# $Id: makl_tc,v 1.21 2008/10/20 16:23:06 tho Exp $
+# $Id: makl_tc,v 1.22 2008/10/20 16:26:32 tho Exp $
 #
-
-set -x
 
 # _makl_tc_cf input output
 #
