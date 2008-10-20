@@ -116,7 +116,7 @@ then
     [ $? -ne 0 ] && shlib_file=${MAKL_DIR}/shlib/null.mk
 else
     shlib_file=${MAKL_SHLIB_FILE}
-    [ ! -f "${shlib_file}" ] && err "shared lib file \"${shlib_file}\" not found"
+    [ ! -f "${shlib_file}" ] && err "shlib file \"${shlib_file}\" not found"
 fi
 
 # install shlib
@@ -126,7 +126,7 @@ cp ${shlib_file} ${MAKL_ETC}/shlib.mk \
 
 # install toolchain
 echo "installing toolchain file \"${tc_file}\""
-makl_tc ${tc_file} ${MAKL_ETC}/toolchain.cf ${MAKL_ETC}/toolchain.mk \
+makl_tc "${tc_file}" "${MAKL_ETC}/toolchain.cf" "${MAKL_ETC}/toolchain.mk" \
        || err "toolchain installation failed"
 
 exit 0
