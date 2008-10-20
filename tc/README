@@ -4,24 +4,27 @@ Toolchain files
   A .tc file is a list of 'NAME = value' pairs each of which corresponds to a 
   given toolchain object or to an object parameter (e.g. compiler, compiler
   command line arguments, linker, etc).  
-  The right side value is optional, e.g. 'LDFLAGS = '.
+  The right side value is not optional, so if you want to tell MaKL that a 
+  given variable has no associated value, use the special symbol '__UNSET__', 
+  as in 'LDFLAGS = __UNSET__'.
 
   Lines in a .tc file that refer to toolchain objects MUST begin with a 
   CAPITALIZED letter.  Only lines beginning with a capitalized letter are 
   picked up and used to produce the Bourne shell and GNU/P make compatible 
   toolchain files (in doubt see makl_tc file).  A line beginning with a '#'
-  is a comment.
+  is a comment and will be ignored in the translation stage.
 
   On MaKL installation the platform is (should be) autodetected and the right 
-  toolchain file selected accordingly.  This file has overrides (if any) 
-  for the default.tc file.  Two files, ${MAKL_DIR}/etc/toolchain.cf and 
-  ${MAKL_DIR}/etc/toolchain.mk are then automatically generated.
+  toolchain file selected accordingly.  The toolchain file has overrides (if 
+  any) for the default.tc file.  Two files, ${MAKL_DIR}/etc/toolchain.cf and 
+  ${MAKL_DIR}/etc/toolchain.mk are then automatically generated from the 
+  default.tc and the selected platform toolchain (or an user supplied one).
 
   NOTE: the parser is rather fragile: the equal sign must be 'sp' padded both 
   left and right.
  
   Changes to the toolchain should always be done in the platform specific 
-  .tc file and then propagated to .mk and .cf via the toolchain_setup.sh
+  .tc file and then propagated to .mk and .cf via the tc_setup.sh script
   in the ${MAKL_DIR}/setup' directory.  This is especially true when you 
   are rolling your own .tc file because of a special need (e.g. you're using 
   another compiler, or have to adjust some command line flags) or because 
