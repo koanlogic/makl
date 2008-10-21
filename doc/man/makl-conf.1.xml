@@ -1,0 +1,50 @@
+<manpage>
+<docdate>$Date: 2008/10/21 17:17:55 $</docdate>
+<doctitle>MAKL-CONF</doctitle>
+<os>UNIX</os>
+<section>1</section>
+<names>
+    <name>makl-conf<desc>...</desc></name>
+</names>
+
+<description> 
+<name>makl-conf</name> bla bla
+</description>
+
+<usage>
+    <arg>script-args<desc>bla bla</desc></arg>
+</usage>
+
+<examples>
+...
+<literal>
+    $ makl-conf --prefix=...
+</literal>
+</examples>
+
+<diagnostics>
+    In case of error, <name>makl-conf</name> will bail out with non-zero exit code and appropriate diagnostic message on standard output.
+</diagnostics>
+
+<environment>
+    <name>makl-conf</name> access the following environment variables:
+    <dl>
+        <dd>MAKL_CF_SCRIPTS</dd><dt>Used to extend the list of configuration script names.</dt>
+    </dl>
+</environment>
+
+<files>
+<file>configure<desc>bla bla</desc></file>
+</files>
+
+<seealso>
+    <manpage>makl<section>1</section></manpage>
+    <manpage>makl-new<section>1</section></manpage>
+    <manpage>makl-tc<section>1</section></manpage>
+</seealso>
+
+<bugs>
+    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+</bugs>
+
+</manpage>
