@@ -1,5 +1,15 @@
-all: build ; groff -Wall -mtty-char -Tascii -mandoc -c makl.1
+# $Id: Makefile,v 1.2 2008/10/21 15:58:51 tho Exp $
 
-build: clean ; xml2man makl.1.xml makl.1
+XML_SRCS = $(wildcard *.1.xml)
 
-clean: ; rm -f makl.1
+MAN_PAGES = $(XML_SRCS:.xml=)
+
+%.1 : %.1.xml ; rm -f $@ && xml2man $< $@
+
+all: $(MAN_PAGES)
+
+clean: ; rm -f $(MAN_PAGES)
+
+install: ; @echo "TODO"
+
+hint: ; @echo "groff -Wall -mtty-char -Tascii -mandoc -c <page>"

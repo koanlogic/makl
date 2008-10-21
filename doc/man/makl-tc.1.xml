@@ -1,0 +1,84 @@
+<manpage>
+<docdate>$Date: 2008/10/21 15:58:51 $</docdate>
+<doctitle>MAKL-TC</doctitle>
+<os>UNIX</os>
+<section>1</section>
+<names>
+    <name>makl-tc<desc>MaKL toolchain and shlib installer</desc></name>
+</names>
+
+<description> 
+
+<p><name>makl-tc</name> is used to install MaKL toolchain and shlib files, which are the core objects for MaKL based builds.</p>
+
+<p>A toolchain file is a list of <name>NAME = value</name> pairs each of which corresponds to a given toolchain object or to an object parameter (e.g. compiler, compiler command line arguments, linker, etc).  The right side value is not optional, so if you want to tell MaKL that a given variable has no associated value, use the special symbol <name>__UNSET__</name>, as in:</p>
+<literal>
+                        LDFLAGS = __UNSET__
+</literal>
+
+<p>Lines in a toolchain file that refer to toolchain objects MUST begin with a CAPITALIZED letter.  Only lines beginning with a capitalized letter are picked up and used to produce the Bourne shell and GNU make compatible toolchain files (in doubt see <path>${MAKL_DIR}/tc/makl_tc</path>).  A line beginning with a '#' is a comment and will be ignored in the translation stage.</p>
+
+<p>On MaKL installation the platform is autodetected and the right toolchain file selected accordingly.  The toolchain file has overrides (if any) for the <path>default.tc</path>  file.  Two files, <path>${MAKL_DIR}/etc/toolchain.cf</path> and <path>${MAKL_DIR}/etc/toolchain.mk</path> are then automatically generated from the <path>default.tc</path> and the selected platform toolchain (or an user supplied one).</p>
+
+<p>NOTE: the parser is rather fragile: the equal sign MUST be 'sp' padded both left and right.</p>
+ 
+<p>Changes to the toolchain should always be done in the platform specific toolchain file and then propagated to <name>.mk</name> and <name>.cf</name> via <name>makl-tc</name> command.  This is especially true when you are rolling your own toolchain file because of a special need (e.g. you're using another compiler, or have to adjust some command line flags) or because your platform is not yet supported by MaKL.</p>
+  
+</description>
+
+<usage>
+    <flag optional="1">-makl-verbose<desc>Let makl-tc chat a bit more then usual.</desc></flag>
+    <flag optional="1">-makl-tc=&lt;toolchain&gt;<desc>Tell makl-tc to install this toolchain.</desc></flag>
+    <flag optional="1">-makl-tc-file=&lt;file&gt;<desc>Tell makl-tc to install the supplied file as toolchain.</desc></flag>
+    <flag optional="1">-makl-shlib=&lt;shlib&gt;<desc>Tell makl-tc to install this shared library build template.</desc></flag>
+    <flag optional="1">-makl-shlib-file=&lt;file&gt;<desc>Tell makl-tc to install the supplied file as shared library build template.</desc></flag>
+    <flag optional="1">-makl-etc=&lt;dir&gt;<desc>Explicitly set installation directory, overriding default MAKL_ETC.</desc></flag>
+    <flag optional="1">-makl-rc=&lt;file&gt;<desc>Use file as further source for settings.</desc></flag>
+</usage>
+
+<environment>
+    <name>makl-tc</name> access the following environment variables through one of <path>${HOME}/.maklrc</path> or a suitable per-project <path>makl.conf</path> (precedence is given to the per-project conf file):
+    <dl>
+        <dd>MAKL_DIR</dd><dt>MaKL root directory which contains all the build templates, the autoconfiguration bourne shell functions, the ready-made toolchains, and any other bit used by <name>makl</name> and friends.</dt>
+        <dd>MAKL_ETC</dd><dt>The directory containing the toolchain and shlib settings in use.  The default is in <path>${MAKL_DIR}/etc</path>, but its value can be changed on the fly to accomodate a toolchain different from the default.  See also the --makl-tc-onthefly argument.</dt>
+        <dd>MAKL_TC</dd><dt>Usually void, this variable tells which toolchain is to be used.  Take a look at <path>${MAKL_DIR}/tc</path> for a list of ready made toolchains.</dt>
+        <dd>MAKL_TC_FILE</dd><dt>This variable can be useful in case you have crafted your own toolchain and want to use it instead of the default.  Supply the full pathname of your .tc file here.</dt>
+        <dd>MAKL_SHLIB</dd><dt>Usually void, this variable tells which shared library build template is to be used.  Take a look at <path>${MAKL_DIR}/shlib</path> for a list of ready made shared library templates.</dt>
+        <dd>MAKL_SHLIB_FILE</dd><dt>This variable can be useful in case you have crafted your own shlib file and want to use it instead of the default.  Supply the full pathname of your <path>shlib.mk</path> file here.</dt>
+        <dd>MAKL_RC_MAXDEPTH</dd><dt>Used to tell <name>makl</name> the maximum depth at which a per-project <path>makl.conf</path> must be searched starting from the directory in which <name>makl</name> has been invoked.  If unset a default value of 5 is used.</dt>
+    </dl>
+</environment>
+
+<files>
+    <file>$HOME/.maklrc<desc>Per-user makl settings' file.</desc></file>
+    <file>makl.conf<desc>Per-project makl settings' file</desc></file>
+</files>
+
+<examples>
+Install to the default location, i.e. <path>${MAKL_ETC}</path>, the NetBSD toolchain with shared library disabled, via the following:
+<literal>
+    $ makl-tc --makl-tc=netbsd --makl-shlib=null
+</literal>
+Install to a non-standard location a custom toolchain file.  Note that without specifying a shlib (by file path or name), MaKL uses the one matching the host platform (if any):
+<literal>
+    $ makl-tc --makl-etc=${HOME}/makl/etc
+              --makl-tc-file=${HOME}/makl/tc/custom.tc
+</literal>
+</examples>
+
+<diagnostics>
+    In case of error, <name>makl-tc</name> will bail out with non-zero exit code and appropriate diagnostic message on standard output.
+</diagnostics>
+
+<seealso>
+    <manpage>makl<section>1</section></manpage>
+    <manpage>makl-conf<section>1</section></manpage>
+    <manpage>makl-new<section>1</section></manpage>
+</seealso>
+
+<bugs>
+<p>At present .tc files' list is quite limited and coarse grained.  Our goal is to add incrementally as much .tc files as possible while our porting experience grows.</p>
+    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+</bugs>
+
+</manpage>
