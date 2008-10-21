@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.2 2008/10/21 13:43:52 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -31,9 +31,6 @@ makl_args_init ()
                 ;;
             -v | --verbose)
                 __makl_verbose
-                ;;
-            --prefix)
-                _makl_arg_handle "${arg}"
                 ;;
         esac
     done
@@ -75,7 +72,9 @@ makl_args_handle ()
             # pass through previously-handled arguments
             -V | --version) ;;
             -v | --verbose) ;;
-            --prefix) ;;
+            --prefix) 
+                _makl_arg_handle "${arg}"
+                ;;
                
             *)
                 [ "${pref}" = "--" ] || _makl_args_err "Undefined command: ${arg}!"
