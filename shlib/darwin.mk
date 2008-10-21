@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.14 2008/05/06 10:54:54 tho Exp $
+# $Id: darwin.mk,v 1.15 2008/10/21 14:44:12 tho Exp $
 #
 # Darwin 
 
@@ -28,8 +28,8 @@ $(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
 ##
 ifdef BUNDLE
     __WHAT = "a loadable module"
-    SHLIB_LDFLAGS = -bundle -flat_namespace -undefined suppress
-    SHLIB_NAME = $(__LIB).$(BUNDLE_EXT)
+    SHLIB_LDFLAGS += -bundle -flat_namespace -undefined suppress
+    SHLIB_NAME ?= $(__LIB).$(BUNDLE_EXT)
 else
     __WHAT = "a shared library"
     __COMPAT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR)

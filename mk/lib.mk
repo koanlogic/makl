@@ -1,4 +1,4 @@
-# $Id: lib.mk,v 1.53 2008/10/11 15:16:19 tho Exp $
+# $Id: lib.mk,v 1.54 2008/10/21 14:44:12 tho Exp $
 #
 # User variables:
 # - LIB         The name of the library that shall be built.
@@ -210,7 +210,7 @@ include priv/deps.mk
 	@echo "SHLIB_TEENY   shared library teeny number (i.e. the 3 in 1.2.3)     "
 	@echo "CPICFLAGS     extra compiler flags (Linux, Darwin, FreeBSD)         "
 	@echo "BUNDLE        (Darwin only) build a loadable module instead         "
-	@echo "SHLIB_LDFLAGS flags to be supplied to the linker (use +=)           "
+	@echo "SHLIB_LDFLAGS flags to be supplied to the linker (Darwin, use +=)   "
 	@echo "SHLIB_NAME    complete name of the shared library or bundle         "
 	@echo "SONAME        shared object name (all but Darwin)                   "
 	@echo "SHLIB_LINK    link name (all but Darwin)                            "
