@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.5 2008/10/19 12:38:58 tho Exp $
+# $Id: maklsh_funcs.in,v 1.6 2008/10/21 15:38:07 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -264,7 +264,7 @@ maklsh_proc_makl_arg ()
     [ $? -eq 0 ] && return
 
     # --makl-etc=...
-    maklsh_get_argval MAKLSH_MAKL_ETC "etc" MAKLSH_MAKL_ETC "${cmd}"
+    maklsh_get_argval MAKLSH_MAKL_ETC "etc" "${cmd}"
     [ $? -eq 0 ] && return
 
     # --makl-rc=...
