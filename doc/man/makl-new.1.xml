@@ -1,0 +1,45 @@
+<manpage>
+<docdate>$Date: 2008/10/21 16:43:29 $</docdate>
+<doctitle>MAKL-NEW</doctitle>
+<os>UNIX</os>
+<section>1</section>
+<names>
+    <name>makl-new<desc>Create skeleton Makefile's for MaKL</desc></name>
+</names>
+
+<description> 
+<name>makl-tc</name> is a facility command which can be used to create Makefile's using a given MaKL build template.
+</description>
+
+<usage>
+    <arg>template<desc>One of 'prog', 'lib', 'subdir', 'xeno', 'include', 'script', 'file', 'man', 'dist', or 'subst'.</desc></arg>
+</usage>
+
+<examples>
+Create a Makefile suitable for building a C/C++ program:
+<literal>
+    $ makl-new prog
+    $ makl .help
+    -------------------                                                 
+     Available targets                                                  
+    -------------------                                                 
+    all         build the executable (it's the default target)         
+    ...
+</literal>
+</examples>
+
+<diagnostics>
+    In case of error, <name>makl-new</name> will bail out with non-zero exit code and appropriate diagnostic message on standard output.
+</diagnostics>
+
+<seealso>
+    <manpage>makl<section>1</section></manpage>
+    <manpage>makl-conf<section>1</section></manpage>
+    <manpage>makl-tc<section>1</section></manpage>
+</seealso>
+
+<bugs>
+    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+</bugs>
+
+</manpage>
