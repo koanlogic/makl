@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.29 2008/10/11 19:24:57 tho Exp $
+# $Id: Makefile.dist,v 1.30 2008/10/21 19:10:33 tho Exp $
 
 include common.mk
 
@@ -56,6 +56,11 @@ DISTFILES += $(wildcard tc/*tc) tc/README
 DISTFILES += $(wildcard shlib/*.mk) shlib/README
 DISTFILES += tc/Makefile shlib/Makefile
 
+# man files
+DISTFILES += doc/man/Makefile
+DISTFILES += $(wildcard doc/man/*.1)
+DISTFILES += $(wildcard doc/man/*.xml)
+
 # templates
 DISTFILES += $(wildcard tmpl/*tmpl) tmpl/Makefile
 
@@ -75,7 +80,8 @@ DISTFILES += $(wildcard tmpl/*tmpl) tmpl/Makefile
 
 include dist.mk
 
-ifdef DOCS
 dist-hook-pre:
+	(cd doc/man && $(MAKE))
+ifdef DOCS
 	(cd doc/ && $(MAKE))
 endif   # DOCS

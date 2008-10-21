@@ -1,15 +1,18 @@
-# $Id: Makefile,v 1.2 2008/10/21 15:58:51 tho Exp $
+# $Id: Makefile,v 1.3 2008/10/21 19:10:33 tho Exp $
+
+include common.mk
+include ../../Makefile.conf
+
+MANFILES = $(XML_SRCS:.xml=)
 
 XML_SRCS = $(wildcard *.1.xml)
 
-MAN_PAGES = $(XML_SRCS:.xml=)
-
 %.1 : %.1.xml ; rm -f $@ && xml2man $< $@
 
-all: $(MAN_PAGES)
+install-hook-pre: $(MANFILES)
 
-clean: ; rm -f $(MAN_PAGES)
-
-install: ; @echo "TODO"
+clean: ; rm -f $(MANFILES)
 
 hint: ; @echo "groff -Wall -mtty-char -Tascii -mandoc -c <page>"
+
+include man.mk

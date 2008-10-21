@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.35 2008/02/24 15:09:14 tho Exp $
+# $Id: Makefile,v 1.36 2008/10/21 19:10:32 tho Exp $
 #
 # User Variables:
 # - MAKLRC          file name for hosting MaKL env variables
@@ -74,7 +74,7 @@ hints:
 # 'uninstall' and 'install' targets need the configure step and 'toolchain' 
 # target as dependencies
 install uninstall: $(MAKL_DIR)/Makefile.conf toolchain
-	@for d in misc bin cf mk tc etc shlib helpers setup tmpl; do \
+	@for d in misc bin cf mk tc etc shlib helpers setup tmpl doc/man; do \
 	    $(MAKE) -I$(MAKL_DIR)/mk -C $$d $(MAKECMDGOALS) ; \
 	done ; \
 	if [ "$(MAKECMDGOALS)" = uninstall ] ; then \
