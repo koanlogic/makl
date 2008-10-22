@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/22 19:31:45 $</docdate>
+<docdate>$Date: 2008/10/22 22:02:05 $</docdate>
 <doctitle>MAKL-CONF</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -28,9 +28,17 @@ When invoked, it searches the current working directory for a suitable config fi
 </usage>
 
 <examples>
+Take a look at available options:
+<literal>
+    $ makl-conf --help
+</literal>
 Tell your autoconf script to use a different path for <name>DESTDIR:</name>
 <literal>
     $ makl-conf --prefix=/another/prefix/path
+</literal>
+Tell MaKL that you want libraries to be built as shared objects and placed in a custom location:
+<literal>
+    $ makl-conf --enable_shared --dir-lib=/my/lib
 </literal>
 </examples>
 

@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/21 15:58:51 $</docdate>
+<docdate>$Date: 2008/10/22 22:02:05 $</docdate>
 <doctitle>MAKL</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -8,7 +8,7 @@
 </names>
 
 <description> 
-<name>makl</name> is a GNU <manpage>make<section>1</section></manpage> wrapper which can be used, instead of plain <name>make</name> to automatically bring into a C/C++ project the facilities provided by the MaKL build template library.
+<name>makl</name> is a GNU <manpage>make<section>1</section></manpage> wrapper which can be used, instead of plain <name>make,</name> to automatically bring into a C/C++ project the facilities provided by the MaKL build template library.
 </description>
 
 <usage>
