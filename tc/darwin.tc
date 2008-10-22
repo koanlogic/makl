@@ -1,7 +1,7 @@
 #
-# tested on Darwin 6.* and 7.*
+# tested on Darwin 6.*, 7.* and 9.*
 #
-# $Id: darwin.tc,v 1.8 2007/11/05 16:23:20 tho Exp $
+# $Id: darwin.tc,v 1.9 2008/10/22 07:17:42 tho Exp $
 
 CFLAGS = -pipe
 # ar, ranlib, strip and ld, are Apple's cctools-498
