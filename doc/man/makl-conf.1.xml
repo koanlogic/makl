@@ -1,24 +1,36 @@
 <manpage>
-<docdate>$Date: 2008/10/21 17:17:55 $</docdate>
+<docdate>$Date: 2008/10/22 19:31:45 $</docdate>
 <doctitle>MAKL-CONF</doctitle>
 <os>UNIX</os>
 <section>1</section>
 <names>
-    <name>makl-conf<desc>...</desc></name>
+    <name>makl-conf<desc>a wrapper around MaKL autoconfigure scripts.</desc></name>
 </names>
 
 <description> 
-<name>makl-conf</name> bla bla
+<name>makl-conf</name> is a wrapper around MaKL autoconfigure scripts.  A MaKL autoconfigure script is one using using the following basic framework: 
+<literal>
+                #!/bin/sh
+
+                . "${MAKL_DIR}"/cf/makl.init
+
+                makl_args_init "$@"
+
+                makl_args_handle "$@"
+
+                . "${MAKL_DIR}"/cf/makl.term
+</literal>
+When invoked, it searches the current working directory for a suitable config file name (see <name>FILES</name> section).  If found, the configure script is executed (the executable bit must be asserted for the user) with MAKL variables suitably set in its environment.
 </description>
 
 <usage>
-    <arg>script-args<desc>bla bla</desc></arg>
+    <arg>script-args<desc>Any argument exported by the autoconf script.</desc></arg>
 </usage>
 
 <examples>
-...
+Tell your autoconf script to use a different path for <name>DESTDIR:</name>
 <literal>
-    $ makl-conf --prefix=...
+    $ makl-conf --prefix=/another/prefix/path
 </literal>
 </examples>
 
@@ -27,14 +39,15 @@
 </diagnostics>
 
 <environment>
-    <name>makl-conf</name> access the following environment variables:
+    The <name>makl-conf</name> command access the following environment variables, via <path>.maklrc</path> or <path>makl.conf</path> configuration files:
     <dl>
+        <dd>MAKL_DIR</dd><dt>MaKL base dir which contains autoconf library functions.</dt>
         <dd>MAKL_CF_SCRIPTS</dd><dt>Used to extend the list of configuration script names.</dt>
     </dl>
 </environment>
 
 <files>
-<file>configure<desc>bla bla</desc></file>
+<file>configure, configure.sh, Configure, Configure.sh, config.sh, Config.sh<desc>File names which are scanned to find a match in the current working directory.</desc></file>
 </files>
 
 <seealso>
