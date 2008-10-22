@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/21 16:43:29 $</docdate>
+<docdate>$Date: 2008/10/22 14:11:21 $</docdate>
 <doctitle>MAKL-NEW</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -8,23 +8,39 @@
 </names>
 
 <description> 
-<name>makl-tc</name> is a facility command which can be used to create Makefile's using a given MaKL build template.
+<p><name>makl-tc</name> is a facility command which can be used to easily create MaKL-ready Makefile's.</p>  
+<p>The <name>makl-tc</name> command accepts one argument which specifies the build template you need to use, and produces a minimal but good-looking Makefile.  The Makefile is dumped to the current working directory and is nearly ready to be used, needing just some minimal tweak in order to work.</p> 
+<p>Once created, you can type: <name>'makl .help'</name> to get all the information you need to know about available targets and variables for the chosen template.</p>
 </description>
 
 <usage>
-    <arg>template<desc>One of 'prog', 'lib', 'subdir', 'xeno', 'include', 'script', 'file', 'man', 'dist', or 'subst'.</desc></arg>
+    <arg>template<desc>One of the many ready-made MaKL templates: i.e. 'prog', 'lib', 'subdir', 'xeno', 'include', 'script', 'file', 'man', 'dist', or 'subst'.</desc></arg>
 </usage>
 
 <examples>
 Create a Makefile suitable for building a C/C++ program:
 <literal>
     $ makl-new prog
+    makl > The 'prog' template has been successfully saved to ./Makefile
+    makl > Type 'makl .help' to get the list of available targets and vars.
+
     $ makl .help
+
     -------------------                                                 
-     Available targets                                                  
+    Available targets                                                  
     -------------------                                                 
-    all         build the executable (it's the default target)         
+    all         build the executable (it's the default target)      
     ...
+
+    $ vi Makefile
+
+    # change __SETME__ to sensible values, e.g.:
+    PROG = test
+    SRCS = main.c
+
+    $ makl
+    cc -pipe -DDEBUG -ggdb   -c -o main.o main.c
+    cc -pipe -DDEBUG -ggdb -o test main.o
 </literal>
 </examples>
 
