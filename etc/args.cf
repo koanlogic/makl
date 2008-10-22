@@ -1,5 +1,5 @@
 #
-# $Id: args.cf,v 1.15 2008/10/22 22:03:56 tho Exp $
+# $Id: args.cf,v 1.16 2008/10/22 22:07:27 tho Exp $
 #
 
 # general settings
@@ -18,7 +18,7 @@ makl_args_def   "verbose" \
 makl_args_def   "version" \
                 "" \
                 "" \
-                "[-V] display project version (if available)"
+                "[-V] display MaKL version"
 makl_args_def   "cross_compile" \
                 "" \
                 "" \
