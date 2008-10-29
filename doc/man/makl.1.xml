@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/22 22:02:05 $</docdate>
+<docdate>$Date: 2008/10/29 15:40:53 $</docdate>
 <doctitle>MAKL</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -21,6 +21,7 @@
     <flag optional="1">-makl-rc=&lt;file&gt;<desc>Use file as further source for settings.</desc></flag>
     <flag optional="1">-makl-gnumake=&lt;prog&gt;<desc>Use prog instead of the default GNU make program.</desc></flag>
     <flag optional="1">-makl-gnumake-flags=&lt;flags&gt;<desc>Use flags instead of the default GNU make flags.</desc></flag>
+    <flag optional="1">-makl-gnumake-flags-add=&lt;flags&gt;<desc>Add flags to the default GNU make flags.</desc></flag>
     <flag optional="1">-makl-tc-onthefly<desc>Use the toolchain supplied via --makl-tc or --makl-tc-file for this makl run only.</desc></flag>
     <arg optional="1">option ...<desc>Any GNU make option.</desc></arg>
     <arg optional="1">targets ...<desc>Any defined target.</desc></arg>
