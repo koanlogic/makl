@@ -1,5 +1,5 @@
 <manpage>
-<docdate>$Date: 2008/10/29 15:40:53 $</docdate>
+<docdate>$Date: 2008/10/30 15:52:47 $</docdate>
 <doctitle>MAKL</doctitle>
 <os>UNIX</os>
 <section>1</section>
@@ -18,6 +18,7 @@
     <flag optional="1">-makl-shlib=&lt;shlib&gt;<desc>Tell makl to use this shared library build template.</desc></flag>
     <flag optional="1">-makl-shlib-file=&lt;file&gt;<desc>Tell makl to use the supplied file as shared library build template.</desc></flag>
     <flag optional="1">-makl-etc=&lt;dir&gt;<desc>Override default MAKL_ETC setting for this run.</desc></flag>
+    <flag optional="1">-makl-mk-dir=&lt;dir&gt;<desc>Override default MAKL_MK_DIR setting for this run.</desc></flag>
     <flag optional="1">-makl-rc=&lt;file&gt;<desc>Use file as further source for settings.</desc></flag>
     <flag optional="1">-makl-gnumake=&lt;prog&gt;<desc>Use prog instead of the default GNU make program.</desc></flag>
     <flag optional="1">-makl-gnumake-flags=&lt;flags&gt;<desc>Use flags instead of the default GNU make flags.</desc></flag>
@@ -31,7 +32,7 @@
     <name>makl</name> access the following environment variables:
     <dl>
         <dd>MAKL_DIR</dd><dt>MaKL root directory which contains all the build templates, the autoconfiguration bourne shell functions, the ready-made toolchains, and any other bit used by <name>makl</name> and friends.</dt>
-        <dd>MAKEFLAGS</dd><dt>This variable is used by GNU <name>make</name> to pass default flags at each invocation.  MaKL uses it to feed <name>make</name> the include path for its build templates' library, should you need to add other flags, feel free to push them here, or equivalently, use the --makl-gnumake-flags command line option.</dt>
+        <dd>MAKL_MAKEFLAGS</dd><dt>This variable is mapped to GNU <name>make</name> MAKEFFLAGS to pass default flags at each invocation.  MaKL uses it to feed <name>make</name> with the include path for its build templates' library.  Should you need other (different) flags, you shall write them here, or equivalently, using the --makl-gnumake-flags command line option.  Instead, if you need to just extend the number of MAKEFLAGS values, use the MAKL_MAKEFLAGS_ADD variable, or equivalently, the --makl-gnumake-flags-add command line argument.</dt>
         <dd>MAKL_ETC</dd><dt>The directory containing the toolchain and shlib settings in use.  The default is in <path>${MAKL_DIR}/etc</path>, but its value can be changed on the fly to accomodate a toolchain different from the default.  See also the --makl-tc-onthefly argument.</dt>
         <dd>MAKL_TC</dd><dt>Usually void, this variable tells which toolchain is to be used.  Take a look at <path>${MAKL_DIR}/tc</path> for a list of ready made toolchains.</dt>
         <dd>MAKL_TC_FILE</dd><dt>This variable can be useful in case you have crafted your own toolchain and want to use it instead of the default.  Supply the full pathname of your .tc file here.</dt>

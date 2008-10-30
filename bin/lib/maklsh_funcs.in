@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.7 2008/10/29 15:40:53 tho Exp $
+# $Id: maklsh_funcs.in,v 1.8 2008/10/30 15:52:47 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -84,7 +84,9 @@ maklsh_get_arg ()
 maklsh_context_init ()
 {
     MAKLSH_MAKL_DIR="@{{MAKL_ROOT}}"
-    MAKLSH_MAKE_FLAGS="-I ${MAKLSH_MAKL_DIR}/mk"
+    MAKLSH_MAKL_MK_DIR="${MAKLSH_MAKL_DIR}/mk"
+    MAKLSH_MAKE_FLAGS=""
+    MAKLSH_MAKE_FLAGS_ADD=""
     MAKLSH_MAKL_ETC=""
     MAKLSH_GNUMAKE_PATH="@{{GNU_MAKE}}"
     MAKLSH_MAKL_VERSION="`cat ${MAKLSH_MAKL_DIR}/VERSION 2>/dev/null`"
@@ -107,8 +109,12 @@ maklsh_context_init ()
 maklsh_context_push ()
 {
     export MAKL_DIR="${MAKLSH_MAKL_DIR}"
-    export MAKEFLAGS="${MAKLSH_MAKE_FLAGS}"
+
+    [ -z "${MAKLSH_MAKL_MK_DIR}" ] && maklsh_err "no MK dir set"
+    export MAKEFLAGS="-I ${MAKLSH_MAKL_MK_DIR} ${MAKLSH_MAKE_FLAGS}"
+
     [ ! -z ${MAKLSH_MAKL_ETC} ] && export MAKL_ETC="${MAKLSH_MAKL_ETC}"
+
     export MAKL_GNUMAKE="${MAKLSH_MAKL_GNUMAKE}"
     export MAKL_VERSION="${MAKLSH_MAKL_VERSION}"
 
@@ -137,7 +143,8 @@ maklsh_context_dump ()
 {
     ${MAKLSH_ECHO} "MaKL settings:"
     ${MAKLSH_ECHO} "MAKL_DIR: ${MAKLSH_MAKL_DIR}"
-    ${MAKLSH_ECHO} "MAKEFLAGS: ${MAKLSH_MAKE_FLAGS}"
+    ${MAKLSH_ECHO} "MAKL_MK_DIR: ${MAKLSH_MAKL_MK_DIR}"
+    ${MAKLSH_ECHO} "MAKEFLAGS: ${MAKLSH_MAKE_FLAGS} ${MAKLSH_MAKE_FLAGS_ADD}"
     ${MAKLSH_ECHO} "MAKL_GNUMAKE: ${MAKLSH_GNUMAKE_PATH}"
     ${MAKLSH_ECHO} "MAKL_VERSION: ${MAKLSH_MAKL_VERSION}"
     ${MAKLSH_ECHO} "MAKL_RC_MAXDEPTH: ${MAKLSH_MAKL_RC_MAXDEPTH}"
@@ -152,8 +159,6 @@ maklsh_context_dump ()
     ${MAKLSH_ECHO} "MAKLSH_TC_ONTHEFLY: ${MAKLSH_TC_ONTHEFLY}"
     ${MAKLSH_ECHO} "MAKLSH_ETC_ONTHEFLY: ${MAKLSH_ETC_ONTHEFLY}"
 
-    # ... other ...
-
     return
 }
 
@@ -167,8 +172,12 @@ maklsh_load_from_file ()
     # map user vars to MAKLSH_* vars
     [ ! -z "${MAKL_DIR}" ] && \
         MAKLSH_MAKL_DIR="${MAKL_DIR}"
-    [ ! -z "${MAKEFLAGS}" ] && \
-        MAKLSH_MAKE_FLAGS="${MAKEFLAGS}"
+    [ ! -z "${MAKL_MK_DIR}" ] && \
+        MAKLSH_MAKL_MK_DIR="${MAKL_MK_DIR}"
+    [ ! -z "${MAKL_MAKEFLAGS}" ] && \
+        MAKLSH_MAKE_FLAGS="${MAKL_MAKEFLAGS}"
+    [ ! -z "${MAKL_MAKEFLAGS_ADD}" ] && \
+        MAKLSH_MAKE_FLAGS_ADD="${MAKLSH_MAKE_FLAGS_ADD} ${MAKL_MAKEFLAGS_ADD}"
     [ ! -z "${MAKL_ETC}" ] && \
         MAKLSH_MAKL_ETC="${MAKL_ETC}"
     [ ! -z "${MAKL_CF_SCRIPTS}" ] && \
@@ -187,8 +196,6 @@ maklsh_load_from_file ()
         MAKLSH_MAKL_RC_MAXDEPTH="${MAKL_RC_MAXDEPTH}"
     [ ! -z "${MAKL_VERSION}" ] && \
         MAKLSH_MAKL_VERSION="${MAKL_VERSION}"
-
-    # ... other ...
 
     return
 }
@@ -239,7 +246,7 @@ maklsh_load_per_proj_settings ()
 #   - MAKLSH_GNUMAKE_PATH (--makl-gnumake=...)
 #   - MAKLSH_VERBOSE (--makl-verbose)
 #   - MAKLSH_TC_ONTHEFLY (--makl-tc-onthefly)
-#   - MAKLSH_MAKE_FLAGS (--makl-gnumake-flags=...)
+#   - MAKLSH_MAKE_FLAGS (--makl-gnumake-flags=... --makl-gnumake-flags-add=...)
 maklsh_proc_makl_arg ()
 {
     local cmd=""
@@ -265,6 +272,10 @@ maklsh_proc_makl_arg ()
 
     # --makl-etc=...
     maklsh_get_argval MAKLSH_MAKL_ETC "etc" "${cmd}"
+    [ $? -eq 0 ] && return
+
+    # --makl-mk-dir=...
+    maklsh_get_argval MAKLSH_MAKL_MK_DIR "mk-dir" "${cmd}"
     [ $? -eq 0 ] && return
 
     # --makl-rc=...
