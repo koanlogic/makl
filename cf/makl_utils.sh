@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_utils.sh,v 1.2 2008/10/30 10:43:10 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -45,9 +45,9 @@ makl_pkg_version ()
     minor=`${ECHO} ${ver} | cut -d '.' -f 2 | grep '^[0-9][0-9]*$'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
     teenydesc=`${ECHO} ${ver} | cut -d '.' -f 3`
-    teeny=`echo ${teenydesc} | sed -e 's/[a-zA-Z].*$//'`
+    teeny=`${ECHO} ${teenydesc} | sed -e 's/[a-zA-Z].*$//'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): teeny must be numeric!"
-    desc=`echo ${teenydesc} | sed -e 's/^[0-9]\{1,\}//'`
+    desc=`${ECHO} ${teenydesc} | sed -e 's/^[0-9]\{1,\}//'`
 
     ver="${major}.${minor}.${teeny}${desc}"
 
@@ -80,7 +80,7 @@ makl_target_name ()
     if [ -z "${MAKL_PLATFORM}" ];  then
         uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
     else
-        echo "${MAKL_PLATFORM}" | tr '[A-Z]' '[a-z]' 
+        ${ECHO} "${MAKL_PLATFORM}" | tr '[A-Z]' '[a-z]' 
     fi
 }
 
@@ -165,7 +165,7 @@ makl_check_tools ()
         if [ ${has_stdin} -eq 0 ]; then
             eval ${tool} 1> /dev/null 2> /dev/null
         else
-            eval echo | ${tool} 1> /dev/null 2> /dev/null
+            eval ${ECHO} | ${tool} 1> /dev/null 2> /dev/null
         fi
         if [ $? -eq 127 ]; then
             ${ECHO} "required tool not found: ${tool}!"
