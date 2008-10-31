@@ -38,12 +38,12 @@ locate_file ()
 [ -z "${MAKL_DIR}" ] && exit 1
 
 # check for user supplied MAKL_ETC
-[ -z "${MAKL_ETC}" ] && MAKL_ETC=${MAKL_DIR}/etc
+[ -z "${MAKL_ETC}" ] && MAKL_ETC="${MAKL_DIR}"/etc
 
 # load makl cf functions + makl_tc
-for f in ${MAKL_DIR}/tc/makl_tc ${MAKL_DIR}/cf/makl_*
+for f in "${MAKL_DIR}"/tc/makl_tc "${MAKL_DIR}"/cf/makl_*
 do
-    . ${f}
+    . "${f}"
 done
 
 # guess
@@ -94,12 +94,12 @@ esac
 if [ -z "${MAKL_TC_FILE}" ]
 then
     [ ! -z "${MAKL_TC}" ] && toolchain="${MAKL_TC}"
-    tc_file=${MAKL_DIR}/tc/${toolchain}.tc
-    locate_file tc ${tc_file}
+    tc_file="${MAKL_DIR}"/tc/"${toolchain}".tc
+    locate_file tc "${tc_file}"
     [ $? -ne 0 ] && \
         err "toolchain file \"${toolchain}\" could not be located as ${tc_file}"
 else
-    tc_file=${MAKL_TC_FILE}
+    tc_file="${MAKL_TC_FILE}"
     [ ! -f "${tc_file}" ] && err "toolchain file \"${tc_file}\" not found"
 fi
 
@@ -110,18 +110,18 @@ fi
 if [ -z "${MAKL_SHLIB_FILE}" ]
 then
     [ ! -z "${MAKL_SHLIB}" ] && shlib="${MAKL_SHLIB}"
-    shlib_file=${MAKL_DIR}/shlib/${shlib}.mk
-    locate_file shlib ${shlib_file}
+    shlib_file="${MAKL_DIR}"/shlib/"${shlib}".mk
+    locate_file shlib "${shlib_file}"
     # as a last-last resort install the null shlib file
-    [ $? -ne 0 ] && shlib_file=${MAKL_DIR}/shlib/null.mk
+    [ $? -ne 0 ] && shlib_file="${MAKL_DIR}"/shlib/null.mk
 else
-    shlib_file=${MAKL_SHLIB_FILE}
+    shlib_file="${MAKL_SHLIB_FILE}"
     [ ! -f "${shlib_file}" ] && err "shlib file \"${shlib_file}\" not found"
 fi
 
 # install shlib
 echo "installing shlib file \"${shlib_file}\""
-cp ${shlib_file} ${MAKL_ETC}/shlib.mk \
+cp "${shlib_file}" "${MAKL_ETC}"/shlib.mk \
        || err "shlib installation failed"
 
 # install toolchain
