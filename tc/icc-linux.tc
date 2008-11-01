@@ -1,0 +1,11 @@
+# tested with ICC 10.1.018 on Linux Debian ETCH
+#
+# $Id: icc-linux.tc,v 1.1 2008/11/01 15:02:35 tho Exp $
+
+CC = icc
+CXX = icpc
+CFLAGS =
+CXXFLAGS =
+PRE_LDADD = __UNSET__
+POST_LDADD = __UNSET__
+CPICFLAGS = -fPIC
