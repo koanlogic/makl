@@ -1,12 +1,15 @@
-$Id: ChangeLog,v 1.65 2008/10/21 17:19:59 tho Exp $
+$Id: ChangeLog,v 1.66 2008/11/01 15:21:27 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.8.z
+	- Intel C/C++ compiler support on Linux (icc-linux.tc)
+	- produce dynamic libraries (DLL's) on Windows via MinGW and Cygwin
 	- added OBJDIR to prog and lib templates for multiple target builds
 	- added --makl-* command line flags to maklsh
+	- makl* tools revamped
 	- fix help file generation if configure.help file doesn't exist
-	- added UNIX man pages for makl* commands
+	- added UNIX man pages for all makl* commands
 
 MaKL 1.7.2
 	- fix shell expansion errors by passing file parameter to compilation
