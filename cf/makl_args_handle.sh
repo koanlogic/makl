@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.2 2008/10/21 13:43:52 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.3 2008/11/02 20:18:06 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -453,7 +453,7 @@ _makl_args_err ()
 _makl_arg_handle ()
 {
     lval=`${ECHO} $1 | cut -f1 -d"="`
-    rval=`${ECHO} $1 | cut -s -f2 -d"="`
+    rval=`${ECHO} $1 | cut -s -f2- -d"="`
     
     cmd=`${ECHO} ${lval} | cut -f3 -d"-"`
     id=`${ECHO} ${lval} | cut -f4 -d"-"` 

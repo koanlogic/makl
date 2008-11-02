@@ -1,4 +1,4 @@
-$Id: ChangeLog,v 1.67 2008/11/02 19:27:54 tho Exp $
+$Id: ChangeLog,v 1.68 2008/11/02 20:18:06 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
@@ -12,6 +12,7 @@ MaKL 1.8.z
 	- makl* tools revamped
 	- fix help file generation if configure.help file doesn't exist
 	- added UNIX man pages for all makl* commands
+	- fix: cut truncated custom args with '=' sign inside value
 
 MaKL 1.7.2
 	- fix shell expansion errors by passing file parameter to compilation
