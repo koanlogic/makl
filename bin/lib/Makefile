@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2008/10/11 19:24:57 tho Exp $
+# $Id: Makefile,v 1.2 2008/11/02 19:24:29 tho Exp $
 
 include common.mk
 include ../../Makefile.conf
@@ -6,7 +6,6 @@ include ../../Makefile.conf
 FILES = maklsh_funcs
 FILES += maklsh_catalog
 FILES += maklsh_conf
-FILES += maklsh_funcs
 FILES += maklsh_help
 FILES += maklsh_new
 FILES += maklsh_run

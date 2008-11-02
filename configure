@@ -17,6 +17,16 @@ __makl_gnu_make ()
     makl_set_var_mk GNU_MAKE "$@"
 }
 
+makl_args_def               \
+    "bourne_shell"          \
+    "=BOURNESHELLPATH" ""   \
+    "set Bourne shell executable path on this system"
+__makl_bourne_shell ()
+{
+    [ $# -eq 1 ] || makl_err 1 "--bourne_shell needs one argument"
+    makl_set_var_mk BOURNE_SHELL "$@"
+}
+
 makl_args_handle "$@"
 
 makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
@@ -25,8 +35,13 @@ makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
 [ -z `makl_get_var_mk GNU_MAKE` ] && \
         makl_err 1 "set GNU make path using --gnu_make command line switch"
 
+# if Bourne shell path has not been set in the command line, set the default
+[ -z `makl_get_var_mk BOURNE_SHELL` ] && \
+        makl_set_var_mk "BOURNE_SHELL" "/bin/sh"
+        
 makl_file_sub "bin/maklsh"              \
               "bin/lib/maklsh_catalog"  \
+              "bin/lib/maklsh_conf"     \
               "bin/lib/maklsh_funcs"
 
 . $MAKL_DIR/cf/makl.term

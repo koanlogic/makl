@@ -1,4 +1,4 @@
-# $Id: maklsh_conf,v 1.2 2008/10/18 13:10:08 tho Exp $
+# $Id: maklsh_conf.in,v 1.1 2008/11/02 19:24:29 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -16,7 +16,7 @@ maklsh_select_configure ()
 
     for cf in ${MAKLSH_CF_SCRIPTS}
     do
-        if [ -x "${cf}" ]
+        if [ -r "${cf}" ]
         then
             MAKLSH_CF_SCRIPT_PATH="${cf}"
             ${MAKLSH_ECHO} "Using configure script ${MAKLSH_CF_SCRIPT_PATH}"
@@ -33,6 +33,13 @@ maklsh_select_configure ()
 maklsh_conf ()
 {
     maklsh_select_configure
-    ${MAKLSH_CF_SCRIPT_PATH} ${MAKLSH_NOMAKL_ARGS}
+
+    if [ -z "${MAKLSH_NOMAKL_ARGS}" ]
+    then
+        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}"
+    else
+        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}" "${MAKLSH_NOMAKL_ARGS}"
+    fi
+
     return $?
 }
