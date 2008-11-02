@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.66 2008/11/01 15:21:27 tho Exp $
+$Id: ChangeLog,v 1.67 2008/11/02 19:27:54 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.8.z
+	- added explicit --bourne_shell=... argument to top level configure
+	- makl-conf also accepts non executable configure scripts
 	- Intel C/C++ compiler support on Linux (icc-linux.tc)
 	- produce dynamic libraries (DLL's) on Windows via MinGW and Cygwin
 	- added OBJDIR to prog and lib templates for multiple target builds
