@@ -1,5 +1,3 @@
-
-
 export MAKL_DIR="`pwd`"
 export makl_conf_h="/dev/null"
 
@@ -61,6 +59,8 @@ then
             boot_file="boot/default.cfg"
             ;;
     esac
+else
+    boot_file="${BOOT_FILE}"
 fi
 
 # source-in configuration
