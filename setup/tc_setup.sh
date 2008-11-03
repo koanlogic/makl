@@ -63,10 +63,6 @@ in
         shlib="netbsd"
         toolchain=${shlib}
         ;;
-    freebsd*)
-        shlib="freebsd"
-        toolchain=${shlib}
-        ;;
     darwin*)
         shlib="darwin"
         toolchain=${shlib}
