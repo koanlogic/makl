@@ -1,4 +1,4 @@
-# $Id: makl_deps.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_deps.sh,v 1.2 2008/11/03 23:40:32 stewy Exp $
 #
 
 # Save required or optional dependency to file
@@ -187,23 +187,29 @@ _makl_search_featx ()
     # get dependency values
     var=`makl_tab_get ${f_deps_x} $1 3`
     
-    # get paths defined by BASE
-    if [ -z "${path}" ]; then
-        val=`makl_tab_var "${dft}" "BASE"` 
-        dirs=`${ECHO} ${val} | sed 's/:/ /g'`
-    else
-        dirs=`dirname ${path}`
-    fi
-
-    # search for executable file
-    for dir in ${dirs}; do
-        if [ -x "${dir}/$1" ]; then
+    if [ "${path}" ]; then
+        # check path given as argument
+        if [ -x "${path}" ]; then
             makl_set_var "HAVE_"`makl_upper $1`
-            [ -z "${var}" ] || makl_set_var "PATH_"`makl_upper $1` ${dir}/$1 1
+            [ -z "${var}" ] || makl_set_var "PATH_"`makl_upper $1` "${path}" 1
             return 0
         fi
-    done 
+    else
+        # get paths defined by BASE
+        val=`makl_tab_var "${dft}" "BASE"` 
+        dirs=`${ECHO} ${val} | sed 's/:/ /g'`
 
+        # search for executable file
+        for dir in ${dirs}; do
+            if [ -x "${dir}/$1" ]; then
+                makl_set_var "HAVE_"`makl_upper $1`
+                [ -z "${var}" ] || makl_set_var "PATH_"`makl_upper $1` ${dir}/$1 1
+                return 0
+            fi
+        done 
+    fi
+
+    # error if we reach this
     makl_unset_var "HAVE_"`makl_upper $1`
     return 1
 }
