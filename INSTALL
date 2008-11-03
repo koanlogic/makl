@@ -1,61 +1,17 @@
-== Toolchain and Shared Libraries Setup ==
+Auto-configuration
 
-$ $(GNUMAKE) toolchain
+    $ sh configure.sh [--prefix=/path/to/makl/dest/dir]
 
-This is the very first step by which MaKL Self detects the host platform and 
-installs the appropriate toolchain files. 
+    '--prefix=...' is optional and defaults to "/usr/local".  
 
+    MaKL template libraries (i.e. mk and cf modules) will be placed into 
+    "${prefix}/share/makl-${MAKL_VERSION}".  The 'maklsh' executable and its 
+    children symlinks ('makl', 'makl-conf', 'makl-tc' and 'makl-help') will 
+    go into "${prefix}/bin"
 
-== Prepare for Installation ==
+Installation
 
-$ ./configure --gnu_make=/path/to/gnu/make \
-              --prefix=/path/to/makl/dest/dir
+    # make install
 
-While '--gnu_make=...' parameter is mandatory and must be set to the exact path
-of an installed GNU make executable (perhaps the same used in the toolchain
-step, '--prefix=...' is optional and defaults to '/usr/local'.  
-
-MaKL template libraries (i.e. mk and cf modules) will be placed into 
-$(prefix)/share/makl-$(MAKL_VERSION).  
-The 'maklsh' executable and its related symlinks ('makl', 'maklconf' and 
-'maklhelp') will reside into $(prefix)/bin/
-
-
-== Installation ==
-
-# make install
-
-add $(prefix)/bin/ to your PATH env variable and you will be able to use the
-'makl' and 'maklconf' commands to build and configure your C/C++ projects.
-
-
-== Supplementary Steps ==
-
-If you need to override system-wide settings, perhaps in order to use a 
-specific MaKL version you can create a '.maklrc' file containing the appropriate
-variables and let 'maklsh' use them.  Suppose you have MaKL installed at
-/share/makl-1.5.0/ and you want to use a newer MaKL version which you have
-downloaded and installed in your home directory.  Then do the following:
-
-$ makl -C /usr/local/share/makl-1.5.0/ env
-Pick up a shell [bash]: zsh
-Pick a suitable environment file [/share/makl-1.5.0/makl.env]: /home/me/.maklrc
-
-then open '/home/me/.maklrc' in your favourite editor (mine is vim :-)) and 
-set the variables to match your "private" MaKL setting:
-
-$ vim /home/me/.maklrc
-====
-MAKL_VERSION="1.6.0"
-export MAKL_VERSION
-
-MAKL_DIR="/home/tho/work/share/makl-1.6.0"
-export MAKL_DIR
-
-MAKEFLAGS="-I ${MAKL_DIR}/mk"
-export MAKEFLAGS
-
-# Set this to expand the config scripts search
-MAKL_CF_SCRIPTS="./myproject-configure"
-export MAKL_CF_SCRIPTS
-====
+    Add "${prefix}/bin" , if needed, to your PATH env variable in order to be
+    able using the 'makl'* commands.

@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.68 2008/11/02 20:18:06 stewy Exp $
+$Id: ChangeLog,v 1.69 2008/11/03 17:33:29 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.8.z
+	- simplified auto-configuration procedure (the toolchain creation step
+	  has been absorbed into configure.sh)
 	- added explicit --bourne_shell=... argument to top level configure
 	- makl-conf also accepts non executable configure scripts
 	- Intel C/C++ compiler support on Linux (icc-linux.tc)
