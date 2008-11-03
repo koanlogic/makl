@@ -1,13 +1,26 @@
+# usage:
+#
+#   <POSIX bourne shell> configure.sh [--gnu_make=/path/to/gnu/make]
+#                                     [--bourne_shell=/path/to/bourne/shell]
+#                                     [--boot_file=/path/to/custom/boot/file]
+
 export MAKL_DIR="`pwd`"
 export makl_conf_h="/dev/null"
 
 # setup a temporary toolchain to please makl.init
 host="`uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //g'`"
-env MAKL_PLATFORM=$host setup/tc_setup.sh
+export MAKL_PLATFORM=$host 
+export TC_SETUP_SOURCED="true"
+echo "set up temporary toolchain to please makl.init (will be overwritten)"
+. setup/tc_setup.sh
 
+# initialize makl/cf
 . "${MAKL_DIR}"/cf/makl.init
 makl_args_init "$@"
 
+# initialize command line handlers:
+#
+# --gnu_make=...
 makl_args_def           \
     "gnu_make"          \
     "=GNUMAKEPATH" ""   \
@@ -18,6 +31,7 @@ __makl_gnu_make ()
     makl_set_var_mk GNU_MAKE "$@"
 }
 
+# --bourne_shell=...
 makl_args_def               \
     "bourne_shell"          \
     "=BOURNESHELLPATH" ""   \
@@ -28,6 +42,7 @@ __makl_bourne_shell ()
     makl_set_var_mk BOURNE_SHELL "$@"
 }
 
+# --boot_file=...
 makl_args_def           \
     "boot_file"         \
     "=BOOTFILEPATH" ""  \
@@ -40,6 +55,7 @@ __makl_boot_file ()
 
 makl_args_handle "$@"
 
+# set destination for MaKL bells and whistles
 makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
 
 # if no explicit bootstrap file was supplied, go for autodetection
@@ -63,19 +79,21 @@ else
     boot_file="${BOOT_FILE}"
 fi
 
-# source-in configuration
+# source-in platform configuration
 echo "using $boot_file for bootstrapping MaKL"
 . "$boot_file"
 
-# command line has precedence over cfg
+# NOTE: command line has precedence over bootstrap settings
 [ -z "`makl_get_var_mk GNU_MAKE`" ] && \
         makl_set_var_mk "GNU_MAKE" "${gnu_make}"
 [ -z "`makl_get_var_mk BOURNE_SHELL`" ] && \
         makl_set_var_mk "BOURNE_SHELL" "${bourne_shell}"
 
-# do toolchain/shlib setup
-env MAKL_TC_FILE="${toolchain_file}" MAKL_SHLIB_FILE="${shlib_file}" \
-                  setup/tc_setup.sh
+# do final toolchain/shlib setup
+export MAKL_TC_FILE="${toolchain_file}"
+export MAKL_SHLIB_FILE="${shlib_file}"
+# assume TC_SETUP_SOURCED is still there
+. setup/tc_setup.sh
        
 # apply substitution as needed
 makl_file_sub "bin/maklsh"              \
@@ -84,6 +102,7 @@ makl_file_sub "bin/maklsh"              \
               "bin/lib/maklsh_conf"     \
               "bin/lib/maklsh_funcs"
 
+# write Makefile.conf
 . $MAKL_DIR/cf/makl.term
 
 # need to fix reloc.mk path because we don't have MAKL_DIR in place when 

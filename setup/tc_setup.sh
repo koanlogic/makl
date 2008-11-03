@@ -123,4 +123,5 @@ echo "installing toolchain file \"${tc_file}\""
 makl_tc "${tc_file}" "${MAKL_ETC}/toolchain.cf" "${MAKL_ETC}/toolchain.mk" \
        || err "toolchain installation failed"
 
-exit 0
+# don't call explicit exit if called as "sourced"
+[ -n "${TC_SETUP_SOURCED}" ] || exit 0
