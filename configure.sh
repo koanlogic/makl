@@ -1,8 +1,11 @@
+
+
 export MAKL_DIR="`pwd`"
 export makl_conf_h="/dev/null"
 
-# setup a fake toolchain to please makl.init
-env MAKL_TC=default MAKL_SHLIB=null setup/tc_setup.sh
+# setup a temporary toolchain to please makl.init
+host="`uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //g'`"
+env MAKL_PLATFORM=$host setup/tc_setup.sh
 
 . "${MAKL_DIR}"/cf/makl.init
 makl_args_init "$@"
@@ -44,7 +47,6 @@ makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
 # if no explicit bootstrap file was supplied, go for autodetection
 if [ -z "${BOOT_FILE}" ]
 then
-    host="`makl_target_name`"
     case $host
     in
         linux*)     boot_file="boot/linux.cfg" ;; 
