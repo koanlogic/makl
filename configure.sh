@@ -1,6 +1,9 @@
 export MAKL_DIR="`pwd`"
 export makl_conf_h="/dev/null"
 
+# setup a fake toolchain to please makl.init
+env MAKL_TC=default MAKL_SHLIB=null setup/tc_setup.sh
+
 . "${MAKL_DIR}"/cf/makl.init
 makl_args_init "$@"
 
