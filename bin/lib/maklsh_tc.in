@@ -1,4 +1,4 @@
-# $Id: maklsh_tc,v 1.4 2008/10/21 15:26:33 tho Exp $
+# $Id: maklsh_tc.in,v 1.1 2008/11/03 15:37:35 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -33,5 +33,5 @@ maklsh_tc ()
         [ $? -eq 0 ] || maklsh_err "Could not create ${MAKLSH_MAKL_ETC}"
     fi
 
-    ${MAKLSH_MAKL_DIR}/setup/tc_setup.sh
+    @{{BOURNE_SHELL}} "${MAKLSH_MAKL_DIR}/setup/tc_setup.sh"
 }

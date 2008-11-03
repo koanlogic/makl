@@ -1,5 +1,3 @@
-#!/bin/sh 
-#
 # environment variables:
 #   - FETCH             like command
 #   - MAKL_TC_FILE      toolchain file (full path)
