@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.4 2008/11/03 22:04:16 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.5 2008/11/03 23:38:02 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -373,7 +373,7 @@ __makl_featx ()
     makl_tab_find ${f_featx} $1
     [ $? -eq 0 ] || _makl_args_err "--makl_featx: Invalid featx: $1"
 
-    makl_tab_set ${f_featx} $1 2 $2
+    makl_tab_set ${f_featx} $1 2 "$2"
 }
 
 ##\brief Handler. Set parameters for a library dependency.
@@ -460,6 +460,20 @@ _makl_arg_handle ()
     
     makl_dbg "running command '${cmd}' id '${id}'"
 
-    __makl_"${cmd}" "${id}" "${rval}"
+    if [ -z "${cmd}" ]; then
+        __makl_args_err "Unspecified command!" 
+    else 
+        if [ -z "${id}" ]; then
+            if [ -z "${rval}" ]; then
+                __makl_${cmd} 
+            else 
+                __makl_${cmd} "${rval}"
+            fi
+        elif [ -z "${rval}" ]; then
+            __makl_args_err "id but no rval!" 
+        else
+            __makl_${cmd} ${id} "${rval}"
+        fi
+    fi           
     [ $? -eq 0 ] || _makl_args_err "Failed command: '${cmd}'!"
 }
