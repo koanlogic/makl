@@ -1,6 +1,6 @@
 #!@{{BOURNE_SHELL}}
 #
-# $Id: maklsh.in,v 1.32 2008/11/03 08:16:51 tho Exp $
+# $Id: maklsh.in,v 1.33 2008/11/04 13:53:00 tho Exp $
 
 MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 
@@ -51,7 +51,8 @@ in
         ;;
     ${MAKL_CMD_CONF} | ${MAKL_CMD_CONF_COMPAT})
         . ${MAKLSH_LIB}/maklsh_conf
-        maklsh_conf
+        maklsh_select_configure
+        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}" "$@"
         ;;
     ${MAKL_CMD_NEW} | ${MAKL_CMD_NEW_COMPAT})
         . ${MAKLSH_LIB}/maklsh_new

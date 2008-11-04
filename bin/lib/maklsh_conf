@@ -1,4 +1,4 @@
-# $Id: maklsh_conf.in,v 1.1 2008/11/02 19:24:29 tho Exp $
+# $Id: maklsh_conf,v 1.4 2008/11/04 13:53:00 tho Exp $
 #
 # import:
 # - MAKLSH_ECHO
@@ -25,21 +25,4 @@ maklsh_select_configure ()
     done
 
     maklsh_err "no suitable configure script found !"
-}
-
-##
-# call configure script
-##
-maklsh_conf ()
-{
-    maklsh_select_configure
-
-    if [ -z "${MAKLSH_NOMAKL_ARGS}" ]
-    then
-        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}"
-    else
-        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}" "${MAKLSH_NOMAKL_ARGS}"
-    fi
-
-    return $?
 }
