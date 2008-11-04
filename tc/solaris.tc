@@ -1,0 +1,23 @@
+#
+# GNU/Solaris
+#
+# $Id: solaris.tc,v 1.1 2008/11/04 17:00:50 tho Exp $
+
+CC = gcc
+AR = /usr/ccs/bin/ar
+LD = /usr/ucb/ld
+
+# no --{start,end}-group (NOTE: leave a blank after '=')
+PRE_LDADD = __UNSET__
+POST_LDADD = __UNSET__
+
+# avoid both bash3 echo builtin and ancient /bin/echo
+ECHO = /usr/ucb/echo
+
+# use this instead of /usr/sbin/install
+INSTALL = /usr/ucb/install
+
+LORDER = /usr/ccs/bin/lorder
+TSORT = /usr/ccs/bin/tsort
+
+MKINSTALLDIRS = /bin/mkdir -p

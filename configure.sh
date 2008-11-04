@@ -74,6 +74,7 @@ then
         solaris*)   boot_file="boot/solaris.cfg" ;;
         cygwin*)    boot_file="boot/cygwin.cfg" ;;
         mingw*)     boot_file="boot/mingw.cfg" ;;
+        sunos*)     boot_file="boot/solaris.cfg" ;;
         *) 
             echo "no boot file for $host found: trying the default..." 
             boot_file="boot/default.cfg"

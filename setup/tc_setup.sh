@@ -68,12 +68,16 @@ in
         toolchain=${shlib}
         ;;
     *mingw*)
-        shlib="null"            # not yet supported
-        toolchain="mingw"
+        shlib="mingw"
+        toolchain=${shlib}
         ;;
     *cygwin*)
-        shlib="null"            # not yet supported
-        toolchain="cygwin"
+        shlib="cygwin"
+        toolchain=${shlib}
+        ;;
+    sunos*)
+        shlib="solaris"
+        toolchain=${shlib}
         ;;
     *)
         shlib="null"
