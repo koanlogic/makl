@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.6 2008/11/04 13:12:16 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.7 2008/11/04 14:25:15 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -107,6 +107,13 @@ _makl_help_print ()
     } > configure.help
 }
 
+
+##\brief Handler. RESERVED for makl internals
+__makl_makl () 
+{
+    makl_dbg "ignoring internal handler 'makl' (id=$1, val=$2)"
+}
+    
 ##\brief Handler. Print out the help menu.
 ##
 ##  Print out the help menu.
