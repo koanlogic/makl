@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.40 2008/10/09 09:48:46 stewy Exp $
+# $Id: makl.init,v 1.41 2008/11/04 10:34:14 stewy Exp $
 #
 
 # read in just once
@@ -28,7 +28,7 @@ done
 
 # when playing with makl nutshells, MAKL_ETC (i.e. where toolchain belongs)
 # can be arbitrarily set by the user
-MAKL_ETC=${MAKL_ETC:-${MAKL_DIR}/etc}
+MAKL_ETC="${MAKL_ETC:-${MAKL_DIR}/etc}"
 
 # set globals to sensible defaults if not already set
 makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
@@ -37,16 +37,16 @@ makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
 
 # create a fresh makl run dir
 if [ -d "${makl_run_dir}" ]; then
-    rm -rf ${makl_run_dir} || exit 1
+    rm -rf "${makl_run_dir}" || exit 1
 fi
-mkdir -p ${makl_run_dir} || exit 1
+mkdir -p "${makl_run_dir}" || exit 1
 
 # save environment 
 # assumes that variables cannot contain \nVAR=VAL as part of their value
-env > ${makl_run_dir}/env.orig
+env > "${makl_run_dir}"/env.orig
 env | grep -v "^MAKEOVERRIDES=" \
     | sed -e '/^[A-Za-z_].*=/s/=/="/' -e '/\\$/!s/$/"/' \
-  > ${makl_run_dir}/env
+  > "${makl_run_dir}"/env
 
 if [ ! -r "${MAKL_ETC}"/toolchain.cf ]; then
     echo "missing toolchain.cf !"
@@ -54,18 +54,18 @@ if [ ! -r "${MAKL_ETC}"/toolchain.cf ]; then
 fi
 
 # import toolchain variables locally
-. ${MAKL_ETC}/toolchain.cf
+. "${MAKL_ETC}"/toolchain.cf
 
 # environment has priority over toolchain
-. ${makl_run_dir}/env 2> /dev/null
+. "${makl_run_dir}"/env 2> /dev/null
 
 # source makl functions and configuration
-for shenv in ${MAKL_DIR}/cf/makl_*.sh \
-        ${MAKL_DIR}/cf/helpers/makl_*.sh \
-        ${MAKL_DIR}/etc/vars.cf \
-        ${MAKL_DIR}/etc/args.cf \
-        ${MAKL_DIR}/etc/funcs.cf; do
-    [ -f "${shenv}" ] && . ${shenv} 2> /dev/null
+for shenv in "${MAKL_DIR}"/cf/makl_*.sh \
+        "${MAKL_DIR}"/cf/helpers/makl_*.sh \
+        "${MAKL_DIR}"/etc/vars.cf \
+        "${MAKL_DIR}"/etc/args.cf \
+        "${MAKL_DIR}"/etc/funcs.cf; do
+    [ -f "${shenv}" ] && . "${shenv}" 2> /dev/null
 done
 
 # show global variables' values
