@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.2 2008/10/30 10:43:10 stewy Exp $
+# $Id: makl_utils.sh,v 1.3 2008/11/04 13:12:16 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -257,40 +257,40 @@ _makl_set_dirs()
 {
     pfx=`makl_get "__prefix__"`
 
-    makl_set_var "DESTDIR"  ${pfx} 1
+    makl_set_var "DESTDIR"  "${pfx}" 1
     
-    [ -z `makl_get_var_mk "BINDIR"` ] && \
-        makl_set_var "BINDIR"   ${pfx}/bin 1
+    [ -z "`makl_get_var_mk "BINDIR"`" ] && \
+        makl_set_var "BINDIR"   "${pfx}"/bin 1
 
-    [ -z `makl_get_var_mk "SBINDIR"` ] && \
-        makl_set_var "SBINDIR"  ${pfx}/sbin 1
+    [ -z "`makl_get_var_mk "SBINDIR"`" ] && \
+        makl_set_var "SBINDIR"  "${pfx}"/sbin 1
 
-    [ -z `makl_get_var_mk "CONFDIR"` ] && \
-        makl_set_var "CONFDIR"  ${pfx}/etc 1
+    [ -z "`makl_get_var_mk "CONFDIR"`" ] && \
+        makl_set_var "CONFDIR"  "${pfx}"/etc 1
 
-    [ -z `makl_get_var_mk "INCDIR"` ] && \
-        makl_set_var "INCDIR"   ${pfx}/include 1
+    [ -z "`makl_get_var_mk "INCDIR"`" ] && \
+        makl_set_var "INCDIR"   "${pfx}"/include 1
 
-    [ -z `makl_get_var_mk "LIBDIR"` ] && \
-        makl_set_var "LIBDIR"   ${pfx}/lib 1
+    [ -z "`makl_get_var_mk "LIBDIR"`" ] && \
+        makl_set_var "LIBDIR"   "${pfx}"/lib 1
         
-    [ -z `makl_get_var_mk "SHLIBDIR"` ] && \
-        makl_set_var "SHLIBDIR" ${pfx}/lib 1
+    [ -z "`makl_get_var_mk "SHLIBDIR"`" ] && \
+        makl_set_var "SHLIBDIR" "${pfx}"/lib 1
 
-    [ -z `makl_get_var_mk "LIBEXDIR"` ] && \
-        makl_set_var "LIBEXDIR" ${pfx}/libexec 1
+    [ -z "`makl_get_var_mk "LIBEXDIR"`" ] && \
+        makl_set_var "LIBEXDIR" "${pfx}"/libexec 1
         
-    [ -z `makl_get_var_mk "VARDIR"` ] && \
-        makl_set_var "VARDIR"   ${pfx}/var 1
+    [ -z "`makl_get_var_mk "VARDIR"`" ] && \
+        makl_set_var "VARDIR"   "${pfx}"/var 1
 
-    [ -z `makl_get_var_mk "SHAREDIR"` ] && \
-        makl_set_var "SHAREDIR" ${pfx}/share 1
+    [ -z "`makl_get_var_mk "SHAREDIR"`" ] && \
+        makl_set_var "SHAREDIR" "${pfx}"/share 1
         
-    [ -z `makl_get_var_mk "MANDIR"` ] && \
-        makl_set_var "MANDIR"   `makl_get_var_mk "SHAREDIR"`/man 1
+    [ -z "`makl_get_var_mk "MANDIR"`" ] && \
+        makl_set_var "MANDIR"   "`makl_get_var_mk "SHAREDIR"`"/man 1
 
-    [ -z `makl_get_var_mk "DOCDIR"` ] && \
-        makl_set_var "DOCDIR"   `makl_get_var_mk "SHAREDIR"`/doc 1
+    [ -z "`makl_get_var_mk "DOCDIR"`" ] && \
+        makl_set_var "DOCDIR"   "`makl_get_var_mk "SHAREDIR"`"/doc 1
 }
 
 ## \brief Perform file substitution.

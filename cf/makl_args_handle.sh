@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.5 2008/11/03 23:38:02 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.6 2008/11/04 13:12:16 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -17,7 +17,7 @@ makl_args_init ()
 
     for arg in "$@"; do
         cmd=`${ECHO} ${arg} | cut -f1 -d "="`
-        case ${cmd} in 
+        case "${cmd}" in 
             -h | --help)
                 makl_set "__noconfig__"
                 if [ -r configure.help ]; then
@@ -57,7 +57,7 @@ makl_args_handle ()
     for arg in "$@"; do
         pref=`${ECHO} ${arg} | cut -c1,2`
         cmd=`${ECHO} ${arg} | cut -f1 -d"="`
-        case ${cmd} in 
+        case "${cmd}" in 
             -g | --help_gen)
                 __makl_help_gen  
                 ;;
@@ -154,7 +154,7 @@ __makl_version ()
     [ -f "${file}" ] && [ -r "${file}" ] && \
         ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
    
-    ${ECHO} ${ver} | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    ${ECHO} "${ver}" | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
     [ $? -eq 0 ] || makl_err 2 "--version: version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
@@ -169,18 +169,18 @@ __makl_version ()
 ##
 _makl_help_opts() 
 {
-    file_args=${makl_run_dir}/args 
+    file_args="${makl_run_dir}"/args 
 
     # print out arguments
     [ -e "${file_args}" ] && \
-    cat ${file_args} | {
+    cat "${file_args}" | {
         while read line; do 
             id=`makl_tab_elem "${line}" 1`
             pms=`makl_tab_elem "${line}" 2`
             dft=`makl_tab_elem "${line}" 3`
             dsc=`makl_tab_elem "${line}" 4`
             [ -e "${makl_run_dir}/args_${id}" ] && \
-            cat ${makl_run_dir}/args_"${id}" | { 
+            cat "${makl_run_dir}"/args_"${id}" | { 
                 while read lin; do
                     ID=`makl_tab_elem "${lin}" 1`
                     DFT=`makl_tab_elem "${lin}" 2`
@@ -232,8 +232,8 @@ __makl_cross_compile ()
 __makl_prefix ()
 {
     [ $# -eq 1 ] || _makl_args_err "--prefix: wrong number of arguments!"
-    
-    makl_set "__prefix__" $1
+
+    makl_set "__prefix__" "$1"
 }
 
 ##\brief Handler. Set the base directory for a specific data type.
@@ -249,12 +249,12 @@ __makl_dir ()
 {
     [ $# -eq 2 ] || _makl_args_err "--dir: wrong number of arguments!"
       
-    f_dirs=${makl_run_dir}/args_dir
-    makl_tab_find ${f_dirs} $1
+    f_dirs="${makl_run_dir}"/args_dir
+    makl_tab_find "${f_dirs}" "$1"
     
     [ $? -eq 0 ] || makl_err 2 "_makl_dir: Bad directory type: $1"
     
-    makl_set_var `makl_upper $1`"DIR" $2 1
+    makl_set_var `makl_upper $1`"DIR" "$2" 1
 }
 
 ##\brief Handler. Set default file owner id.
@@ -267,7 +267,7 @@ __makl_defown ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defown: wrong number of arguments!"
     
-    makl_set_var_mk "DEFOWN" $1
+    makl_set_var_mk "DEFOWN" "$1"
 }
 
 ##\brief Handler. Set default file group id.
@@ -280,7 +280,7 @@ __makl_defgrp ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defgrp: wrong number of arguments!"
     
-    makl_set_var_mk "DEFGRP" $1
+    makl_set_var_mk "DEFGRP" "$1"
 }
 
 ##\brief Handler. Set default file mode for regular files.
@@ -294,10 +294,10 @@ __makl_defmode ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defmode: wrong number of arguments!"
 
-    makl_is_mode $1
+    makl_is_mode "$1"
     [ $? -eq 0 ] || makl_err 2 "Invalid mode: $1 (3 octal digits)"
     
-    makl_set_var_mk "DEFMODE" $1
+    makl_set_var_mk "DEFMODE" "$1"
 }
 
 ##\brief Handler. Set default file mode for binary files.
@@ -311,10 +311,10 @@ __makl_defbinmode ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defbinmode: wrong number of arguments!"
 
-    makl_is_mode $1
+    makl_is_mode "$1"
     [ $? -eq 0 ] || makl_err 2 "Invalid mode: $1 (3 octal digits)"
     
-    makl_set_var_mk "DEFBINMODE" $1
+    makl_set_var_mk "DEFBINMODE" "$1"
 }
 
 ##\brief Handler. Enable a feature.
@@ -329,12 +329,12 @@ __makl_enable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--enable: wrong number of arguments!"
 
-    f_feat=${makl_run_dir}/deps_$1
+    f_feat="${makl_run_dir}"/deps_"$1"
     [ -f "${f_feat}" ] || _makl_args_err "--makl_enable: Invalid feature type $1"
 
-    req=`makl_tab_get ${f_feat} $2 2`
+    req=`makl_tab_get ${f_feat} "$2" 2`
     [ "${req}" = "1" ] && makl_err 2 "cannot enable a required feature!"
-    makl_tab_set ${f_feat} $2 2 "01"
+    makl_tab_set ${f_feat} "$2" 2 "01"
 }
 
 ##\brief Handler. Disable a feature.
@@ -349,12 +349,12 @@ __makl_disable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--disable: wrong number of arguments!"
 
-    f_feat=${makl_run_dir}/deps_$1
+    f_feat="${makl_run_dir}"/deps_"$1"
     [ -f "${f_feat}" ] || _makl_args_err "--makl_disable: Invalid feature type $1"
     
-    req=`makl_tab_get ${f_feat} $2 2`
+    req=`makl_tab_get ${f_feat} "$2" 2`
     [ "${req}" = "1" ] && makl_err 2 "cannot disable a required feature!"
-    makl_tab_set ${f_feat} $2 3 "00"
+    makl_tab_set "${f_feat}" "$2" 3 "00"
 }
 
 ##\brief Handler. Set parameters for an executable feature.
@@ -369,11 +369,11 @@ __makl_featx ()
 {
     [ $# -eq 2 ] || _makl_args_err "--featx: wrong number of arguments!"
 
-    f_featx=${makl_run_dir}/args_featx
-    makl_tab_find ${f_featx} $1
+    f_featx="${makl_run_dir}"/args_featx
+    makl_tab_find "${f_featx}" "$1"
     [ $? -eq 0 ] || _makl_args_err "--makl_featx: Invalid featx: $1"
 
-    makl_tab_set ${f_featx} $1 2 "$2"
+    makl_tab_set "${f_featx}" "$1" 2 "$2"
 }
 
 ##\brief Handler. Set parameters for a library dependency.
@@ -390,11 +390,11 @@ __makl_lib ()
     [ $# -eq 2 ] || _makl_args_err "--lib: wrong number of arguments!"
     [ "$1" ] || _makl_args_err "--makl_lib: missing library id!"
 
-    libs=${makl_run_dir}/args_lib
-    makl_tab_find ${libs} $1
+    libs="${makl_run_dir}"/args_lib
+    makl_tab_find "${libs}" "$1"
     [ $? -eq 0 ] || _makl_args_err "--makl_lib: undefined library $1"
     
-    makl_tab_set ${libs} $1 2 $2
+    makl_tab_set "${libs}" "$1" 2 "$2"
 }
 
 ##\brief Handler. Set name of dir in which library should be sought.
@@ -407,11 +407,11 @@ __makl_find_lib ()
     [ $# -eq 2 ] || _makl_args_err "--find_lib: wrong number of arguments!"
     [ "$1" ] || _makl_args_err "--find_lib: missing lib name!"
 
-    libs=${makl_run_dir}/args_lib
-    makl_tab_find ${libs} $1
+    libs="${makl_run_dir}"/args_lib
+    makl_tab_find "${libs}" "$1"
     [ $? -eq 0 ] || _makl_args_err "--find_lib: undefined library $1"
 
-    makl_tab_set ${libs} $1 4 $2
+    makl_tab_set "${libs}" "$1" 4 "$2"
 }
 
 ##\brief Handler. Set parameters for all library dependencies.
@@ -426,7 +426,7 @@ __makl_libs ()
 {
     [ $# -eq 1 ] || _makl_args_err "--libs: wrong number of arguments!"
 
-    makl_set "__libs__" $1
+    makl_set "__libs__" "$1"
 }
 
 ##\brief Print an error message followed by usage.
@@ -441,7 +441,7 @@ _makl_args_err ()
 {
     __makl_help
     ${ECHO}
-    makl_err 1 $1
+    makl_err 1 "$1"
 }
 
 ## \brief Handle an argument.
