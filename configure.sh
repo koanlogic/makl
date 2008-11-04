@@ -71,6 +71,7 @@ then
         darwin*)    boot_file="boot/darwin.cfg" ;;
         freebsd*)   boot_file="boot/freebsd.cfg" ;; 
         netbsd*)    boot_file="boot/netbsd.cfg" ;; 
+        openbsd*)   boot_file="boot/openbsd.cfg" ;; 
         solaris*)   boot_file="boot/solaris.cfg" ;;
         cygwin*)    boot_file="boot/cygwin.cfg" ;;
         mingw*)     boot_file="boot/mingw.cfg" ;;
