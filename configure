@@ -42,7 +42,6 @@ makl_set_var_mk MAKL_ROOT "`makl_get_var_mk SHAREDIR`/makl-`cat VERSION`"
 makl_file_sub "bin/maklsh"              \
               "bin/lib/maklsh_catalog"  \
               "bin/lib/maklsh_tc"       \
-              "bin/lib/maklsh_conf"     \
               "bin/lib/maklsh_funcs"
 
 . $MAKL_DIR/cf/makl.term
