@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.7 2008/11/04 14:25:15 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.8 2008/11/04 14:44:38 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -468,7 +468,7 @@ _makl_arg_handle ()
     makl_dbg "running command '${cmd}' id '${id}'"
 
     if [ -z "${cmd}" ]; then
-        __makl_args_err "Unspecified command!" 
+        _makl_args_err "Unspecified command!" 
     else 
         if [ -z "${id}" ]; then
             if [ -z "${rval}" ]; then
@@ -477,7 +477,7 @@ _makl_arg_handle ()
                 __makl_${cmd} "${rval}"
             fi
         elif [ -z "${rval}" ]; then
-            __makl_args_err "id but no rval!" 
+            __makl_${cmd} ${id} 
         else
             __makl_${cmd} ${id} "${rval}"
         fi
