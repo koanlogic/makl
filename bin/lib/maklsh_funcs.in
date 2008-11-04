@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.8 2008/10/30 15:52:47 tho Exp $
+# $Id: maklsh_funcs.in,v 1.9 2008/11/04 15:35:08 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -108,32 +108,48 @@ maklsh_context_init ()
 # reverse maklsh_load_from_file() ops
 maklsh_context_push ()
 {
-    export MAKL_DIR="${MAKLSH_MAKL_DIR}"
+    MAKL_DIR="${MAKLSH_MAKL_DIR}"
+    export MAKL_DIR
 
     [ -z "${MAKLSH_MAKL_MK_DIR}" ] && maklsh_err "no MK dir set"
-    export MAKEFLAGS="-I ${MAKLSH_MAKL_MK_DIR} ${MAKLSH_MAKE_FLAGS}"
+    MAKEFLAGS="-I ${MAKLSH_MAKL_MK_DIR} ${MAKLSH_MAKE_FLAGS}"
+    export MAKEFLAGS
 
-    [ ! -z ${MAKLSH_MAKL_ETC} ] && export MAKL_ETC="${MAKLSH_MAKL_ETC}"
+    if [ ! -z ${MAKLSH_MAKL_ETC} ]
+    then
+        MAKL_ETC="${MAKLSH_MAKL_ETC}"
+        export MAKL_ETC
+    fi
 
-    export MAKL_GNUMAKE="${MAKLSH_MAKL_GNUMAKE}"
-    export MAKL_VERSION="${MAKLSH_MAKL_VERSION}"
+    MAKL_GNUMAKE="${MAKLSH_MAKL_GNUMAKE}"
+    export MAKL_GNUMAKE
 
-    export MAKL_CF_SCRIPTS="${MAKLSH_CF_SCRIPTS}"
+    MAKL_VERSION="${MAKLSH_MAKL_VERSION}"
+    export MAKL_VERSION
+
+    MAKL_CF_SCRIPTS="${MAKLSH_CF_SCRIPTS}"
+    export MAKL_CF_SCRIPTS
 
     # toolchain stuff
-    export MAKL_TC="${MAKLSH_MAKL_TC}"
-    export MAKL_TC_FILE="${MAKLSH_MAKL_TC_FILE}"
-    export MAKL_SHLIB="${MAKLSH_MAKL_SHLIB}"
-    export MAKLSH_MAKL_SHLIB_FILE="${MAKL_SHLIB_FILE}"
+    MAKL_TC="${MAKLSH_MAKL_TC}"
+    export MAKL_TC
+    MAKL_TC_FILE="${MAKLSH_MAKL_TC_FILE}"
+    export MAKL_TC_FILE
+    MAKL_SHLIB="${MAKLSH_MAKL_SHLIB}"
+    export MAKL_SHLIB
+    MAKLSH_MAKL_SHLIB_FILE="${MAKL_SHLIB_FILE}"
+    export MAKLSH_MAKL_SHLIB_FILE
 
-    export MAKL_RC_MAXDEPTH="${MAKLSH_MAKL_RC_MAXDEPTH}"
+    MAKL_RC_MAXDEPTH="${MAKLSH_MAKL_RC_MAXDEPTH}"
+    export MAKL_RC_MAXDEPTH
 
     # on-the-fly toolchain handling
     if [ ! -z "{MAKLSH_TC_ONTHEFLY}" -a ! -z "${MAKLSH_ETC_ONTHEFLY}" ]
     then
         maklsh_chat "Using ${MAKLSH_ETC_ONTHEFLY} as on-the-fly toolchain dir"
         MAKLSH_MAKL_ETC="${MAKLSH_ETC_ONTHEFLY}"
-        export MAKL_ETC="${MAKLSH_ETC_ONTHEFLY}"
+        MAKL_ETC="${MAKLSH_ETC_ONTHEFLY}"
+        export MAKL_ETC
     fi
 
     return

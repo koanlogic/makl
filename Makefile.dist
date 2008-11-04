@@ -1,4 +1,4 @@
-# $Id: Makefile.dist,v 1.31 2008/11/03 15:37:35 tho Exp $
+# $Id: Makefile.dist,v 1.32 2008/11/04 15:35:08 tho Exp $
 
 include common.mk
 
@@ -13,7 +13,7 @@ ZIP ?= gzip
 ZIPEXT ?= gz
 
 DISTFILES = Makefile VERSION README LICENSE ChangeLog INSTALL THANKS
-DISTFILES += configure configure.help
+DISTFILES += configure configure.sh configure.help
 
 # auto configuration (cf files)
 DISTFILES += $(wildcard cf/makl*) $(wildcard cf/helpers/makl*)
