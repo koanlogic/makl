@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_code.sh,v 1.2 2008/11/05 18:58:36 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -26,8 +26,14 @@ makl_compile ()
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
+    [ -z `makl_get "__verbose__"` ] || cat ${c_file}
     makl_dbg "$ " ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}
-    ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS} 2>/dev/null
+
+    if [ -z `makl_get "__verbose__"` ]; then
+        ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS} 2>/dev/null
+    else 
+        ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}
+    fi
 
     if [ $? -ne 0 ]; then
         makl_info "compilation failed"
@@ -118,6 +124,52 @@ makl_exec_code ()
     return 0
 }
 
+##\brief Check resolution of a symbol
+##
+##  Define HAVE_$1 if symbol \e $1 can be resolved.
+##  \e $1 determines whether the feature is optional or required.
+##
+##   \param $1 0:optional/1:required
+##   \param $2 function name
+##   \param $3 flags to be passed to the compiler
+##
+makl_checkresolv ()
+{
+    opt="$1"
+    id="$2"
+    flags="$3"
+    shift; shift; shift
+
+    tmpfile=${makl_run_dir}/snippet.c
+
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    makl_info "checking symbol resolution: ${id}"
+
+    {
+        for arg in $* ; do
+            ${ECHO} "#include ${arg}"
+        done
+        ${ECHO} "typedef void (*f_t)(void);"
+        ${ECHO} "int main() {"
+        ${ECHO} "   f_t fn = (f_t)${id};"
+        ${ECHO} "   return 0;"
+        ${ECHO} "}"
+    } > ${tmpfile}
+   
+    makl_compile_code 0 ${tmpfile} "${flags}"
+
+    if [ $? -eq 0 ]; then
+        makl_set_var "HAVE_"`makl_upper ${id}`
+        return 0
+    else
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required function ${id}!"
+        makl_warn "failed check on optional function ${id}"
+        makl_unset_var "HAVE_"`makl_upper ${id}`
+        return 1
+    fi
+}
+
 ##\brief Check existence of a function.
 ##
 ##  Define HAVE_$1 if function \e $1 is found.
@@ -126,28 +178,19 @@ makl_exec_code ()
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
 ##   \param $3 flags to be passed to the compiler
+##   \param $* header files (optional)
 ##
 makl_checkfunc ()
 {
-    tmpfile=${makl_run_dir}/snippet.c
+    opt="$1"
+    id="$2"
+    flags="$3"
+    shift; shift; shift
 
-    [ -z `makl_get "__noconfig__"` ] || return
-
-    makl_info "checking for function $2"
-
-    ${ECHO} "$2();" > ${tmpfile}
-   
-    makl_compile_code 1 ${tmpfile} "$3"
-
-    if [ $? -eq 0 ]; then
-        makl_set_var "HAVE_"`makl_upper $2`
-        return 0
-    else
-        [ $1 -eq 0 ] || makl_err 1 "failed check on required function $2!"
-        makl_warn "failed check on optional function $2"
-        makl_unset_var "HAVE_"`makl_upper $2`
-        return 1
-    fi
+    makl_info "checking existence of function: ${id}"
+ 
+    # just an alias for now
+    makl_checkresolv "${opt}" "${id}" "${flags}" $*
 }
 
 ##\brief Check existence of a header.
@@ -224,11 +267,10 @@ makl_checktype ()
         done
         # on some systems (e.g. VxWorks) type checks are not picked up correctly
         # by the compiler, so force a check using sizeof() */
-        ${ECHO} "
-            int main() {
-                ${type} x;
-                return (sizeof(${type}) && 0);  
-            }" 
+        ${ECHO} "int main() {"
+        ${ECHO} "   ${type} x;"
+        ${ECHO} "   return (sizeof(${type}) && 0);"
+        ${ECHO} "}" 
     } > ${tmpfile}
     
     makl_compile_code 0 ${tmpfile}
@@ -267,13 +309,11 @@ makl_checkextern()
 
     # this fails when the linker doesn't find the variable in any linked
     # libraries
-    ${ECHO} "
-        extern void* ${var};
-        int main() 
-        {
-            return (int) & ${var};
-        }
-        " > ${tmpfile}
+    ${ECHO} "extern void* ${var};"
+    ${ECHO} "int main()"
+    ${ECHO} "{"
+    ${ECHO} "    return (int) & ${var};"
+    ${ECHO} "}" > ${tmpfile}
     
     makl_compile_code 0 ${tmpfile} $*
 
