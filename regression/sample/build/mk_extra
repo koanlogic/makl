@@ -1,0 +1,10 @@
+#
+# --extra-xxx=...
+#
+makl_args_def "extra" "" "" "add the supplied args to XXX (uppercase) variable"
+__makl_extra ()
+{
+    # TODO test $1 and $2 for correctness
+    makl_add_var_mk `makl_upper "$1"` "$2"
+}
+

@@ -1,0 +1,8 @@
+include common.mk
+
+PKG_NAME = makl-regression
+PKG_VERSION = $(shell cat VERSION)
+
+DISTRECIPE = misc/recipe
+
+include dist.mk

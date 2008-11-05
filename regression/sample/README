@@ -1,0 +1,17 @@
+Available targets:
+
+all:        build the software from sources
+clean:      undo the 'all' target
+distclean:  clean + also remove files in DISTCLEANFILES (i.e. those generated 
+            during the auto-configuration step)
+depend:     create .depend files used by MaKL to decide when re-making a given
+            target
+install:    install what need to be installed: binaries, libraries, docs,
+            header files, etc.
+uninstall:  undo the 'install' target
+
+Typical sequence:
+
+$ makl-conf [...]
+$ makl clean depend all
+$ makl install
