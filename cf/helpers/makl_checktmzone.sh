@@ -1,5 +1,5 @@
 #
-# $Id: makl_checktmzone.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_checktmzone.sh,v 1.2 2008/11/05 23:20:45 stewy Exp $
 #
 
 ##\brief Check if tm_zone is defined into "struct tm"
@@ -17,15 +17,15 @@ makl_checktmzone ()
 
     makl_info "checking for tm_zone support"
 
-    ${ECHO} "
-        #include <time.h>
+    cat << EOF > ${tmpfile}
+#include <time.h>
 
-        int main() {    
-            struct tm tt;  
-            tt.tm_zone = \"\"; 
-            return 0;
-        }
-    " > ${tmpfile}
+int main() {    
+    struct tm tt;  
+    tt.tm_zone = ""; 
+    return 0;
+}
+EOF
 
     makl_compile_code 0 ${tmpfile}
 

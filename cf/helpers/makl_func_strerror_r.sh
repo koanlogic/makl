@@ -1,5 +1,5 @@
 #
-# $Id: makl_func_strerror_r.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_func_strerror_r.sh,v 1.2 2008/11/05 23:20:45 stewy Exp $
 #
 
 #\brief Define HAVE_STRERROR_R if strerror_r() is found, and STRERROR_R_CHAR_P
@@ -18,10 +18,10 @@ makl_func_strerror_r ()
     makl_info "checking for function strerror_r"
 
     # test function compilation 
-    ${ECHO} "
-        char buf[100];
-        strerror_r(0, buf, sizeof(buf));
-    " > ${tmpfile}
+    cat << EOF > ${tmpfile}
+    char buf[100];
+    strerror_r(0, buf, sizeof(buf));
+EOF
     
     makl_compile_code 1 ${tmpfile}
 
@@ -33,16 +33,16 @@ makl_func_strerror_r ()
         # int return value with extern() and assuming that the return value will
         # be a non-null string in the first case and will always be 0 in the 
         # second case
-        ${ECHO} "
-            #include <sys/errno.h>
+        cat << EOF > ${tmpfile} 
+#include <sys/errno.h>
 
-            extern int strerror_r(); 
+extern int strerror_r(); 
 
-            int main() {
-                char buf[1024];
-                return ((strerror_r(EACCES, buf, sizeof(buf)) == 0));
-            }
-        " > ${tmpfile} 
+int main() {
+    char buf[1024];
+    return ((strerror_r(EACCES, buf, sizeof(buf)) == 0));
+}
+EOF
 
         makl_exec_code 0 ${tmpfile}
 

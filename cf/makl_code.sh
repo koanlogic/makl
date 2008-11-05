@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.2 2008/11/05 18:58:36 stewy Exp $
+# $Id: makl_code.sh,v 1.3 2008/11/05 23:20:45 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -27,7 +27,7 @@ makl_compile ()
     cd ${makl_run_dir}
 
     [ -z `makl_get "__verbose__"` ] || cat ${c_file}
-    makl_dbg "$ " ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}
+    makl_dbg "$ ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}"
 
     if [ -z `makl_get "__verbose__"` ]; then
         ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS} 2>/dev/null
@@ -66,7 +66,7 @@ makl_write_c ()
     
     if [ $2 -eq 1 ]; then
         {
-        ${ECHO} "return 0;"
+        ${ECHO} "   return 0;"
         ${ECHO} "}"
         } >> $1
     fi
@@ -141,21 +141,22 @@ makl_checkresolv ()
     shift; shift; shift
 
     tmpfile=${makl_run_dir}/snippet.c
+    rm -f ${tmpfile}
 
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking symbol resolution: ${id}"
 
-    {
         for arg in $* ; do
-            ${ECHO} "#include ${arg}"
+            ${ECHO} "#include ${arg}" >> ${tmpfile}
         done
-        ${ECHO} "typedef void (*f_t)(void);"
-        ${ECHO} "int main() {"
-        ${ECHO} "   f_t fn = (f_t)${id};"
-        ${ECHO} "   return 0;"
-        ${ECHO} "}"
-    } > ${tmpfile}
+        cat << EOF >> ${tmpfile}
+typedef void (*f_t)(void);
+int main() {
+    f_t fn = (f_t)${id};
+    return 0;
+}
+EOF
    
     makl_compile_code 0 ${tmpfile} "${flags}"
 
@@ -212,16 +213,17 @@ makl_checkheader ()
     header=$3
     shift; shift; shift;
     tmpfile=${makl_run_dir}/snippet.c
+    rm -f ${tmpfile}
 
     makl_info "checking for header ${id}"
 
-    {
-        for arg in $* ; do
-            ${ECHO} "#include ${arg}"
-        done
-        ${ECHO} "#include ${header}"
-        ${ECHO} "int main() { return 0; }"
-    } > ${tmpfile}
+    for arg in $* ; do
+        ${ECHO} "#include ${arg}" >> ${tmpfile}
+    done
+    cat << EOF >> ${tmpfile}
+#include ${header}
+int main() { return 0; }
+EOF
     
     makl_compile_code 0 ${tmpfile}
 
@@ -257,22 +259,23 @@ makl_checktype ()
     shift
     shift
     tmpfile=${makl_run_dir}/snippet.c
+    rm -f ${tmpfile}
 
     # substitute whitespace with underscores 
     def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
 
-    {
-        for arg in $*; do
-            ${ECHO} "#include ${arg}"
-        done
-        # on some systems (e.g. VxWorks) type checks are not picked up correctly
-        # by the compiler, so force a check using sizeof() */
-        ${ECHO} "int main() {"
-        ${ECHO} "   ${type} x;"
-        ${ECHO} "   return (sizeof(${type}) && 0);"
-        ${ECHO} "}" 
-    } > ${tmpfile}
-    
+    for arg in $*; do
+        ${ECHO} "#include ${arg}" >> ${tmpfile}
+    done
+    # on some systems (e.g. VxWorks) type checks are not picked up correctly
+    # by the compiler, so force a check using sizeof() */
+    cat << EOF >> ${tmpfile}
+int main() {
+    ${type} x;
+    return (sizeof(${type}) && 0);
+}
+EOF
+
     makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then
@@ -309,12 +312,14 @@ makl_checkextern()
 
     # this fails when the linker doesn't find the variable in any linked
     # libraries
-    ${ECHO} "extern void* ${var};"
-    ${ECHO} "int main()"
-    ${ECHO} "{"
-    ${ECHO} "    return (int) & ${var};"
-    ${ECHO} "}" > ${tmpfile}
-    
+    cat << EOF > ${tmpfile}
+extern void* ${var};
+int main()
+{
+    return (int) & ${var};
+}
+EOF
+  
     makl_compile_code 0 ${tmpfile} $*
 
     if [ $? -eq 0 ]; then
@@ -351,25 +356,24 @@ makl_checksymbol()
     shift
     shift
     tmpfile=${makl_run_dir}/snippet.c
+    rm -f ${tmpfile}
 
-    {
-        for arg in $*; do
-            ${ECHO} "#include ${arg}"
-        done
-        # this fails if the symbol is not defined (no #define, no variable, 
-        # no function)
-        ${ECHO} "
-            #ifdef ${var}
-            int main(){ return 0; }
-            #else
-            int main()
-            {
-                void *p = (void*)(${var});
-                return 0;
-            }
-            #endif
-            " 
-    } > ${tmpfile}
+    for arg in $*; do
+        ${ECHO} "#include ${arg}" >> ${tmpfile}
+    done
+    # this fails if the symbol is not defined (no #define, no variable, 
+    # no function)
+    cat << EOF >> ${tmpfile}
+#ifdef ${var}
+int main() { return 0; }
+#else
+int main()
+{
+    void *p = (void*)(${var});
+    return 0;
+}
+#endif
+EOF
     
     makl_compile_code 0 ${tmpfile}
 
@@ -401,30 +405,27 @@ makl_checkstructelem()
     opt=$1
     type=$2
     elem=$3
-    shift
-    shift
-    shift
+    shift; shift; shift
     tmpfile=${makl_run_dir}/snippet.c
+    rm -f ${tmpfile}
 
     def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
 
     makl_info "checking for ${elem} in ${type}"
 
-    {
-        for arg in $*; do
-            ${ECHO} "#include ${arg}"
-        done
-        # this fails if elem is not a field of the supplied type
-        ${ECHO} "
-            ${type} _a_;
-            int main()
-            {
-                void *_p_ = (void*)(&(_a_.${elem}));
-                return 0;
-            }
-            " 
-    } > ${tmpfile}
-    
+    for arg in $*; do
+        ${ECHO} "#include ${arg}" >> ${tmpfile}
+    done
+    # this fails if elem is not a field of the supplied type
+    cat << EOF >> ${tmpfile}
+${type} _a_;
+int main()
+{
+    void *_p_ = (void*)(&(_a_.${elem}));
+    return 0;
+}
+EOF
+
     makl_compile_code 0 ${tmpfile}
 
     if [ $? -eq 0 ]; then

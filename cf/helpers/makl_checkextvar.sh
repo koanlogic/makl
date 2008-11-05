@@ -1,5 +1,5 @@
 #
-# $Id: makl_checkextvar.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_checkextvar.sh,v 1.2 2008/11/05 23:20:45 stewy Exp $
 #
 
 ##\brief Check if an extern variable is available
@@ -20,13 +20,13 @@ makl_checkextvar ()
 
     makl_info "checking for extern variable $2"
 
-    ${ECHO} "
-        extern void* $2;
-        int main() {    
-            void *_v = $2 ; 
-            return 0;
-        }
-    " > ${tmpfile}
+    cat << EOF > ${tmpfile}
+extern void* $2;
+int main() {    
+    void *_v = $2 ; 
+    return 0;
+}
+EOF
 
     makl_compile_code 0 ${tmpfile}
 
