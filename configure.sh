@@ -114,6 +114,7 @@ export MAKL_SHLIB_FILE
 # apply substitution as needed
 makl_file_sub "bin/maklsh"              \
               "bin/lib/maklsh_catalog"  \
+              "bin/lib/maklsh_run"      \
               "bin/lib/maklsh_tc"       \
               "bin/lib/maklsh_funcs"
 
