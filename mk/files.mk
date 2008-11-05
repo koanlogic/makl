@@ -1,5 +1,5 @@
 #
-# $Id: files.mk,v 1.14 2008/06/13 21:09:31 tho Exp $
+# $Id: files.mk,v 1.15 2008/11/05 16:57:30 tho Exp $
 #
 # User Variables:
 # - FILES               files to be installed
@@ -16,6 +16,8 @@ ifneq ($(MAKECMDGOALS), .help)
     $(call assert-var, FILES)
     $(call assert-var, FILES_DIR)
 endif
+
+FILES_MODE ?= 0444
 
 ##
 ## all(build) target (nothing but hooks)
