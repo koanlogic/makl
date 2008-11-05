@@ -95,6 +95,14 @@ echo "using $boot_file for bootstrapping MaKL"
 [ -z "`makl_get_var_mk BOURNE_SHELL`" ] && \
         makl_set_var_mk "BOURNE_SHELL" "${bourne_shell}"
 
+# check that needed tools are in place
+t1="`makl_get_var_mk GNU_MAKE`"
+t2="`makl_get_var_mk BOURNE_SHELL`"
+[ -x "${t1}" ] || \
+        makl_err 1 "${t1} not found, install it first. ${gnu_make_hint}"
+[ -x "${t2}" ] || \
+        makl_err 1 "${t2} not found, install it first. ${bourne_shell_hint}"
+
 # do final toolchain/shlib setup
 MAKL_TC_FILE="${toolchain_file}"
 MAKL_SHLIB_FILE="${shlib_file}"
@@ -116,3 +124,7 @@ makl_file_sub "bin/maklsh"              \
 # including Makefile.conf (would hit the {un,}install top level target)
 sed -e 's/reloc/$(MAKL_DIR)\/mk\/reloc/' $MAKL_DIR/Makefile.conf > .conf
 mv .conf "${MAKL_DIR}"/Makefile.conf
+
+# output optional platform specific message 
+[ -n "${install_hint}" ] && echo ${install_hint}
+exit 0

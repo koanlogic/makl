@@ -39,4 +39,5 @@ Windows/Cygwin
 
 OpenBSD
 
-    ...
+    $ /bin/sh configure.sh [--prefix=...]
+    # /usr/local/bin/gmake install
