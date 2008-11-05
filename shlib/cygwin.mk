@@ -1,4 +1,4 @@
-# $Id: cygwin.mk,v 1.1 2008/10/31 02:10:12 tho Exp $
+# $Id: cygwin.mk,v 1.2 2008/11/05 15:15:53 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -28,10 +28,11 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	    -Wl,--no-whole-archive $(LDADD) ${LDFLAGS} 
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
 
 uninstall-shared:
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
+	-rmdir $(SHLIBDIR) 2>/dev/null
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)

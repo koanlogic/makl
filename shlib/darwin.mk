@@ -1,4 +1,4 @@
-# $Id: darwin.mk,v 1.15 2008/10/21 14:44:12 tho Exp $
+# $Id: darwin.mk,v 1.16 2008/11/05 15:15:53 tho Exp $
 #
 # Darwin 
 
@@ -70,6 +70,7 @@ ifndef BUNDLE
 	rm -f $(SHLIBDIR)/$(SHLIB_LINK1)
 	rm -f $(SHLIBDIR)/$(SHLIB_LINK2)
 endif
+	-rmdir $(SHLIBDIR) 2>/dev/null
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)

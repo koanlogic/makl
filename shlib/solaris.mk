@@ -1,4 +1,4 @@
-# $Id: solaris.mk,v 1.2 2008/11/04 17:46:07 tho Exp $
+# $Id: solaris.mk,v 1.3 2008/11/05 15:15:53 tho Exp $
 #
 # Solaris
 
@@ -37,14 +37,15 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	`$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SONAME)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK)
+	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SONAME)
 
 uninstall-shared:
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
-	rm -f $(LIBDIR)/$(SHLIB_LINK)
-	rm -f $(LIBDIR)/$(SONAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_LINK)
+	rm -f $(SHLIBDIR)/$(SONAME)
+	-rmdir $(SHLIBDIR) 2>/dev/null
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)

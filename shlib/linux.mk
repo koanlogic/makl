@@ -1,4 +1,4 @@
-# $Id: linux.mk,v 1.11 2008/05/07 12:32:14 tho Exp $
+# $Id: linux.mk,v 1.12 2008/11/05 15:15:53 tho Exp $
 #
 # Linux
 
@@ -40,14 +40,15 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SONAME) $(LIBDIR)/$(SHLIB_LINK)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SONAME)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	ln -sf $(SONAME) $(SHLIBDIR)/$(SHLIB_LINK)
+	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SONAME)
 
 uninstall-shared:
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
-	rm -f $(LIBDIR)/$(SHLIB_LINK)
-	rm -f $(LIBDIR)/$(SONAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_LINK)
+	rm -f $(SHLIBDIR)/$(SONAME)
+	-rmdir $(SHLIBDIR) 2>/dev/null
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)

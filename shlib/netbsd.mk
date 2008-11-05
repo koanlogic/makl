@@ -1,4 +1,4 @@
-# $Id: netbsd.mk,v 1.9 2008/05/06 10:54:54 tho Exp $
+# $Id: netbsd.mk,v 1.10 2008/11/05 15:15:53 tho Exp $
 #
 # NetBSD
 
@@ -43,14 +43,15 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	    $(PICNAME) /usr/lib/crtendS.o
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(LIBDIR)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SHLIB_LINK)
-	ln -sf $(SHLIB_NAME) $(LIBDIR)/$(SONAME)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK)
+	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SONAME)
 
 uninstall-shared:
-	rm -f $(LIBDIR)/$(SHLIB_NAME)
-	rm -f $(LIBDIR)/$(SHLIB_LINK)
-	rm -f $(LIBDIR)/$(SONAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
+	rm -f $(SHLIBDIR)/$(SHLIB_LINK)
+	rm -f $(SHLIBDIR)/$(SONAME)
+	-rmdir $(SHLIBDIR) 2>/dev/null
 
 clean-shared:
 	rm -f $(SHLIB_OBJS)
