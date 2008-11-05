@@ -2,7 +2,7 @@
 
 const char *v (void)
 {
-    return MAKL_REGRESSION_VERSION;
+    return MAKL_SAMPLE_VERSION;
 }
 
 const char *destdir (void)

@@ -1,3 +1,3 @@
-SUBDIR = libmyc
+SUBDIR = libmyc libmyc++
 
 include subdir.mk

@@ -5,10 +5,12 @@ etc/prog-c++.conf
 etc/prog-c.conf
 include/Makefile
 include/myc.h
+include/myc++.h
 lib/libmyc/a.c
 lib/libmyc/b.c
 lib/libmyc/Makefile
-lib/libmyc++
+lib/libmyc++/my.cc
+lib/libmyc++/Makefile
 lib/Makefile
 Makefile
 man/fake.1
