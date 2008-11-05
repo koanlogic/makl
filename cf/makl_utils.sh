@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.3 2008/11/04 13:12:16 stewy Exp $
+# $Id: makl_utils.sh,v 1.4 2008/11/05 11:14:59 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -33,7 +33,7 @@ makl_pkg_version ()
     pkg=`makl_get "__package__"`
 
     [ -z "${pkg}" ] && \
-        makl_err 1 "makl_pkg_version(): makl_pkg_name must be defined first!"
+        makl_err 1 "makl_pkg_version(): makl_pkg_name must be called explicitly!"
 
     [ -f "${file}" ] && [ -r "${file}" ] && \
         ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
