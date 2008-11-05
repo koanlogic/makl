@@ -1,6 +1,6 @@
-#include"myc++.h"
+#include "myc++.h"
 
-double div (double a, double b) 
+double my_div (double a, double b) 
 {
     if (b) 
         return a / b;
@@ -8,7 +8,7 @@ double div (double a, double b)
         throw("Division by zero");
 }
 
-double log (double a) 
+double my_log (double a) 
 {
     if (a > 0) 
         return log10(a);

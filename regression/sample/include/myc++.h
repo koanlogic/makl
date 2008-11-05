@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-double div (double, double);
-double log (double);
+double my_div (double, double);
+double my_log (double);
 
 #endif  // !_MYCPP_H_
