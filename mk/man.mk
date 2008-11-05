@@ -1,4 +1,4 @@
-# $Id: man.mk,v 1.27 2008/06/13 21:09:31 tho Exp $
+# $Id: man.mk,v 1.28 2008/11/05 15:24:15 tho Exp $
 #
 # User Variables:
 # - MANFILES   Manual page(s) to be installed.
@@ -130,7 +130,7 @@ endif
 ##
 ifndef NO_UNINSTALL
 uninstall:
-	for f in $(MLINKS) $(MANFILES) ; do \
+	-for f in $(MLINKS) $(MANFILES) ; do \
 		rm -f $(MANDIR)/man$${f##*.}/$$f ; \
 		rmdir $(MANDIR)/man$${f##*.} 2>/dev/null; \
 	done
