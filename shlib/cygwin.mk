@@ -1,4 +1,4 @@
-# $Id: cygwin.mk,v 1.2 2008/11/05 15:15:53 tho Exp $
+# $Id: cygwin.mk,v 1.3 2008/11/06 18:01:32 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -10,9 +10,17 @@ ifdef SHLIB
 SHLIB_OBJS = $(OBJS)
 
 ##
-## set library naming
+## set library naming (add 'cyg' prefix to differentiate from native MinGW)
 ##
-SHLIB_NAME ?= lib$(__LIB).dll
+SHLIB_NAME ?= cyg$(__LIB).dll
+SHLIB_IMP ?= lib$(__LIB).dll.a
+
+SHLIB_LDFLAGS += -shared 
+SHLIB_LDFLAGS += -Wl,--out-implib=$(SHLIB_IMP)
+SHLIB_LDFLAGS += -Wl,--export-all-symbols
+SHLIB_LDFLAGS += -Wl,--enable-auto-import
+SHLIB_LDFLAGS += -Wl,--whole-archive $(LIB_NAME)
+SHLIB_LDFLAGS += -Wl,--no-whole-archive
 
 ##
 ## build rules
@@ -22,10 +30,8 @@ all-shared: $(SHLIB_NAME)
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building $(__LIB) as dynamic linked library"
 	rm -f $(SHLIB_NAME)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,--out-implib=lib$(__LIB).a \
-	    -Wl,--export-all-symbols -Wl,--enable-auto-import \
-	    -Wl,--whole-archive `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` \
-	    -Wl,--no-whole-archive $(LDADD) ${LDFLAGS} 
+	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS)
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
@@ -37,5 +43,6 @@ uninstall-shared:
 clean-shared:
 	rm -f $(SHLIB_OBJS)
 	rm -f $(SHLIB_NAME)
+	rm -f $(SHLIB_IMP)
 
 endif
