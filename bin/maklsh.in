@@ -1,6 +1,6 @@
 #!@{{BOURNE_SHELL}}
 #
-# $Id: maklsh.in,v 1.34 2008/11/05 19:55:10 tho Exp $
+# $Id: maklsh.in,v 1.35 2008/11/06 10:59:48 tho Exp $
 
 MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 
@@ -37,6 +37,8 @@ maklsh_argsep "$@"
 # before dispatching push the accumulated context in the env
 maklsh_context_push
 
+rc=0
+
 ## 
 # dispatch action based on how we have been called
 ## 
@@ -47,6 +49,7 @@ in
         . ${MAKLSH_LIB}/maklsh_run
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
         maklsh_run
+        rc=$?
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc_clean
         ;;
     ${MAKL_CMD_CONF} | ${MAKL_CMD_CONF_COMPAT})
@@ -55,6 +58,7 @@ in
         maklsh_select_configure
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
         @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}" "$@"
+        rc=$?
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc_clean
         ;;
     ${MAKL_CMD_NEW} | ${MAKL_CMD_NEW_COMPAT})
@@ -70,8 +74,8 @@ in
         maklsh_tc
         ;;
     *)
-        maklsh_err "you should not call me directly !"
+        maklsh_err "you should call me through one of my aliases !"
         ;;
 esac
 
-exit 0
+exit ${rc}
