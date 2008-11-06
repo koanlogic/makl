@@ -1,4 +1,9 @@
-# $Id: obj.mk,v 1.3 2008/10/10 08:39:40 tho Exp $
+# $Id: obj.mk,v 1.4 2008/11/06 12:40:47 tho Exp $
+
+# sanitize OBJDIR
+ifeq ($(OBJDIR),)
+    $(error OBJDIR must be non-empty)
+endif
 
 # reset all rules as we rely on prog.mk and lib.mk to tell us how to do things
 .SUFFIXES:
@@ -6,7 +11,7 @@
 # try to get the file name for the source Makefile that lead us here
 MAKEFN = $(firstword $(basename $(MAKEFILE_LIST)))
 
-# assembly the make command that will reinvoke the build in OBJDIR
+# assemble the make command that will reinvoke the build in OBJDIR
 MAKEOBJ = $(MAKE) -C $@ -f $(CURDIR)/$(MAKEFN) __SRCDIR=$(CURDIR) \
           $(MAKECMDGOALS)
 
