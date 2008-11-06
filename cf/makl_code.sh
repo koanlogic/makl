@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.4 2008/11/06 09:48:47 stewy Exp $
+# $Id: makl_code.sh,v 1.5 2008/11/06 10:04:01 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -26,7 +26,11 @@ makl_compile ()
     cp ${c_file} ${makl_run_dir} 2>/dev/null
     cd ${makl_run_dir}
 
-    [ -z `makl_get "__verbose__"` ] || cat ${c_file}
+    if [ ! -z `makl_get "__verbose__"` ]; then 
+        echo "- - - - - - - - - - - - - - - - - - - -"
+        cat ${c_file}
+        echo "- - - - - - - - - - - - - - - - - - - -"
+    fi
     makl_dbg "$ ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}"
 
     if [ -z `makl_get "__verbose__"` ]; then
