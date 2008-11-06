@@ -13,7 +13,7 @@ LDFLAGS += -L$(SRCDIR)/lib/libmyc/$(PAD) -lmyc
 LDFLAGS += -L$(SRCDIR)/lib/libmyc++/$(PAD) -lmyc++
 else
 LDADD += $(SRCDIR)/lib/libmyc/$(PAD)/libmyc.a
-LDADD += $(SRCDIR)/lib/libmyc/$(PAD)/libmyc++.a
+LDADD += $(SRCDIR)/lib/libmyc++/$(PAD)/libmyc++.a
 endif
 
 include prog.mk
