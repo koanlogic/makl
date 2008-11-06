@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.3 2008/11/05 23:20:45 stewy Exp $
+# $Id: makl_code.sh,v 1.4 2008/11/06 09:48:47 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -66,7 +66,7 @@ makl_write_c ()
     
     if [ $2 -eq 1 ]; then
         {
-        ${ECHO} "   return 0;"
+        ${ECHO} "    return 0;"
         ${ECHO} "}"
         } >> $1
     fi
