@@ -159,4 +159,10 @@ makl_args_handle "$@"
 #
 echo "MAKL_MAKEFLAGS=\"-I `pwd`\"" > makl.conf
 
-echo "Take a look at generated ${makl_conf_h} and ${makl_makefile_conf}"
+echo
+echo "MaKL autoconfiguration ended."
+echo
+echo "Please take the time to look into the following two files"
+echo "  C/C++ header file: '${makl_conf_h}'"
+echo "  and GNU/P make file: '${makl_makefile_conf}'"
+echo
