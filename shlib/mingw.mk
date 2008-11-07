@@ -1,9 +1,8 @@
-# $Id: mingw.mk,v 1.4 2008/11/06 18:01:32 tho Exp $
+# $Id: mingw.mk,v 1.5 2008/11/07 11:15:44 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
 # export CPICFLAGS, SHLIB_MAJOR, SHLIB_MINOR, SONAME to userspace
-# export {all,install,uninstall,clean}-shared targets to lib.mk
 
 ifdef SHLIB
 

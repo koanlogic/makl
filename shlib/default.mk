@@ -1,4 +1,4 @@
-# $Id: default.mk,v 1.13 2008/11/07 05:52:53 tho Exp $
+# $Id: default.mk,v 1.14 2008/11/07 11:15:44 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -40,7 +40,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	$(__CC) -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)

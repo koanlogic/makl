@@ -1,9 +1,8 @@
-# $Id: cygwin.mk,v 1.3 2008/11/06 18:01:32 tho Exp $
+# $Id: cygwin.mk,v 1.4 2008/11/07 11:15:44 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
 # export CPICFLAGS, SHLIB_MAJOR, SHLIB_MINOR, SONAME to userspace
-# export {all,install,uninstall,clean}-shared targets to lib.mk
 
 ifdef SHLIB
 
@@ -31,7 +30,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building $(__LIB) as dynamic linked library"
 	rm -f $(SHLIB_NAME)
 	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS)
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)

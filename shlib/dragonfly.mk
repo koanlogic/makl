@@ -1,6 +1,6 @@
-# $Id: dragonfly.mk,v 1.1 2008/11/07 10:43:06 tho Exp $
+# $Id: dragonfly.mk,v 1.2 2008/11/07 11:15:44 tho Exp $
 #
-# DragonFly
+# DragonFly 2.x
 
 ifdef SHLIB
 
@@ -37,7 +37,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	$(__CC) -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
-	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
 install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
