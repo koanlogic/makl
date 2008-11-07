@@ -1,4 +1,4 @@
-# $Id: freebsd.mk,v 1.14 2008/11/05 15:15:53 tho Exp $
+# $Id: freebsd.mk,v 1.15 2008/11/07 05:52:53 tho Exp $
 #
 # FreeBSD (ELF)
 
@@ -35,7 +35,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(__LIB) library"
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
-	$(CC) -shared -Wl,-soname,$(SONAME) \
+	$(__CC) -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) ${LDFLAGS} 
 

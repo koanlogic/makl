@@ -1,4 +1,4 @@
-# $Id: solaris.mk,v 1.3 2008/11/05 15:15:53 tho Exp $
+# $Id: solaris.mk,v 1.4 2008/11/07 05:52:54 tho Exp $
 #
 # Solaris
 
@@ -33,7 +33,7 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SONAME)
-	$(CC) -shared -o $(SHLIB_NAME) -Wl,-h,$(SONAME) \
+	$(__CC) -shared -o $(SHLIB_NAME) -Wl,-h,$(SONAME) \
 	`$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 
 install-shared:
