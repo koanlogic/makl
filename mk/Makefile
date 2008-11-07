@@ -1,10 +1,10 @@
-# $Id: Makefile,v 1.7 2006/12/10 13:19:47 tho Exp $
+# $Id: Makefile,v 1.8 2008/11/07 20:00:50 tho Exp $
 
 include common.mk
 include ../Makefile.conf
 
 FILES = $(shell echo *.mk)
-FILES_DIR = $(MAKL_ROOT)/mk
+FILES_DIR = "$(MAKL_ROOT)/mk"
 FILES_MODE = 0444
 
 SUBDIR = priv
