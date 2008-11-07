@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.16 2006/05/22 12:42:56 stewy Exp $
+# $Id: default.tc,v 1.17 2008/11/07 20:52:42 tho Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -24,7 +24,6 @@ TSORT = tsort
 # avoid circular dependencies error
 PRE_LDADD = -Wl,--start-group
 POST_LDADD = -Wl,--end-group
-MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
-MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
-LORDER = ${MAKL_DIR}/helpers/lorder
-
+MKINSTALLDIRS = "${MAKL_DIR}/helpers/mkinstalldirs"
+MKDEP = "${MAKL_DIR}/helpers/mkdep.gcc.sh"
+LORDER = "${MAKL_DIR}/helpers/lorder"

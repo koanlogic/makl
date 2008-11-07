@@ -1,5 +1,5 @@
 #
-# $Id: maklsh_funcs.in,v 1.9 2008/11/04 15:35:08 tho Exp $
+# $Id: maklsh_funcs.in,v 1.10 2008/11/07 20:52:42 tho Exp $
 #
 
 MAKLSH_ECHO="/bin/echo makl > "
@@ -108,11 +108,16 @@ maklsh_context_init ()
 # reverse maklsh_load_from_file() ops
 maklsh_context_push ()
 {
+
     MAKL_DIR="${MAKLSH_MAKL_DIR}"
     export MAKL_DIR
 
     [ -z "${MAKLSH_MAKL_MK_DIR}" ] && maklsh_err "no MK dir set"
-    MAKEFLAGS="-I ${MAKLSH_MAKL_MK_DIR} ${MAKLSH_MAKE_FLAGS}"
+    # escape blanks in pathname
+    __MAKLSH_MAKL_MK_DIR="`echo "${MAKLSH_MAKL_MK_DIR}" | sed -e 's/ /\\\ /g'`"
+    echo ${__MAKLSH_MAKL_MK_DIR}
+    MAKEFLAGS="-I ${__MAKLSH_MAKL_MK_DIR} ${MAKLSH_MAKE_FLAGS}"
+    echo ${MAKEFLAGS}
     export MAKEFLAGS
 
     if [ ! -z ${MAKLSH_MAKL_ETC} ]
