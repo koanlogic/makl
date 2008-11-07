@@ -1,0 +1,5 @@
+#
+# tested on DragonFly 2.x
+#
+CFLAGS = -pipe
+MKINSTALLDIRS = /bin/mkdir -p

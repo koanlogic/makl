@@ -79,6 +79,10 @@ in
         shlib="solaris"
         toolchain=${shlib}
         ;;
+    dragonfly*)
+        shlib="dragonfly"
+        toolchain=${dragonfly}
+        ;;
     *)
         shlib="null"
         toolchain="default"
