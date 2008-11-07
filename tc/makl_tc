@@ -1,5 +1,5 @@
 #
-# $Id: makl_tc,v 1.23 2008/10/20 18:27:28 tho Exp $
+# $Id: makl_tc,v 1.24 2008/11/07 21:09:53 tho Exp $
 #
 
 makl_tc_usage="makl_tc <tc_file> <tc_sh> <tc_mk>"
@@ -19,7 +19,9 @@ makl_tc_cf ()
         -e 's/__UNSET__//'  \
         -e 's/ *= */=/1'    \
         -e 's/=/="/1'       \
-        -e 's/$/"/' "$1" >> "$2"
+        -e 's/$/"/'         \
+        -e 's/""/"/g'       \
+        -e 's/="$/=""/' "$1" >> "$2"
 
     return $?
 }
