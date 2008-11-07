@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.5 2008/11/06 10:04:01 stewy Exp $
+# $Id: makl_code.sh,v 1.6 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -16,36 +16,36 @@ makl_compile ()
         makl_err 1 "makl_compile called with no arguments"
     fi
 
-    c_file=$1
+    c_file="$1"
     shift
     flags=$*
     cwd=`pwd`
 
     makl_dbg "makl_compile ${c_file}"
    
-    cp ${c_file} ${makl_run_dir} 2>/dev/null
-    cd ${makl_run_dir}
+    cp "${c_file}" "${makl_run_dir}" 2>/dev/null
+    cd "${makl_run_dir}"
 
     if [ ! -z `makl_get "__verbose__"` ]; then 
         echo "- - - - - - - - - - - - - - - - - - - -"
-        cat ${c_file}
+        cat "${c_file}"
         echo "- - - - - - - - - - - - - - - - - - - -"
     fi
     makl_dbg "$ ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}"
 
     if [ -z `makl_get "__verbose__"` ]; then
-        ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS} 2>/dev/null
+        "${CC}" "${CFLAGS}" -o out `basename "${c_file}"` "${flags}" "${LDFLAGS}" 2>/dev/null
     else 
-        ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}
+        "${CC}" "${CFLAGS}" -o out `basename "${c_file}"` "${flags}" "${LDFLAGS}"
     fi
 
     if [ $? -ne 0 ]; then
         makl_info "compilation failed"
-        cd ${cwd} 
+        cd "${cwd}"
         return 1
     fi 
 
-    cd ${cwd}
+    cd "${cwd}"
     return 0
 }
 
@@ -60,19 +60,19 @@ makl_compile ()
 makl_write_c ()
 {
     # create a clean file
-    [ -r "$1" ] && rm -f $1
+    [ -r "$1" ] && rm -f "$1"
 
     if [ $2 -eq 1 ]; then
-        ${ECHO} "int main() {" >> $1
+        ${ECHO} "int main() {" >> "$1"
     fi
     
-    cat $3 >> $1
+    cat "$3" >> "$1"
     
     if [ $2 -eq 1 ]; then
         {
         ${ECHO} "    return 0;"
         ${ECHO} "}"
-        } >> $1
+        } >> "$1"
     fi
     
     return 0
@@ -88,11 +88,11 @@ makl_write_c ()
 ##
 makl_compile_code ()
 {
-    file=${makl_run_dir}/makl_code.c
+    file="${makl_run_dir}"/makl_code.c
 
-    makl_write_c ${file} $1 $2
+    makl_write_c "${file}" $1 "$2"
 
-    makl_compile ${file} $3
+    makl_compile "${file}" "$3"
     [ $? -eq 0 ] || return 1
 
     return 0
@@ -108,23 +108,23 @@ makl_compile_code ()
 ## 
 makl_exec_code ()
 {
-    file=${makl_run_dir}/makl_code.c
+    file="${makl_run_dir}"/makl_code.c
     cwd=`pwd`
     
-    makl_write_c ${file} $1 $2
-    makl_compile ${file} $3 
+    makl_write_c "${file}" $1 $2
+    makl_compile "${file}" $3 
     [ $? -eq 0 ] || return 1
 
     # skip execution on cross-compilation
     [ -z `makl_get "__cross_compile__"` ] || return 0
 
-    cd ${makl_run_dir} && eval ./out > /dev/null 2> /dev/null
+    cd "${makl_run_dir}" && eval ./out > /dev/null 2> /dev/null
     if [ $? -ne 0 ]; then 
-        cd ${cwd}
+        cd "${cwd}"
         return 2
     fi
 
-    cd ${cwd}
+    cd "${cwd}"
     return 0
 }
 
@@ -144,17 +144,17 @@ makl_checkresolv ()
     flags="$3"
     shift; shift; shift
 
-    tmpfile=${makl_run_dir}/snippet.c
-    rm -f ${tmpfile}
+    tmpfile="${makl_run_dir}"/snippet.c
+    rm -f "${tmpfile}"
 
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking symbol resolution: ${id}"
 
         for arg in $* ; do
-            ${ECHO} "#include ${arg}" >> ${tmpfile}
+            ${ECHO} "#include ${arg}" >> "${tmpfile}"
         done
-        cat << EOF >> ${tmpfile}
+        cat << EOF >> "${tmpfile}"
 typedef void (*f_t)(void);
 int main() {
     f_t fn = (f_t)${id};
@@ -162,7 +162,7 @@ int main() {
 }
 EOF
    
-    makl_compile_code 0 ${tmpfile} "${flags}"
+    makl_compile_code 0 "${tmpfile}" "${flags}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${id}`
@@ -216,20 +216,20 @@ makl_checkheader ()
     id=$2
     header=$3
     shift; shift; shift;
-    tmpfile=${makl_run_dir}/snippet.c
-    rm -f ${tmpfile}
+    tmpfile="${makl_run_dir}"/snippet.c
+    rm -f "${tmpfile}"
 
     makl_info "checking for header ${id}"
 
     for arg in $* ; do
-        ${ECHO} "#include ${arg}" >> ${tmpfile}
+        ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
-    cat << EOF >> ${tmpfile}
+    cat << EOF >> "${tmpfile}"
 #include ${header}
 int main() { return 0; }
 EOF
     
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${id}`
@@ -259,28 +259,27 @@ makl_checktype ()
     makl_info "checking for type $2"
 
     opt=$1
-    type=$2
+    type="$2"
     shift
     shift
-    tmpfile=${makl_run_dir}/snippet.c
-    rm -f ${tmpfile}
+    tmpfile="${makl_run_dir}"/snippet.c
+    rm -f "${tmpfile}"
 
     # substitute whitespace with underscores 
-    def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
+    def_type=`${ECHO} "${type}" | sed 's/\ /_/g'`
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> ${tmpfile}
+        ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # on some systems (e.g. VxWorks) type checks are not picked up correctly
     # by the compiler, so force a check using sizeof() */
-    cat << EOF >> ${tmpfile}
+    cat << EOF >> "${tmpfile}"
 int main() {
     ${type} x;
     return (sizeof(${type}) && 0);
 }
 EOF
-
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}`
@@ -312,11 +311,11 @@ makl_checkextern()
     var=$2
     shift
     shift
-    tmpfile=${makl_run_dir}/snippet.c
+    tmpfile="${makl_run_dir}"/snippet.c
 
     # this fails when the linker doesn't find the variable in any linked
     # libraries
-    cat << EOF > ${tmpfile}
+    cat << EOF > "${tmpfile}"
 extern void* ${var};
 int main()
 {
@@ -324,7 +323,7 @@ int main()
 }
 EOF
   
-    makl_compile_code 0 ${tmpfile} $*
+    makl_compile_code 0 "${tmpfile}" $*
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
@@ -359,15 +358,15 @@ makl_checksymbol()
     var=$2
     shift
     shift
-    tmpfile=${makl_run_dir}/snippet.c
-    rm -f ${tmpfile}
+    tmpfile="${makl_run_dir}"/snippet.c
+    rm -f "${tmpfile}"
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> ${tmpfile}
+        ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if the symbol is not defined (no #define, no variable, 
     # no function)
-    cat << EOF >> ${tmpfile}
+    cat << EOF >> "${tmpfile}"
 #ifdef ${var}
 int main() { return 0; }
 #else
@@ -379,7 +378,7 @@ int main()
 #endif
 EOF
     
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${var}`
@@ -410,18 +409,18 @@ makl_checkstructelem()
     type=$2
     elem=$3
     shift; shift; shift
-    tmpfile=${makl_run_dir}/snippet.c
-    rm -f ${tmpfile}
+    tmpfile="${makl_run_dir}"/snippet.c
+    rm -f "${tmpfile}"
 
     def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
 
     makl_info "checking for ${elem} in ${type}"
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> ${tmpfile}
+        ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if elem is not a field of the supplied type
-    cat << EOF >> ${tmpfile}
+    cat << EOF >> "${tmpfile}"
 ${type} _a_;
 int main()
 {
@@ -430,7 +429,7 @@ int main()
 }
 EOF
 
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper ${def_type}_${elem}`

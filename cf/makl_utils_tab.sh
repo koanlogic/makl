@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_utils_tab.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
 #
 
 
@@ -15,7 +15,7 @@ makl_tab_find ()
 {
     [ -r "$1" ] || return 1
 
-    grep "^$2|" $1 > /dev/null
+    grep "^$2|" "$1" > /dev/null
 
     return $?
 }
@@ -27,12 +27,12 @@ makl_tab_find ()
 ##
 ##   \param $1 table file 
 ##   \param $2 id (row)
-##   \param $3 column
+##   \param $3 column number
 ##   \param $@ value
 ##
 makl_tab_set ()
 { 
-    tab=$1; id=$2; col=$3
+    tab="$1"; id="$2"; col=$3
     shift; shift; shift
     line=""
     line_n=""
@@ -41,27 +41,28 @@ makl_tab_set ()
     i=1
 
     # create file if doesn't exist
-    [ -e "${tab}" ] || touch ${tab}
+    [ -e "${tab}" ] || touch "${tab}"
 
-    line=`grep "^${id}|" ${tab}`
+    line=`grep "^${id}|" "${tab}"`
 
     if [ $? -eq 0 ]; then     
        # subst the value
 
        # delete the old line
-       grep -v "^${id}|" ${tab} > ${tab}.tmp
-       mv ${tab}.tmp ${tab}
+       grep -v "^${id}|" "${tab}" > "${tab}".tmp
+       mv "${tab}".tmp "${tab}"
 
        # escape the value
        qt=`${ECHO} -n "$@" | sed 's/\//\\\\\\//g'`
 
-       ${ECHO} "$line" | sed "s/[^|]*|/${qt}|/${col}" >> ${tab}
+       ${ECHO} "${line}" | sed "s/[^|]*|/${qt}|/${col}" >> "${tab}"
     else
         # add a new var
         line_n="${id}"
 
         n=1
         lim=`expr ${col} - 1`   # avoid bash-ism, was "lim=$((${col}-1))"
+
         while [ ${n} -lt ${lim} ]; do
             line_n="${line_n}|"
             n=`expr ${n} + 1`   # avoid bash-ism, was: "n=$((n+1))"
@@ -69,7 +70,7 @@ makl_tab_set ()
 
         line_n="${line_n}|$@|||||||||||"
 
-        ${ECHO} ${line_n} >> ${tab}
+        ${ECHO} "${line_n}" >> "${tab}"
     fi
 
     return 0    
@@ -85,15 +86,15 @@ makl_tab_set ()
 makl_tab_set_row ()
 {
     line=""
-    file=$1
+    file="$1"
     i=1
 
     # create file if doesn't exist
-    [ -e "$1" ] || touch $1
+    [ -e "$1" ] || touch "$1"
 
     shift
 
-    makl_tab_find ${file} $1
+    makl_tab_find "${file}" "$1"
     [ $? -eq 0 ] && return
 
     for arg in "$@"; do
@@ -106,7 +107,7 @@ makl_tab_set_row ()
         i=`expr ${i} + 1`   # avoid bash-ism, was: "i=$((${i}+1))"
     done
 
-    ${ECHO} ${line} >> ${file}
+    ${ECHO} "${line}" >> "${file}"
 }
 
 ##\brief Get a column value given an identifier.
@@ -122,13 +123,13 @@ makl_tab_get ()
 {
     [ -r "$1" ] || return 1
 
-    found=`grep "^$2|" $1`
+    found=`grep "^$2|" "$1"`
     [ $? -eq 0 ] || return $? 
 
-    val=`${ECHO} ${found} | cut -s -f $3 -d "|"`
+    val=`${ECHO} "${found}" | cut -s -f $3 -d "|"`
     ret=$?
 
-    ${ECHO} -n ${val}
+    ${ECHO} -n "${val}"
     return ${ret}
 }
 
@@ -141,7 +142,7 @@ makl_tab_get ()
 ##
 makl_tab_elem ()
 {
-    ${ECHO} "$1" | cut -s -f $2 -d "|"
+    ${ECHO} "$1" | cut -s -f "$2" -d "|"
 }
 
 ##\brief Get variable by name given a list of variables.
@@ -162,11 +163,11 @@ makl_tab_var ()
         elem=`${ECHO} $1 | cut -f ${i} -d ";"`
         delim=`${ECHO} $1 | cut -s -f ${i} -d ";"`
         [ -z "${elem}" ] && break
-        var=`${ECHO} ${elem} | cut -f 1 -d "="`
-        val=`${ECHO} ${elem} | cut -f 2 -d "="`
+        var=`${ECHO} "${elem}" | cut -f 1 -d "="`
+        val=`${ECHO} "${elem}" | cut -f 2 -d "="`
         if [ "${var}" = "$2" ] || [ -z "${delim}" ]; then
             found=1
-            ${ECHO} ${val}
+            ${ECHO} "${val}"
             break
         fi
         # stop if we have no separator

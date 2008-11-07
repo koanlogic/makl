@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_libdep.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Evaluate the library dependency
@@ -29,7 +29,7 @@ makl_libdep ()
     cwd=`pwd`
     tst="${makl_run_dir}/lib_testcode_${dep}.c"
     ldadd=${base}/${libdir}/lib${dep}.a
-    f_deps=${makl_run_dir}/deps_lib 
+    f_deps="${makl_run_dir}"/deps_lib 
 
     if [ ! -r "${tst}" ]; then
         tst=`pwd`/build/lib${dep}.c
@@ -81,7 +81,7 @@ makl_libdep ()
 
     # skip execution on cross-compilation
     if [ -z `makl_get "__cross_compile__"` ]; then
-        cd ${makl_run_dir} && eval ./out > /dev/null 2> /dev/null
+        cd "${makl_run_dir}" && eval ./out > /dev/null 2> /dev/null
         if [ $? -ne 0 ]; then
             makl_dbg "Test file execution for lib${dep} failed!"
             cd ${cwd}

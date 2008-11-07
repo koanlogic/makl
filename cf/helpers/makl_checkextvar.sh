@@ -1,5 +1,5 @@
 #
-# $Id: makl_checkextvar.sh,v 1.2 2008/11/05 23:20:45 stewy Exp $
+# $Id: makl_checkextvar.sh,v 1.3 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Check if an extern variable is available
@@ -14,13 +14,13 @@
 ##
 makl_checkextvar ()
 {
-    tmpfile=${makl_run_dir}/snippet.c
+    tmpfile="${makl_run_dir}"/snippet.c
 
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking for extern variable $2"
 
-    cat << EOF > ${tmpfile}
+    cat << EOF > "${tmpfile}"
 extern void* $2;
 int main() {    
     void *_v = $2 ; 
@@ -28,7 +28,7 @@ int main() {
 }
 EOF
 
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_"`makl_upper $2` 

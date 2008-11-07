@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.4 2008/11/05 11:14:59 stewy Exp $
+# $Id: makl_utils.sh,v 1.5 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Set the package name.
@@ -36,7 +36,7 @@ makl_pkg_version ()
         makl_err 1 "makl_pkg_version(): makl_pkg_name must be called explicitly!"
 
     [ -f "${file}" ] && [ -r "${file}" ] && \
-        ver=`cat ${file} | sed 's/[\ 	]*$//'`	#remove trailing whitespace
+        ver=`cat "${file}" | sed 's/[\ 	]*$//'`	#remove trailing whitespace
 
     [ $? -eq 0 ] || ver=$1
 
@@ -192,7 +192,7 @@ makl_upper ()
 makl_cleanup_rundir ()
 {
     [ -z `makl_get "__noclean__"` ] || return 
-    rm -rf ${makl_run_dir}
+    rm -rf "${makl_run_dir}"
 }
 
 ##\brief Clean MaKL exit
@@ -313,7 +313,7 @@ _makl_file_sub ()
         [ -r "${sub}.in" ] || makl_err 2 "makl_file_sub(): could not find ${sub}.in"
         makl_info "applying substitutions to: ${sub}"
         cp ${sub}.in /tmp/sub.tmp
-        cat ${makl_run_dir}/vars_mk | {
+        cat "${makl_run_dir}"/vars_mk | {
             while read var; do
                 name=`makl_tab_elem "${var}" 1`
                 val=`makl_tab_elem "${var}" 3 | sed -e "s%\/%\\\\\/%g"`

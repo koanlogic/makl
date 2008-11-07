@@ -1,5 +1,5 @@
 #
-# $Id: makl_args.sh,v 1.1 2008/10/09 09:48:46 stewy Exp $
+# $Id: makl_args.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
 #
 
 
@@ -11,9 +11,9 @@
 ##
 makl_args_def ()
 {
-    file=${makl_run_dir}/args
+    file="${makl_run_dir}"/args
 
-    makl_tab_set_row ${file} "$@"
+    makl_tab_set_row "${file}" "$@"
 }
 
 ##\brief Add an argument instance with given arguments.
@@ -28,12 +28,12 @@ makl_args_def ()
 ## 
 makl_args_add ()
 {
-    file=${makl_run_dir}/args
+    file="${makl_run_dir}"/args
     
-    makl_tab_find ${file} $1 || makl_err 2 "Argument not defined: $1"
-    makl_tab_set ${file}_$1 $2 2 $3 
-    makl_tab_set ${file}_$1 $2 3 $4
-    makl_tab_set ${file}_$1 $2 4 $5
+    makl_tab_find "${file}" "$1" || makl_err 2 "Argument not defined: $1"
+    makl_tab_set "${file}_$1" "$2" 2 "$3" 
+    makl_tab_set "${file}_$1" "$2" 3 "$4"
+    makl_tab_set "${file}_$1" "$2" 4 "$5"
 }
 
 ##\brief Print out a command-line argument description.
@@ -61,7 +61,7 @@ _makl_args_print ()
             sed 's/X/'"$7"'/'`
     fi
 
-    ${ECHO} -n ${a}"    "${b}
+    ${ECHO} -n "${a}    ${b}"
     [ "$5" = " " ] || ${ECHO} -n " [$5]"
     ${ECHO}
 }

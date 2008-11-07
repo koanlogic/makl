@@ -1,5 +1,5 @@
 #
-# $Id: makl_checkinline.sh,v 1.2 2008/11/05 23:20:45 stewy Exp $
+# $Id: makl_checkinline.sh,v 1.3 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Check if 'inline' keyword is supported by the compiler
@@ -11,18 +11,18 @@
 ##
 makl_checkinline ()
 {
-    tmpfile=${makl_run_dir}/snippet.c
+    tmpfile="${makl_run_dir}"/snippet.c
 
     [ -z `makl_get "__noconfig__"` ] || return
 
     makl_info "checking for inline keyword support"
 
-    cat << EOF > ${tmpfile}
+    cat << EOF > "${tmpfile}"
 inline int _f(void) { return 0; }
 int main() { return _f(); }
 EOF
     
-    makl_compile_code 0 ${tmpfile}
+    makl_compile_code 0 "${tmpfile}"
 
     if [ $? -eq 0 ]; then
         makl_set_var "HAVE_INLINE"

@@ -1,5 +1,5 @@
 #
-# $Id: makl_var.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_var.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -13,8 +13,8 @@
 ##
 makl_set_var_h ()
 {
-    var=$1
-    val=$2
+    var="$1"
+    val="$2"
 
     # if value is not defined, set to 1
     [ "${val}" ] || val="1"
@@ -26,7 +26,7 @@ makl_set_var_h ()
     fi
 
     makl_dbg "setting header variable $1 to ${val}"
-    _makl_var_set "h" "$1" 1 ${val}
+    _makl_var_set "h" "$1" 1 "${val}"
 }
 
 ##\brief Set the value of a makefile variable.
@@ -38,7 +38,7 @@ makl_set_var_h ()
 ##
 makl_set_var_mk ()
 {
-    file=${makl_run_dir}/vars_mk
+    file="${makl_run_dir}"/vars_mk
 
     var=$1
     val=$2
@@ -51,7 +51,7 @@ makl_set_var_mk ()
 
     # flag the fact that variable has been set, which 
     # overrides any previous environment value
-    makl_tab_set ${file} "${var}" 4 1
+    makl_tab_set "${file}" "${var}" 4 1
 }
 
 ##\brief Append a value to a makefile variable.
@@ -63,7 +63,7 @@ makl_set_var_mk ()
 ##
 makl_add_var_mk ()
 {
-    file=${makl_run_dir}/vars_mk
+    file="${makl_run_dir}"/vars_mk
 
     var=$1
     val=$2
@@ -75,7 +75,7 @@ makl_add_var_mk ()
 
     # grab from environment if defined and not already set
     if [ $? -eq 0 -a ! "${isset}" = "1" ]; then
-            val=`${ECHO} ${found} | cut -s -d= -f 2`" ${val}"
+            val=`${ECHO} "${found}" | cut -s -d= -f 2`" ${val}"
     fi
 
 	shift
@@ -148,8 +148,8 @@ makl_unset_var ()
         return 1
     fi
    
-    makl_unset_var_h  $1
-    makl_unset_var_mk $1
+    makl_unset_var_h  "$1"
+    makl_unset_var_mk "$1"
 
     return 0
 }
@@ -162,7 +162,7 @@ makl_unset_var ()
 ##
 makl_get_var_h ()
 {
-    _makl_var_get "h" $1
+    _makl_var_get "h" "$1"
 
     return $?
 }
@@ -175,7 +175,7 @@ makl_get_var_h ()
 ##
 makl_get_var_mk () 
 {
-    _makl_var_get "mk" $1
+    _makl_var_get "mk" "$1"
 
     return $?
 }
@@ -189,9 +189,9 @@ makl_get_var_mk ()
 ##
 makl_set ()
 {
-    name=$1
+    name="$1"
     shift
-    _makl_var_set "cf" ${name} 1 $@
+    _makl_var_set "cf" "${name}" 1 $@
 }
 
 ##\brief Append the value of an internal variable.
@@ -204,7 +204,7 @@ makl_set ()
 makl_append ()
 {
     val=`makl_get $1`
-    makl_set $1 "${val} $2"
+    makl_set "$1" "${val} $2"
 }
 
 ##\brief Unset the value of an internal variable.
@@ -227,7 +227,7 @@ makl_unset ()
 ##
 makl_get ()
 {
-    _makl_var_get "cf" $1
+    _makl_var_get "cf" "$1"
 
     return $?
 }
@@ -242,16 +242,16 @@ makl_get ()
 ##
 makl_vars_def ()
 {
-    file=${makl_run_dir}/vars
+    file="${makl_run_dir}"/vars
     
-    makl_tab_find ${file} $1
+    makl_tab_find "${file}" $1
     [ $? -eq 0 ] && return
     
-    makl_tab_set_row ${file} $1 "$2"
+    makl_tab_set_row "${file}" "$1" "$2"
 
     # create file to store instances of variable
-    file=${file}_$1
-    touch ${file}
+    file="${file}_$1"
+    touch "${file}"
 }
 
 ##\brief Set or unset a variable.
@@ -267,11 +267,11 @@ makl_vars_def ()
 _makl_var_set ()
 {
     
-    file=${makl_run_dir}/vars_$1; name=$2; set=$3
+    file="${makl_run_dir}"/vars_"$1"; name="$2"; set=$3
     shift; shift; shift
 
-    makl_tab_set ${file} "${name}" 2 "${set}"
-    makl_tab_set ${file} "${name}" 3 "$@"
+    makl_tab_set "${file}" "${name}" 2 "${set}"
+    makl_tab_set "${file}" "${name}" 3 "$@"
 }
 
 ##\brief Get the value of a variable.
@@ -284,8 +284,8 @@ _makl_var_set ()
 ##
 _makl_var_get ()
 {
-    file=${makl_run_dir}/vars_$1
+    file="${makl_run_dir}"/vars_"$1"
     
-    makl_tab_get ${file} $2 3
+    makl_tab_get "${file}" "$2" 3
     return $?
 }
