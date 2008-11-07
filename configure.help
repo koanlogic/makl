@@ -18,6 +18,7 @@ OPTION can be defined as follows:
 --defmode=MODE          set default mode for regular files
 --defbinmode=MODE       set default mode for binary files
 --gnu_make=GNUMAKEPATH  set GNU make executable path on this system
+--bourne_shell=SHELL    set a POSIX Bourne shell path
+--boot_file=BOOTFILE    set explicit MaKL boot file
 --script_suffix=SUFFIX  append SUFFIX to installed script names
 --script_prefix=PREFIX  append PREFIX to installed script names
-
