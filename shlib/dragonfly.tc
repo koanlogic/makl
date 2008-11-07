@@ -1,8 +1,0 @@
-# $Id: dragonfly.tc,v 1.1 2008/11/07 10:36:49 tho Exp $
-
-ifdef SHLIB
-
-all-shared install-shared uninstall-shared clean-shared:
-	$(warning missing shared libraries support for $(shell uname -s) platform)
-
-endif # SHLIB
