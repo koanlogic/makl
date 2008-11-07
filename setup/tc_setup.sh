@@ -81,7 +81,7 @@ in
         ;;
     dragonfly*)
         shlib="dragonfly"
-        toolchain=${dragonfly}
+        toolchain=${shlib}
         ;;
     *)
         shlib="null"
