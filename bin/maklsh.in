@@ -1,12 +1,12 @@
 #!@{{BOURNE_SHELL}}
 #
-# $Id: maklsh.in,v 1.35 2008/11/06 10:59:48 tho Exp $
+# $Id: maklsh.in,v 1.36 2008/11/07 20:18:29 tho Exp $
 
 MAKLSH_LIB="@{{MAKL_ROOT}}/maklsh"
 
 # source-in utility code
-. ${MAKLSH_LIB}/maklsh_funcs
-. ${MAKLSH_LIB}/maklsh_catalog
+. "${MAKLSH_LIB}/maklsh_funcs"
+. "${MAKLSH_LIB}/maklsh_catalog"
 
 MAKLSH_NOMAKL_ARGS=""
 
@@ -42,35 +42,35 @@ rc=0
 ## 
 # dispatch action based on how we have been called
 ## 
-case `basename $0`
+case `basename "$0"`
 in
     ${MAKL_CMD_RUN})
-        . ${MAKLSH_LIB}/maklsh_tc
-        . ${MAKLSH_LIB}/maklsh_run
+        . "${MAKLSH_LIB}/maklsh_tc"
+        . "${MAKLSH_LIB}/maklsh_run"
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
         maklsh_run
         rc=$?
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc_clean
         ;;
     ${MAKL_CMD_CONF} | ${MAKL_CMD_CONF_COMPAT})
-        . ${MAKLSH_LIB}/maklsh_tc
-        . ${MAKLSH_LIB}/maklsh_conf
+        . "${MAKLSH_LIB}/maklsh_tc"
+        . "${MAKLSH_LIB}/maklsh_conf"
         maklsh_select_configure
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc
-        @{{BOURNE_SHELL}} "${MAKLSH_CF_SCRIPT_PATH}" "$@"
+        "@{{BOURNE_SHELL}}" "${MAKLSH_CF_SCRIPT_PATH}" "$@"
         rc=$?
         [ ! -z "${MAKLSH_TC_ONTHEFLY}" ] && maklsh_tc_clean
         ;;
     ${MAKL_CMD_NEW} | ${MAKL_CMD_NEW_COMPAT})
-        . ${MAKLSH_LIB}/maklsh_new
+        . "${MAKLSH_LIB}/maklsh_new"
         maklsh_new
         ;;
     ${MAKL_CMD_HELP} | ${MAKL_CMD_HELP_COMPAT})
-        . ${MAKLSH_LIB}/maklsh_help
+        . "${MAKLSH_LIB}/maklsh_help"
         maklsh_help
         ;;
     ${MAKL_CMD_TC} | ${MAKL_CMD_TC_COMPAT})
-        . ${MAKLSH_LIB}/maklsh_tc
+        . "${MAKLSH_LIB}/maklsh_tc"
         maklsh_tc
         ;;
     *)
