@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf.sh,v 1.1 2008/10/09 09:48:47 stewy Exp $
+# $Id: makl_conf.sh,v 1.2 2008/11/07 14:38:30 stewy Exp $
 #
 
 ##\brief Process configuration output from cache.
@@ -82,10 +82,10 @@ makl_process_h ()
             else    
                 ${ECHO} "#define ${var} ${val}"
             fi    
-            ${ECHO}
         else
             ${ECHO} "#undef ${var}" 
         fi
+        ${ECHO}
 
     } >> ${makl_conf_h}
 }
