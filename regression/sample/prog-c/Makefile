@@ -4,6 +4,7 @@ include Makefile.conf
 PROG = test-c
 SRCS = main.c
 
+CFLAGS += -I$(SRCDIR)
 CFLAGS += -I$(SRCDIR)/include
 
 ifdef SHLIB

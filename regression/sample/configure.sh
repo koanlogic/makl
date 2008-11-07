@@ -38,8 +38,11 @@ makl_pkg_version
 #
 # set HOST_OS variable to the host operating system.
 # This is just to show combined use of 'makl_set_var' and 'makl_target_name' :)
+# Note the 3rd argument: if supplied - any value, here '1' could be safely 
+# replaced by any other non-void character string - the value is interpreted
+# as a string (i.e. quoted in conf.h).
 #
-makl_set_var "HOST_OS" "`makl_target_name`"
+makl_set_var "HOST_OS" "`makl_target_name`" 1
 
 #
 # The following is used in order to avoid relative paths which may inhibit
