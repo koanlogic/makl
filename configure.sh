@@ -124,7 +124,7 @@ makl_file_sub "bin/maklsh"              \
 
 # need to fix reloc.mk path because we don't have MAKL_DIR in place when 
 # including Makefile.conf (would hit the {un,}install top level target)
-sed -e 's/reloc/$(MAKL_DIR)\/mk\/reloc/' "${MAKL_DIR}"/Makefile.conf > .conf
+sed -e 's/reloc/mk\/reloc/' "${MAKL_DIR}"/Makefile.conf > .conf
 mv .conf "${MAKL_DIR}"/Makefile.conf
 
 # output optional platform specific message 

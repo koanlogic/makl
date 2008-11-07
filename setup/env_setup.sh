@@ -106,12 +106,10 @@ case ${__login_shell}
 in
     csh | tcsh )
         __shell_compat="cshcompat"
-        output_csh_compat $__makl_dir $__makl_version $__maklrc
+        output_csh_compat "$__makl_dir" "$__makl_version" "$__maklrc"
         ;;
     *)
         __shell_compat="shcompat" 
-        output_sh_compat $__makl_dir $__makl_version $__maklrc
+        output_sh_compat "$__makl_dir" "$__makl_version" "$__maklrc"
         ;;
 esac
-
-
