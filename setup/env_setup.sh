@@ -7,6 +7,8 @@ __makl_version=$2
 __login_shell=$3
 __maklrc=$4
 __interactive=$5
+# please GNU make when path contains holes
+__esc_mk_dir="`echo $1 | sed -e 's/ /\\\ /g'`/mk"
 
 __available_shells="bash|sh|zsh|ksh|csh|tcsh"
 
@@ -21,7 +23,7 @@ output_sh_compat ()
     echo "MAKL_DIR=\"$1\""                                  >> $3
     echo "export MAKL_DIR"                                  >> $3
     echo ""                                                 >> $3
-    echo "MAKEFLAGS=\"-I $1/mk\""                           >> $3
+    echo "MAKEFLAGS=\"-I ${__esc_mk_dir}\""                 >> $3
     echo "export MAKEFLAGS"                                 >> $3
     echo ""                                                 >> $3
     echo "# Set this to expand the config scripts search"   >> $3
@@ -38,7 +40,7 @@ output_csh_compat ()
     echo ""                                                 >> $3
     echo "setenv MAKL_DIR \"$1\""                           >> $3
     echo ""                                                 >> $3
-    echo "setenv MAKEFLAGS \"-I $1/mk\""                    >> $3
+    echo "setenv MAKEFLAGS \"-I ${__esc_mk_dir}\""          >> $3
     echo ""                                                 >> $3
     echo "# Set this to expand the config scripts search"   >> $3
     echo "#setenv MAKL_CF_SCRIPTS \"./myconf ./myconf.sh\"" >> $3
