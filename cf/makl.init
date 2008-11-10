@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.41 2008/11/04 10:34:14 stewy Exp $
+# $Id: makl.init,v 1.42 2008/11/10 15:35:28 tho Exp $
 #
 
 # read in just once
@@ -55,6 +55,10 @@ fi
 
 # import toolchain variables locally
 . "${MAKL_ETC}"/toolchain.cf
+
+#
+# from now on we can safely use command aliases from defined in toolchain.cf
+#
 
 # environment has priority over toolchain
 . "${makl_run_dir}"/env 2> /dev/null

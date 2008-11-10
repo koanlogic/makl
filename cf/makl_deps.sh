@@ -1,4 +1,4 @@
-# $Id: makl_deps.sh,v 1.3 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_deps.sh,v 1.4 2008/11/10 15:35:28 tho Exp $
 #
 
 # Save required or optional dependency to file
@@ -44,7 +44,7 @@ _makl_req ()
 ##\brief Add a required dependency.
 ##
 ##  Add a required dependency of type \e $1 and id \e $2.
-##  The remaining arguments are to be defined based on the type:
+##  The remaining arguments are to be defined ba"${SED}" on the type:
 ##   \li 'lib' $1 $2 $3 $4, where \e $3 are CFLAGS, and \e $4 LDFLAGS for the
 ##                        library (both optional). By default the flags are
 ##                        determined by the library name.
@@ -64,7 +64,7 @@ makl_require ()
 ##\brief Add an optional dependency.
 ##
 ##  Add an optional dependency of type \e $2 and id \e $3.
-##  The remaining arguments are to be defined based on the type:
+##  The remaining arguments are to be defined ba"${SED}" on the type:
 ##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
 ##                             library (both optional). By default the flags are
 ##                             determined by the library name.
@@ -151,7 +151,7 @@ _makl_search_lib ()
             [ $? -eq 0 ] && return 0
         fi
         val=`makl_tab_var "${dft}" "BASE"` 
-        dirs=`${ECHO} "${val}" | sed 's/:/ /g'`
+        dirs=`${ECHO} "${val}" | "${SED}" 's/:/ /g'`
     else
         dirs="${path}"
     fi
@@ -197,7 +197,7 @@ _makl_search_featx ()
     else
         # get paths defined by BASE
         val=`makl_tab_var "${dft}" "BASE"` 
-        dirs=`${ECHO} ${val} | sed 's/:/ /g'`
+        dirs=`${ECHO} ${val} | "${SED}" 's/:/ /g'`
 
         # search for executable file
         for dir in ${dirs}; do
@@ -224,11 +224,11 @@ _makl_require_check ()
     f_have="${makl_run_dir}"/deps_"$1".found
 
     [ ! -r "${f_req}" ] && return 0
-    [ -r "${f_have}" ] || touch "${f_have}"
+    [ -r "${f_have}" ] || "${TOUCH}" "${f_have}"
 
-    rm -f "${makl_run_dir}"/err
+    "${RM}" -f "${makl_run_dir}"/err
 
-    cat "${f_req}" | {
+    "${CAT}" "${f_req}" | {
         while read line; do
             _dep=`makl_tab_elem "${line}" 1`
             _req=`makl_tab_elem "${line}" 2`
@@ -270,12 +270,12 @@ _makl_require_check ()
     }
 
     if [ -r "${makl_run_dir}/err" ]; then
-        makl_err 3 "unfulfilled dependency: '`cat ${makl_run_dir}/err`'!"
-        rm "${makl_run_dir}"/err
+        makl_err 3 "unfulfilled dependency: '`"${CAT}" ${makl_run_dir}/err`'!"
+        "${RM}" "${makl_run_dir}"/err
     fi  
     if [ -r "${makl_run_dir}/warn" ]; then
-        makl_warn "could not find optional dependency '`cat ${makl_run_dir}/warn`'"
-        rm "${makl_run_dir}"/warn
+        makl_warn "could not find optional dependency '`"${CAT}" ${makl_run_dir}/warn`'"
+        "${RM}" "${makl_run_dir}"/warn
     fi
 }
 
@@ -291,7 +291,7 @@ makl_lib_testcode ()
     file="${makl_run_dir}"/lib_testcode_"$1".c
 
     # create a clean file
-    [ -r "${file}" ] && rm -f "${file}"
+    [ -r "${file}" ] && "${RM}" -f "${file}"
 
     while read line; do
         ${ECHO} "${line}" >> "${file}"

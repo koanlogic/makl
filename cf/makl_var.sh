@@ -1,5 +1,5 @@
 #
-# $Id: makl_var.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_var.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -69,13 +69,13 @@ makl_add_var_mk ()
     val=$2
 
     isset=`makl_tab_get "${file}" "${var}" 4`
-    found=`env | grep "^${var}="`
+    found=`env | "${GREP}" "^${var}="`
 
     val=`makl_get_var_mk "${var}"`
 
     # grab from environment if defined and not already set
     if [ $? -eq 0 -a ! "${isset}" = "1" ]; then
-            val=`${ECHO} "${found}" | cut -s -d= -f 2`" ${val}"
+            val=`${ECHO} "${found}" | "${CUT}" -s -d= -f 2`" ${val}"
     fi
 
 	shift
@@ -251,7 +251,7 @@ makl_vars_def ()
 
     # create file to store instances of variable
     file="${file}_$1"
-    touch "${file}"
+    "${TOUCH}" "${file}"
 }
 
 ##\brief Set or unset a variable.

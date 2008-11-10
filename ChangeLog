@@ -1,8 +1,9 @@
-$Id: ChangeLog,v 1.71 2008/11/07 11:58:08 tho Exp $
+$Id: ChangeLog,v 1.72 2008/11/10 15:35:28 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.8.z
+	- cf utilities (i.e. grep, sed, tr, ...) also in toolchain
 	- Solaris/GCC support added
 	- DragonFly BSD support added
 	- simplified auto-configuration procedure (the toolchain creation step

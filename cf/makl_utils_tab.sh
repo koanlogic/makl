@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_utils_tab.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
 #
 
 
@@ -15,7 +15,7 @@ makl_tab_find ()
 {
     [ -r "$1" ] || return 1
 
-    grep "^$2|" "$1" > /dev/null
+    "${GREP}" "^$2|" "$1" > /dev/null
 
     return $?
 }
@@ -41,21 +41,21 @@ makl_tab_set ()
     i=1
 
     # create file if doesn't exist
-    [ -e "${tab}" ] || touch "${tab}"
+    [ -e "${tab}" ] || "${TOUCH}" "${tab}"
 
-    line=`grep "^${id}|" "${tab}"`
+    line=`"${GREP}" "^${id}|" "${tab}"`
 
     if [ $? -eq 0 ]; then     
        # subst the value
 
        # delete the old line
-       grep -v "^${id}|" "${tab}" > "${tab}".tmp
-       mv "${tab}".tmp "${tab}"
+       "${GREP}" -v "^${id}|" "${tab}" > "${tab}".tmp
+       "${MV}" "${tab}".tmp "${tab}"
 
        # escape the value
-       qt=`${ECHO} -n "$@" | sed 's/\//\\\\\\//g'`
+       qt=`${ECHO} -n "$@" | "${SED}" 's/\//\\\\\\//g'`
 
-       ${ECHO} "${line}" | sed "s/[^|]*|/${qt}|/${col}" >> "${tab}"
+       ${ECHO} "${line}" | "${SED}" "s/[^|]*|/${qt}|/${col}" >> "${tab}"
     else
         # add a new var
         line_n="${id}"
@@ -90,7 +90,7 @@ makl_tab_set_row ()
     i=1
 
     # create file if doesn't exist
-    [ -e "$1" ] || touch "$1"
+    [ -e "$1" ] || "${TOUCH}" "$1"
 
     shift
 
@@ -123,10 +123,10 @@ makl_tab_get ()
 {
     [ -r "$1" ] || return 1
 
-    found=`grep "^$2|" "$1"`
+    found=`"${GREP}" "^$2|" "$1"`
     [ $? -eq 0 ] || return $? 
 
-    val=`${ECHO} "${found}" | cut -s -f $3 -d "|"`
+    val=`${ECHO} "${found}" | "${CUT}" -s -f $3 -d "|"`
     ret=$?
 
     ${ECHO} -n "${val}"
@@ -142,13 +142,13 @@ makl_tab_get ()
 ##
 makl_tab_elem ()
 {
-    ${ECHO} "$1" | cut -s -f "$2" -d "|"
+    ${ECHO} "$1" | "${CUT}" -s -f "$2" -d "|"
 }
 
 ##\brief Get variable by name given a list of variables.
 ##
 ##  Get variable by name \e $2 given a list of variables \e $1.
-##  A semicolon is used as a list separator.
+##  A semicolon is u"${SED}" as a list separator.
 ##
 ##   \param $1 input string
 ##   \param $2 required var
@@ -160,11 +160,11 @@ makl_tab_var ()
     found=0
 
     while true; do
-        elem=`${ECHO} $1 | cut -f ${i} -d ";"`
-        delim=`${ECHO} $1 | cut -s -f ${i} -d ";"`
+        elem=`${ECHO} $1 | "${CUT}" -f ${i} -d ";"`
+        delim=`${ECHO} $1 | "${CUT}" -s -f ${i} -d ";"`
         [ -z "${elem}" ] && break
-        var=`${ECHO} "${elem}" | cut -f 1 -d "="`
-        val=`${ECHO} "${elem}" | cut -f 2 -d "="`
+        var=`${ECHO} "${elem}" | "${CUT}" -f 1 -d "="`
+        val=`${ECHO} "${elem}" | "${CUT}" -f 2 -d "="`
         if [ "${var}" = "$2" ] || [ -z "${delim}" ]; then
             found=1
             ${ECHO} "${val}"

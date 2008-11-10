@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.5 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_utils.sh,v 1.6 2008/11/10 15:35:28 tho Exp $
 #
 
 ##\brief Set the package name.
@@ -36,18 +36,18 @@ makl_pkg_version ()
         makl_err 1 "makl_pkg_version(): makl_pkg_name must be called explicitly!"
 
     [ -f "${file}" ] && [ -r "${file}" ] && \
-        ver=`cat "${file}" | sed 's/[\ 	]*$//'`	#remove trailing whitespace
+        ver=`"${CAT}" "${file}" | "${SED}" 's/[\ 	]*$//'`	#remove trailing whitespace
 
     [ $? -eq 0 ] || ver=$1
 
-    major=`${ECHO} ${ver} | cut -d '.' -f 1 | grep '^[0-9][0-9]*$'`
+    major=`${ECHO} ${ver} | "${CUT}" -d '.' -f 1 | "${GREP}" '^[0-9][0-9]*$'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): major must be numeric!"
-    minor=`${ECHO} ${ver} | cut -d '.' -f 2 | grep '^[0-9][0-9]*$'`
+    minor=`${ECHO} ${ver} | "${CUT}" -d '.' -f 2 | "${GREP}" '^[0-9][0-9]*$'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
-    teenydesc=`${ECHO} ${ver} | cut -d '.' -f 3`
-    teeny=`${ECHO} ${teenydesc} | sed -e 's/[a-zA-Z].*$//'`
+    teenydesc=`${ECHO} ${ver} | "${CUT}" -d '.' -f 3`
+    teeny=`${ECHO} ${teenydesc} | "${SED}" -e 's/[a-zA-Z].*$//'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): teeny must be numeric!"
-    desc=`${ECHO} ${teenydesc} | sed -e 's/^[0-9]\{1,\}//'`
+    desc=`${ECHO} ${teenydesc} | "${SED}" -e 's/^[0-9]\{1,\}//'`
 
     ver="${major}.${minor}.${teeny}${desc}"
 
@@ -67,7 +67,7 @@ makl_pkg_version ()
 ##
 makl_os_name ()
 {
-    uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
+    "${UNAME}" -rs | "${TR}" '[A-Z]' '[a-z]' | "${SED}" -e 's/ //'
 }
 
 ##\brief Print the target OS name.
@@ -78,9 +78,9 @@ makl_os_name ()
 makl_target_name ()
 {
     if [ -z "${MAKL_PLATFORM}" ];  then
-        uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'
+        "${UNAME}" -rs | "${TR}" '[A-Z]' '[a-z]' | "${SED}" -e 's/ //'
     else
-        ${ECHO} "${MAKL_PLATFORM}" | tr '[A-Z]' '[a-z]' 
+        ${ECHO} "${MAKL_PLATFORM}" | "${TR}" '[A-Z]' '[a-z]' 
     fi
 }
 
@@ -174,15 +174,15 @@ makl_check_tools ()
     done
 }
 
-##\brief Transform lower case letters into upper case letters.
+##\brief Transfo"${RM}" lower case letters into upper case letters.
 ## 
-##  Transform lower case letters into upper case letters.
+##  Transfo"${RM}" lower case letters into upper case letters.
 ##
 ##   \param $* list of 0 or more strings to be converted
 ##
 makl_upper ()
 {
-   ${ECHO} $* | tr "[a-z]" "[A-Z]"
+   ${ECHO} $* | "${TR}" "[a-z]" "[A-Z]"
 }
 
 ##\brief Cleanup run-time directory.
@@ -192,7 +192,7 @@ makl_upper ()
 makl_cleanup_rundir ()
 {
     [ -z `makl_get "__noclean__"` ] || return 
-    rm -rf "${makl_run_dir}"
+    "${RM}" -rf "${makl_run_dir}"
 }
 
 ##\brief Clean MaKL exit
@@ -243,7 +243,7 @@ makl_yesno ()
 ##
 makl_is_mode ()
 {
-    ${ECHO} $1 | grep '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
+    ${ECHO} $1 | "${GREP}" '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
 
     return $?
 }
@@ -293,7 +293,7 @@ _makl_set_dirs()
         makl_set_var "DOCDIR"   "`makl_get_var_mk "SHAREDIR"`"/doc 1
 }
 
-## \brief Perform file substitution.
+## \brief Perfo"${RM}" file substitution.
 ##
 ##  Substitute values in given files with Makfile variables.
 ##  
@@ -312,16 +312,16 @@ _makl_file_sub ()
     for sub in ${subs}; do 
         [ -r "${sub}.in" ] || makl_err 2 "makl_file_sub(): could not find ${sub}.in"
         makl_info "applying substitutions to: ${sub}"
-        cp ${sub}.in /tmp/sub.tmp
-        cat "${makl_run_dir}"/vars_mk | {
+        "${CP}" ${sub}.in /tmp/sub.tmp
+        "${CAT}" "${makl_run_dir}"/vars_mk | {
             while read var; do
                 name=`makl_tab_elem "${var}" 1`
-                val=`makl_tab_elem "${var}" 3 | sed -e "s%\/%\\\\\/%g"`
-                cat /tmp/sub.tmp | sed -e "s%@{{${name}}}%${val}%g" > /tmp/sub2.tmp
-                mv /tmp/sub2.tmp /tmp/sub.tmp
+                val=`makl_tab_elem "${var}" 3 | "${SED}" -e "s%\/%\\\\\/%g"`
+                "${CAT}" /tmp/sub.tmp | "${SED}" -e "s%@{{${name}}}%${val}%g" > /tmp/sub2.tmp
+                "${MV}" /tmp/sub2.tmp /tmp/sub.tmp
             done 
         }
-        cp /tmp/sub.tmp ${sub}
+        "${CP}" /tmp/sub.tmp ${sub}
     done
-    rm -f /tmp/sub.tmp /tmp/sub2.tmp
+    "${RM}" -f /tmp/sub.tmp /tmp/sub2.tmp
 }

@@ -45,7 +45,7 @@ do
 done
 
 # guess
-case `makl_os_name`
+case `uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //'`
 in
     linux*)
         shlib="linux"

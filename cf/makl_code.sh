@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.6 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_code.sh,v 1.7 2008/11/10 15:35:28 tho Exp $
 #
 
 ##\brief Compile a C file.
@@ -7,7 +7,7 @@
 ##  Compile a C file \e $1 with the supplied flags \e $2.
 ## 
 ##   \param $1 Pathname of the C file to be compiled 
-##   \param $2 flags to be passed to the compiler
+##   \param $2 flags to be pas"${SED}" to the compiler
 ##   \return 0 on success, 1 on failure
 ##
 makl_compile ()
@@ -23,13 +23,13 @@ makl_compile ()
 
     makl_dbg "makl_compile ${c_file}"
    
-    cp "${c_file}" "${makl_run_dir}" 2>/dev/null
+    "${CP}" "${c_file}" "${makl_run_dir}" 2>/dev/null
     cd "${makl_run_dir}"
 
     if [ ! -z `makl_get "__verbose__"` ]; then 
-        echo "- - - - - - - - - - - - - - - - - - - -"
-        cat "${c_file}"
-        echo "- - - - - - - - - - - - - - - - - - - -"
+        "${ECHO}" "- - - - - - - - - - - - - - - - - - - -"
+        "${CAT}" "${c_file}"
+        "${ECHO}" "- - - - - - - - - - - - - - - - - - - -"
     fi
     makl_dbg "$ ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}"
 
@@ -60,13 +60,13 @@ makl_compile ()
 makl_write_c ()
 {
     # create a clean file
-    [ -r "$1" ] && rm -f "$1"
+    [ -r "$1" ] && "${RM}" -f "$1"
 
     if [ $2 -eq 1 ]; then
         ${ECHO} "int main() {" >> "$1"
     fi
     
-    cat "$3" >> "$1"
+    "${CAT}" "$3" >> "$1"
     
     if [ $2 -eq 1 ]; then
         {
@@ -84,7 +84,7 @@ makl_write_c ()
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
 ##   \param $2 file containing code 
-##   \param $3 flags to be passed to the compiler
+##   \param $3 flags to be pas"${SED}" to the compiler
 ##
 makl_compile_code ()
 {
@@ -104,7 +104,7 @@ makl_compile_code ()
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
 ##   \param $2 file containing code
-##   \param $3 flags to be passed to the compiler
+##   \param $3 flags to be pas"${SED}" to the compiler
 ## 
 makl_exec_code ()
 {
@@ -135,7 +135,7 @@ makl_exec_code ()
 ##
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
-##   \param $3 flags to be passed to the compiler
+##   \param $3 flags to be pas"${SED}" to the compiler
 ##
 makl_checkresolv ()
 {
@@ -145,7 +145,7 @@ makl_checkresolv ()
     shift; shift; shift
 
     tmpfile="${makl_run_dir}"/snippet.c
-    rm -f "${tmpfile}"
+    "${RM}" -f "${tmpfile}"
 
     [ -z `makl_get "__noconfig__"` ] || return
 
@@ -154,7 +154,7 @@ makl_checkresolv ()
         for arg in $* ; do
             ${ECHO} "#include ${arg}" >> "${tmpfile}"
         done
-        cat << EOF >> "${tmpfile}"
+        "${CAT}" << EOF >> "${tmpfile}"
 typedef void (*f_t)(void);
 int main() {
     f_t fn = (f_t)${id};
@@ -182,7 +182,7 @@ EOF
 ##
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
-##   \param $3 flags to be passed to the compiler
+##   \param $3 flags to be pas"${SED}" to the compiler
 ##   \param $* header files (optional)
 ##
 makl_checkfunc ()
@@ -217,14 +217,14 @@ makl_checkheader ()
     header=$3
     shift; shift; shift;
     tmpfile="${makl_run_dir}"/snippet.c
-    rm -f "${tmpfile}"
+    "${RM}" -f "${tmpfile}"
 
     makl_info "checking for header ${id}"
 
     for arg in $* ; do
         ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
-    cat << EOF >> "${tmpfile}"
+    "${CAT}" << EOF >> "${tmpfile}"
 #include ${header}
 int main() { return 0; }
 EOF
@@ -263,17 +263,17 @@ makl_checktype ()
     shift
     shift
     tmpfile="${makl_run_dir}"/snippet.c
-    rm -f "${tmpfile}"
+    "${RM}" -f "${tmpfile}"
 
     # substitute whitespace with underscores 
-    def_type=`${ECHO} "${type}" | sed 's/\ /_/g'`
+    def_type=`${ECHO} "${type}" | "${SED}" 's/\ /_/g'`
 
     for arg in $*; do
         ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # on some systems (e.g. VxWorks) type checks are not picked up correctly
     # by the compiler, so force a check using sizeof() */
-    cat << EOF >> "${tmpfile}"
+    "${CAT}" << EOF >> "${tmpfile}"
 int main() {
     ${type} x;
     return (sizeof(${type}) && 0);
@@ -315,7 +315,7 @@ makl_checkextern()
 
     # this fails when the linker doesn't find the variable in any linked
     # libraries
-    cat << EOF > "${tmpfile}"
+    "${CAT}" << EOF > "${tmpfile}"
 extern void* ${var};
 int main()
 {
@@ -359,14 +359,14 @@ makl_checksymbol()
     shift
     shift
     tmpfile="${makl_run_dir}"/snippet.c
-    rm -f "${tmpfile}"
+    "${RM}" -f "${tmpfile}"
 
     for arg in $*; do
         ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if the symbol is not defined (no #define, no variable, 
     # no function)
-    cat << EOF >> "${tmpfile}"
+    "${CAT}" << EOF >> "${tmpfile}"
 #ifdef ${var}
 int main() { return 0; }
 #else
@@ -410,9 +410,9 @@ makl_checkstructelem()
     elem=$3
     shift; shift; shift
     tmpfile="${makl_run_dir}"/snippet.c
-    rm -f "${tmpfile}"
+    "${RM}" -f "${tmpfile}"
 
-    def_type=`${ECHO} ${type} | sed 's/\ /_/g'`
+    def_type=`${ECHO} ${type} | "${SED}" 's/\ /_/g'`
 
     makl_info "checking for ${elem} in ${type}"
 
@@ -420,7 +420,7 @@ makl_checkstructelem()
         ${ECHO} "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if elem is not a field of the supplied type
-    cat << EOF >> "${tmpfile}"
+    "${CAT}" << EOF >> "${tmpfile}"
 ${type} _a_;
 int main()
 {

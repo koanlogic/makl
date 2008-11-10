@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.9 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.10 2008/11/10 15:35:28 tho Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -16,12 +16,12 @@ makl_args_init ()
     makl_set "__args__" "$@"
 
     for arg in "$@"; do
-        cmd=`${ECHO} ${arg} | cut -f1 -d "="`
+        cmd=`${ECHO} ${arg} | "${CUT}" -f1 -d "="`
         case "${cmd}" in 
             -h | --help)
                 makl_set "__noconfig__"
                 if [ -r configure.help ]; then
-                    cat configure.help
+                    "${CAT}" configure.help
                     makl_die 0
                 fi
                 ;;
@@ -55,8 +55,8 @@ makl_args_handle ()
     makl_info "handling command-line arguments"
 
     for arg in "$@"; do
-        pref=`${ECHO} ${arg} | cut -c1,2`
-        cmd=`${ECHO} ${arg} | cut -f1 -d"="`
+        pref=`${ECHO} ${arg} | "${CUT}" -c1,2`
+        cmd=`${ECHO} ${arg} | "${CUT}" -f1 -d"="`
         case "${cmd}" in 
             -g | --help_gen)
                 __makl_help_gen  
@@ -65,7 +65,7 @@ makl_args_handle ()
                 # if help file doesn't exist yet, generate it
                 if [ ! -r configure.help ]; then
                     __makl_help_gen  
-                   cat configure.help
+                   "${CAT}" configure.help
                    makl_die 0
                 fi                        
                 ;;
@@ -124,14 +124,14 @@ __makl_help ()
   
     [ -r configure.help ] || _makl_help_print
     
-    cat configure.help
+    "${CAT}" configure.help
 
     makl_cleanup_rundir
 }
 
 ##\brief Handler. Generate configure.help. 
 ##
-##  Generate new configure.help based on configuration.
+##  Generate new configure.help ba"${SED}" on configuration.
 __makl_help_gen ()
 {
     [ $# -eq 0 ] || _makl_args_err "--help_gen: wrong number of arguments!"
@@ -159,9 +159,9 @@ __makl_version ()
     file="${MAKL_DIR}/VERSION"
 
     [ -f "${file}" ] && [ -r "${file}" ] && \
-        ver=`cat "${file}" | sed 's/[\ 	]*$//'`	#remove trailing whitespace
+        ver=`"${CAT}" "${file}" | "${SED}" 's/[\ 	]*$//'`	#remove trailing whitespace
    
-    ${ECHO} "${ver}" | grep '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    ${ECHO} "${ver}" | "${GREP}" '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
     [ $? -eq 0 ] || makl_err 2 "--version: version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
@@ -180,14 +180,14 @@ _makl_help_opts()
 
     # print out arguments
     [ -e "${file_args}" ] && \
-    cat "${file_args}" | {
+    "${CAT}" "${file_args}" | {
         while read line; do 
             id=`makl_tab_elem "${line}" 1`
             pms=`makl_tab_elem "${line}" 2`
             dft=`makl_tab_elem "${line}" 3`
             dsc=`makl_tab_elem "${line}" 4`
             [ -e "${makl_run_dir}/args_${id}" ] && \
-            cat "${makl_run_dir}"/args_"${id}" | { 
+            "${CAT}" "${makl_run_dir}"/args_"${id}" | { 
                 while read lin; do
                     ID=`makl_tab_elem "${lin}" 1`
                     DFT=`makl_tab_elem "${lin}" 2`
@@ -459,11 +459,11 @@ _makl_args_err ()
 ##
 _makl_arg_handle ()
 {
-    lval=`${ECHO} $1 | cut -f1 -d"="`
-    rval=`${ECHO} $1 | cut -s -f2- -d"="`
+    lval=`${ECHO} $1 | "${CUT}" -f1 -d"="`
+    rval=`${ECHO} $1 | "${CUT}" -s -f2- -d"="`
 
-    cmd=`${ECHO} ${lval} | cut -f3 -d"-"`
-    id=`${ECHO} ${lval} | cut -f4 -d"-"` 
+    cmd=`${ECHO} ${lval} | "${CUT}" -f3 -d"-"`
+    id=`${ECHO} ${lval} | "${CUT}" -f4 -d"-"` 
     
     makl_dbg "running command '${cmd}' id '${id}'"
 

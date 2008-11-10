@@ -1,12 +1,12 @@
 #
-# $Id: makl_libdep.sh,v 1.2 2008/11/07 16:16:07 stewy Exp $
+# $Id: makl_libdep.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
 #
 
 ##\brief Evaluate the library dependency
 ##
 ##  Evaluate a library dependency \e $1, given a base directory
 ##  \e $2, CFLAGS \e $3, LDFLAGS \e $4 and directory for lib search $5.
-##  If no flags are specified, the id is used as a library name
+##  If no flags are specified, the id is u"${SED}" as a library name
 ##  for linking. 
 ##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDADD and/or 
 ##  HAVE_$1_LDFLAGS are defined.
