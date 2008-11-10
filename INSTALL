@@ -1,43 +1,41 @@
-General
 
-    MaKL template libraries (i.e. mk and cf modules) will be placed into 
-    "${prefix}/share/makl-${MAKL_VERSION}".  The 'maklsh' executable and its 
-    children symlinks ('makl', 'makl-conf', 'makl-tc' and 'makl-help') will 
-    go into "${prefix}/bin"
-    Add "${prefix}/bin" , if needed, to your PATH env variable in order to be
-    able using the 'makl'* commands.
+1. General
 
-Linux/Darwin/MacOSX
+  MaKL template libraries (i.e. mk and cf modules) will be placed into 
+  "${prefix}/share/makl-${MAKL_VERSION}".  The 'maklsh' executable and its 
+  children symlinks ('makl', 'makl-conf', 'makl-tc' and 'makl-help') will 
+  go into "${prefix}/bin"
+  Add "${prefix}/bin" , if needed, to your PATH env variable in order to be
+  able using the 'makl'* commands.
 
-    $ /bin/sh configure.sh [...]
+2. Platform specific
+
+  a. Linux, Darwin, MacOSX
+
+    $ /bin/sh configure.sh [--prefix=...]
     # make install
 
-Solaris
+  b. Solaris, OpenSolaris
 
     $ /usr/xpg4/bin/sh configure.sh [--prefix=...]
     # /usr/sfw/bin/gmake SHELL=/usr/xpg4/bin/sh install
 
-FreeBSD
+  c. FreeBSD, PC-BSD, OpenBSD
 
     $ /bin/sh configure.sh [--prefix=...]
     # /usr/local/bin/gmake install
 
-NetBSD
+  d. NetBSD, DragonflyBSD
 
     $ /bin/sh configure.sh [--prefix=...]
     # /usr/pkg/bin/gmake install
 
-Windows/MinGW
+  e. Windows MinGW
 
     $ /bin/sh configure.sh [--prefix=...]
     # /bin/make install
 
-Windows/Cygwin
+  f. Windows Cygwin
 
     $ /usr/bin/sh configure.sh [--prefix=...]
     # /usr/bin/make install
-
-OpenBSD
-
-    $ /bin/sh configure.sh [--prefix=...]
-    # /usr/local/bin/gmake install
