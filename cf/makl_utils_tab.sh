@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.4 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.5 2008/11/10 21:18:13 tho Exp $
 #
 
 
@@ -34,6 +34,7 @@ makl_tab_set ()
 { 
     tab="$1"; id="$2"; col=$3
     shift; shift; shift
+    val="$@"
     line=""
     line_n=""
     l=""
@@ -52,10 +53,11 @@ makl_tab_set ()
        "${GREP}" -v "^${id}|" "${tab}" > "${tab}".tmp
        "${MV}" "${tab}".tmp "${tab}"
 
-       # escape the value
-       qt=`${ECHO} -n "$@" | "${SED}" 's/\//\\\\\\//g'`
-
-       ${ECHO} "${line}" | "${SED}" "s/[^|]*|/${qt}|/${col}" >> "${tab}"
+    # ""-surrounded val would give 'division by zero' in awk
+    __val="`"${ECHO}" ${val} | "${SED}" -e 's/^\"//' -e 's/\"$//'`"
+    "${ECHO}" "${line}" | \
+          "${AWK}" -F'|' '{ OFS=FS; $'"${col}"'="'"${__val}"'" ; print }' \
+                >> "${tab}"
     else
         # add a new var
         line_n="${id}"
@@ -68,7 +70,7 @@ makl_tab_set ()
             n=`expr ${n} + 1`   # avoid bash-ism, was: "n=$((n+1))"
         done
 
-        line_n="${line_n}|$@|||||||||||"
+        line_n="${line_n}|${val}|||||||||||"
 
         ${ECHO} "${line_n}" >> "${tab}"
     fi

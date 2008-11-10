@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.18 2008/11/10 15:35:28 tho Exp $
+# $Id: default.tc,v 1.19 2008/11/10 21:18:13 tho Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -26,6 +26,7 @@ POST_LDADD = -Wl,--end-group
 MKINSTALLDIRS = "${MAKL_DIR}/helpers/mkinstalldirs"
 MKDEP = "${MAKL_DIR}/helpers/mkdep.gcc.sh"
 LORDER = "${MAKL_DIR}/helpers/lorder"
+AWK = awk
 CAT = cat
 CP = cp
 CUT = cut
