@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.6 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_utils.sh,v 1.7 2008/11/10 15:45:16 tho Exp $
 #
 
 ##\brief Set the package name.
@@ -174,9 +174,9 @@ makl_check_tools ()
     done
 }
 
-##\brief Transfo"${RM}" lower case letters into upper case letters.
+##\brief Transform lower case letters into upper case letters.
 ## 
-##  Transfo"${RM}" lower case letters into upper case letters.
+##  Transform lower case letters into upper case letters.
 ##
 ##   \param $* list of 0 or more strings to be converted
 ##
@@ -293,7 +293,7 @@ _makl_set_dirs()
         makl_set_var "DOCDIR"   "`makl_get_var_mk "SHAREDIR"`"/doc 1
 }
 
-## \brief Perfo"${RM}" file substitution.
+## \brief Perform file substitution.
 ##
 ##  Substitute values in given files with Makfile variables.
 ##  

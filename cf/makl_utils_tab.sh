@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.4 2008/11/10 15:45:16 tho Exp $
 #
 
 
@@ -148,7 +148,7 @@ makl_tab_elem ()
 ##\brief Get variable by name given a list of variables.
 ##
 ##  Get variable by name \e $2 given a list of variables \e $1.
-##  A semicolon is u"${SED}" as a list separator.
+##  A semicolon is used as a list separator.
 ##
 ##   \param $1 input string
 ##   \param $2 required var

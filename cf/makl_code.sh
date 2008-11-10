@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.7 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_code.sh,v 1.8 2008/11/10 15:45:16 tho Exp $
 #
 
 ##\brief Compile a C file.
@@ -7,7 +7,7 @@
 ##  Compile a C file \e $1 with the supplied flags \e $2.
 ## 
 ##   \param $1 Pathname of the C file to be compiled 
-##   \param $2 flags to be pas"${SED}" to the compiler
+##   \param $2 flags to be passed to the compiler
 ##   \return 0 on success, 1 on failure
 ##
 makl_compile ()
@@ -84,7 +84,7 @@ makl_write_c ()
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
 ##   \param $2 file containing code 
-##   \param $3 flags to be pas"${SED}" to the compiler
+##   \param $3 flags to be passed to the compiler
 ##
 makl_compile_code ()
 {
@@ -104,7 +104,7 @@ makl_compile_code ()
 ##
 ##   \param $1 whether the code is a snippet (1) or entire C file (0)
 ##   \param $2 file containing code
-##   \param $3 flags to be pas"${SED}" to the compiler
+##   \param $3 flags to be passed to the compiler
 ## 
 makl_exec_code ()
 {
@@ -135,7 +135,7 @@ makl_exec_code ()
 ##
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
-##   \param $3 flags to be pas"${SED}" to the compiler
+##   \param $3 flags to be passed to the compiler
 ##
 makl_checkresolv ()
 {

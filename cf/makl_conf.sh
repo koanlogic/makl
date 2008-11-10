@@ -1,5 +1,5 @@
 # 
-# $Id: makl_conf.sh,v 1.4 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_conf.sh,v 1.5 2008/11/10 15:45:16 tho Exp $
 #
 
 ##\brief Process configuration output from cache.
@@ -66,7 +66,7 @@ makl_process_mk ()
 ##
 ##  Parse a line \e $1 and output to h file.
 ##
-##   \param $1 line to be proces"${SED}" 
+##   \param $1 line to be processed
 ##
 makl_process_h ()
 {

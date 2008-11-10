@@ -1,4 +1,4 @@
-# $Id: makl_deps.sh,v 1.4 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_deps.sh,v 1.5 2008/11/10 15:45:16 tho Exp $
 #
 
 # Save required or optional dependency to file
@@ -44,7 +44,7 @@ _makl_req ()
 ##\brief Add a required dependency.
 ##
 ##  Add a required dependency of type \e $1 and id \e $2.
-##  The remaining arguments are to be defined ba"${SED}" on the type:
+##  The remaining arguments are to be defined based on the type:
 ##   \li 'lib' $1 $2 $3 $4, where \e $3 are CFLAGS, and \e $4 LDFLAGS for the
 ##                        library (both optional). By default the flags are
 ##                        determined by the library name.
@@ -64,7 +64,7 @@ makl_require ()
 ##\brief Add an optional dependency.
 ##
 ##  Add an optional dependency of type \e $2 and id \e $3.
-##  The remaining arguments are to be defined ba"${SED}" on the type:
+##  The remaining arguments are to be defined based on the type:
 ##   \li 'lib' $1 $2 $3 $4 $5, where \e $4 are CFLAGS, and \e $5 LDFLAGS for the
 ##                             library (both optional). By default the flags are
 ##                             determined by the library name.

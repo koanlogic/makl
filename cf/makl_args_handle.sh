@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.10 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_args_handle.sh,v 1.11 2008/11/10 15:45:16 tho Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -131,7 +131,7 @@ __makl_help ()
 
 ##\brief Handler. Generate configure.help. 
 ##
-##  Generate new configure.help ba"${SED}" on configuration.
+##  Generate new configure.help based on configuration.
 __makl_help_gen ()
 {
     [ $# -eq 0 ] || _makl_args_err "--help_gen: wrong number of arguments!"
