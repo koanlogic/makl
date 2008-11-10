@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.42 2008/11/10 15:35:28 tho Exp $
+# $Id: makl.init,v 1.43 2008/11/10 15:36:40 tho Exp $
 #
 
 # read in just once
@@ -57,7 +57,7 @@ fi
 . "${MAKL_ETC}"/toolchain.cf
 
 #
-# from now on we can safely use command aliases from defined in toolchain.cf
+# from now on we can safely use command aliases defined in toolchain.cf
 #
 
 # environment has priority over toolchain
