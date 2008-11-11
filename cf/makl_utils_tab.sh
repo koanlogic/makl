@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.5 2008/11/10 21:18:13 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.6 2008/11/11 20:10:32 tho Exp $
 #
 
 
@@ -53,11 +53,13 @@ makl_tab_set ()
        "${GREP}" -v "^${id}|" "${tab}" > "${tab}".tmp
        "${MV}" "${tab}".tmp "${tab}"
 
-    # ""-surrounded val would give 'division by zero' in awk
-    __val="`"${ECHO}" ${val} | "${SED}" -e 's/^\"//' -e 's/\"$//'`"
-    "${ECHO}" "${line}" | \
+      # escape ""-surrounded val that would give 'division by zero' in awk 
+      __val="`"${ECHO}" ${val} | \
+          "${SED}" -e 's/^\"/\\\\\"/' -e 's/\"$/\\\\\"/'`"
+
+      "${ECHO}" "${line}" | \
           "${AWK}" -F'|' '{ OFS=FS; $'"${col}"'="'"${__val}"'" ; print }' \
-                >> "${tab}"
+              >> "${tab}"
     else
         # add a new var
         line_n="${id}"
