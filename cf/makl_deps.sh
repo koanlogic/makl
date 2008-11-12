@@ -1,4 +1,4 @@
-# $Id: makl_deps.sh,v 1.5 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_deps.sh,v 1.6 2008/11/12 22:00:36 stewy Exp $
 #
 
 # Save required or optional dependency to file
@@ -156,7 +156,7 @@ _makl_search_lib ()
         dirs="${path}"
     fi
 
-    for dir in "${dirs}"; do
+    for dir in ${dirs}; do
         makl_libdep "${req}" "${dir}" "${cflags}" "${ldflags}" "${libdir}"
         [ $? -eq 0 ] && return 0
     done 

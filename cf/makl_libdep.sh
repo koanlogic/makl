@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep.sh,v 1.4 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_libdep.sh,v 1.5 2008/11/12 22:00:36 stewy Exp $
 #
 
 ##\brief Evaluate the library dependency
@@ -43,8 +43,8 @@ makl_libdep ()
     [ -z "${base}" ] || ldflags="${ldflags} -L${base}/${libdir}"
 
     if [ -r "${f_deps}" ]; then
-        cflags_prog=${cflags}
-        ldflags_prog=${ldflags}
+        cflags_prog="${cflags}"
+        ldflags_prog="${ldflags}"
         # append CFLAGS,LDFLAGS of dependency for test compilation 
         deps=`makl_tab_get "${f_deps}" "${dep}" 5`
         if [ "${deps}" ]; then
