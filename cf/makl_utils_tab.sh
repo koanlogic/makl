@@ -1,7 +1,6 @@
 #
-# $Id: makl_utils_tab.sh,v 1.7 2008/11/12 07:43:39 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.8 2008/11/12 11:26:07 tho Exp $
 #
-
 
 ##\brief Find an identifier.
 ##
@@ -54,7 +53,7 @@ makl_tab_set ()
 
     # create row if it doesn't exist so that insert and replace ops
     # are treated the same way by awk
-    "${GREP}" "^${id}|" "${tab}" || \
+    "${GREP}" "^${id}|" "${tab}" > /dev/null || \
         "${ECHO}" "${id}||||||||||||||||" >> "${tab}"
 
     # escape initial and terminating '"' from "-surrounded ${val}'s, which 
@@ -129,16 +128,32 @@ makl_tab_set_row ()
 ##
 makl_tab_get ()
 {
-    [ -r "$1" ] || return 1
+    tab="$1"
+    id="$2"
+    col=$3
 
-    found=`"${GREP}" "^$2|" "$1"`
-    [ $? -eq 0 ] || return $? 
+    # sanitize input parameters
+    [ -n "${tab}" ] || return 1
+    [ -n "${id}" ] || return 1
+    [ ${col} -ge 0 ] || return 1
 
-    val=`${ECHO} "${found}" | "${CUT}" -s -f $3 -d "|"`
-    ret=$?
+    # table must be readable
+    [ -r "${tab}" ] || return 1
 
-    ${ECHO} -n "${val}"
-    return ${ret}
+    "${AWK}" -F'|' '                            \
+            BEGIN { rc=1 }                      \
+            {                                   \
+                if ( $1 == "'"${id}"'" )        \
+                {                               \
+                                                \
+                    printf("%s", $'"${col}"');  \
+                    rc=0                        \
+                }                               \
+            }                                   \
+            END { exit rc }                     \
+        ' "${tab}"
+
+    return $?
 }
 
 ##\brief Output an element at an index of a row.

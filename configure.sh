@@ -5,15 +5,15 @@
 #                                     [--boot_file=/path/to/custom/boot/file]
 
 MAKL_DIR="`pwd`"
-makl_conf_h="/dev/null"
 export MAKL_DIR
+makl_conf_h="/dev/null"
 export makl_conf_h
 
 # setup a temporary toolchain to please makl.init
 host="`uname -rs | tr '[A-Z]' '[a-z]' | sed -e 's/ //g'`"
 MAKL_PLATFORM=$host 
-TC_SETUP_SOURCED="true"
 export MAKL_PLATFORM
+TC_SETUP_SOURCED="true"
 export TC_SETUP_SOURCED
 echo "set up temporary toolchain to please makl.init (will be overwritten)"
 . setup/tc_setup.sh
@@ -106,8 +106,8 @@ t2="`makl_get_var_mk BOURNE_SHELL`"
 
 # do final toolchain/shlib setup
 MAKL_TC_FILE="${toolchain_file}"
-MAKL_SHLIB_FILE="${shlib_file}"
 export MAKL_TC_FILE
+MAKL_SHLIB_FILE="${shlib_file}"
 export MAKL_SHLIB_FILE
 # assume TC_SETUP_SOURCED is still there
 . setup/tc_setup.sh

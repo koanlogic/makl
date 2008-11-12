@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.8 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_code.sh,v 1.9 2008/11/12 11:26:07 tho Exp $
 #
 
 ##\brief Compile a C file.
@@ -12,40 +12,33 @@
 ##
 makl_compile ()
 {
-    if [ -z "$1" ]; then
-        makl_err 1 "makl_compile called with no arguments"
-    fi
-
     c_file="$1"
     shift
-    flags=$*
-    cwd=`pwd`
+    cc_flags=$*
+    cc_cmd="${CC} ${CFLAGS} -o out `basename ${c_file}` ${cc_flags} ${LDFLAGS}"
 
-    makl_dbg "makl_compile ${c_file}"
-   
+    [ -z "${c_file}" ] && return 1
+
+    # XXX don't check cp return code here since internal tests
+    # have makl_code.c already in place
     "${CP}" "${c_file}" "${makl_run_dir}" 2>/dev/null
-    cd "${makl_run_dir}"
 
-    if [ ! -z `makl_get "__verbose__"` ]; then 
+    if [ -n "`makl_get "__verbose__"`" ]; then
+        "${ECHO}" "makl_compile ${c_file}"
         "${ECHO}" "- - - - - - - - - - - - - - - - - - - -"
         "${CAT}" "${c_file}"
         "${ECHO}" "- - - - - - - - - - - - - - - - - - - -"
-    fi
-    makl_dbg "$ ${CC} ${CFLAGS} -o out `basename ${c_file}` ${flags} ${LDFLAGS}"
-
-    if [ -z `makl_get "__verbose__"` ]; then
-        "${CC}" "${CFLAGS}" -o out `basename "${c_file}"` "${flags}" "${LDFLAGS}" 2>/dev/null
+        "${ECHO}" "$ ${cc_cmd}"
+        ( cd "${makl_run_dir}" && ${cc_cmd} )
     else 
-        "${CC}" "${CFLAGS}" -o out `basename "${c_file}"` "${flags}" "${LDFLAGS}"
+        ( cd "${makl_run_dir}" && ${cc_cmd} ) 2>/dev/null
     fi
 
     if [ $? -ne 0 ]; then
         makl_info "compilation failed"
-        cd "${cwd}"
         return 1
     fi 
 
-    cd "${cwd}"
     return 0
 }
 
