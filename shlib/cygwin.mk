@@ -1,4 +1,4 @@
-# $Id: cygwin.mk,v 1.4 2008/11/07 11:15:44 tho Exp $
+# $Id: cygwin.mk,v 1.5 2008/11/12 14:19:49 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -18,8 +18,8 @@ SHLIB_LDFLAGS += -shared
 SHLIB_LDFLAGS += -Wl,--out-implib=$(SHLIB_IMP)
 SHLIB_LDFLAGS += -Wl,--export-all-symbols
 SHLIB_LDFLAGS += -Wl,--enable-auto-import
-SHLIB_LDFLAGS += -Wl,--whole-archive $(LIB_NAME)
-SHLIB_LDFLAGS += -Wl,--no-whole-archive
+#SHLIB_LDFLAGS += -Wl,--whole-archive $(LIB_NAME)
+#SHLIB_LDFLAGS += -Wl,--no-whole-archive
 
 ##
 ## build rules
