@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.8 2008/11/12 11:26:07 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.9 2008/11/12 16:42:17 tho Exp $
 #
 
 ##\brief Find an identifier.
@@ -145,7 +145,6 @@ makl_tab_get ()
             {                                   \
                 if ( $1 == "'"${id}"'" )        \
                 {                               \
-                                                \
                     printf("%s", $'"${col}"');  \
                     rc=0                        \
                 }                               \
@@ -182,7 +181,7 @@ makl_tab_var ()
     i=1
     found=0
 
-    while true; do
+    while : ; do
         elem=`${ECHO} $1 | "${CUT}" -f ${i} -d ";"`
         delim=`${ECHO} $1 | "${CUT}" -s -f ${i} -d ";"`
         [ -z "${elem}" ] && break
