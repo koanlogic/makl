@@ -1,7 +1,7 @@
 #
 # GNU/Solaris
 #
-# $Id: solaris.tc,v 1.2 2008/11/05 11:20:39 tho Exp $
+# $Id: solaris.tc,v 1.3 2008/11/12 15:53:19 stewy Exp $
 
 CC = gcc
 AR = /usr/ccs/bin/ar
@@ -18,7 +18,6 @@ ECHO = /usr/ucb/echo
 # use this instead of /usr/sbin/install (strip does not work on an already
 # installed binary with default permissions, i.e. 0555)
 INSTALL = /usr/ucb/install
-INSTALL_STRIP = __UNSET__
 
 LORDER = /usr/ccs/bin/lorder
 TSORT = /usr/ccs/bin/tsort

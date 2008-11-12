@@ -1,5 +1,5 @@
 #
-# $Id: prog.mk,v 1.47 2008/10/11 15:16:19 tho Exp $
+# $Id: prog.mk,v 1.48 2008/11/12 15:53:19 stewy Exp $
 #
 # User Variables:
 # - USE_CXX     If defined use C++ compiler instead of C compiler
@@ -107,7 +107,10 @@ ifneq ($(strip $(__CHOWN_ARGS)),)
 endif
 
 realinstall: $(BINDIR)
-	$(INSTALL) $(INSTALL_COPY) $(INSTALL_STRIP) $(__INSTALL_ARGS) \
+ifneq ($(strip $(STRIP)),)
+	$(STRIP) $(__PROG)
+endif
+	$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) \
 	    -m $(BINMODE) $(__PROG) $(BINDIR)
 
 install-hook-pre install-hook-post:

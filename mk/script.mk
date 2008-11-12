@@ -1,4 +1,4 @@
-# $Id: script.mk,v 1.9 2008/06/13 21:09:31 tho Exp $
+# $Id: script.mk,v 1.10 2008/11/12 15:53:19 stewy Exp $
 #
 # Helper for shell or other interpreted scripts installation|removal which
 # uses the prog.mk template.
@@ -28,7 +28,7 @@ NO_ALL = true
 NO_CLEAN = true
 NO_DEPEND = true
 NO_CLEANDEPEND = true
-INSTALL_STRIP =
+STRIP = 
 
 # if any of SCRIPT_{PRE,SUF}FIX is set handle aliasing on all and clean goals
 ifneq ($(__SCRIPT),$(strip $(SCRIPT)))
