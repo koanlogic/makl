@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.6 2008/11/11 20:10:32 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.7 2008/11/12 07:43:39 tho Exp $
 #
 
 
@@ -32,50 +32,54 @@ makl_tab_find ()
 ##
 makl_tab_set ()
 { 
-    tab="$1"; id="$2"; col=$3
+    tab="$1"
+    id="$2"
+    col=$3
     shift; shift; shift
     val="$@"
-    line=""
-    line_n=""
-    l=""
-    new=""
-    i=1
 
-    # create file if doesn't exist
+    # sanitize input parameters:
+    # we need at least a table name, a row id and some suitable column
+    # index to go further
+    [ -n "${tab}" ] || return 1
+    [ -n "${id}" ] || return 1
+    [ ${col} -ge 0 ] || return 1
+
+    # create table if it doesn't exist
     [ -e "${tab}" ] || "${TOUCH}" "${tab}"
+    [ $? -eq 0 ] || return 1
 
-    line=`"${GREP}" "^${id}|" "${tab}"`
+    # table must be writeable
+    [ -w "${tab}" ] || return 1
 
-    if [ $? -eq 0 ]; then     
-       # subst the value
+    # create row if it doesn't exist so that insert and replace ops
+    # are treated the same way by awk
+    "${GREP}" "^${id}|" "${tab}" || \
+        "${ECHO}" "${id}||||||||||||||||" >> "${tab}"
 
-       # delete the old line
-       "${GREP}" -v "^${id}|" "${tab}" > "${tab}".tmp
-       "${MV}" "${tab}".tmp "${tab}"
+    # escape initial and terminating '"' from "-surrounded ${val}'s, which 
+    # would otherwise cause a 'division by zero' error in awk
+    e_val="`"${ECHO}" ${val} | \
+        "${SED}" -e 's/^\"/\\\\\"/' -e 's/\"$/\\\\\"/'`"
+    [ $? -eq 0 ] || return 1
 
-      # escape ""-surrounded val that would give 'division by zero' in awk 
-      __val="`"${ECHO}" ${val} | \
-          "${SED}" -e 's/^\"/\\\\\"/' -e 's/\"$/\\\\\"/'`"
+    # replace column
+    "${AWK}" -F'|'                              \
+        '{                                      \
+            OFS=FS;                             \
+            if ( $1 == "'"${id}"'" )            \
+            {                                   \
+                $'"${col}"'="'"${e_val}"'" ;    \
+                print                           \
+            }                                   \
+            else                                \
+                print                           \
+        }' "${tab}" >> "${tab}".tmp
+    [ $? -eq 0 ] || return 1
 
-      "${ECHO}" "${line}" | \
-          "${AWK}" -F'|' '{ OFS=FS; $'"${col}"'="'"${__val}"'" ; print }' \
-              >> "${tab}"
-    else
-        # add a new var
-        line_n="${id}"
-
-        n=1
-        lim=`expr ${col} - 1`   # avoid bash-ism, was "lim=$((${col}-1))"
-
-        while [ ${n} -lt ${lim} ]; do
-            line_n="${line_n}|"
-            n=`expr ${n} + 1`   # avoid bash-ism, was: "n=$((n+1))"
-        done
-
-        line_n="${line_n}|${val}|||||||||||"
-
-        ${ECHO} "${line_n}" >> "${tab}"
-    fi
+    # commit changes to master table
+    "${MV}" "${tab}".tmp "${tab}"
+    [ $? -eq 0 ] || return 1
 
     return 0    
 }
