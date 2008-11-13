@@ -1,4 +1,4 @@
-# $Id: cygwin.mk,v 1.5 2008/11/12 14:19:49 tho Exp $
+# $Id: cygwin.mk,v 1.6 2008/11/13 11:53:09 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -29,7 +29,7 @@ all-shared: $(SHLIB_NAME)
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building $(__LIB) as dynamic linked library"
 	rm -f $(SHLIB_NAME)
-	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS)
+	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
 install-shared:
