@@ -1,4 +1,4 @@
-# $Id: cygwin.mk,v 1.6 2008/11/13 11:53:09 tho Exp $
+# $Id: cygwin.mk,v 1.7 2008/11/13 12:28:13 tho Exp $
 #
 # import __LIB, OBJS, OBJFORMAT from lib.mk
 # export SHLIB_NAME to lib.mk 
@@ -32,8 +32,10 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
+# cyg*.dll's go to /bin, while import library go to /lib
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(BINMODE) $(SHLIB_NAME) $(BINDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_IMP) $(SHLIBDIR)
 
 uninstall-shared:
 	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
