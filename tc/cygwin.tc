@@ -2,3 +2,4 @@
 # CygWin toolchain overrides
 #
 CC = gcc
+MKINSTALLDIRS = mkdir -p
