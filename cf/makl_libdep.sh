@@ -1,5 +1,5 @@
 #
-# $Id: makl_libdep.sh,v 1.5 2008/11/12 22:00:36 stewy Exp $
+# $Id: makl_libdep.sh,v 1.6 2008/11/14 21:26:07 stewy Exp $
 #
 
 ##\brief Evaluate the library dependency
@@ -39,8 +39,8 @@ makl_libdep ()
         fi
     fi
 
-    [ -z "${base}" ] || cflags="${cflags} -I${base}/include" 
-    [ -z "${base}" ] || ldflags="${ldflags} -L${base}/${libdir}"
+    [ -z "${base}" ] || cflags="-I${base}/include ${cflags}" 
+    [ -z "${base}" ] || ldflags="-L${base}/${libdir} ${ldflags}"
 
     if [ -r "${f_deps}" ]; then
         cflags_prog="${cflags}"
@@ -58,10 +58,10 @@ makl_libdep ()
 
     # compile and link the test program (static linkage)
     if [ -z `makl_get "__verbose__"` ]; then
-        eval makl_compile ${tst} "${cflags_prog}" "${ldflags_prog}" "${ldadd}" \
+        eval makl_compile ${tst} "${cflags_prog}" "${ldadd}" \
             1> /dev/null 2> /dev/null
     else 
-        eval makl_compile ${tst} "${cflags_prog}" "${ldflags_prog}" "${ldadd}"
+        eval makl_compile ${tst} "${cflags_prog}" "${ldadd}"
     fi
     rc_s=$?
 
@@ -74,6 +74,7 @@ makl_libdep ()
     fi
     rc_d=$?
 
+    # neither static nor dynamic linkage successful - fail
     if [ ${rc_s} -ne 0 -a ${rc_d} -ne 0 ]; then
         makl_unset_var "HAVE_LIB${dep_cap}"
         return 1
@@ -81,7 +82,8 @@ makl_libdep ()
 
     # skip execution on cross-compilation
     if [ -z `makl_get "__cross_compile__"` ]; then
-        cd "${makl_run_dir}" && eval ./out > /dev/null 2> /dev/null
+        cd "${makl_run_dir}" && \
+            eval LD_LIBRARY_PATH="${base}"/"${libdir}" ./out > /dev/null 2> /dev/null
         if [ $? -ne 0 ]; then
             makl_dbg "Test file execution for lib${dep} failed!"
             cd ${cwd}
