@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.11 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_args_handle.sh,v 1.12 2008/11/14 13:11:17 tho Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -16,7 +16,7 @@ makl_args_init ()
     makl_set "__args__" "$@"
 
     for arg in "$@"; do
-        cmd=`${ECHO} ${arg} | "${CUT}" -f1 -d "="`
+        cmd=`"${ECHO}" ${arg} | "${CUT}" -f1 -d "="`
         case "${cmd}" in 
             -h | --help)
                 makl_set "__noconfig__"
@@ -55,8 +55,8 @@ makl_args_handle ()
     makl_info "handling command-line arguments"
 
     for arg in "$@"; do
-        pref=`${ECHO} ${arg} | "${CUT}" -c1,2`
-        cmd=`${ECHO} ${arg} | "${CUT}" -f1 -d"="`
+        pref=`"${ECHO}" ${arg} | "${CUT}" -c1,2`
+        cmd=`"${ECHO}" ${arg} | "${CUT}" -f1 -d"="`
         case "${cmd}" in 
             -g | --help_gen)
                 __makl_help_gen  
@@ -91,19 +91,19 @@ makl_args_handle ()
 _makl_help_print ()
 {
     {
-        ${ECHO} 
-        ${ECHO} "'MaKL' - a painless C project configuration tool"
-        ${ECHO} 
-        ${ECHO} "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
-        ${ECHO} 
-        ${ECHO} "OPTION can be defined as follows:"
-        ${ECHO} 
+        "${ECHO}" 
+        "${ECHO}" "'MaKL' - a painless C project configuration tool"
+        "${ECHO}" 
+        "${ECHO}" "Usage: ./CONFIGURE_SCRIPT [OPTION] ..."
+        "${ECHO}" 
+        "${ECHO}" "OPTION can be defined as follows:"
+        "${ECHO}" 
         _makl_help_opts
-        ${ECHO}
-        ${ECHO} "Legend:"       
-        ${ECHO} "  <*>: required dependency" 
-        ${ECHO} "  <?>: optional dependency" 
-        ${ECHO}
+        "${ECHO}"
+        "${ECHO}" "Legend:"       
+        "${ECHO}" "  <*>: required dependency" 
+        "${ECHO}" "  <?>: optional dependency" 
+        "${ECHO}"
     } > configure.help
 }
 
@@ -158,14 +158,17 @@ __makl_version ()
 
     file="${MAKL_DIR}/VERSION"
 
+    # remove trailing whitespace
     [ -f "${file}" ] && [ -r "${file}" ] && \
-        ver=`"${CAT}" "${file}" | "${SED}" 's/[\ 	]*$//'`	#remove trailing whitespace
+        ver=`"${CAT}" "${file}" | "${SED}" 's/[\ 	]*$//'`	
    
-    ${ECHO} "${ver}" | "${GREP}" '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
-    [ $? -eq 0 ] || makl_err 2 "--version: version must have format 'X.Y.Z'" \
+    "${ECHO}" "${ver}" | \
+        "${GREP}" '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+    [ $? -eq 0 ] || \
+        makl_err 2 "--version: version must have format 'X.Y.Z'" \
 						     "where X, Y and Z are digits."
 
-    ${ECHO} "MaKL version: ${ver}"
+    "${ECHO}" "MaKL version: ${ver}"
 
     makl_cleanup_rundir
 }
@@ -198,10 +201,10 @@ _makl_help_opts()
 
                 done
             } || {
-                ${ECHO} -n "--"${id}${pms} "     "  ${dsc}
-                [ "${dft}" = " " ] || ${ECHO} -n " [${dft}]"
+                "${ECHO}" -n "--"${id}${pms} "     "  ${dsc}
+                [ "${dft}" = " " ] || "${ECHO}" -n " [${dft}]"
             }
-            ${ECHO}
+            "${ECHO}"
         done
     }
 }
@@ -447,7 +450,7 @@ __makl_libs ()
 _makl_args_err ()
 {
     __makl_help
-    ${ECHO}
+    "${ECHO}"
     makl_err 1 "$1"
 }
 
@@ -459,11 +462,11 @@ _makl_args_err ()
 ##
 _makl_arg_handle ()
 {
-    lval=`${ECHO} $1 | "${CUT}" -f1 -d"="`
-    rval=`${ECHO} $1 | "${CUT}" -s -f2- -d"="`
+    lval=`"${ECHO}" $1 | "${CUT}" -f1 -d"="`
+    rval=`"${ECHO}" $1 | "${CUT}" -s -f2- -d"="`
 
-    cmd=`${ECHO} ${lval} | "${CUT}" -f3 -d"-"`
-    id=`${ECHO} ${lval} | "${CUT}" -f4 -d"-"` 
+    cmd=`"${ECHO}" ${lval} | "${CUT}" -f3 -d"-"`
+    id=`"${ECHO}" ${lval} | "${CUT}" -f4 -d"-"` 
     
     makl_dbg "running command '${cmd}' id '${id}'"
 

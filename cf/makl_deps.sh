@@ -1,4 +1,4 @@
-# $Id: makl_deps.sh,v 1.6 2008/11/12 22:00:36 stewy Exp $
+# $Id: makl_deps.sh,v 1.7 2008/11/14 13:11:17 tho Exp $
 #
 
 # Save required or optional dependency to file
@@ -27,10 +27,10 @@ _makl_req ()
 
         case "$2" in
             lib)
-                ${ECHO} "$3|${dft}|$4|$5||" >> "${file}"
+                "${ECHO}" "$3|${dft}|$4|$5||" >> "${file}"
             ;;
             featx)
-                ${ECHO} "$3|${dft}|$4" >> "${file}"
+                "${ECHO}" "$3|${dft}|$4" >> "${file}"
             ;;
             *)
                 makl_err 2 "Invalid dependency type: $2"
@@ -151,7 +151,7 @@ _makl_search_lib ()
             [ $? -eq 0 ] && return 0
         fi
         val=`makl_tab_var "${dft}" "BASE"` 
-        dirs=`${ECHO} "${val}" | "${SED}" 's/:/ /g'`
+        dirs=`"${ECHO}" "${val}" | "${SED}" 's/:/ /g'`
     else
         dirs="${path}"
     fi
@@ -197,7 +197,7 @@ _makl_search_featx ()
     else
         # get paths defined by BASE
         val=`makl_tab_var "${dft}" "BASE"` 
-        dirs=`${ECHO} ${val} | "${SED}" 's/:/ /g'`
+        dirs=`"${ECHO}" ${val} | "${SED}" 's/:/ /g'`
 
         # search for executable file
         for dir in ${dirs}; do
@@ -258,11 +258,11 @@ _makl_require_check ()
 
             if [ $? -ne 0 ]; then
                 if [ "${_req}" = "1" ]; then
-                    ${ECHO} -n ${_dep} > "${makl_run_dir}"/err
+                    "${ECHO}" -n ${_dep} > "${makl_run_dir}"/err
                     break
                 else
                     if [ "${_req}" = "01" ]; then
-                        ${ECHO} -n ${_dep} > "${makl_run_dir}"/warn
+                        "${ECHO}" -n ${_dep} > "${makl_run_dir}"/warn
                     fi
                 fi
             fi
@@ -294,7 +294,7 @@ makl_lib_testcode ()
     [ -r "${file}" ] && "${RM}" -f "${file}"
 
     while read line; do
-        ${ECHO} "${line}" >> "${file}"
+        "${ECHO}" "${line}" >> "${file}"
     done
 }
 

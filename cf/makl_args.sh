@@ -1,5 +1,5 @@
 #
-# $Id: makl_args.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_args.sh,v 1.4 2008/11/14 13:11:17 tho Exp $
 #
 
 
@@ -50,18 +50,18 @@ makl_args_add ()
 ##
 _makl_args_print () 
 {
-    a=`${ECHO} -n "$6  --$1$2" | 
+    a=`"${ECHO}" -n "$6  --$1$2" | 
         "${SED}" 's/X/'"$4"'/'`
 
     if [ -z "$7" ]; then
-        b=`${ECHO} -n "$3" | 
+        b=`"${ECHO}" -n "$3" | 
             "${SED}" 's/X/'"$4"'/'`
     else
-        b=`${ECHO} -n "$3" | 
+        b=`"${ECHO}" -n "$3" | 
             "${SED}" 's/X/'"$7"'/'`
     fi
 
-    ${ECHO} -n "${a}    ${b}"
-    [ "$5" = " " ] || ${ECHO} -n " [$5]"
-    ${ECHO}
+    "${ECHO}" -n "${a}    ${b}"
+    [ "$5" = " " ] || "${ECHO}" -n " [$5]"
+    "${ECHO}"
 }

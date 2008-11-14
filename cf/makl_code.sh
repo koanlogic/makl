@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.9 2008/11/12 11:26:07 tho Exp $
+# $Id: makl_code.sh,v 1.10 2008/11/14 13:11:17 tho Exp $
 #
 
 ##\brief Compile a C file.
@@ -56,15 +56,15 @@ makl_write_c ()
     [ -r "$1" ] && "${RM}" -f "$1"
 
     if [ $2 -eq 1 ]; then
-        ${ECHO} "int main() {" >> "$1"
+        "${ECHO}" "int main() {" >> "$1"
     fi
     
     "${CAT}" "$3" >> "$1"
     
     if [ $2 -eq 1 ]; then
         {
-        ${ECHO} "    return 0;"
-        ${ECHO} "}"
+        "${ECHO}" "    return 0;"
+        "${ECHO}" "}"
         } >> "$1"
     fi
     
@@ -145,7 +145,7 @@ makl_checkresolv ()
     makl_info "checking symbol resolution: ${id}"
 
         for arg in $* ; do
-            ${ECHO} "#include ${arg}" >> "${tmpfile}"
+            "${ECHO}" "#include ${arg}" >> "${tmpfile}"
         done
         "${CAT}" << EOF >> "${tmpfile}"
 typedef void (*f_t)(void);
@@ -215,7 +215,7 @@ makl_checkheader ()
     makl_info "checking for header ${id}"
 
     for arg in $* ; do
-        ${ECHO} "#include ${arg}" >> "${tmpfile}"
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
     done
     "${CAT}" << EOF >> "${tmpfile}"
 #include ${header}
@@ -259,10 +259,10 @@ makl_checktype ()
     "${RM}" -f "${tmpfile}"
 
     # substitute whitespace with underscores 
-    def_type=`${ECHO} "${type}" | "${SED}" 's/\ /_/g'`
+    def_type=`"${ECHO}" "${type}" | "${SED}" 's/\ /_/g'`
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> "${tmpfile}"
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
     done
     # on some systems (e.g. VxWorks) type checks are not picked up correctly
     # by the compiler, so force a check using sizeof() */
@@ -355,7 +355,7 @@ makl_checksymbol()
     "${RM}" -f "${tmpfile}"
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> "${tmpfile}"
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if the symbol is not defined (no #define, no variable, 
     # no function)
@@ -405,12 +405,12 @@ makl_checkstructelem()
     tmpfile="${makl_run_dir}"/snippet.c
     "${RM}" -f "${tmpfile}"
 
-    def_type=`${ECHO} ${type} | "${SED}" 's/\ /_/g'`
+    def_type=`"${ECHO}" ${type} | "${SED}" 's/\ /_/g'`
 
     makl_info "checking for ${elem} in ${type}"
 
     for arg in $*; do
-        ${ECHO} "#include ${arg}" >> "${tmpfile}"
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
     done
     # this fails if elem is not a field of the supplied type
     "${CAT}" << EOF >> "${tmpfile}"

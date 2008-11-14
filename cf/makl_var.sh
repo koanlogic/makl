@@ -1,5 +1,5 @@
 #
-# $Id: makl_var.sh,v 1.3 2008/11/10 15:35:28 tho Exp $
+# $Id: makl_var.sh,v 1.4 2008/11/14 13:11:17 tho Exp $
 #
 
 ##\brief Set the value of a header variable.
@@ -75,7 +75,7 @@ makl_add_var_mk ()
 
     # grab from environment if defined and not already set
     if [ $? -eq 0 -a ! "${isset}" = "1" ]; then
-            val=`${ECHO} "${found}" | "${CUT}" -s -d= -f 2`" ${val}"
+            val=`"${ECHO}" "${found}" | "${CUT}" -s -d= -f 2`" ${val}"
     fi
 
 	shift

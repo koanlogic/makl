@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.7 2008/11/10 15:45:16 tho Exp $
+# $Id: makl_utils.sh,v 1.8 2008/11/14 13:11:17 tho Exp $
 #
 
 ##\brief Set the package name.
@@ -40,14 +40,14 @@ makl_pkg_version ()
 
     [ $? -eq 0 ] || ver=$1
 
-    major=`${ECHO} ${ver} | "${CUT}" -d '.' -f 1 | "${GREP}" '^[0-9][0-9]*$'`
+    major=`"${ECHO}" ${ver} | "${CUT}" -d '.' -f 1 | "${GREP}" '^[0-9][0-9]*$'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): major must be numeric!"
-    minor=`${ECHO} ${ver} | "${CUT}" -d '.' -f 2 | "${GREP}" '^[0-9][0-9]*$'`
+    minor=`"${ECHO}" ${ver} | "${CUT}" -d '.' -f 2 | "${GREP}" '^[0-9][0-9]*$'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): minor must be numeric!"
-    teenydesc=`${ECHO} ${ver} | "${CUT}" -d '.' -f 3`
-    teeny=`${ECHO} ${teenydesc} | "${SED}" -e 's/[a-zA-Z].*$//'`
+    teenydesc=`"${ECHO}" ${ver} | "${CUT}" -d '.' -f 3`
+    teeny=`"${ECHO}" ${teenydesc} | "${SED}" -e 's/[a-zA-Z].*$//'`
     [ $? -eq 0 ] || makl_err 2 "makl_pkg_version(): teeny must be numeric!"
-    desc=`${ECHO} ${teenydesc} | "${SED}" -e 's/^[0-9]\{1,\}//'`
+    desc=`"${ECHO}" ${teenydesc} | "${SED}" -e 's/^[0-9]\{1,\}//'`
 
     ver="${major}.${minor}.${teeny}${desc}"
 
@@ -80,7 +80,7 @@ makl_target_name ()
     if [ -z "${MAKL_PLATFORM}" ];  then
         "${UNAME}" -rs | "${TR}" '[A-Z]' '[a-z]' | "${SED}" -e 's/ //'
     else
-        ${ECHO} "${MAKL_PLATFORM}" | "${TR}" '[A-Z]' '[a-z]' 
+        "${ECHO}" "${MAKL_PLATFORM}" | "${TR}" '[A-Z]' '[a-z]' 
     fi
 }
 
@@ -97,7 +97,7 @@ makl_err ()
     exit_code=$1
     shift
 
-    ${ECHO} 1>&2 "[err] $*"
+    "${ECHO}" 1>&2 "[err] $*"
     makl_cleanup_rundir
     exit ${exit_code}
 }
@@ -110,7 +110,7 @@ makl_err ()
 ##
 makl_info ()
 {
-    ${ECHO} "$*"
+    "${ECHO}" "$*"
 }
 
 ##\brief Print a debug message. 
@@ -122,7 +122,7 @@ makl_info ()
 ##
 makl_dbg ()
 {
-    [ -z `makl_get "__verbose__"` ] || ${ECHO} 1>&2 "[dbg] $*"
+    [ -z `makl_get "__verbose__"` ] || "${ECHO}" 1>&2 "[dbg] $*"
 }
 
 ##\brief Print a warning message.
@@ -133,7 +133,7 @@ makl_dbg ()
 ##
 makl_warn ()
 {
-    ${ECHO} 1>&2 "[wrn] $*"
+    "${ECHO}" 1>&2 "[wrn] $*"
 }
 
 ##\brief Print global variables.
@@ -165,10 +165,10 @@ makl_check_tools ()
         if [ ${has_stdin} -eq 0 ]; then
             eval ${tool} 1> /dev/null 2> /dev/null
         else
-            eval ${ECHO} | ${tool} 1> /dev/null 2> /dev/null
+            eval "${ECHO}" | ${tool} 1> /dev/null 2> /dev/null
         fi
         if [ $? -eq 127 ]; then
-            ${ECHO} "required tool not found: ${tool}!"
+            "${ECHO}" "required tool not found: ${tool}!"
             exit 2
         fi
     done
@@ -182,7 +182,7 @@ makl_check_tools ()
 ##
 makl_upper ()
 {
-   ${ECHO} $* | "${TR}" "[a-z]" "[A-Z]"
+   "${ECHO}" $* | "${TR}" "[a-z]" "[A-Z]"
 }
 
 ##\brief Cleanup run-time directory.
@@ -216,7 +216,7 @@ makl_die ()
 ##
 makl_yesno ()
 {
-    ${ECHO} -n "$1 " 
+    "${ECHO}" -n "$1 " 
     
     while [ /bin/true ]; do 
         read answer
@@ -228,7 +228,7 @@ makl_yesno ()
                 return 1
                 ;;
             *)
-                ${ECHO} -n "please say [yY] or [nN]: "
+                "${ECHO}" -n "please say [yY] or [nN]: "
                 ;;
         esac
     done
@@ -243,7 +243,7 @@ makl_yesno ()
 ##
 makl_is_mode ()
 {
-    ${ECHO} $1 | "${GREP}" '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
+    "${ECHO}" $1 | "${GREP}" '^[0-7][0-7][0-7]$' 1>/dev/null 2>/dev/null
 
     return $?
 }

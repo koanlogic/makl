@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils_tab.sh,v 1.9 2008/11/12 16:42:17 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.10 2008/11/14 13:11:17 tho Exp $
 #
 
 ##\brief Find an identifier.
@@ -114,7 +114,7 @@ makl_tab_set_row ()
         i=`expr ${i} + 1`   # avoid bash-ism, was: "i=$((${i}+1))"
     done
 
-    ${ECHO} "${line}" >> "${file}"
+    "${ECHO}" "${line}" >> "${file}"
 }
 
 ##\brief Get a column value given an identifier.
@@ -164,7 +164,7 @@ makl_tab_get ()
 ##
 makl_tab_elem ()
 {
-    ${ECHO} "$1" | "${CUT}" -s -f "$2" -d "|"
+    "${ECHO}" "$1" | "${CUT}" -s -f "$2" -d "|"
 }
 
 ##\brief Get variable by name given a list of variables.
@@ -182,14 +182,14 @@ makl_tab_var ()
     found=0
 
     while : ; do
-        elem=`${ECHO} $1 | "${CUT}" -f ${i} -d ";"`
-        delim=`${ECHO} $1 | "${CUT}" -s -f ${i} -d ";"`
+        elem=`"${ECHO}" $1 | "${CUT}" -f ${i} -d ";"`
+        delim=`"${ECHO}" $1 | "${CUT}" -s -f ${i} -d ";"`
         [ -z "${elem}" ] && break
-        var=`${ECHO} "${elem}" | "${CUT}" -f 1 -d "="`
-        val=`${ECHO} "${elem}" | "${CUT}" -f 2 -d "="`
+        var=`"${ECHO}" "${elem}" | "${CUT}" -f 1 -d "="`
+        val=`"${ECHO}" "${elem}" | "${CUT}" -f 2 -d "="`
         if [ "${var}" = "$2" ] || [ -z "${delim}" ]; then
             found=1
-            ${ECHO} "${val}"
+            "${ECHO}" "${val}"
             break
         fi
         # stop if we have no separator
