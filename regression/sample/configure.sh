@@ -3,6 +3,8 @@
 #
 . "${MAKL_DIR}/cf/makl.init"
 
+makl_info "installed MaKL version is: `makl_version`"
+
 #
 # Initialise command-line arguments.  
 # This is the first call in the configure script after global initialisation.

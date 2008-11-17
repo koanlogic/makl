@@ -1,6 +1,20 @@
 #
-# $Id: makl_utils.sh,v 1.8 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_utils.sh,v 1.9 2008/11/17 16:53:25 tho Exp $
 #
+
+##\brief Print installed MaKL version
+##  
+makl_version ()
+{
+    if [ ! -r "${MAKL_DIR}"/VERSION ]; then
+        makl_info "no VERSION file found in ${MAKL_DIR}"
+        return
+    fi
+
+    "${CAT}" "${MAKL_DIR}"/VERSION
+
+    return
+}
 
 ##\brief Set the package name.
 ##

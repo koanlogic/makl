@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.12 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_args_handle.sh,v 1.13 2008/11/17 16:53:25 tho Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -160,13 +160,13 @@ __makl_version ()
 
     # remove trailing whitespace
     [ -f "${file}" ] && [ -r "${file}" ] && \
-        ver=`"${CAT}" "${file}" | "${SED}" 's/[\ 	]*$//'`	
+        ver=`"${CAT}" "${file}" | "${SED}" 's/[\    ]*$//'` 
    
     "${ECHO}" "${ver}" | \
-        "${GREP}" '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' 1> /dev/null
+        "${GREP}" '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9a-zA-Z]*$' 1> /dev/null
     [ $? -eq 0 ] || \
         makl_err 2 "--version: version must have format 'X.Y.Z'" \
-						     "where X, Y and Z are digits."
+                             "where X, Y and Z are digits."
 
     "${ECHO}" "MaKL version: ${ver}"
 

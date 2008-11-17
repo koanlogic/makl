@@ -1,8 +1,10 @@
-$Id: ChangeLog,v 1.72 2008/11/10 15:35:28 tho Exp $
+$Id: ChangeLog,v 1.73 2008/11/17 16:53:25 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL 1.8.z
+	- added makl_version function to get the version of the currently installed
+	  MaKL
 	- cf utilities (i.e. grep, sed, tr, ...) also in toolchain
 	- Solaris/GCC support added
 	- DragonFly BSD support added
