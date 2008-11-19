@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.10 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_code.sh,v 1.11 2008/11/19 11:29:23 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -144,10 +144,10 @@ makl_checkresolv ()
 
     makl_info "checking symbol resolution: ${id}"
 
-        for arg in $* ; do
-            "${ECHO}" "#include ${arg}" >> "${tmpfile}"
-        done
-        "${CAT}" << EOF >> "${tmpfile}"
+    for arg in $* ; do
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
+    done
+    "${CAT}" << EOF >> "${tmpfile}"
 typedef void (*f_t)(void);
 int main() {
     f_t fn = (f_t)${id};
@@ -161,8 +161,8 @@ EOF
         makl_set_var "HAVE_"`makl_upper ${id}`
         return 0
     else
-        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required function ${id}!"
-        makl_warn "failed check on optional function ${id}"
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required symbol ${id}!"
+        makl_warn "failed check on optional symbol ${id}"
         makl_unset_var "HAVE_"`makl_upper ${id}`
         return 1
     fi
@@ -175,20 +175,57 @@ EOF
 ##
 ##   \param $1 0:optional/1:required
 ##   \param $2 function name
-##   \param $3 flags to be pas"${SED}" to the compiler
+##   \param $3 number of arguments 
+##   \param $4 flags to be pas"${SED}" to the compiler
 ##   \param $* header files (optional)
 ##
 makl_checkfunc ()
 {
     opt="$1"
     id="$2"
-    flags="$3"
-    shift; shift; shift
+    nargs=$3
+    flags="$4"
+    shift; shift; shift ; shift
 
     makl_info "checking existence of function: ${id}"
  
-    # just an alias for now
-    makl_checkresolv "${opt}" "${id}" "${flags}" $*
+    tmpfile="${makl_run_dir}"/snippet.c
+    "${RM}" -f "${tmpfile}"
+
+    [ -z `makl_get "__noconfig__"` ] || return
+
+    for arg in $* ; do
+        "${ECHO}" "#include ${arg}" >> "${tmpfile}"
+    done
+
+    {
+        "${ECHO}"    "int main() {"
+        "${ECHO}" -n "    ${id}("
+        i=0
+        while [ ${i} -lt ${nargs} ]; do
+            last=`expr ${nargs} - 1`
+            "${ECHO}" -n "0"
+            if [ ${i} -ne ${last} ]; then
+                "${ECHO}" -n ","
+            fi
+            i=`expr ${i} + 1`  # avoid bash-ism: "i=$((${i}+1))"
+        done
+        "${ECHO}" ");"
+        "${ECHO}"    "    return 0;"
+        "${ECHO}"    "}"
+    } >> "${tmpfile}"
+   
+    makl_compile_code 0 "${tmpfile}" "${flags}"
+
+    if [ $? -eq 0 ]; then
+        makl_set_var "HAVE_"`makl_upper ${id}`
+        return 0
+    else
+        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required function ${id}!"
+        makl_warn "failed check on optional function ${id}"
+        makl_unset_var "HAVE_"`makl_upper ${id}`
+        return 1
+    fi
 }
 
 ##\brief Check existence of a header.
