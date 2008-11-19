@@ -57,6 +57,9 @@ __makl_boot_file ()
     BOOT_FILE="$@"
 }
 
+# tool deps
+makl_optional           1    "featx"   "xml2man"    "PATH_XML2MAN"
+
 makl_args_handle "$@"
 
 # set destination for MaKL bells and whistles
@@ -109,10 +112,11 @@ MAKL_TC_FILE="${toolchain_file}"
 export MAKL_TC_FILE
 MAKL_SHLIB_FILE="${shlib_file}"
 export MAKL_SHLIB_FILE
+
+# apply substitution as needed
 # assume TC_SETUP_SOURCED is still there
 . setup/tc_setup.sh
-       
-# apply substitution as needed
+
 makl_file_sub "bin/maklsh"              \
               "bin/lib/maklsh_catalog"  \
               "bin/lib/maklsh_run"      \

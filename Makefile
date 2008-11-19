@@ -1,5 +1,5 @@
 #
-# $Id: Makefile,v 1.39 2008/11/08 06:05:26 tho Exp $
+# $Id: Makefile,v 1.40 2008/11/19 23:55:51 stewy Exp $
 #
 
 .DEFAULT_GOAL = help
@@ -15,7 +15,9 @@ SUBDIRS += shlib
 SUBDIRS += helpers
 SUBDIRS += setup
 SUBDIRS += tmpl
+ifdef HAVE_XML2MAN
 SUBDIRS += doc/man
+endif
 
 MAKL_VERSION = $(shell cat VERSION)
 LOGIN_SHELL ?= sh
