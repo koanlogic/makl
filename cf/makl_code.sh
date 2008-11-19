@@ -1,5 +1,5 @@
 #
-# $Id: makl_code.sh,v 1.11 2008/11/19 11:29:23 stewy Exp $
+# $Id: makl_code.sh,v 1.12 2008/11/19 11:44:19 stewy Exp $
 #
 
 ##\brief Compile a C file.
@@ -202,14 +202,16 @@ makl_checkfunc ()
         "${ECHO}"    "int main() {"
         "${ECHO}" -n "    ${id}("
         i=0
-        while [ ${i} -lt ${nargs} ]; do
-            last=`expr ${nargs} - 1`
-            "${ECHO}" -n "0"
-            if [ ${i} -ne ${last} ]; then
-                "${ECHO}" -n ","
-            fi
-            i=`expr ${i} + 1`  # avoid bash-ism: "i=$((${i}+1))"
-        done
+        if [ ${nargs} ]; then
+            while [ ${i} -lt ${nargs} ]; do
+                last=`expr ${nargs} - 1`
+                "${ECHO}" -n "0"
+                if [ ${i} -ne ${last} ]; then
+                    "${ECHO}" -n ","
+                fi
+                i=`expr ${i} + 1`  # avoid bash-ism: "i=$((${i}+1))"
+            done
+        fi
         "${ECHO}" ");"
         "${ECHO}"    "    return 0;"
         "${ECHO}"    "}"
