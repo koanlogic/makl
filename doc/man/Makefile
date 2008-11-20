@@ -1,7 +1,9 @@
-# $Id: Makefile,v 1.4 2008/11/20 10:40:39 stewy Exp $
+# $Id: Makefile,v 1.5 2008/11/20 12:00:08 tho Exp $
 
 include common.mk
 include ../../Makefile.conf
+
+ifndef NO_MAN
 
 MANFILES = $(XML_SRCS:.xml=)
 
@@ -16,3 +18,7 @@ clean: ; rm -f $(MANFILES)
 hint: ; @echo "groff -Wall -mtty-char -Tascii -mandoc -c <page>"
 
 include man.mk
+
+else    # NO_MAN
+% ::
+endif   # !NO_MAN
