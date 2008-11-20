@@ -106,22 +106,22 @@ makl_checksymbol 0 "VERY_UNUSUAL_SYMBOL"
 # Expected output is the same as per 'makl_checktype', with the function 
 # symbolic name (the 2nd argument) substituting the type name.
 #
-makl_checkfunc 0 "daemon"       "" "<stdlib.h>"
-makl_checkfunc 0 "setsockopt"   "" "<sys/socket.h>"
-makl_checkfunc 0 "getpid"       "" "<unistd.h>"
-makl_checkfunc 0 "link"         "" "<unistd.h>"
-makl_checkfunc 0 "unlink"       "" "<unistd.h>"
-makl_checkfunc 0 "sleep"        "" "<unistd.h>"
-makl_checkfunc 0 "mkstemps"     "" "<unistd.h>"
-makl_checkfunc 0 "fnmatch"      "" "<fnmatch.h>"
-makl_checkfunc 0 "strtok_r"     "" "<string.h>"
-makl_checkfunc 0 "strsep"       "" "<string.h>"
-makl_checkfunc 0 "strlcpy"      "" "<string.h>"
-makl_checkfunc 0 "strlcat"      "" "<string.h>"
-makl_checkfunc 0 "gettimeofday" "" "<sys/time.h>"
-makl_checkfunc 0 "timegm"       "" "<time.h>"
-makl_checkfunc 0 "syslog"       "" "<syslog.h>"
-makl_checkfunc 0 "strange_foo"  ""
+makl_checkfunc 0 "daemon"       2   "" "<stdlib.h>"
+makl_checkfunc 0 "setsockopt"   5   "" "<sys/socket.h>"
+makl_checkfunc 0 "getpid"       0   "" "<unistd.h>"
+makl_checkfunc 0 "link"         2   "" "<unistd.h>"
+makl_checkfunc 0 "unlink"       1   "" "<unistd.h>"
+makl_checkfunc 0 "sleep"        1   "" "<unistd.h>"
+makl_checkfunc 0 "mkstemps"     2   "" "<unistd.h>"
+makl_checkfunc 0 "fnmatch"      3   "" "<fnmatch.h>"
+makl_checkfunc 0 "strtok_r"     3   "" "<string.h>"
+makl_checkfunc 0 "strsep"       2   "" "<string.h>"
+makl_checkfunc 0 "strlcpy"      3   "" "<string.h>"
+makl_checkfunc 0 "strlcat"      3   "" "<string.h>"
+makl_checkfunc 0 "gettimeofday" 2   "" "<sys/time.h>"
+makl_checkfunc 0 "timegm"       1   "" "<time.h>"
+makl_checkfunc 0 "syslog"       2   "" "<syslog.h>"
+makl_checkfunc 0 "strange_foo" 100  ""                  # 100 arguments!
 
 #
 # Check for strerror() availability and flavour.
