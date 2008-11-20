@@ -57,6 +57,16 @@ __makl_boot_file ()
     BOOT_FILE="$@"
 }
 
+makl_args_def       \
+    "no_man"        \
+    "" ""           \
+    "disable compilation of man pages (using xml2man)"
+__makl_no_man ()
+{
+    makl_set_var_mk "NO_MAN"
+}
+
+
 # tool deps
 makl_optional           1    "featx"   "xml2man"    "PATH_XML2MAN"
 
