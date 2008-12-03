@@ -1,0 +1,29 @@
+#
+# provided by Thomas Kotschenreuther
+#
+# $Id: tricore.tc,v 1.1 2008/12/03 21:05:38 tho Exp $
+
+CC = tricore-gcc
+CPP = ${CC} -E
+CXX = tricore-g++
+CFLAGS = -pipe
+CXXFLAGS = ${CFLAGS}
+AR = ar
+ARFLAGS = cq
+RANLIB = tricore-ranlib
+LD = tricore-ld
+LDFLAGS = __UNSET__
+ECHO = echo
+NM = tricore-nm
+STRIP = tricore-strip
+STRIP_FLAGS = -x
+INSTALL = install
+INSTALL_COPY = -c
+INSTALL_STRIP = -s
+TSORT = tsort
+# avoid circular dependencies error
+PRE_LDADD = -Wl,--start-group
+POST_LDADD = -Wl,--end-group
+MKINSTALLDIRS = ${MAKL_DIR}/helpers/mkinstalldirs
+MKDEP = ${MAKL_DIR}/helpers/mkdep.gcc.sh
+LORDER = ${MAKL_DIR}/helpers/lorder

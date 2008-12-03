@@ -66,9 +66,8 @@ __makl_no_man ()
     makl_set_var_mk "NO_MAN"
 }
 
-
 # tool deps
-makl_optional           1    "featx"   "xml2man"    "PATH_XML2MAN"
+makl_optional   1 "featx" "xml2man" "PATH_XML2MAN"
 
 makl_args_handle "$@"
 
