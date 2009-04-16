@@ -449,14 +449,14 @@ WARN_LOGFILE           =
 # documented source files. You may enter file names like "myfile.cpp" or 
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
-INPUT =        dokl/makl_args_handle.dokl \
-               dokl/makl_code.dokl \
-               dokl/makl_conf.dokl \
-               dokl/makl_deps.dokl \
-               dokl/makl_libdep.dokl \
-               dokl/makl_utils.dokl \
-               dokl/makl_utils_tab.dokl \
-               dokl/makl_var.dokl
+INPUT =        dokl/makl_args_handle.sh.dokl \
+               dokl/makl_code.sh.dokl \
+               dokl/makl_conf.sh.dokl \
+               dokl/makl_deps.sh.dokl \
+               dokl/makl_libdep.sh.dokl \
+               dokl/makl_utils.sh.dokl \
+               dokl/makl_utils_tab.sh.dokl \
+               dokl/makl_var.sh.dokl
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
