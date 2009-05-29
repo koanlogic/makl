@@ -1,6 +1,9 @@
-$Id: ChangeLog,v 1.75 2009/02/20 09:20:56 tho Exp $
+$Id: ChangeLog,v 1.76 2009/05/29 15:27:21 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
+
+MaKL x.y.z
+	- set /bin/bash as default shell on Linux (avoid Ubuntu dash !)
 
 MaKL 1.8.0
 	- added tricore toolchain provided by Thomas Kotschenreuther
