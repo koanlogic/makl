@@ -1,10 +1,10 @@
-$Id: ChangeLog,v 1.77 2009/09/03 14:54:29 tho Exp $
+$Id: ChangeLog,v 1.78 2009/09/04 13:00:28 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL x.y.z
 	- set /bin/bash as default shell on Linux (avoid Ubuntu dash !)
-	- default RM has -f flag (fix regression bug that break lex/yacc compatibility)
+	- force $(RM) -f during lex/yacc deps execution
 
 MaKL 1.8.0
 	- added tricore toolchain provided by Thomas Kotschenreuther

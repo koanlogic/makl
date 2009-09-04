@@ -1,4 +1,4 @@
-# $Id: default.tc,v 1.21 2009/09/03 14:54:29 tho Exp $
+# $Id: default.tc,v 1.22 2009/09/04 13:00:28 tho Exp $
 #
 # Default toolchain.
 # DO NOT EDIT, to match your platform, just override the needed values.
@@ -32,7 +32,7 @@ CUT = cut
 ECHO = echo
 GREP = grep
 MV = mv
-RM = rm -f
+RM = rm
 SED = sed
 TOUCH = touch
 TR = tr
