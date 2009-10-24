@@ -1,8 +1,8 @@
-$Id: ChangeLog,v 1.78 2009/09/04 13:00:28 tho Exp $
+$Id: ChangeLog,v 1.79 2009/10/24 06:16:49 tho Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
-MaKL x.y.z
+MaKL 1.8.1
 	- set /bin/bash as default shell on Linux (avoid Ubuntu dash !)
 	- force $(RM) -f during lex/yacc deps execution
 
