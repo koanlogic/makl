@@ -1,0 +1,1 @@
+( cd $WRKSRC && /bin/sh configure.sh --prefix=$PREFIX )
