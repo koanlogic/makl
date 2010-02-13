@@ -107,3 +107,15 @@ share/makl-1.8.1/tmpl/subdir.tmpl
 share/makl-1.8.1/tmpl/xeno.tmpl
 share/makl-1.8.1/tmpl/subst.tmpl
 bin/maklsh
+@dirrm share/makl-1.8.1/maklsh
+@dirrm share/makl-1.8.1/cf/helpers
+@dirrm share/makl-1.8.1/cf
+@dirrm share/makl-1.8.1/mk/priv
+@dirrm share/makl-1.8.1/mk 
+@dirrm share/makl-1.8.1/tc      
+@dirrm share/makl-1.8.1/etc 
+@dirrm share/makl-1.8.1/shlib
+@dirrm share/makl-1.8.1/helpers
+@dirrm share/makl-1.8.1/setup
+@dirrm share/makl-1.8.1/tmpl
+@dirrm share/makl-1.8.1    
