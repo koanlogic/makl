@@ -11,7 +11,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GNU make templates for building C/C++ projects
  MaKL is a simple and light framework for building multi-platform C/C++ 
  projects, purely based on the Bourne Shell and GNU Make.  It provides a set
- of GNU make templates to ease the creation and maintainance of Makefile's, and
+ of GNU make templates to ease the creation and maintenance of Makefile's, and
  a rich Bourne shell API to create configure scripts.
  It is ideal for embedded systems due to its cross-compilation, multiplatform
  toolchaining mechanisms, and minimal external dependencies.
