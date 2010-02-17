@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2010/02/17 11:46:25 tho Exp $
+# $Id: Makefile,v 1.2 2010/02/17 16:57:16 tho Exp $
 
 MAKL_VERSION = 1.8.1
 MAKL_TARBALL = makl-$(MAKL_VERSION).tar.gz
@@ -6,6 +6,8 @@ MAKL_URL = http://koanlogic.com/download/makl/$(MAKL_TARBALL)
 MAKL_NAME = makl-$(MAKL_VERSION)
 MAKL_DEB_NAME = $(subst -,_, $(MAKL_NAME))
 MAKL_DIR = $(MAKL_NAME)
+
+KL_MAKL_DIR = root@koanlogic.com:/var/www-anemic/www/download/makl/
 
 # collect all the generated bits together
 collect: pkg ; mkdir __collect__ && mv $(MAKL_DEB_NAME)* __collect__
@@ -26,3 +28,7 @@ $(MAKL_TARBALL): ; wget $(MAKL_URL)
 clean: ; rm -rf $(MAKL_DIR) $(MAKL_DEB_NAME)* __collect__
 
 distclean: clean ; rm -f $(MAKL_TARBALL)
+
+# upload to kl.com
+upload: ; ( cd __collect__ && scp * $(KL_MAKL_DIR) )
+

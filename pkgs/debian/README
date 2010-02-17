@@ -1,4 +1,5 @@
 * make sure you're on a Debian host :)
 * in Makefile, set MAKL_VERSION as needed
-* type "makl"
+* type "make"
 * if everything was ok, the __collect__ directory holds all the produced pkgs 
+* you can upload to kl.com via "make upload"
