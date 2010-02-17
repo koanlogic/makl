@@ -1,3 +1,5 @@
 * If the port creates directories during installation, make sure to add @dirrm 
   lines to remove them when the package is deleted.
   [DONE]
+
+* pkg build howto
