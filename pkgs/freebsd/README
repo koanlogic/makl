@@ -1,4 +1,5 @@
 * make sure you're on a FreeBSD host
 * in Makefile, set PORTVERSION as needed
-* type "make"
+* become root and type "make package PREFIX=/var/tmp/makl"
 * if everything was ok there will be a makl-X.Y.Z.tbz file in this directory
+* to upload makl pkg to kl site use the upload.sh script
