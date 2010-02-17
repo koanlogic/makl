@@ -1,0 +1,12 @@
+diff -Naur makl-1.8.1-orig/bin/Makefile makl-1.8.1/bin/Makefile
+--- makl-1.8.1-orig/bin/Makefile	2008-10-11 21:24:57.000000000 +0200
++++ makl-1.8.1/bin/Makefile	2010-02-17 16:10:26.000000000 +0100
+@@ -28,7 +28,7 @@
+ install-hook-post:
+ 	for f in $(LINKS) ; do                      \
+ 	    rm -f $(BINDIR)/$$f ;                   \
+-	    ln -s $(BINDIR)/$(call frame-it, $(SCRIPT)) $(BINDIR)/$$f ; \
++	    ( cd $(BINDIR) && ln -s $(call frame-it, $(SCRIPT)) $$f ) ; \
+ 	done
+ 
+ uninstall-hook-pre:

@@ -1,0 +1,5 @@
+* make sure you're on a RedHat host
+* in Makefile set MAKL_VERSION as needed
+* in makl.spec change Version, Release and Source as needed
+* become root and type "make" ("sudo make")
+* if everything was ok, the __collect__ directory holds all the produced pkgs 
