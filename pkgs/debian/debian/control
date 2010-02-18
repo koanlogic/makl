@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
 
 Package: makl
-Architecture: any
+Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GNU make templates for building C/C++ projects
  MaKL is a simple and light framework for building multi-platform C/C++ 

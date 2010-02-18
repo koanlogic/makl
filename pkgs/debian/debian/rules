@@ -1,44 +1,48 @@
 #!/usr/bin/make -f
 
-WD := $(shell pwd)
-DD := $(WD)/debian/makl/usr
+include /usr/share/quilt/quilt.make
+
+# set this !
+MAKL_VERSION := 1.8.1
+
+# absolute, used by configure when doing path substitutions
+DD := /usr
 MD := $(DD)/share/man
+
+WD := $(shell pwd)
+DD_BUILDROOT := $(WD)/debian/makl/usr
+
+# local, used when building the package
+BD_BUILDROOT := $(DD_BUILDROOT)/bin
+MR_BUILDROOT := $(DD_BUILDROOT)/share/makl-$(MAKL_VERSION)
+MD_BUILDROOT := $(DD_BUILDROOT)/share/man
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-config.status: configure
+configure: configure-stamp
+config-stamp: $(QUILT_STAMPFN)
 	dh_testdir
 	# configure command
 	/bin/sh configure.sh --prefix=$(DD) --dir-man=$(MD)
-
-build: build-stamp
-
-build-stamp:  config.status
-	dh_testdir
-	# nothing to build
-	touch $@
+	@touch $@
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
+	rm -f config-stamp $(QUILT_STAMPFN)
 	# nothing to clean
 	dh_clean 
 
-install: build
+install: config-stamp
 	dh_testdir
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	$(MAKE) install
+	make install MAKL_ROOT=$(MR_BUILDROOT) BINDIR=$(BD_BUILDROOT) MANDIR=$(MD_BUILDROOT)
 
 # Build architecture-independent files here.
 binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs ChangeLog
@@ -61,5 +65,8 @@ binary-arch: build install
 	dh_md5sums
 	dh_builddeb
 
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+# Build architecture-dependent files here.
+# MaKL has no architecture dependent files.
+
+binary: binary-indep
+.PHONY: build clean binary-indep binary install 
