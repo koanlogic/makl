@@ -11,7 +11,7 @@ CATEGORIES=	devel
 MASTER_SITES=	http://koanlogic.com/download/makl/
 
 MAINTAINER=	tho@koanlogic.com
-COMMENT=	GNU make wrapper and autotools replacement
+COMMENT=	GNU make templates library and autotools replacement
 
 RUN_DEPENDS=	${LOCALBASE}/bin/gmake:${PORTSDIR}/devel/gmake
 
