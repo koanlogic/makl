@@ -7,6 +7,7 @@ Group: Development/Tools
 Source: http://koanlogic.com/makl/download/makl-1.8.1.tar.gz
 Patch: makl-buildroot-symlink.patch
 BuildRoot: /var/tmp/%{name}-buildroot
+BuildArch: noarch
 
 %description
 MaKL is a simple and light framework for building multi-platform C/C++
