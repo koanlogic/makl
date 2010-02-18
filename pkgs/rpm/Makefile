@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 2010/02/17 16:57:55 tho Exp $ 
+# $Id: Makefile,v 1.3 2010/02/18 14:39:17 tho Exp $ 
 
 MAKL_VERSION = 1.8.1
 MAKL_TARBALL = makl-$(MAKL_VERSION).tar.gz
@@ -10,7 +10,7 @@ RH_SOURCES = /usr/src/redhat/SOURCES
 RH_MAKL_TARBALL = $(RH_SOURCES)/$(MAKL_TARBALL)
 RH_MAKL_PATCH = $(RH_SOURCES)/makl-buildroot-symlink.patch
 
-KL_MAKL_DIR = root@koanlogic.com:/var/www-anemic/www/download/makl/
+KL_MAKL_DIR = root@koanlogic.com:/var/www-anemic/www/download/makl/rpm
 
 # collect the bits together
 collect: .CREATED
