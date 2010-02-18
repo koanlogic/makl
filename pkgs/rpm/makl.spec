@@ -22,10 +22,10 @@ toolchaining mechanisms, and minimal external dependencies.
 %patch -p1 -b .buildroot
 
 %build
-sh configure.sh --prefix=%{buildroot}/usr
+sh configure.sh --prefix=/usr
 
 %install
-make install
+make install MAKL_ROOT=%{buildroot}/usr/share/makl-%{version} BINDIR=%{buildroot}/usr/bin MANDIR=%{buildroot}/usr/share/man
 
 %clean
 rm -rf $RPM_BUILD_ROOT
