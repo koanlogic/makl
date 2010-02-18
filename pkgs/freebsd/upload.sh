@@ -10,4 +10,4 @@ v=$(echo "$v" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 makl_pkg="makl-$v.tbz"
 
 # upload
-scp $makl_pkg root@koanlogic.com:/var/www-anemic/www/download/makl/
+scp $makl_pkg root@koanlogic.com:/var/www-anemic/www/download/makl/freebsd
