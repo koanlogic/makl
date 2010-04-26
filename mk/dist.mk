@@ -1,5 +1,5 @@
 #
-# $Id: dist.mk,v 1.25 2008/09/23 15:28:03 tat Exp $
+# $Id: dist.mk,v 1.26 2010/04/26 08:42:49 tho Exp $
 #
 # User Variables:
 # - PKG_NAME        Name of the package
@@ -157,6 +157,7 @@ all install uninstall clean depend cleandepend:
 	@echo "ZIPEXT        compressed file extension                        "
 	@echo "TAR           tar(1) compatible command to use                 "
 	@echo "TAR_ARGS      arguments to TAR                                 "
+	@echo "MD5SUM        tool used to compute the tarball checksum        "
 	@echo
 	@echo "If in doubt, check the source file at $(MAKL_DIR)/mk/dist.mk   "
 	@echo
