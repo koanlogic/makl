@@ -1,5 +1,5 @@
 #
-# $Id: makl_args_handle.sh,v 1.13 2008/11/17 16:53:25 tho Exp $
+# $Id: makl_args_handle.sh,v 1.14 2010/05/02 10:33:47 stewy Exp $
 #
 
 ##\brief Initialise command line arguments. 
@@ -364,7 +364,7 @@ __makl_disable ()
     
     req=`makl_tab_get ${f_feat} "$2" 2`
     [ "${req}" = "1" ] && makl_err 2 "cannot disable a required feature!"
-    makl_tab_set "${f_feat}" "$2" 3 "00"
+    makl_tab_set "${f_feat}" "$2" 2 "00"
 }
 
 ##\brief Handler. Set parameters for an executable feature.
