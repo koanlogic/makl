@@ -1,15 +1,21 @@
 #
-# $Id: makl_utils_tab.sh,v 1.10 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_utils_tab.sh,v 1.11 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Find an identifier.
-##
-##  Check whether id \e $2 exists in table \e $1. 
-##
-##   \param $1 table file
-##   \param $2 id to be searched for
-##   \return 0 if found, 1 otherwise.
-##
+#/*! 
+#    @header    Tabs    Tabs handling routines
+#*/
+
+#/*! @function      makl_tab_find
+#
+#    @abstract      Find an identifier.
+#    @discussion    Check whether id <tt>$2</tt> exists in table <tt>$1</tt>.
+#
+#    @param $1  table file
+#    @param $2  id to be searched for
+#
+#    @return    0 if found, 1 otherwise.
+#*/
 makl_tab_find ()
 {
     [ -r "$1" ] || return 1
@@ -19,16 +25,19 @@ makl_tab_find ()
     return $?
 }
 
-##\brief Set the value of an element corresponding to an identifier.
-##
-##  Set variable entry in table \e $1 with id \e $2 and at column 
-##  \e $3 to val \e $4.
-##
-##   \param $1 table file 
-##   \param $2 id (row)
-##   \param $3 column number
-##   \param $@ value
-##
+#/*! @function      makl_tab_set
+#
+#    @abstract      Set the value of an element corresponding to an identifier.
+#    @discussion    Set variable entry in table <tt>$1</tt> with id <tt>$2</tt>
+#                   and at column <tt>$3</tt> to val <tt>$4</tt>.
+#
+#    @param $1  table file 
+#    @param $2  id (row)
+#    @param $3  column number
+#    @param $@  value
+#
+#    @return    0 on success, 1 on failure
+#*/
 makl_tab_set ()
 { 
     tab="$1"
@@ -83,13 +92,14 @@ makl_tab_set ()
     return 0    
 }
 
-##\brief Set row to given arguments.
-##
-##  Set row of table \e $1 to given arguments \e $@.
-##
-##   \param $1 table file
-##   \param $@ row values
-##
+#/*! @function      makl_tab_set_row
+#
+#    @abstract      Set row to given arguments.
+#    @discussion    Set row of table <tt>$1</tt> to given arguments <tt>$@</tt>.
+#
+#    @param $1  table file 
+#    @param $@  row values
+#*/
 makl_tab_set_row ()
 {
     line=""
@@ -117,15 +127,18 @@ makl_tab_set_row ()
     "${ECHO}" "${line}" >> "${file}"
 }
 
-##\brief Get a column value given an identifier.
-##
-##  Get column \e $3 of element with id \e $2 in file \e $1.
-##
-##   \param $1 table file 
-##   \param $2 identifier to be retrieved
-##   \param $3 target column
-##   \return 0 if the element was found, 1 otherwise.
-##
+#/*! @function      makl_tab_get
+#
+#    @abstract      Get a column value given an identifier.
+#    @discussion    Get column <tt>$3</tt> of element with id <tt>$2</tt> in 
+#                   file <tt>$1</tt>.
+#
+#    @param $1  table file 
+#    @param $2  identifier to be retrieved
+#    @param $3  target column
+#
+#    @return    0 if the element was found, 1 otherwise.
+#*/
 makl_tab_get ()
 {
     tab="$1"
@@ -155,27 +168,30 @@ makl_tab_get ()
     return $?
 }
 
-##\brief Output an element at an index of a row.
-##
-##  Output element at index \e $2 of row \e $1.
-##
-##   \param $1 string of elements
-##   \param $2 index of element
-##
+#/*! @function      makl_tab_elem
+#
+#    @abstract      Output an element at an index of a row. 
+#    @discussion    Output element at index <tt>$2</tt> of row <tt>$1</tt>.
+#
+#    @param $1  string of elements
+#    @param $2  index of element
+#*/
 makl_tab_elem ()
 {
     "${ECHO}" "$1" | "${CUT}" -s -f "$2" -d "|"
 }
 
-##\brief Get variable by name given a list of variables.
-##
-##  Get variable by name \e $2 given a list of variables \e $1.
-##  A semicolon is used as a list separator.
-##
-##   \param $1 input string
-##   \param $2 required var
-##   \return 0 if the variable was found, 1 otherwise.
-##
+#/*! @function      makl_tab_var
+#
+#    @abstract      Get variable by name given a list of variables.
+#    @discussion    Get variable by name <tt>$2</tt> given a list of variables 
+#                   <tt>$1</tt>.  A semicolon is used as a list separator.
+#
+#    @param $1  input string
+#    @param $2  required var
+#
+#    @return    0 if the variable was found, 1 otherwise.
+#*/
 makl_tab_var ()
 {
     i=1

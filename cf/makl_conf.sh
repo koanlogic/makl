@@ -1,12 +1,17 @@
-# 
-# $Id: makl_conf.sh,v 1.6 2008/11/14 13:11:17 tho Exp $
+#
+# $Id: makl_conf.sh,v 1.7 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Process configuration output from cache.
-##
-##  Process configuration output (\e ${makl_conf_h} and 
-##  \e ${makl_makefile_conf}) from internal cache. 
-##
+#/*!
+#   @header Configuration   Top Level Auto-configuration interface.
+#*/
+
+#/*!
+#   @function   makl_process_conf
+#   @abstract   Process configuration output from cache.
+#   @discussion Process configuration output (i.e. <tt>${makl_conf_h}</tt>) 
+#               and <tt>${makl_makefile_conf}</tt>) from internal cache.
+#*/
 makl_process_conf ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -40,12 +45,12 @@ makl_process_conf ()
     makl_term_conf_h
 }
 
-##\brief Parse a line and output to mk file.
-##
-##  Parse a line \e $1 and output to mk file.
-##
-##   \param $1 line to be processed
-##
+#/*!
+#   @function   makl_process_mk
+#   @abstract   Parse a line and output to mk file.
+#   @discussion Parse line <tt>$1</tt> and output to mk file.
+#   @param  $1  line to be processed
+#*/
 makl_process_mk ()
 {
     var=`makl_tab_elem "$1" 1`
@@ -62,12 +67,12 @@ makl_process_mk ()
     fi
 }
 
-##\brief Parse a line and output to h file.
-##
-##  Parse a line \e $1 and output to h file.
-##
-##   \param $1 line to be processed
-##
+#/*!
+#   @function   makl_process_h
+#   @abstract   Parse a line and output to h file.
+#   @discussion Parse a line <tt>$1</tt> and output to h file.
+#   @param  $1  line to be processed
+#*/
 makl_process_h ()
 {
     var=`makl_tab_elem "$1" 1`
@@ -90,10 +95,11 @@ makl_process_h ()
     } >> "${makl_conf_h}"
 }
 
-##\brief Initialise output header file.
-##
-##  Initialise output header file \e ${makl_conf_h}.
-##
+#/*!
+#   @function   makl_init_conf_h
+#   @abstract   Initialise output header file.
+#   @discussion Initialise output header file <tt>${makl_conf_h}</tt>.
+#*/
 makl_init_conf_h ()
 {
     args=`makl_get "__args__"`
@@ -111,10 +117,12 @@ makl_init_conf_h ()
     } > "${makl_conf_h}"
 }
 
-##\brief Initialise output makefile configuration.
-##
-##  Initialise output makefile configuration \e ${makl_makefile_conf}.
-##
+#/*!
+#   @function   makl_init_makefile_conf
+#   @abstract   Initialise output makefile configuration.
+#   @discussion Initialise output makefile configuration 
+#               <tt>${makl_makefile_conf}</tt>.
+#*/
 makl_init_makefile_conf ()
 {
     args=`makl_get "__args__"`
@@ -126,10 +134,11 @@ makl_init_makefile_conf ()
     } > "${makl_makefile_conf}"
 }
 
-##\brief Terminate output header file.
-##
-##  Terminate output header file \e ${makl_conf_h}.
-##
+#/*!
+#   @function   makl_term_conf_h
+#   @abstract   Terminate output header file.
+#   @discussion Terminate output header file <tt>${makl_conf_h}</tt>.
+#*/
 makl_term_conf_h ()
 {
     filename=`basename "${makl_conf_h}"`
@@ -139,10 +148,12 @@ makl_term_conf_h ()
     "${ECHO}" "#endif /* !_${file}_ */" >> "${makl_conf_h}"
 }
 
-##\brief Terminate output makefile configuration.
-##
-##  Terminate output makefile configuration \e ${makl_makefile_conf}
-##
+#/*!
+#   @function   makl_term_mk
+#   @abstract   Terminate output makefile configuration.
+#   @discussion Terminate output makefile configuration 
+#               <tt>${makl_makefile_conf}</tt>.
+#*/
 makl_term_mk ()
 {
     "${ECHO}" >> "${makl_makefile_conf}"

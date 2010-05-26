@@ -1,14 +1,16 @@
 #
-# $Id: makl_args_handle.sh,v 1.14 2010/05/02 10:33:47 stewy Exp $
+# $Id: makl_args_handle.sh,v 1.15 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Initialise command line arguments. 
-##
-##  Initialise command-line arguments \e $@ . This should be the first call in 
-##  the configure script after global initialisation (\e makl_init).
-##
-##  \param $@ command line arguments
-##
+#/*! @function      makl_args_init
+#
+#    @abstract      Initialise command line arguments.
+#    @discussion    Initialise command-line arguments <tt>$@</tt> . This should
+#                   be the first call in the configure script after global 
+#                   initialisation (<tt>makl_init</tt>).
+#
+#    @param $@  command line arguments
+#*/
 makl_args_init ()
 {
     makl_info "preprocessing command-line arguments"
@@ -43,13 +45,15 @@ makl_args_init ()
     makl_check_tools 1 "${TSORT}"
 }
 
-##\brief Process the configure command-line arguments. 
-##
-##  Process the configure command-line arguments. This should be the last call 
-##  in the configure script (before \e makl_term()).
-##
-##   \param $@ command line arguments 
-##
+#/*! @function      makl_args_handle
+#
+#    @abstract      Process the configure command-line arguments.
+#    @discussion    Process the configure command-line arguments. This should 
+#                   be the last call in the configure script (before 
+#                   <tt>makl_term</tt>).
+#
+#    @param $@  command line arguments
+#*/
 makl_args_handle ()
 {
     makl_info "handling command-line arguments"
@@ -77,7 +81,8 @@ makl_args_handle ()
                 ;;
                
             *)
-                [ "${pref}" = "--" ] || _makl_args_err "Undefined command: ${arg}!"
+                [ "${pref}" = "--" ] || \
+                    _makl_args_err "Undefined command: ${arg}!"
                 _makl_arg_handle "${arg}"
                 ;;
         esac
@@ -107,17 +112,13 @@ _makl_help_print ()
     } > configure.help
 }
 
-
-##\brief Handler. RESERVED for makl internals
+## Handler. RESERVED for makl internals
 __makl_makl () 
 {
     makl_dbg "ignoring internal handler 'makl' (id=$1, val=$2)"
 }
     
-##\brief Handler. Print out the help menu.
-##
-##  Print out the help menu.
-## 
+## Handler. Print out the help menu.
 __makl_help () 
 {
     [ $# -eq 0 ] || _makl_args_err "--help: wrong number of arguments!"
@@ -129,9 +130,7 @@ __makl_help ()
     makl_cleanup_rundir
 }
 
-##\brief Handler. Generate configure.help. 
-##
-##  Generate new configure.help based on configuration.
+## Handler. Generate new configure.help based on configuration.
 __makl_help_gen ()
 {
     [ $# -eq 0 ] || _makl_args_err "--help_gen: wrong number of arguments!"
@@ -139,9 +138,7 @@ __makl_help_gen ()
     _makl_help_print
 }
 
-##\brief Handler. Activate verbose debugging output.
-##
-##
+## Handler. Activate verbose debugging output.
 __makl_verbose ()
 {
     [ $# -eq 0 ] || _makl_args_err "--verbose: wrong number of arguments!"
@@ -149,9 +146,7 @@ __makl_verbose ()
     makl_set "__verbose__" 1
 }
 
-##\brief Handler. Print out the version.
-##
-##
+## Handler. Print out the version.
 __makl_version ()
 {
     [ $# -eq 0 ] || _makl_args_err "--version: wrong number of arguments!"
@@ -173,10 +168,7 @@ __makl_version ()
     makl_cleanup_rundir
 }
 
-## \brief Print out the help options.
-##
-##  Print out the help options.
-##
+## Print out the help options.
 _makl_help_opts() 
 {
     file_args="${makl_run_dir}"/args 
@@ -209,10 +201,7 @@ _makl_help_opts()
     }
 }
 
-##\brief Handler. Don't clean cache at end of execution.
-##
-##  Don't clean cache at end of execution.
-##
+## Handler. Don't clean cache at end of execution.
 __makl_noclean ()
 {
     [ $# -eq 0 ] || _makl_args_err "--noclean: wrong number of arguments!"
@@ -220,11 +209,8 @@ __makl_noclean ()
     makl_set "__noclean__" 1
 }
 
-##\brief Handler. Configure for cross-compilation.
-##
-## Configure for cross-compilation. The only effect at present is to 
-## avoid code execution when testing code snippets.
-##
+## Handler.  Configure for cross-compilation. The only effect at present is to 
+##           avoid code execution when testing code snippets.
 __makl_cross_compile ()
 {
     [ $# -eq 0 ] || _makl_args_err "--cross_compile: wrong number of arguments!"
@@ -232,13 +218,8 @@ __makl_cross_compile ()
     makl_set "__cross_compile__" 1
 }
 
-##\brief Handler. Set the base installation directory.
-##
-##  Set the base installation directory to \e $1. Such directory will 
-##  become the default base directory for all data types.
-##
-##   \param $1 base installation directory
-##
+## Handler.  Set the base installation directory to $1. Such directory will 
+##           become the default base directory for all data types.
 __makl_prefix ()
 {
     [ $# -eq 1 ] || _makl_args_err "--prefix: wrong number of arguments!"
@@ -246,15 +227,9 @@ __makl_prefix ()
     makl_set "__prefix__" "$1"
 }
 
-##\brief Handler. Set the base directory for a specific data type.
-##
-##  Set the base directory for a specific data type \e $1. For a list of 
-##  valid data types please refer to ./configure --help. \e $2 indicates 
-##  the path to the base directory.
-##
-##   \param $1 directory type
-##   \param $2 directory path
-##
+## Handler.  Set the base directory for a specific data type $1.  
+##           For a list of valid data types please refer to "makl-conf --help".
+##           $2 indicates the path to the base directory.
 __makl_dir ()
 {
     [ $# -eq 2 ] || _makl_args_err "--dir: wrong number of arguments!"
@@ -267,12 +242,7 @@ __makl_dir ()
     makl_set_var `makl_upper $1`"DIR" "$2" 1
 }
 
-##\brief Handler. Set default file owner id.
-##
-##  Set the default file owner id to \e $1.
-##
-##  \param $1 owner id
-##  
+## Handler. Set the default file owner id to $1.
 __makl_defown ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defown: wrong number of arguments!"
@@ -280,12 +250,7 @@ __makl_defown ()
     makl_set_var_mk "DEFOWN" "$1"
 }
 
-##\brief Handler. Set default file group id.
-##
-##  Set default file group id to \e $1.
-##
-##  \param $1 group id
-##  
+## Handler.  Set default file group id to $1.
 __makl_defgrp ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defgrp: wrong number of arguments!"
@@ -293,13 +258,8 @@ __makl_defgrp ()
     makl_set_var_mk "DEFGRP" "$1"
 }
 
-##\brief Handler. Set default file mode for regular files.
-##
-##  Set default file mode for regular files to \e $1. The mode should be 
-##  a string formed by 3 octal digits (RWX).
-##
-##  \param $1 mode
-##  
+## Handler.  Set default file mode for regular files to $1. The mode should be 
+##           a string formed by 3 octal digits (RWX).
 __makl_defmode ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defmode: wrong number of arguments!"
@@ -310,13 +270,8 @@ __makl_defmode ()
     makl_set_var_mk "DEFMODE" "$1"
 }
 
-##\brief Handler. Set default file mode for binary files.
-##
-##  Set default file mode for binary files to \e $1. The mode should be 
-##  a string formed by 3 octal digits (RWX).
-##
-##  \param $1 mode
-##  
+## Handler.  Set default file mode for binary files to $1. The mode should be 
+##           a string formed by 3 octal digits (RWX).
 __makl_defbinmode ()
 {
     [ $# -eq 1 ] || _makl_args_err "--defbinmode: wrong number of arguments!"
@@ -327,54 +282,38 @@ __makl_defbinmode ()
     makl_set_var_mk "DEFBINMODE" "$1"
 }
 
-##\brief Handler. Enable a feature.
-##
-##  Enable a feature of type \e $1 with id \e $2.
-##  Please refer to ./configure --help for valid feature types and ids.
-##
-##  \param $1 feature type
-##  \param $2 feature id
-##
+## Handler.  Enable a feature of type $1 with id $2.  Please refer to 
+##           "makl-conf --help" for valid feature types and ids.
 __makl_enable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--enable: wrong number of arguments!"
 
     f_feat="${makl_run_dir}"/deps_"$1"
-    [ -f "${f_feat}" ] || _makl_args_err "--makl_enable: Invalid feature type $1"
+    [ -f "${f_feat}" ] || \
+        _makl_args_err "--makl_enable: Invalid feature type $1"
 
     req=`makl_tab_get ${f_feat} "$2" 2`
     [ "${req}" = "1" ] && makl_err 2 "cannot enable a required feature!"
     makl_tab_set ${f_feat} "$2" 2 "01"
 }
 
-##\brief Handler. Disable a feature.
-##
-##  Disable a feature of type \e $1 with id \e $2.
-##  Please refer to ./configure --help for valid feature types and ids.
-##
-##  \param $1 feature type
-##  \param $2 feature id
-##
+## Handler.  Disable a feature of type $1 with id $2.  Please refer to 
+##           "makl-conf --help" for valid feature types and ids.
 __makl_disable ()
 {
     [ $# -eq 2 ] || _makl_args_err "--disable: wrong number of arguments!"
 
     f_feat="${makl_run_dir}"/deps_"$1"
-    [ -f "${f_feat}" ] || _makl_args_err "--makl_disable: Invalid feature type $1"
+    [ -f "${f_feat}" ] || \
+        _makl_args_err "--makl_disable: Invalid feature type $1"
     
     req=`makl_tab_get ${f_feat} "$2" 2`
     [ "${req}" = "1" ] && makl_err 2 "cannot disable a required feature!"
     makl_tab_set "${f_feat}" "$2" 2 "00"
 }
 
-##\brief Handler. Set parameters for an executable feature.
-## 
-##  Set parameters for an executable feature \e $1. 
-##  \e $2 is the path of the file corresponding to the feature.
-##
-##   \param $1 feature id 
-##   \param $2 file to be executed
-##
+## Handler.  Set parameters for an executable feature $1; $2 is the path of 
+##           the file corresponding to the feature.
 __makl_featx ()
 {
     [ $# -eq 2 ] || _makl_args_err "--featx: wrong number of arguments!"
@@ -386,15 +325,8 @@ __makl_featx ()
     makl_tab_set "${f_featx}" "$1" 2 "$2"
 }
 
-##\brief Handler. Set parameters for a library dependency.
-##
-##  Set parameters for a library dependency \e $1. 
-##  \e $2 is the path of the base directory for the library.
-##
-##   \param $1 library id
-##   \param $2 library base directory
-##   \return 0 on success, 1 on argument error 
-##
+## Handler.  Set parameters for a library dependency $1; $2 is the path of the 
+##           base directory for the library.
 __makl_lib ()
 {
     [ $# -eq 2 ] || _makl_args_err "--lib: wrong number of arguments!"
@@ -407,11 +339,8 @@ __makl_lib ()
     makl_tab_set "${libs}" "$1" 2 "$2"
 }
 
-##\brief Handler. Set name of dir in which library should be sought.
-##
-## Set the name of the directory \e $2 from prefix in which 
-## library $1 should be sought. The default is 'lib' otherwise.
-##
+## Handler.  Set the name of the directory $2 from prefix in which library $1 
+##           should be sought. The default is 'lib' otherwise.
 __makl_find_lib ()
 {
     [ $# -eq 2 ] || _makl_args_err "--find_lib: wrong number of arguments!"
@@ -424,14 +353,8 @@ __makl_find_lib ()
     makl_tab_set "${libs}" "$1" 4 "$2"
 }
 
-##\brief Handler. Set parameters for all library dependencies.
-##
-##  Set parameters for all library dependencies. 
-##  \e $1 is the path of the base directory for the libraries.
-##
-##   \param $1 library base directory
-##   \return 0 on success, 1 on argument error 
-##
+## Handler.  Set parameters for all library dependencies: $1 is the path of the
+##           base directory for the libraries.
 __makl_libs ()
 {
     [ $# -eq 1 ] || _makl_args_err "--libs: wrong number of arguments!"
@@ -439,14 +362,8 @@ __makl_libs ()
     makl_set "__libs__" "$1"
 }
 
-##\brief Print an error message followed by usage.
-##
-##  Print an error message \e $1 followed by the usage. 
-##  This function is to be called on an user argument error.
-##  Give up with exit code 1.
-##
-##   \param $1 message
-##
+## Print an error message $1 followed by the usage printout.  This function is 
+## to be called on an user argument error.  Give up with exit code 1.
 _makl_args_err ()
 {
     __makl_help
@@ -454,12 +371,7 @@ _makl_args_err ()
     makl_err 1 "$1"
 }
 
-## \brief Handle an argument.
-##
-## Handle an command-line argument \e $1 by calling the corresponding function.
-## 
-##   \param $1 argument to be handled
-##
+## Handle the command-line argument $1 by calling the corresponding function.
 _makl_arg_handle ()
 {
     lval=`"${ECHO}" $1 | "${CUT}" -f1 -d"="`

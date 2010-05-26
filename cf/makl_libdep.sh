@@ -1,23 +1,27 @@
 #
-# $Id: makl_libdep.sh,v 1.7 2008/11/19 21:50:32 stewy Exp $
+# $Id: makl_libdep.sh,v 1.8 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Evaluate the library dependency
-##
-##  Evaluate a library dependency \e $1, given a base directory
-##  \e $2, CFLAGS \e $3, LDFLAGS \e $4 and directory for lib search $5.
-##  If no flags are specified, the id is used as a library name
-##  for linking. 
-##  On success, HAVE_$1, HAVE_$1_CFLAGS and HAVE_$1_LDADD and/or 
-##  HAVE_$1_LDFLAGS are defined.
-##
-##   \param $1 id
-##   \param $2 base directory ("" if not specified)
-##   \param $3 CFLAGS 
-##   \param $4 LDFLAGS
-##   \param $5 lib directory name
-##   \return '0' on success, '1' on failure.
-##
+#/*! @function      makl_compile
+#
+#    @abstract      Evaluate the library dependency.
+#    @discussion    Evaluate a library dependency <tt>$1</tt>, given a base 
+#                   directory <tt>$2</tt>, CFLAGS <tt>$3</tt>, LDFLAGS 
+#                   <tt>$4</tt> and directory for lib search <tt>$5</tt>.
+#                   If no flags are specified, the id is used as a library name
+#                   for linking.
+#                   On success, HAVE_<tt>$1</tt>, HAVE_<tt>$1</tt>_CFLAGS and 
+#                   HAVE_<tt>$1</tt>_LDADD and/or HAVE_<tt>$1</tt>_LDFLAGS are 
+#                   defined. (XXX check return code)
+#
+#    @param $1  library id
+#    @param $2  base directory ("" if not specified)
+#    @param $3  CFLAGS 
+#    @param $4  LDFLAGS
+#    @param $5  lib directory name
+#
+#    @return    0 on success, 1 (or 2) on failure
+#*/
 makl_libdep ()
 {
     dep=$1
@@ -67,8 +71,8 @@ makl_libdep ()
 
     # try also dynamic linkage
     if [ -z `makl_get "__verbose__"` ]; then
-        eval makl_compile ${tst} "${cflags_prog}" "${ldflags_prog}" 1> /dev/null \
-                          2> /dev/null
+        eval makl_compile ${tst} "${cflags_prog}" "${ldflags_prog}" \
+            1> /dev/null 2> /dev/null
     else 
         eval makl_compile ${tst} "${cflags_prog}" "${ldflags_prog}" 
     fi

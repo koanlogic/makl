@@ -1,15 +1,22 @@
 #
-# $Id: makl_code.sh,v 1.12 2008/11/19 11:44:19 stewy Exp $
+# $Id: makl_code.sh,v 1.13 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Compile a C file.
-##
-##  Compile a C file \e $1 with the supplied flags \e $2.
-## 
-##   \param $1 Pathname of the C file to be compiled 
-##   \param $2 flags to be passed to the compiler
-##   \return 0 on success, 1 on failure
-##
+#/*! 
+#    @header    Code   Code snippets
+#*/
+
+#/*! @function      makl_compile
+#
+#    @abstract      Compile a C file.
+#    @discussion    Compile a C file <tt>$1</tt> with the supplied flags 
+#                   <tt>$2</tt>.  
+#
+#    @param $1  pathname of the C file to be compiled 
+#    @param $2  flags to be passed to the compiler
+#
+#    @return    0 on success, 1 on failure
+#*/
 makl_compile ()
 {
     c_file="$1"
@@ -42,14 +49,17 @@ makl_compile ()
     return 0
 }
 
-##\brief Write to a C file. 
-##
-##  Write to a C file. Data is read from standard input.
-## 
-##   \param $1 name of file to be written
-##   \param $2 whether the code is a snippet (1) or entire C file (0)
-##   \param $3 file containing code
-##
+#/*! @function      makl_write_c
+#
+#    @abstract      Write to a C file.
+#    @discussion    Write to a C file. Data is read from standard input. 
+#
+#    @param $1  name of file to be written
+#    @param $2  whether the code is a snippet (1) or entire C file (0)
+#    @param $3  file containing code
+#
+#    @return    0 on success, 1 on failure
+#*/
 makl_write_c ()
 {
     # create a clean file
@@ -71,14 +81,17 @@ makl_write_c ()
     return 0
 }
 
-##\brief Compile C code.
-##
-##  Compile C code.
-##
-##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 file containing code 
-##   \param $3 flags to be passed to the compiler
-##
+#/*! @function      makl_compile_code
+#
+#    @abstract      Compile C code.
+#    @discussion    Compile C code...
+#
+#    @param $1  whether the code is a snippet (1) or entire C file (0)
+#    @param $2  file containing code 
+#    @param $3  flags to be passed to the compiler
+#
+#    @return    0 on success, 1 on failure
+#*/
 makl_compile_code ()
 {
     file="${makl_run_dir}"/makl_code.c
@@ -91,14 +104,18 @@ makl_compile_code ()
     return 0
 }
 
-##\brief Execute C code.
-##
-##  Execute C code.
-##
-##   \param $1 whether the code is a snippet (1) or entire C file (0)
-##   \param $2 file containing code
-##   \param $3 flags to be passed to the compiler
-## 
+#/*! @function      makl_exec_code
+#
+#    @abstract      Execute C code.
+#    @discussion    Execute C code...
+#
+#    @param $1  whether the code is a snippet (1) or entire C file (0)
+#    @param $2  file containing code
+#    @param $3  flags to be passed to the compiler
+#
+#    @return    0 on success, 1 on snippet write/compile failure,
+#               2 on runtime error of the executable
+#*/
 makl_exec_code ()
 {
     file="${makl_run_dir}"/makl_code.c
@@ -121,15 +138,19 @@ makl_exec_code ()
     return 0
 }
 
-##\brief Check resolution of a symbol
-##
-##  Define HAVE_$1 if symbol \e $1 can be resolved.
-##  \e $1 determines whether the feature is optional or required.
-##
-##   \param $1 0:optional/1:required
-##   \param $2 function name
-##   \param $3 flags to be passed to the compiler
-##
+#/*! @function      makl_checkresolv
+#
+#    @abstract      Check resolution of a symbol.
+#    @discussion    Define HAVE_<tt>$2</tt> if symbol <tt>$2</tt> can be 
+#                   resolved. <tt>$1</tt> determines whether the feature is 
+#                   optional or required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  symbol name
+#    @param $3  flags to be passed to the compiler
+#
+#    @return    0 if the requested symbol exists, 1 otherwise
+#*/
 makl_checkresolv ()
 {
     opt="$1"
@@ -168,17 +189,22 @@ EOF
     fi
 }
 
-##\brief Check existence of a function.
-##
-##  Define HAVE_$1 if function \e $1 is found.
-##  \e $1 determines whether the feature is optional or required.
-##
-##   \param $1 0:optional/1:required
-##   \param $2 function name
-##   \param $3 number of arguments 
-##   \param $4 flags to be pas"${SED}" to the compiler
-##   \param $* header files (optional)
-##
+#/*! @function      makl_checkfunc
+#
+#    @abstract      Check existence of a function.
+#    @discussion    Define HAVE_<tt>$2</tt> if function <tt>$2</tt> is found.
+#                   <tt>$1</tt> determines whether the feature is optional or 
+#                   required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  function name
+#    @param $3  number of function arguments
+#    @param $4  flags to be passed to the compiler
+#    @param $*  optional list of header files where function is possibly 
+#               declared
+#
+#    @return    0 if the requested function exists, 1 otherwise
+#*/
 makl_checkfunc ()
 {
     opt="$1"
@@ -223,23 +249,28 @@ makl_checkfunc ()
         makl_set_var "HAVE_"`makl_upper ${id}`
         return 0
     else
-        [ ${opt} -eq 0 ] || makl_err 1 "failed check on required function ${id}!"
+        [ ${opt} -eq 0 ] || \
+            makl_err 1 "failed check on required function ${id}!"
         makl_warn "failed check on optional function ${id}"
         makl_unset_var "HAVE_"`makl_upper ${id}`
         return 1
     fi
 }
 
-##\brief Check existence of a header.
-##
-##  Define HAVE_$2 if header \e $3 is found.
-##  \e $1 determines whether the feature is optional or required.
-##
-##  \param $1 0:optional,1:required
-##  \param $2 id of header
-##  \param $3 header file
-##  \param $* header files to include first
-##
+#/*! @function      makl_checkheader
+#
+#    @abstract      Check existence of a header.
+#    @discussion    Define HAVE_<tt>$2</tt> if header <tt>$2</tt> is found.
+#                   <tt>$1</tt> determines whether the feature is optional or 
+#                   required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  id of header
+#    @param $3  header file
+#    @param $*  header files to include first
+#
+#    @return    0 if the requested header exists, 1 otherwise
+#*/
 makl_checkheader ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -274,16 +305,19 @@ EOF
     fi
 }
 
-##\brief Check existence of a type.
-##
-##  Define HAVE_$1 if type \e $2 is found. 
-##  \e $1 determines whether the feature is optional or required.
-##  Extra includes can be listed in \e $*.
-## 
-##  \param $1 0:optional,1:required
-##  \param $2 data type
-##  \param $* includes
-##
+#/*! @function      makl_checktype
+#
+#    @abstract      Check existence of a type.
+#    @discussion    Define HAVE_<tt>$2</tt> if type <tt>$2</tt> is found.
+#                   <tt>$1</tt> determines whether the feature is optional or 
+#                   required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  data type
+#    @param $*  header files to include
+#
+#    @return    0 if the requested header exists, 1 otherwise
+#*/
 makl_checktype ()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -324,15 +358,19 @@ EOF
     fi
 }
 
-##\brief Check existence of an extern variable.
-##
-##  Define HAVE_$1 if the extern variable \e $2 is found. 
-##  \e $1 determines whether the feature is optional or required.
-## 
-##  \param $1 0:optional,1:required
-##  \param $2 extern variables
-##  \param $* optional compilation flags
-##
+#/*! @function      makl_checkextern
+#
+#    @abstract      Check existence of an extern variable.
+#    @discussion    Define HAVE_<tt>$2</tt> if the extern variable <tt>$2</tt> 
+#                   is found.  <tt>$1</tt> determines whether the feature is 
+#                   optional or required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  extern variable
+#    @param $*  optional compilation flags
+#
+#    @return    0 if the requested header exists, 1 otherwise
+#*/
 makl_checkextern()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -369,17 +407,19 @@ EOF
     fi
 }
 
-##\brief Check existence of a symbol
-##
-##  Define HAVE_$2 if the symbol \e $2 is found. 
-##  \e $1 determines whether the feature is optional or required.
-##   
-##  The symbol may be an external variable, function or a #define.
-##   
-##  \param $1 0:optional,1:required
-##  \param $2 symbol
-##  \param $* header files
-##
+#/*! @function      makl_checksymbol
+#
+#    @abstract      Check existence of a symbol.
+#    @discussion    Define HAVE_<tt>$2</tt> if the symbol <tt>$2</tt> 
+#                   is found.  <tt>$1</tt> determines whether the feature is 
+#                   optional or required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  symbol
+#    @param $*  header files
+#
+#    @return    0 if the requested header exists, 1 otherwise
+#*/
 makl_checksymbol()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -423,16 +463,21 @@ EOF
     fi
 }
 
-##\brief Check existence of an element in a struct
-##
-##  Define HAVE_$2_$3 if the element \e $3 exists in the struct \e $2
-##  \e $1 determines whether the feature is optional or required.
-##   
-##  \param $1 0:optional,1:required
-##  \param $2 type
-##  \param $3 elem
-##  \param $* header files
-##
+#/*! @function      makl_checkstructelem
+#
+#    @abstract      Check existence of an element in a struct.
+#    @discussion    Define HAVE_<tt>$2</tt>_<tt>$3</tt> if the element 
+#                   <tt>$3</tt> exists in the struct <tt>$2</tt>.  
+#                   <tt>$1</tt> determines whether the feature is optional or 
+#                   required.
+#
+#    @param $1  0:optional/1:required
+#    @param $2  struct name
+#    @param $3  element name
+#    @param $*  header files
+#
+#    @return    0 if the requested header exists, 1 otherwise
+#*/
 makl_checkstructelem()
 {
     [ -z `makl_get "__noconfig__"` ] || return
@@ -474,4 +519,3 @@ EOF
         return 1
     fi
 }
-

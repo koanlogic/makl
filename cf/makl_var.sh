@@ -1,16 +1,22 @@
 #
-# $Id: makl_var.sh,v 1.4 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_var.sh,v 1.5 2010/05/26 20:23:23 tho Exp $
 #
 
-##\brief Set the value of a header variable.
-##
-##  Set header variable \e $1 to \e $2. If \e $3 is set, the value is to be
-##  interpreted as a string (default is constant).
-##
-##   \param $1 symbol to be set
-##   \param $2 value of symbol (optional)
-##   \param $3 whether the value is to be interpreted as a string
-##
+#/*! 
+#    @header    Variables   ...
+#*/
+
+#/*! @function      makl_set_var_h
+#
+#    @abstract      Set the value of a header variable.
+#    @discussion    Set header variable <tt>$1</tt> to <tt>$2</tt>.  
+#                   If <tt>$3</tt> is set, the value is to be interpreted
+#                   as a string (default is constant).
+#
+#    @param $1  symbol to be set
+#    @param $2  value of symbol (optional)
+#    @param $3  whether the value is to be interpreted as a string
+#*/
 makl_set_var_h ()
 {
     var="$1"
@@ -29,13 +35,14 @@ makl_set_var_h ()
     _makl_var_set "h" "$1" 1 "${val}"
 }
 
-##\brief Set the value of a makefile variable.
-##
-##  Set makefile variable \e $1 to \e $2.
-##
-##   \param $1 symbol to set
-##   \param $2 value of symbol
-##
+#/*! @function      makl_set_var_mk
+#
+#    @abstract      Set the value of a makefile variable.
+#    @discussion    Set makefile variable <tt>$1</tt> to <tt>$2</tt>.  
+#
+#    @param $1  symbol to be set
+#    @param $2  value of symbol
+#*/
 makl_set_var_mk ()
 {
     file="${makl_run_dir}"/vars_mk
@@ -54,13 +61,15 @@ makl_set_var_mk ()
     makl_tab_set "${file}" "${var}" 4 1
 }
 
-##\brief Append a value to a makefile variable.
-##
-##  Append \e $* to makefile variable \e $1.
-##
-##   \param $1 symbol to set
-##   \param $* string values to be added
-##
+#/*! @function      makl_add_var_mk
+#
+#    @abstract      Append a value to a makefile variable.
+#    @discussion    Append <tt>$*</tt> to makefile variable <tt>$1</tt>.
+#                   Equivalent to makl_append_var_mk.
+#
+#    @param $1  symbol to be set
+#    @param $*  values to be added
+#*/
 makl_add_var_mk ()
 {
     file="${makl_run_dir}"/vars_mk
@@ -88,18 +97,19 @@ makl_add_var_mk ()
     _makl_var_set "mk" "${var}" 1 "${val}"
 }
 
-#\brief Alias: makl_add_var_mk
+# Alias of makl_add_var_mk
 makl_append_var_mk ()
 {
     makl_add_var_mk $@
 }
 
-##\brief Unset the value of a header variable.
-##
-##  Unset the value of header variable \e $1.
-##
-##   \param $1 symbol to unset
-##
+#/*! @function      makl_unset_var_h
+#
+#    @abstract      Unset the value of a header variable.
+#    @discussion    Unset the value of header variable <tt>$1</tt>.
+#
+#    @param $1  symbol to unset
+#*/
 makl_unset_var_h ()
 {
     makl_dbg "unsetting header variable $1"
@@ -107,12 +117,13 @@ makl_unset_var_h ()
     _makl_var_set "h" "$1" 0 
 }
 
-##\brief Unset the value of a makefile variable.
-##
-##  Unset the value of makefile variable \e $1.
-##
-##   \param $1 symbol to unset
-##
+#/*! @function      makl_unset_var_mk
+#
+#    @abstract      Unset the value of a makefile variable.
+#    @discussion    Unset the value of makefile variable <tt>$1</tt>.
+#
+#    @param $1  symbol to unset
+#*/
 makl_unset_var_mk ()
 {
     makl_dbg "unsetting makefile variable $1"
@@ -120,27 +131,30 @@ makl_unset_var_mk ()
     _makl_var_set "mk" "$1" 0
 }
 
-##\brief Set a variable in both makefile and header.
-##
-##  Set \e $1 to \e $2 in both makefile and header.
-##
-##   \param $1 symbol to set
-##   \param $2 value of symbol
-##   \param $3 whether the value is to be interpreted as a string
-##
+#/*! @function      makl_set_var
+#
+#    @abstract      Set a variable in both makefile and header.
+#    @discussion    Set <tt>$1</tt> to <tt>$2</tt> in both makefile and header.
+#
+#    @param $1  symbol to set
+#    @param $2  value of symbol
+#    @param $3  whether the value is to be interpreted as a string
+#*/
 makl_set_var ()
 {
     makl_set_var_mk "$1" "$2" 
     makl_set_var_h "$1" "$2" $3
 }
 
-##\brief Unset a variable in both makefile and header.
-##
-##  Unset \e $1 in both makefile and header.
-##
-##   \param $1 symbol to unset
-##   \return 0 on success, 1 otherwise.
-##
+#/*! @function      makl_unset_var
+#
+#    @abstract      Unset a variable in both makefile and header.
+#    @discussion    Unset <tt>$1</tt> in both makefile and header.
+#
+#    @param $1  symbol to unset
+#
+#    @return    0 on success, 1 otherwise.
+#*/
 makl_unset_var ()
 {
     if [ ! "$1" -o -z "$1" ]; then
@@ -154,12 +168,14 @@ makl_unset_var ()
     return 0
 }
 
-##\brief Get the value of a header variable.
-##
-##  Get the value of header variable \e $1.
-##
-##  \return the value of the variable
-##
+
+#/*! @function      makl_get_var_h
+#
+#    @abstract      Get the value of a header variable.
+#    @discussion    Get the value of header variable <tt>$1</tt>.
+#
+#    @return    the value of the variable
+#*/
 makl_get_var_h ()
 {
     _makl_var_get "h" "$1"
@@ -167,12 +183,13 @@ makl_get_var_h ()
     return $?
 }
 
-##\brief Get the value of a makefile variable. 
-##
-##  Get the value of a makefile variable \e $1.  
-##
-##   \return the value of the variable
-##
+#/*! @function      makl_get_var_mk
+#
+#    @abstract      Get the value of a makefile variable.
+#    @discussion    Get the value of makefile variable <tt>$1</tt>.
+#
+#    @return    the value of the variable
+#*/
 makl_get_var_mk () 
 {
     _makl_var_get "mk" "$1"
@@ -180,13 +197,15 @@ makl_get_var_mk ()
     return $?
 }
 
-##\brief Set the value of an internal variable.
-##
-##  Set the value of internal variable \e $1 to \e $2.
-##
-##   \param $1 name of variable
-##   \param $2 value of variable
-##
+#/*! @function      makl_set
+#
+#    @abstract      Set the value of an internal variable.
+#    @discussion    Set the value of internal variable <tt>$1</tt> to 
+#                   <tt>$2</tt>.
+#
+#    @param $1  name of variable
+#    @param $2  value of variable
+#*/
 makl_set ()
 {
     name="$1"
@@ -194,37 +213,42 @@ makl_set ()
     _makl_var_set "cf" "${name}" 1 $@
 }
 
-##\brief Append the value of an internal variable.
-##
-##  Append \e $2 to the value of internal variable \e $1.
-##
-##   \param $1 name of variable
-##   \param $2 value to be appended
-##
+#/*! @function      makl_append
+#
+#    @abstract      Append the value of an internal variable.
+#    @discussion    Append <tt>$2</tt> to the value of internal variable 
+#                   <tt>$1</tt>.
+#
+#    @param $1  name of variable
+#    @param $2  value to be appended
+#*/
 makl_append ()
 {
     val=`makl_get $1`
     makl_set "$1" "${val} $2"
 }
 
-##\brief Unset the value of an internal variable.
-##
-##  Unset the value of internal variable \e $1.
-##
-##   \param $1 symbol to unset
-##
+#/*! @function      makl_unset
+#
+#    @abstract      Unset the value of an internal variable.
+#    @discussion    Unset the value of internal variable <tt>$1</tt>.
+#
+#    @param $1  synmbol to unset
+#*/
 makl_unset ()
 {
     _makl_var_set "cf" "$1" 0
 }
 
-##\brief Get the value of an internal variable.
-##
-##  Get the value of internal variable \e $1.
-##
-##   \param $1 name of variable
-##   \return 0 if element was found, 1 otherwise.
-##
+#/*! @function      makl_get
+#
+#    @abstract      Get the value of an internal variable.
+#    @discussion    Get the value of internal variable <tt>$1</tt>.
+#
+#    @param $1  name of the variable
+#
+#    @return    0 if element was found, 1 otherwise.
+#*/
 makl_get ()
 {
     _makl_var_get "cf" "$1"
@@ -232,14 +256,15 @@ makl_get ()
     return $?
 }
 
-##\brief Define a variable group.
-##
-##  Define a group of variables (var=val) of type \e $1 and with description 
-##  \e $2. 
-##
-##   \param $1 type of variable
-##   \param $2 description
-##
+#/*! @function      makl_vars_def
+#
+#    @abstract      Define a variable group.
+#    @discussion    Define a group of variables (var=val) of type <tt>$1</tt>
+#                   and with description <tt>$2</tt>.
+#
+#    @param $1  type of variable
+#    @param $2  description
+#*/
 makl_vars_def ()
 {
     file="${makl_run_dir}"/vars
@@ -254,16 +279,17 @@ makl_vars_def ()
     "${TOUCH}" "${file}"
 }
 
-##\brief Set or unset a variable.
-##
-##  Set or unset a variable of type \e $1 and name \e $2 to \e $4 
-##  as selected by \e $3.
-##
-##   \param $1 type
-##   \param $2 variable name 
-##   \param $3 1:set, 0:unset
-##   \param $@ variable value
-##
+#/*! @function      _makl_var_set
+#
+#    @abstract      INTERNAL.  Set or unset a variable.
+#    @discussion    Set or unset a variable of type <tt>$1</tt> and name 
+#                   <tt>$2</tt> to <tt>$4</tt> as selected by <tt>$3</tt>.
+#
+#    @param $1  type
+#    @param $2  variable name 
+#    @param $3  1:set, 0:unset
+#    @param $@  variable value
+#*/
 _makl_var_set ()
 {
     
@@ -274,14 +300,17 @@ _makl_var_set ()
     makl_tab_set "${file}" "${name}" 3 "$@"
 }
 
-##\brief Get the value of a variable.
-## 
-##  Get the value of a variable of type \e $1 and with name \e $2.
-##
-##   \param $1 type of variable
-##   \param $2 variable name 
-##   \return 0 if the element was found, 1 otherwise.
-##
+#/*! @function      _makl_var_get
+#
+#    @abstract      INTERNAL.  Get the value of a variable.
+#    @discussion    Get the value of a variable of type <tt>$1</tt> and with 
+#                   name <tt>$2</tt>.
+#
+#    @param $1  type of variable
+#    @param $2  variable name 
+#
+#    @return    0 if the element was found, 1 otherwise.
+#*/
 _makl_var_get ()
 {
     file="${makl_run_dir}"/vars_"$1"

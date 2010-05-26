@@ -1,14 +1,18 @@
 #
-# $Id: makl_args.sh,v 1.4 2008/11/14 13:11:17 tho Exp $
+# $Id: makl_args.sh,v 1.5 2010/05/26 20:23:23 tho Exp $
 #
 
+#/*! 
+#    @header    Arguments   Command Line Arguments Handling
+#*/
 
-##\brief Define a command line argument from multiple strings.
-##
-##  Define a command line argument from multiple strings.
-##
-##   \param $@ argument strings
-##
+#/*! @function      makl_args_def
+#
+#    @abstract      Define a command line argument from multiple strings.
+#    @discussion    ...
+#
+#    @param $@  argument strings
+#*/
 makl_args_def ()
 {
     file="${makl_run_dir}"/args
@@ -16,16 +20,17 @@ makl_args_def ()
     makl_tab_set_row "${file}" "$@"
 }
 
-##\brief Add an argument instance with given arguments.
-##
-##  Add an argument instance with given arguments.
-##
-##   \param $1 argument id 
-##   \param $2 argument value
-##   \param $3 default value
-##   \param $4 prefix
-##   \param $5 arg description
-## 
+#/*! @function      makl_args_add
+#
+#    @abstract      Add an argument instance with given arguments.
+#    @discussion    ...
+#
+#    @param $1  argument id 
+#    @param $2  argument value
+#    @param $3  default value
+#    @param $4  prefix
+#    @param $5  arg description
+#*/
 makl_args_add ()
 {
     file="${makl_run_dir}"/args
@@ -36,18 +41,19 @@ makl_args_add ()
     makl_tab_set "${file}_$1" "$2" 4 "$5"
 }
 
-##\brief Print out a command-line argument description.
-##
-##  Prints out a human-readable description of a command-line argument.
-##
-##   \param $1 id of the command-line argument
-##   \param $2 parameters
-##   \param $3 short description
-##   \param $4 id of the argument (instance)
-##   \param $5 default values (instance)
-##   \param $6 prefix string (instance)
-##   \param $7 short description (instance)
-##
+#/*! @function      _makl_args_print
+#
+#    @abstract      Print out a command-line argument description.
+#    @discussion    Prints out a human-readable description of a command-line 
+#                   argument.
+#    @param $1  id of the command-line argument
+#    @param $2  parameters
+#    @param $3  short description
+#    @param $4  id of the argument (instance)
+#    @param $5  default values (instance)
+#    @param $6  prefix string (instance)
+#    @param $7  short description (instance)
+#*/
 _makl_args_print () 
 {
     a=`"${ECHO}" -n "$6  --$1$2" | 
