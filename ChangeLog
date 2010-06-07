@@ -1,9 +1,10 @@
-$Id: ChangeLog,v 1.80 2010/05/02 10:33:47 stewy Exp $
+$Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
-	- cf: fixed broken disabling of features
+	- cf: fixed broken disabling of features ; safer tmp dir and better error
+	  handling in _makl_file_sub()
 
 MaKL 1.8.1
 	- set /bin/bash as default shell on Linux (avoid Ubuntu dash !)

@@ -1,5 +1,5 @@
 #
-# $Id: makl.init,v 1.44 2009/03/27 12:10:41 tat Exp $
+# $Id: makl.init,v 1.45 2010/06/07 19:50:04 stewy Exp $
 #
 
 # read in just once
@@ -33,7 +33,7 @@ MAKL_ETC="${MAKL_ETC:-${MAKL_DIR}/etc}"
 # set globals to sensible defaults if not already set
 makl_makefile_conf="${makl_makefile_conf:-`pwd`/Makefile.conf}"
 makl_conf_h="${makl_conf_h:-`pwd`/conf.h}"
-makl_run_dir="${makl_run_dir:-`pwd`/.makl.run}"
+makl_run_dir="${makl_run_dir:-`pwd`/.makl.run.$$}"
 
 # create a fresh makl run dir
 if [ -d "${makl_run_dir}" ]; then

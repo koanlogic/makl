@@ -1,5 +1,5 @@
 #
-# $Id: makl_utils.sh,v 1.10 2010/05/26 20:23:23 tho Exp $
+# $Id: makl_utils.sh,v 1.11 2010/06/07 19:50:04 stewy Exp $
 #
 
 #/*! 
@@ -356,20 +356,38 @@ _makl_file_sub ()
     subs=`makl_get "__file_sub__"`
 
     for sub in ${subs}; do 
+
         [ -r "${sub}.in" ] || \
             makl_err 2 "makl_file_sub(): could not find ${sub}.in"
+
         makl_info "applying substitutions to: ${sub}"
-        "${CP}" ${sub}.in /tmp/sub.tmp
+
+        "${CP}" "${sub}".in "${makl_run_dir}"/sub.tmp || \
+            makl_err 2 "failed creating temporary file!"
+
         "${CAT}" "${makl_run_dir}"/vars_mk | {
+
             while read var; do
+
                 name=`makl_tab_elem "${var}" 1`
                 val=`makl_tab_elem "${var}" 3 | "${SED}" -e "s%\/%\\\\\/%g"`
-                "${CAT}" /tmp/sub.tmp | \
-                    "${SED}" -e "s%@{{${name}}}%${val}%g" > /tmp/sub2.tmp
-                "${MV}" /tmp/sub2.tmp /tmp/sub.tmp
+
+                "${CAT}" "${makl_run_dir}"/sub.tmp | \
+                    "${SED}" -e "s%@{{${name}}}%${val}%g" > \
+                    "${makl_run_dir}"/sub2.tmp || \
+                        makl_err 2 "failed writing temporary file!"
+
+                "${MV}" "${makl_run_dir}"/sub2.tmp \
+                    "${makl_run_dir}"/sub.tmp || 
+                        makl_err 2 "failed moving temporary file!"
             done 
         }
-        "${CP}" /tmp/sub.tmp ${sub}
+
+        "${CP}" "${makl_run_dir}"/sub.tmp "${sub}" || \
+            makl_err 2 "failed creating substituted file!"
+
     done
-    "${RM}" -f /tmp/sub.tmp /tmp/sub2.tmp
+
+    "${RM}" -f "${makl_run_dir}"/sub.tmp "${makl_run_dir}"/sub2.tmp || \
+        makl_err 2 "failed removing temporary files!"
 }
