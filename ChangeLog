@@ -3,8 +3,10 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
-	- cf: fixed broken disabling of features ; safer tmp dir and better error
-	  handling in _makl_file_sub()
+	- cf: fixed broken disabling of features ; safer tmp dir and better error ;
+	  generate <pkg>_VERSION_{MAJOR,MINOR,TEENY} numeric values in header
+	  and Makefile.conf files
+	- mk: minor fix in .help target of dist.mk
 
 MaKL 1.8.1
 	- set /bin/bash as default shell on Linux (avoid Ubuntu dash !)
