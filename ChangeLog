@@ -2,7 +2,7 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
-MaKL X.Y.Z
+MaKL 1.8.2
 	- cf: fixed broken disabling of features ; safer tmp dir and better error
 	  handling in _makl_file_sub()
 
