@@ -80,6 +80,15 @@ makl_pkg_version ()
 
     makl_set_var "`makl_upper ${pkg}`_VERSION" ${ver} 1
 
+    # Also set numeric values for maj, min and teeny that can be
+    # easily tested in source files, like:
+    # #if LIBU_VERSION_MAJOR == 2 && LIBU_VERSION_MINOR > 1
+    #   ... do something specific to libu 2.x with x>1 ...
+    # #endif
+    makl_set_var "`makl_upper ${pkg}`_VERSION_MAJOR" ${major}
+    makl_set_var "`makl_upper ${pkg}`_VERSION_MINOR" ${minor}
+    makl_set_var "`makl_upper ${pkg}`_VERSION_TEENY" ${teeny}
+
     makl_set "__ver__" ${ver}
     makl_set "__ver_major__" ${major}
     makl_set "__ver_minor__" ${minor}
