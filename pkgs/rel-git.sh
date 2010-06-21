@@ -75,9 +75,10 @@ make_dist()
         || err "can't cd to ${REL_TMP_DIR}/${REL_ROOT}"
 
     # we need doxygen path
-    makl toolchain
-    maklconf --gnu_make=/usr/bin/make || err "makl-conf failed"
-    makl -f Makefile.dist dist || "dist target failed"
+    /bin/sh configure.sh || err "configure.sh failed!"
+    make -I `pwd`/mk -C doc/man clean install-hook-pre || 
+        err "failed buidling docs!"
+    make -I `pwd`/mk -f Makefile.dist || err "dist failed!"
 
     cp makl-${REL_VERSION}.* ${REL_OUT_DIR} \
         || err "can't copy dist files to ${REL_OUT_DIR}"

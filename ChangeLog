@@ -2,6 +2,9 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
+MaKL X.Y.Z
+	- pkgs: rel-git.sh removed makl dependency for dist
+
 MaKL 1.8.2
 	- cf: fixed broken disabling of features ; safer tmp dir and better error ;
 	  generate <pkg>_VERSION_{MAJOR,MINOR,TEENY} numeric values in header
