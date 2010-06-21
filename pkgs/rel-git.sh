@@ -77,7 +77,7 @@ make_dist()
     # we need doxygen path
     /bin/sh configure.sh || err "configure.sh failed!"
     make -I `pwd`/mk -C doc/man clean install-hook-pre || 
-        err "failed buidling docs!"
+        err "failed building docs!"
     make -I `pwd`/mk -f Makefile.dist || err "dist failed!"
 
     cp makl-${REL_VERSION}.* ${REL_OUT_DIR} \
