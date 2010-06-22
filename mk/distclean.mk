@@ -2,7 +2,7 @@
 
 ifdef DISTCLEANFILES
 distclean: clean
-	rm -f $(DISTCLEANFILES)
+	$(RM) $(DISTCLEANFILES)
 else
 distclean: clean
 endif

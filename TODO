@@ -1,30 +1,5 @@
-* avoid multiple inclusion of .mk files (i.e. ifndef __prog_mk__ ... endif)
-* check preconditions for all the user supplied variables needed by .mk files 
-  (i.e. mk_precond function needed)
-* more testing needed for shared libraries on BSD platforms
 * cf/makl_{answer,question} for interactive settings
 * a better integration with GNU make internal variables' data base ?
-
-* it would be nice to have "makl-nutshells", i.e. private and self-contained
-  makl environments: they'd be created and accessed easily (with minimal 
-  user intervention) and would be "local" to a given user or build context.
-
-  makl nutshell MAKL_NUTSHELL=/makl/nutshell/dir \
-                MAKL_PLATFORM=/my/makl/toolchain_and_sharedlib_basename
-
-  or:
-
-  makl nutshell MAKL_NUTSHELL=/makl/nutshell/dir \
-                MAKL_TC=/my/makl/toolchain_file  \
-                MAKL_SHLIB=/my/makl/shlib_file
-
-  if MAKL_SHLIB is not set null.shlib will be used
-
 * set of bourne shell helper functions for common tasks that can be invoked 
   via 'call'
-
-* makl-new <lib|prog|subdir|xeno|include|script|file|man|dist> 
-  takes a template file and writes it to the current working dir
-
-* add 'help' target to each .mk template that shows available variables
-  and target it exports
+* add un-quote and escape function to handle quoted paths and paths with holes

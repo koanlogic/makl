@@ -1,9 +1,11 @@
 include common.mk
-include ../Makefile.conf
+-include ../Makefile.conf
 
 INCS = a.h b.h x.h
-INCOWN = pippo
-INCGRP = bluto
+INCS += "h ole.h"
+#INCOWN = tho
+#INCGRP = staff
+INCDIR = /tmp/MAKL TEST/include
 
 include incs.mk
 

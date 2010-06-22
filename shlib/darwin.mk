@@ -35,7 +35,7 @@ else
     __COMPAT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR)
     __CURRENT_VER = $(SHLIB_MAJOR).$(SHLIB_MINOR).$(SHLIB_TEENY)
     SHLIB_LDFLAGS += -dynamiclib -install_name
-    SHLIB_LDFLAGS += $(SHLIBDIR)/$(SHLIB_NAME)
+    SHLIB_LDFLAGS += "$(SHLIBDIR)/$(SHLIB_NAME)"
     SHLIB_LDFLAGS += -compatibility_version $(__COMPAT_VER)
     SHLIB_LDFLAGS += -current_version $(__CURRENT_VER)
     SHLIB_NAME ?= lib$(__LIB).$(__CURRENT_VER).dylib
@@ -49,34 +49,34 @@ endif
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building $(__LIB) as $(__WHAT)"
+	@$(ECHO) "===> building $(__LIB) as $(__WHAT)"
 ifndef BUNDLE
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK)
+	$(RM) $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK1)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK2)
 endif
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 ifndef BUNDLE
-	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK1)
-	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK2)
+	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SHLIB_LINK1)"
+	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SHLIB_LINK2)"
 endif
 
 uninstall-shared:
-	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
+	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
 ifndef BUNDLE
-	rm -f $(SHLIBDIR)/$(SHLIB_LINK1)
-	rm -f $(SHLIBDIR)/$(SHLIB_LINK2)
+	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK1)"
+	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK2)"
 endif
-	-rmdir $(SHLIBDIR) 2>/dev/null
+	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	rm -f $(SHLIB_OBJS)
-	rm -f $(SHLIB_NAME)
+	$(RM) $(SHLIB_OBJS)
+	$(RM) $(SHLIB_NAME)
 ifndef BUNDLE
-	rm -f $(SHLIB_LINK1) $(SHLIB_LINK2)
+	$(RM) $(SHLIB_LINK1) $(SHLIB_LINK2)
 endif
 
 endif

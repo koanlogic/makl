@@ -30,25 +30,25 @@ all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@echo "===> building shared $(__LIB) library"
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
+	$(RM) $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SONAME)
 	$(__CC) -shared -o $(SHLIB_NAME) -Wl,-h,$(SONAME) \
-	`$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
+	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
-	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SHLIB_LINK)
-	ln -sf $(SHLIB_NAME) $(SHLIBDIR)/$(SONAME)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
+	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SHLIB_LINK)"
+	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SONAME)"
 
 uninstall-shared:
-	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
-	rm -f $(SHLIBDIR)/$(SHLIB_LINK)
-	rm -f $(SHLIBDIR)/$(SONAME)
-	-rmdir $(SHLIBDIR) 2>/dev/null
+	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
+	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK)"
+	$(RM) "$(SHLIBDIR)/$(SONAME)"
+	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	rm -f $(SHLIB_OBJS)
-	rm -f $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
+	$(RM) $(SHLIB_OBJS)
+	$(RM) $(SHLIB_NAME) $(SHLIB_LINK) $(SONAME)
 
 endif

@@ -4,7 +4,7 @@ include common.mk
 include ../Makefile.conf
 
 FILES = lorder mkdep.gcc.sh mkinstalldirs
-FILES_DIR = "$(MAKL_ROOT)/helpers"
+FILES_DIR = $(MAKL_ROOT)/helpers
 FILES_MODE = 0555
 
 include files.mk

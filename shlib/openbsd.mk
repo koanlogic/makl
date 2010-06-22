@@ -16,12 +16,12 @@ SHLIB_MINOR ?= 0
 $(foreach e,$(C_EXTS),$(addsuffix .so,$(e))):
 	$(CC) -fpic -DPIC $(CFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
-	rm -f $*.so.o
+	$(RM) $*.so.o
 
 $(foreach e,$(CXX_EXTS),$(addsuffix .so,$(e))):
 	$(CXX) -fpic -DPIC $(CXXFLAGS) -c $< -o $*.so.o
 	$(LD) -X -r $*.so.o -o $*.so
-	rm -f $*.so.o
+	$(RM) $*.so.o
 
 SHLIB_NAME ?= lib$(__LIB).so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
 
@@ -31,19 +31,19 @@ SHLIB_NAME ?= lib$(__LIB).so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building shared $(__LIB) library"
-	rm -f $(SHLIB_NAME)
+	@$(ECHO) "===> building shared $(__LIB) library"
+	$(RM) $(SHLIB_NAME)
 	$(__CC) -shared -fpic -o $(SHLIB_NAME) `$(LORDER) $(SHLIB_OBJS) | $(TSORT)`
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 
 uninstall-shared:
-	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
-	-rmdir $(SHLIBDIR) 2>/dev/null
+	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
+	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	rm -f $(SHLIB_OBJS)
-	rm -f $(SHLIB_NAME)
+	$(RM) $(SHLIB_OBJS)
+	$(RM) $(SHLIB_NAME)
 
 endif

@@ -58,3 +58,13 @@ $(if $(call strneq, $(origin $(strip $(1))), undefined),    \
     $(error $(strip $(1)) must be defined)                  \
 )
 endef
+
+# remove quotes from variable value
+#   $1 = a variable name
+define unquote-var
+endef
+
+# escape holes in path
+#   $1 = a (path) variable name
+define escape-holes
+endef

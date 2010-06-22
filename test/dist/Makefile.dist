@@ -1,0 +1,19 @@
+# $Id: dist.tmpl,v 1.2 2008/02/24 12:13:58 tho Exp $
+
+include common.mk
+
+PKG_NAME = test
+PKG_VERSION = $(shell cat VERSION)
+
+# "normal" and holed inclusion
+DISTFILES = VERSION
+DISTFILES += "h o l e/hole"
+
+# "normal" and holed remap
+DISTREMAP = map remap
+DISTREMAP += "ya h o l e" fixed
+
+# normal and holed via recipe file
+DISTRECIPE = dist.recipe
+
+include dist.mk

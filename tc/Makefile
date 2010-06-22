@@ -4,7 +4,7 @@ include common.mk
 include ../Makefile.conf
 
 FILES = $(shell echo *.tc) makl_tc
-FILES_DIR = "$(MAKL_ROOT)/tc"
+FILES_DIR = $(MAKL_ROOT)/tc
 FILES_MODE = 0444
 
 include files.mk

@@ -70,7 +70,7 @@ all-static: $(LIB_NAME)
 # always create archive ex-nihil
 $(LIB_NAME): $(OBJS)
 	@echo "===> building standard $(__LIB) library"
-	rm -f $@
+	$(RM) $@
 	$(AR) $(ARFLAGS) $@ `$(LORDER) $^ | $(TSORT)`
 	$(RANLIB) $@
 
@@ -88,7 +88,7 @@ clean: clean-hook-pre clean-static clean-shared clean-hook-post
 CLEANFILES += $(OBJS) $(LIB_NAME)
 
 clean-static:
-	rm -f $(CLEANFILES)
+	$(RM) $(CLEANFILES)
 
 clean-hook-pre clean-hook-post:
 else
@@ -111,15 +111,15 @@ __CHOWN_ARGS = $(call calc-chown-args, $(LIBOWN), $(LIBGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(LIBOWN), $(LIBGRP))
 
 $(LIBDIR):
-	$(MKINSTALLDIRS) $(LIBDIR)
+	$(MKINSTALLDIRS) "$(LIBDIR)"
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(LIBDIR)
+	chown $(__CHOWN_ARGS) "$(LIBDIR)"
 endif
 
 realinstall: $(LIBDIR) install-static install-shared
 
 install-static:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(LIB_NAME) $(LIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(LIB_NAME) "$(LIBDIR)"
 
 install-hook-pre install-hook-post:
 
@@ -136,8 +136,8 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	rm -f $(LIBDIR)/$(LIB_NAME)
-	-rmdir $(LIBDIR) 2>/dev/null
+	$(RM) "$(LIBDIR)/$(LIB_NAME)"
+	-rmdir "$(LIBDIR)" 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 

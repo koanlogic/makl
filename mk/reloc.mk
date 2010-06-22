@@ -8,29 +8,29 @@ ifneq (, $(findstring install, $(MAKECMDGOALS)))
     ifneq ($(RELOC),)
         $(warning RELOC has been set: prepending $(RELOC) to all *DIRS)
     endif
-    DESTDIR  := "$(RELOC)$(DESTDIR)"
-    BINDIR   := "$(RELOC)$(BINDIR)"
-    SBINDIR  := "$(RELOC)$(SBINDIR)"
-    CONFDIR  := "$(RELOC)$(CONFDIR)"
-    INCDIR   := "$(RELOC)$(INCDIR)"
-    LIBDIR   := "$(RELOC)$(LIBDIR)"
-    SHLIBDIR := "$(RELOC)$(SHLIBDIR)"
-    LIBEXDIR := "$(RELOC)$(LIBEXDIR)"
-    VARDIR   := "$(RELOC)$(VARDIR)"
-    SHAREDIR := "$(RELOC)$(SHAREDIR)"
-    MANDIR   := "$(RELOC)$(MANDIR)"
-    DOCDIR   := "$(RELOC)$(DOCDIR)"
+    DESTDIR  := $(RELOC)$(DESTDIR)
+    BINDIR   := $(RELOC)$(BINDIR)
+    SBINDIR  := $(RELOC)$(SBINDIR)
+    CONFDIR  := $(RELOC)$(CONFDIR)
+    INCDIR   := $(RELOC)$(INCDIR)
+    LIBDIR   := $(RELOC)$(LIBDIR)
+    SHLIBDIR := $(RELOC)$(SHLIBDIR)
+    LIBEXDIR := $(RELOC)$(LIBEXDIR)
+    VARDIR   := $(RELOC)$(VARDIR)
+    SHAREDIR := $(RELOC)$(SHAREDIR)
+    MANDIR   := $(RELOC)$(MANDIR)
+    DOCDIR   := $(RELOC)$(DOCDIR)
 else    # on any other target, in case pathname contains holes, wrap it
-    DESTDIR  := "$(DESTDIR)"
-    BINDIR   := "$(BINDIR)"
-    SBINDIR  := "$(SBINDIR)"
-    CONFDIR  := "$(CONFDIR)"
-    INCDIR   := "$(INCDIR)"
-    LIBDIR   := "$(LIBDIR)"
-    SHLIBDIR := "$(SHLIBDIR)"
-    LIBEXDIR := "$(LIBEXDIR)"
-    VARDIR   := "$(VARDIR)"
-    SHAREDIR := "$(SHAREDIR)"
-    MANDIR   := "$(MANDIR)"
-    DOCDIR   := "$(DOCDIR)"
+    DESTDIR  := $(DESTDIR)
+    BINDIR   := $(BINDIR)
+    SBINDIR  := $(SBINDIR)
+    CONFDIR  := $(CONFDIR)
+    INCDIR   := $(INCDIR)
+    LIBDIR   := $(LIBDIR)
+    SHLIBDIR := $(SHLIBDIR)
+    LIBEXDIR := $(LIBEXDIR)
+    VARDIR   := $(VARDIR)
+    SHAREDIR := $(SHAREDIR)
+    MANDIR   := $(MANDIR)
+    DOCDIR   := $(DOCDIR)
 endif

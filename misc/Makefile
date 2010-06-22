@@ -4,7 +4,7 @@ include common.mk
 include ../Makefile.conf
 
 FILES = ../VERSION ../LICENSE ../Makefile
-FILES_DIR = "$(MAKL_ROOT)"
+FILES_DIR = $(MAKL_ROOT)
 FILES_MODE = 0444
 
 include files.mk

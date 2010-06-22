@@ -58,10 +58,10 @@ realdist: normaldist distrecipe remapdist
 ifdef DISTFILES
 normaldist:
 	@for f in $(DISTFILES); do \
-		dir=`dirname $$f` && \
-		file=`basename $$f` && \
-		$(MKINSTALLDIRS) $(DISTDIR)/$$dir && \
-		cp -fpR $$dir/$$file $(DISTDIR)/$$dir/$$file ; \
+		dir="`dirname "$$f"`" && \
+		file="`basename "$$f"`" && \
+		$(MKINSTALLDIRS) "$(DISTDIR)/$$dir" && \
+		$(CP) -fpR "$$dir/$$file" "$(DISTDIR)/$$dir/$$file" ; \
 	done
 else    # !DISTFILES
 normaldist:
@@ -70,10 +70,10 @@ endif   # DISTFILES
 ifdef DISTRECIPE
 distrecipe:
 	@cat $(DISTRECIPE) | while read f; do \
-		dir=`dirname "$$f"` && \
-		file=`basename "$$f"` && \
+		dir="`dirname "$$f"`" && \
+		file="`basename "$$f"`" && \
 		$(MKINSTALLDIRS) "$(DISTDIR)/$$dir" && \
-		cp -fpR "$$dir/$$file" "$(DISTDIR)/$$dir/$$file" ; \
+		$(CP) -fpR "$$dir/$$file" "$(DISTDIR)/$$dir/$$file" ; \
 	done
 else    # !DISTFILES
 distrecipe:
@@ -83,11 +83,11 @@ endif   # DISTFILES
 ifdef DISTREMAP
 remapdist:
 	@set $(DISTREMAP); \
-	while test $$# -ge 2 ; do \
-		in=$$1 ; shift ; \
-		out=$$1 ; shift ; \
-		$(MKINSTALLDIRS) $(DISTDIR)/`dirname $$out` && \
-		cp -fPR $$in $(DISTDIR)/$$out ; \
+	while test "$$#" -ge 2 ; do \
+		in="$$1" ; shift ; \
+		out="$$1" ; shift ; \
+		$(MKINSTALLDIRS) "$(DISTDIR)/`dirname $$out`" && \
+		$(CP) -fPR "$$in" "$(DISTDIR)/$$out" ; \
 	done
 else    # !DISTREMAP
 remapdist:
@@ -97,19 +97,19 @@ olddir=$(shell pwd)
 ifdef PKG_NODIR 
 tarball:
 	@cd $(DISTDIR) && \
-	$(TAR) $(TAR_ARGS) $(olddir)/$(DISTNAME).tar . && \
-	rm -f $(olddir)/$(DISTNAME).tar.$(ZIPEXT) && \
-	$(ZIP) $(olddir)/$(DISTNAME).tar && \
+	$(TAR) $(TAR_ARGS) "$(olddir)/$(DISTNAME).tar" . && \
+	$(RM) "$(olddir)/$(DISTNAME).tar.$(ZIPEXT)" && \
+	$(ZIP) "$(olddir)/$(DISTNAME).tar" && \
 	cd - && \
-	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \
-	rm -rf $(DISTNAME).tar $(DISTDIR)
+	$(MD5SUM) "$(DISTNAME).tar.$(ZIPEXT)" > "$(DISTNAME).tar.$(ZIPEXT).md5" && \
+	$(RM) -r "$(DISTNAME).tar" "$(DISTDIR)"
 else
 tarball:
-	@$(TAR) $(TAR_ARGS) $(DISTNAME).tar $(DISTDIR) && \
-	rm -f $(DISTNAME).tar.$(ZIPEXT) && \
-	$(ZIP) $(DISTNAME).tar && \
-	$(MD5SUM) $(DISTNAME).tar.$(ZIPEXT) > $(DISTNAME).tar.$(ZIPEXT).md5 && \
-	rm -rf $(DISTNAME).tar $(DISTDIR)
+	@$(TAR) $(TAR_ARGS) "$(DISTNAME).tar" "$(DISTDIR)" && \
+	$(RM) "$(DISTNAME).tar.$(ZIPEXT)" && \
+	$(ZIP) "$(DISTNAME).tar" && \
+	$(MD5SUM) "$(DISTNAME).tar.$(ZIPEXT)" > "$(DISTNAME).tar.$(ZIPEXT).md5" && \
+	$(RM) -r "$(DISTNAME).tar" "$(DISTDIR)"
 endif
 
 ##
@@ -120,7 +120,7 @@ distclean: distclean-hook-pre realdistclean distclean-hook-post
 distclean-hook-pre distclean-hook-post:
 
 realdistclean:
-	rm -rf $(DISTNAME)*
+	$(RM) -r $(DISTNAME)*
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:

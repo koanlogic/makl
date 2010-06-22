@@ -10,7 +10,7 @@ FILES += maklsh_help
 FILES += maklsh_new
 FILES += maklsh_run
 FILES += maklsh_tc
-FILES_DIR = "$(MAKL_ROOT)/maklsh"
+FILES_DIR = $(MAKL_ROOT)/maklsh
 FILES_MODE = 0644
 
 include files.mk

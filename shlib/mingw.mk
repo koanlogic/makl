@@ -28,21 +28,21 @@ SHLIB_LDFLAGS += -Wl,-no-undefined -Wl,--enable-runtime-pseudo-reloc
 all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
-	@echo "===> building dynamically linked library $(__LIB)"
-	rm -f $(SHLIB_NAME)
+	@$(ECHO) "===> building dynamically linked library $(__LIB)"
+	$(RM) $(SHLIB_NAME)
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS) 
 
 install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 
 uninstall-shared:
-	rm -f $(SHLIBDIR)/$(SHLIB_NAME)
-	-rmdir $(SHLIBDIR) 2>/dev/null
+	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
+	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	rm -f $(SHLIB_OBJS)
-	rm -f $(SHLIB_NAME)
-	rm -f $(SHLIB_IMP)
+	$(RM) $(SHLIB_OBJS)
+	$(RM) $(SHLIB_NAME)
+	$(RM) $(SHLIB_IMP)
 
 endif

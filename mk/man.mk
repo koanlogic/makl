@@ -84,37 +84,37 @@ install-hook-pre install-hook-post:
 
 dirs:
 	@for d in $(__SUBDIRS); do \
-		$(MKINSTALLDIRS) $(MANDIR)/man$$d ; \
+		$(MKINSTALLDIRS) "$(MANDIR)/man$$d" ; \
 	done
 
 dirperms:
 ifneq ($(strip $(__CHOWN_ARGS)),)
 	@for d in $(__SUBDIRS); do \
-		chown $(__CHOWN_ARGS) $(MANDIR)/man$$d ; \
+		chown $(__CHOWN_ARGS) "$(MANDIR)/man$$d" ; \
 	done
 endif
 
 realinstall:
 	@for f in $(MANFILES); do \
 		$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) -m $(MANMODE) \
-            $$f $(MANDIR)/man$${f##*.} ; \
+            "$$f" "$(MANDIR)/man$${f##*.}" ; \
 	done
 
 ifneq ($(MLINKS),)
 manlinks:
 	@set $(MLINKS); \
-	while test $$# -ge 2 ; do \
-		name=$$1 ; \
+	while test "$$#" -ge 2 ; do \
+		name="$$1" ; \
 		shift ; \
-		dir=$(MANDIR)/man$${name##*.} ; \
-		l=$$dir/$$name ; \
-		name=$$1 ; \
+		dir="$(MANDIR)/man$${name##*.}" ; \
+		l="$$dir/$$name" ; \
+		name="$$1" ; \
 		shift ; \
-		dir=$(MANDIR)/man$${name##*.} ; \
-		t=$$dir/$$name ; \
-		if test $$l -nt $$t -o ! -f $$t ; then \
-			echo $$t -\> $$l ; \
-			ln -f $$l $$t ; \
+		dir="$(MANDIR)/man$${name##*.}" ; \
+		t="$$dir/$$name" ; \
+		if test "$$l" -nt "$$t" -o ! -f "$$t" ; then \
+			$(ECHO) "$$t" -\> "$$l" ; \
+			ln -f "$$l" "$$t" ; \
 		fi ; \
 	done
 else
@@ -131,10 +131,10 @@ endif
 ifndef NO_UNINSTALL
 uninstall:
 	-for f in $(MLINKS) $(MANFILES) ; do \
-		rm -f $(MANDIR)/man$${f##*.}/$$f ; \
-		rmdir $(MANDIR)/man$${f##*.} 2>/dev/null; \
+		$(RM) "$(MANDIR)/man$${f##*.}/$$f" ; \
+		-rmdir "$(MANDIR)/man$${f##*.}" 2>/dev/null; \
 	done
-	-rmdir $(MANDIR) 2>/dev/null
+	-rmdir "$(MANDIR)" 2>/dev/null
 
 else
 uninstall:

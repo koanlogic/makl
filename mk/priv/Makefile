@@ -4,7 +4,7 @@ include common.mk
 include ../../Makefile.conf
 
 FILES = deps.mk funcs.mk obj.mk
-FILES_DIR = "$(MAKL_ROOT)/mk/priv"
+FILES_DIR = $(MAKL_ROOT)/mk/priv
 FILES_MODE = 0444
 
 include files.mk
