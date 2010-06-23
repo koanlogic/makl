@@ -4,6 +4,7 @@ ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
 	- pkgs: rel-git.sh removed makl dependency for dist
+	- doc: s/makl-users@koanlogic.com/makl-bug@koanlogic.com
 
 MaKL 1.8.2
 	- cf: fixed broken disabling of features ; safer tmp dir and better error ;
