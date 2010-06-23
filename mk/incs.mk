@@ -95,7 +95,7 @@ uninstall-hook-pre uninstall-hook-post:
 
 realuninstall:
 	for f in $(INCS); do \
-	    $(RM) "$(INCDIR)/`basename "$$f"`"; \
+	    $(RM) -f "$(INCDIR)/`basename "$$f"`"; \
 	done
 	-rmdir "$(INCDIR)" 2>/dev/null
 

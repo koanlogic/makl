@@ -51,7 +51,7 @@ all-shared: $(SHLIB_NAME)
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@$(ECHO) "===> building $(__LIB) as $(__WHAT)"
 ifndef BUNDLE
-	$(RM) $(SHLIB_NAME) $(SHLIB_LINK)
+	$(RM) -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK1)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK2)
 endif
@@ -65,18 +65,18 @@ ifndef BUNDLE
 endif
 
 uninstall-shared:
-	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_NAME)"
 ifndef BUNDLE
-	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK1)"
-	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK2)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_LINK1)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_LINK2)"
 endif
 	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	$(RM) $(SHLIB_OBJS)
-	$(RM) $(SHLIB_NAME)
+	$(RM) -f $(SHLIB_OBJS)
+	$(RM) -f $(SHLIB_NAME)
 ifndef BUNDLE
-	$(RM) $(SHLIB_LINK1) $(SHLIB_LINK2)
+	$(RM) -f $(SHLIB_LINK1) $(SHLIB_LINK2)
 endif
 
 endif

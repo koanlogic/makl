@@ -29,7 +29,7 @@ all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@$(ECHO) "===> building dynamically linked library $(__LIB)"
-	$(RM) $(SHLIB_NAME)
+	$(RM) -f $(SHLIB_NAME)
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS) 
 
@@ -37,12 +37,12 @@ install-shared:
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 
 uninstall-shared:
-	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_NAME)"
 	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	$(RM) $(SHLIB_OBJS)
-	$(RM) $(SHLIB_NAME)
-	$(RM) $(SHLIB_IMP)
+	$(RM) -f $(SHLIB_OBJS)
+	$(RM) -f $(SHLIB_NAME)
+	$(RM) -f $(SHLIB_IMP)
 
 endif

@@ -98,18 +98,18 @@ ifdef PKG_NODIR
 tarball:
 	@cd $(DISTDIR) && \
 	$(TAR) $(TAR_ARGS) "$(olddir)/$(DISTNAME).tar" . && \
-	$(RM) "$(olddir)/$(DISTNAME).tar.$(ZIPEXT)" && \
+	$(RM) -f "$(olddir)/$(DISTNAME).tar.$(ZIPEXT)" && \
 	$(ZIP) "$(olddir)/$(DISTNAME).tar" && \
 	cd - && \
 	$(MD5SUM) "$(DISTNAME).tar.$(ZIPEXT)" > "$(DISTNAME).tar.$(ZIPEXT).md5" && \
-	$(RM) -r "$(DISTNAME).tar" "$(DISTDIR)"
+	$(RM) -f -r "$(DISTNAME).tar" "$(DISTDIR)"
 else
 tarball:
 	@$(TAR) $(TAR_ARGS) "$(DISTNAME).tar" "$(DISTDIR)" && \
-	$(RM) "$(DISTNAME).tar.$(ZIPEXT)" && \
+	$(RM) -f "$(DISTNAME).tar.$(ZIPEXT)" && \
 	$(ZIP) "$(DISTNAME).tar" && \
 	$(MD5SUM) "$(DISTNAME).tar.$(ZIPEXT)" > "$(DISTNAME).tar.$(ZIPEXT).md5" && \
-	$(RM) -r "$(DISTNAME).tar" "$(DISTDIR)"
+	$(RM) -f -r "$(DISTNAME).tar" "$(DISTDIR)"
 endif
 
 ##
@@ -120,7 +120,7 @@ distclean: distclean-hook-pre realdistclean distclean-hook-post
 distclean-hook-pre distclean-hook-post:
 
 realdistclean:
-	$(RM) -r $(DISTNAME)*
+	$(RM) -f -r $(DISTNAME)*
 
 # Make sure all of the standard targets are defined, even if they do nothing.
 all install uninstall clean depend cleandepend:

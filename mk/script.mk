@@ -33,7 +33,7 @@ STRIP =
 # if any of SCRIPT_{PRE,SUF}FIX is set handle aliasing on all and clean goals
 ifneq ($(__SCRIPT),$(strip $(SCRIPT)))
 all: ; cp $(SCRIPT) $(__SCRIPT)
-clean: ; rm -f $(__SCRIPT)
+clean: ; $(RM) -f $(__SCRIPT)
 endif
 
 include prog.mk

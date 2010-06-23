@@ -131,7 +131,7 @@ endif
 ifndef NO_UNINSTALL
 uninstall:
 	-for f in $(MLINKS) $(MANFILES) ; do \
-		$(RM) "$(MANDIR)/man$${f##*.}/$$f" ; \
+		$(RM) -f "$(MANDIR)/man$${f##*.}/$$f" ; \
 		-rmdir "$(MANDIR)/man$${f##*.}" 2>/dev/null; \
 	done
 	-rmdir "$(MANDIR)" 2>/dev/null

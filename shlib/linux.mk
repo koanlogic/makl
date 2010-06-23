@@ -33,7 +33,7 @@ all-shared: $(SHLIB_NAME)
 
 $(SHLIB_NAME): $(SHLIB_OBJS)
 	@$(ECHO) "===> building shared $(__LIB) library"
-	$(RM) $(SHLIB_NAME) $(SHLIB_LINK)
+	$(RM) -f $(SHLIB_NAME) $(SHLIB_LINK)
 	ln -sf $(SHLIB_NAME) $(SHLIB_LINK)
 	$(__CC) -shared -Wl,-soname,$(SONAME) \
 	    -o $(SHLIB_NAME) \
@@ -45,13 +45,13 @@ install-shared:
 	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SONAME)"
 
 uninstall-shared:
-	$(RM) "$(SHLIBDIR)/$(SHLIB_NAME)"
-	$(RM) "$(SHLIBDIR)/$(SHLIB_LINK)"
-	$(RM) "$(SHLIBDIR)/$(SONAME)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_NAME)"
+	$(RM) -f "$(SHLIBDIR)/$(SHLIB_LINK)"
+	$(RM) -f "$(SHLIBDIR)/$(SONAME)"
 	-rmdir "$(SHLIBDIR)" 2>/dev/null
 
 clean-shared:
-	$(RM) $(SHLIB_OBJS)
-	$(RM) $(SHLIB_NAME) $(SHLIB_LINK)
+	$(RM) -f $(SHLIB_OBJS)
+	$(RM) -f $(SHLIB_NAME) $(SHLIB_LINK)
 
 endif

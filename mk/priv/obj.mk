@@ -12,7 +12,7 @@ endif
 MAKEFN = $(firstword $(basename $(MAKEFILE_LIST)))
 
 # assemble the make command that will reinvoke the build in OBJDIR
-MAKEOBJ = $(MAKE) -C $@ -f $(CURDIR)/$(MAKEFN) __SRCDIR=$(CURDIR) \
+MAKEOBJ = $(MAKE) -C $@ -f "$(CURDIR)/$(MAKEFN)" __SRCDIR=$(CURDIR) \
           $(MAKECMDGOALS)
 
 # relocate into OBJDIR (creating it if it doesn't exist) and re-invoke make 
@@ -20,10 +20,10 @@ MAKEOBJ = $(MAKE) -C $@ -f $(CURDIR)/$(MAKEFN) __SRCDIR=$(CURDIR) \
 # is given
 .PHONY: $(OBJDIR)
 $(OBJDIR): 
-	+@[ -d $@ ] || $(MKINSTALLDIRS) $@
+	+@[ -d $@ ] || $(MKINSTALLDIRS) "$@"
 	+@$(MAKEOBJ) 
 
-# tell GNU make to rebuild neither the calling Makefile nor any included MaKL 
+# tell GNU make not to rebuild either the calling Makefile or any included MaKL 
 # template in the OBJDIR
 $(MAKEFN) : ;
 %.mk :: ;
@@ -34,10 +34,10 @@ $(MAKEFN) : ;
 # OBJDIR and do the job.
 % :: $(OBJDIR) ;
 
-# put a specific (more simple) 'clean' target here which overrides the 
-# prog/lib settings
+# put a specific (simpler) 'clean' target here which overrides the prog/lib 
+# settings
 .PHONY: clean
 clean:
 ifneq ($(OBJDIR),/)
-	-rm -f $(OBJDIR)/* && rmdir $(OBJDIR)
+	-$(RM) "$(OBJDIR)/*" && rmdir "$(OBJDIR)"
 endif

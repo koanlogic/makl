@@ -8,8 +8,8 @@ CFLAGS += -I../include
 LDFLAGS += -L../lib -lx
 DPADD += ../lib/libx.a
 
-BINOWN = pippo
-BINGRP = pluto 
+#BINOWN = pippo
+#BINGRP = pluto 
 
 CLEANFILES += .before
 

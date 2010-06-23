@@ -78,7 +78,7 @@ clean: clean-hook-pre realclean clean-hook-post
 CLEANFILES += $(__PROG) $(OBJS)
 
 realclean:
-	rm -f $(CLEANFILES)
+	$(RM) -f $(CLEANFILES)
 
 clean-hook-pre clean-hook-post:
 else
@@ -101,9 +101,9 @@ __CHOWN_ARGS = $(call calc-chown-args, $(BINOWN), $(BINGRP))
 __INSTALL_ARGS = $(call calc-install-args, $(BINOWN), $(BINGRP))
 
 $(BINDIR):
-	$(MKINSTALLDIRS) $(BINDIR)
+	$(MKINSTALLDIRS) "$(BINDIR)"
 ifneq ($(strip $(__CHOWN_ARGS)),)
-	chown $(__CHOWN_ARGS) $(BINDIR)
+	chown $(__CHOWN_ARGS) "$(BINDIR)"
 endif
 
 realinstall: $(BINDIR)
@@ -111,7 +111,7 @@ ifneq ($(strip $(STRIP)),)
 	$(STRIP) $(__PROG)
 endif
 	$(INSTALL) $(INSTALL_COPY) $(__INSTALL_ARGS) \
-	    -m $(BINMODE) $(__PROG) $(BINDIR)
+	    -m $(BINMODE) $(__PROG) "$(BINDIR)"
 
 install-hook-pre install-hook-post:
 else
@@ -125,8 +125,8 @@ ifndef NO_UNINSTALL
 uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
-	rm -f $(BINDIR)/$(__PROG)
-	-rmdir $(BINDIR) 2>/dev/null
+	$(RM) -f "$(BINDIR)/$(__PROG)"
+	-rmdir "$(BINDIR)" 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
 else

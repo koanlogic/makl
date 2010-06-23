@@ -83,7 +83,7 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 
 realuninstall:
 	for f in $(FILES); do \
-	    $(RM) "$(FILES_DIR)/`basename "$$f"`" ; \
+	    $(RM) -f "$(FILES_DIR)/`basename "$$f"`" ; \
 	done
 	-rmdir "$(FILES_DIR)" 2>/dev/null
 

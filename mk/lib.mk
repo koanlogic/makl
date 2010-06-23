@@ -70,7 +70,7 @@ all-static: $(LIB_NAME)
 # always create archive ex-nihil
 $(LIB_NAME): $(OBJS)
 	@echo "===> building standard $(__LIB) library"
-	$(RM) $@
+	$(RM) -f $@
 	$(AR) $(ARFLAGS) $@ `$(LORDER) $^ | $(TSORT)`
 	$(RANLIB) $@
 
@@ -88,7 +88,7 @@ clean: clean-hook-pre clean-static clean-shared clean-hook-post
 CLEANFILES += $(OBJS) $(LIB_NAME)
 
 clean-static:
-	$(RM) $(CLEANFILES)
+	$(RM) -f $(CLEANFILES)
 
 clean-hook-pre clean-hook-post:
 else
@@ -136,7 +136,7 @@ uninstall: uninstall-hook-pre realuninstall uninstall-hook-post
 realuninstall: uninstall-static uninstall-shared
 
 uninstall-static:
-	$(RM) "$(LIBDIR)/$(LIB_NAME)"
+	$(RM) -f "$(LIBDIR)/$(LIB_NAME)"
 	-rmdir "$(LIBDIR)" 2>/dev/null
 
 uninstall-hook-pre uninstall-hook-post:
