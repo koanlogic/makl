@@ -4,7 +4,7 @@ ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
 	- pkgs: rel-git.sh removed makl dependency for dist
-	- mk: global rethink of quote handling
+	- mk: global rethinking of quote handling
 
 MaKL 1.8.2
 	- cf: fixed broken disabling of features ; safer tmp dir and better error ;
