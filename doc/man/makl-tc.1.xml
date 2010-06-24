@@ -78,7 +78,7 @@ Install to a non-standard location a custom toolchain file.  Note that without s
 
 <bugs>
 <p>At present .tc files' list is quite limited and coarse grained.  Our goal is to add incrementally as much .tc files as possible while our porting experience grows.</p>
-    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+    <p>If you catch a bug, please drop a note to makl-bug@koanlogic.com.</p>
 </bugs>
 
 </manpage>

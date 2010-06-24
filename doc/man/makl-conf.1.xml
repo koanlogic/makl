@@ -65,7 +65,7 @@ Tell MaKL that you want libraries to be built as shared objects and placed in a 
 </seealso>
 
 <bugs>
-    <p>If you catch a bug, please drop a note to makl-users@koanlogic.com.</p>
+    <p>If you catch a bug, please drop a note to makl-bug@koanlogic.com.</p>
 </bugs>
 
 </manpage>
