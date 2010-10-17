@@ -1,0 +1,22 @@
+#
+# GNU/OpenSolaris (gcc-dev suite installed)
+#
+
+CC = /usr/gnu/bin/cc
+AR = /usr/gnu/bin/ar
+LD = /usr/gnu/bin/ld
+RANLIB = /usr/gnu/bin/ranlib
+
+# no --{start,end}-group (NOTE: leave a blank after '=')
+PRE_LDADD = __UNSET__
+POST_LDADD = __UNSET__
+
+ECHO = /usr/gnu/bin/echo
+
+# need SUNWscp package
+INSTALL = /usr/ucb/install
+
+LORDER = /usr/bin/lorder
+TSORT = /usr/gnu/bin/tsort
+
+MKINSTALLDIRS = /bin/mkdir -p
