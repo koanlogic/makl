@@ -84,10 +84,22 @@ then
         freebsd*)   boot_file="boot/freebsd.cfg" ;; 
         netbsd*)    boot_file="boot/netbsd.cfg" ;; 
         openbsd*)   boot_file="boot/openbsd.cfg" ;; 
-        solaris*)   boot_file="boot/solaris.cfg" ;;
+        sunos*)
+            grep OpenSolaris /etc/release 2>&1 > /dev/null
+            if [ $? -ne 0 ] 
+            then 
+                boot_file="boot/solaris.cfg"
+            else
+                if [ -d "/usr/gnu/bin" ]
+                then 
+                    boot_file="boot/opensolaris-gnu.cfg"
+                else 
+                    boot_file="boot/opensolaris-sunstudio.cfg"
+                fi
+            fi
+            ;;
         cygwin*)    boot_file="boot/cygwin.cfg" ;;
         mingw*)     boot_file="boot/mingw.cfg" ;;
-        sunos*)     boot_file="boot/solaris.cfg" ;;
         dragonfly*) boot_file="boot/dragonfly.cfg" ;;
         *) 
             echo "no boot file for $host found: trying the default..." 

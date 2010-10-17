@@ -77,7 +77,20 @@ in
         ;;
     sunos*)
         shlib="solaris"
-        toolchain=${shlib}
+        grep OpenSolaris /etc/release 2>&1 > /dev/null
+        if [ $? -ne 0 ] 
+        then 
+            toolchain="solaris" 
+        else
+            if [ -d "/usr/gnu/bin" ]
+            then 
+                # OpenSolaris with GCC-dev suite
+                toolchain="opensolaris-gnu"
+            else 
+                # OpenSolaris with Sun Studio suite
+                toolchain="opensolaris-sunstudio"
+            fi
+        fi
         ;;
     dragonfly*)
         shlib="dragonfly"
