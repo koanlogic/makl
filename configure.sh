@@ -90,11 +90,14 @@ then
             then 
                 boot_file="boot/solaris.cfg"
             else
-                if [ -d "/usr/gnu/bin" ]
+                if [ -d /opt/SunStudioExpress ] 
                 then 
-                    boot_file="boot/opensolaris-gnu.cfg"
-                else 
                     boot_file="boot/opensolaris-sunstudio.cfg"
+                elif [ -d "/usr/gnu/bin" ]
+                then
+                    boot_file="boot/opensolaris-gnu.cfg"
+                else
+                    makl_err 1 "No Sun Studio nor GNU environment found (install gcc-dev or ss-dev)"
                 fi
             fi
             ;;
