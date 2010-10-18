@@ -3,6 +3,7 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
+	- OpenSolaris/GCC and OpenSolaris/SunStudioExpress support
 	- pkgs: rel-git.sh removed makl dependency for dist
 	- mk: global rethinking of quote handling
 	- doc: s/makl-users@koanlogic.com/makl-bug@koanlogic.com
