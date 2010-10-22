@@ -79,12 +79,20 @@ if [ -z "${BOOT_FILE}" ]
 then
     case $host
     in
-        linux*)     boot_file="boot/linux.cfg" ;; 
+        linux*)     boot_file="boot/linux.cfg" ;;
         darwin*)    boot_file="boot/darwin.cfg" ;;
-        freebsd*)   boot_file="boot/freebsd.cfg" ;; 
-        netbsd*)    boot_file="boot/netbsd.cfg" ;; 
-        openbsd*)   boot_file="boot/openbsd.cfg" ;; 
-        minix*)     boot_file="boot/minix.cfg" ;; 
+        freebsd*)   boot_file="boot/freebsd.cfg" ;;
+        netbsd*)    boot_file="boot/netbsd.cfg" ;;
+        openbsd*)   boot_file="boot/openbsd.cfg" ;;
+        minix*)
+            # Prefer GCC if available else fall back to default ACK suite
+            if [ -x "/usr/pkg/bin/gcc" ]
+            then
+                boot_file="boot/minix-gnu.cfg"
+            else
+                boot_file="boot/minix-ack.cfg"
+            fi
+            ;;
         sunos*)
             grep OpenSolaris /etc/release 2>&1 > /dev/null
             if [ $? -ne 0 ] 

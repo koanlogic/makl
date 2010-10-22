@@ -98,7 +98,13 @@ in
         ;;
     minix*)
         shlib="null"
-        toolchain="minix"
+        # Prefer GCC if available else fall back to default ACK suite
+        if [ -x "/usr/pkg/bin/gcc" ]
+        then 
+            toolchain="minix-gnu"
+        else 
+            toolchain="minix-ack"
+        fi
         ;;
     *)
         shlib="null"
