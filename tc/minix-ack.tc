@@ -1,5 +1,5 @@
 #
-# Tested on Minix 3.1.8 with gcc package installed
+# Tested on Minix 3.1.8 with default ACK suite
 #
 
 CC = cc
