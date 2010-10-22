@@ -96,6 +96,10 @@ in
         shlib="dragonfly"
         toolchain=${shlib}
         ;;
+    minix*)
+        shlib="null"
+        toolchain="minix"
+        ;;
     *)
         shlib="null"
         toolchain="default"

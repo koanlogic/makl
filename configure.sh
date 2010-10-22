@@ -84,6 +84,7 @@ then
         freebsd*)   boot_file="boot/freebsd.cfg" ;; 
         netbsd*)    boot_file="boot/netbsd.cfg" ;; 
         openbsd*)   boot_file="boot/openbsd.cfg" ;; 
+        minix*)     boot_file="boot/minix.cfg" ;; 
         sunos*)
             grep OpenSolaris /etc/release 2>&1 > /dev/null
             if [ $? -ne 0 ] 

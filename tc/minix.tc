@@ -1,0 +1,8 @@
+#
+# Tested on Minix 3.1.8 with gcc package installed
+#
+
+CC = gcc
+MKINSTALLDIRS = mkdir -p
+LORDER = echo
+TSORT = cat

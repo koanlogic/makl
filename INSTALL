@@ -39,3 +39,8 @@
 
     $ /usr/bin/sh configure.sh [--prefix=...]
     # /usr/bin/make install
+
+  g. Minix
+
+    $ /usr/pkg/bin/bash configure.sh [...]
+    # /usr/pkg/bin/gmake SHELL=/usr/pkg/bin/bash install
