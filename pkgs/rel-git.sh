@@ -50,7 +50,7 @@ make_tag()
         || err "bailing out on client request"
 
     echo "==> tagging as \"${REL_TAG}\""
-    git tag ${REL_TAG} || err "git tag command failed"
+    git tag -f ${REL_TAG} || err "git tag command failed"
     git push --tags origin master || err "git push command failed"
 }
 
