@@ -3,10 +3,9 @@
 # MaKL release script
 
 # set these !
-REL_TAG="MAKL_REL_1_8_2"
-REL_VERSION="1.8.2"
+REL_TAG="MAKL_REL_1_8_3"
+REL_VERSION="1.8.3"
 
-# cvs 
 REL_ROOT="makl"
 
 REL_DIR="/tmp/MAKL_REL"
