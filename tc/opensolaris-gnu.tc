@@ -3,6 +3,7 @@
 #
 
 CC = /usr/gnu/bin/cc
+CXX = /usr/gnu/bin/g++
 AR = /usr/gnu/bin/ar
 LD = /usr/gnu/bin/ld
 RANLIB = /usr/gnu/bin/ranlib

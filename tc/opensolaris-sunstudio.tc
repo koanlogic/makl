@@ -3,7 +3,9 @@
 #
 
 CC = /opt/SunStudioExpress/bin/cc
+CXX = /opt/SunStudioExpress/bin/CC
 CFLAGS = __UNSET__
+CXXFLAGS = __UNSET__
 AR = /usr/ccs/bin/ar
 LD = /usr/ccs/bin/ld
 RANLIB = /usr/ccs/bin/ranlib

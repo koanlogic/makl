@@ -2,6 +2,9 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
+MaKL x.y.z
+	- OpenSolaris toolchains fix (add explicit C++ compiler)
+
 MaKL 1.8.3
 	- Minix/GCC, Minix/ACK, OpenSolaris/GCC and OpenSolaris/SunStudioExpress
 	  support added
