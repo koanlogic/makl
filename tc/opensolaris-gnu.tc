@@ -2,11 +2,12 @@
 # GNU/OpenSolaris (gcc-dev suite installed)
 #
 
-CC = /usr/gnu/bin/cc
-CXX = /usr/gnu/bin/g++
-AR = /usr/gnu/bin/ar
-LD = /usr/gnu/bin/ld
-RANLIB = /usr/gnu/bin/ranlib
+CC = /usr/sfw/bin/gcc
+CXX = /usr/sfw/bin/g++
+AR = /usr/sfw/bin/gar
+AS = /usr/sfw/bin/gas
+LD = /usr/sfw/bin/gld
+RANLIB = /usr/sfw/bin/granlib
 
 # no --{start,end}-group (NOTE: leave a blank after '=')
 PRE_LDADD = __UNSET__
