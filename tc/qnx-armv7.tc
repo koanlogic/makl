@@ -1,0 +1,18 @@
+# QNX ARM7
+
+CC = qcc -V gcc_ntoarmv7le
+CXX = QCC -V gcc_ntoarmv7le
+AR = qcc -V gcc_ntoarmv7le -A
+ARFLAGS = 
+LDFLAGS = -lsocket
+
+RANLIB = ntoarmv7-ranlib
+STRIP = ntoarmv7-strip
+
+# qcc uses -M for map fibes
+MKDEP_CPP = ntoarmv7-gcc -E
+
+LORDER = echo
+TSORT = cat
+
+CFLAGS = __UNSET__

@@ -5,6 +5,7 @@ ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 MaKL x.y.z
 	- OpenSolaris toolchains fix (add explicit C++ compiler)
 	- QNX momentics 6.5.0 toolchain fix
+	- QNX GNU toolchain for ARMv7 added
 
 MaKL 1.8.3
 	- Minix/GCC, Minix/ACK, OpenSolaris/GCC and OpenSolaris/SunStudioExpress
