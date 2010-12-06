@@ -17,4 +17,4 @@ MKDEP_CPP = ntoppc-gcc -E
 LORDER = echo
 TSORT = cat
 
-
+CFLAGS = __UNSET__

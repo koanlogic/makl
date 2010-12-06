@@ -17,3 +17,4 @@ MKDEP_CPP = ntoarm-gcc -E
 LORDER = echo
 TSORT = cat
 
+CFLAGS = __UNSET__
