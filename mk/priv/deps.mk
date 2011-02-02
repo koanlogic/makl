@@ -28,7 +28,7 @@ endif
 
 realdepend:
 	touch $(DEPENDFILE)
-	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) -a $(__SRCS)
+	$(MKDEP) -f $(DEPENDFILE) $(CFLAGS) $(CXXFLAGS) -a $(__SRCS)
 
 afterdepend: realdepend
 ifdef __PROG
