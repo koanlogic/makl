@@ -3,6 +3,7 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL x.y.z
+	- Add clang toolchain on Darwin (darwin-clang.tc)
 	- fix depend target for C++ sources
 	- OpenSolaris toolchains fix (add explicit C++ compiler)
 	- QNX momentics 6.5.0 toolchain fix
