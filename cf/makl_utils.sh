@@ -23,6 +23,21 @@ makl_version ()
     return
 }
 
+#/*! @function      makl_test_dir
+#
+#    @abstract      Where MaKL configuration test files will be placed.
+#    @discussion    Where MaKL configuration test files will be placed.
+#                   Default is `pwd`/build.
+#*/
+makl_test_dir ()
+{
+    [ $# -eq 1 ] || makl_err 1 "makl_test_dir(): missing test directory name!"
+
+    makl_info "setting test dir to $1"
+
+    makl_set "__test_dir__" "$1"
+}
+
 #/*! @function      makl_pkg_name
 #
 #    @abstract      Set the package name.

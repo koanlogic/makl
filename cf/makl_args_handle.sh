@@ -228,7 +228,7 @@ __makl_prefix ()
 }
 
 ## Handler.  Set the base directory for a specific data type $1.  
-##           For a list of valid data types please refer to "makl-conf --help".
+##           For a list of valid directory types please refer to "makl-conf --help".
 ##           $2 indicates the path to the base directory.
 __makl_dir ()
 {

@@ -3,6 +3,7 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL x.y.z
+	- cf: makl_test_dir() to specify custom directory for test files
 	- Add clang toolchain on Darwin (darwin-clang.tc)
 	- fix depend target for C++ sources
 	- OpenSolaris toolchains fix (add explicit C++ compiler)
