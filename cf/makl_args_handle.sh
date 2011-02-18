@@ -195,8 +195,8 @@ _makl_help_opts()
             } || {
                 "${ECHO}" -n "--"${id}${pms} "     "  ${dsc}
                 [ "${dft}" = " " ] || "${ECHO}" -n " [${dft}]"
+                "${ECHO}"
             }
-            "${ECHO}"
         done
     }
 }
