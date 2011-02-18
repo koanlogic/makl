@@ -56,7 +56,10 @@ makl_args_add ()
 #*/
 _makl_args_print () 
 {
-    a=`"${ECHO}" -n "$6  --$1$2" | 
+    a=""
+    [ $6 ] && a="$6  "
+
+    a=`"${ECHO}" -n "${a}--$1$2" | 
         "${SED}" 's/X/'"$4"'/'`
 
     if [ -z "$7" ]; then
