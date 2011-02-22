@@ -36,7 +36,7 @@ makl_libdep ()
     f_deps="${makl_run_dir}"/deps_lib 
 
     if [ ! -r "${tst}" ]; then
-        tst=`pwd`/build/lib${dep}.c
+        tst=`makl_get "__test_dir__"`/lib${dep}.c
         if [ ! -r "${tst}" ]; then
             makl_warn "makl_libdep: no test file for ${dep} (${tst})!" 
             return 2

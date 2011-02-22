@@ -31,16 +31,12 @@ makl_args_def   "noclean" \
 # target options
 makl_args_def   "prefix" \
                 "=BASE" \
-                "BASE=`makl_get_var_mk \"DESTDIR\"`" \
+                "BASE=/usr/local" \
                 "set BASE directory for installation"
 makl_args_def   "dir" \
                 "-X=BASE" \
                 "" \
                 "set BASE directory for X"
-makl_args_def   "find_lib-X=DIRNAME" \
-                "-X=DIRNAME" \
-                "" \
-                "set name of directory from BASE to find for lib X"
 makl_args_add   "dir" "bin"     "BASE=/usr/local/bin"       "" \
                 "binaries"
 makl_args_add   "dir" "sbin"    "BASE=/usr/local/sbin"      "" \
@@ -80,15 +76,21 @@ makl_args_def   "defbinmode" \
 
 
 # library dependency
+makl_args_def   "libs" \
+                "=BASE" \
+                "BASE=/usr/local:/usr" \
+                "search for all libs in BASE/lib"
+
 makl_args_def   "lib" \
                 "-X=BASE" \
                 "BASE=/usr/local:/usr" \
-                "set lib X to have BASE dir"
+                "search for lib X in BASE/lib"
 
-makl_args_def   "libs" \
-                "=BASE" \
+makl_args_def   "find_lib-X=DIRNAME" \
+                "-X=DIRNAME" \
                 "" \
-                "set all libs to have BASE dir"
+                "set name of directory from BASE to search for libs"\
+" (instead of BASE/lib)"
 
 # feature configuration
 makl_args_def   "featx" \

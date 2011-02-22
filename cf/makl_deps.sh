@@ -4,41 +4,46 @@
 # Save required or optional dependency to file
 _makl_req ()
 {
-    if [ -z `makl_get "__noconfig__"` ]; then
+    [ -z `makl_get "__noconfig__"` ] || return
 
-        if [ $1 -eq 1 ]; then
-            makl_info "adding required $3 dependency $4"
-            dft="1"
-        else    # [ $1 -eq 0 ]
-            makl_info "adding optional $3 dependency $4"
-            if [ $2 -eq 0 ]; then
-                dft="00"
-            else    # [ $2 -eq 1 ]
-                dft="01"
-            fi
-            shift
+    req=$1
+
+    if [ ${req} -eq 1 ]; then
+        makl_info "adding required $3 dependency $4"
+        dft="1"
+    else    # [ ${req} -eq 0 ]
+        makl_info "adding optional $3 dependency $4"
+        if [ $2 -eq 0 ]; then
+            dft="00"
+        else    # [ $2 -eq 1 ]
+            dft="01"
         fi
-
-        file="${makl_run_dir}"/deps_"$2"
-        
-        # check if requirement is already defined
-        makl_tab_find "${file}" "$3"
-        [ $? -eq 0 ] && return
-
-        case "$2" in
-            lib)
-                "${ECHO}" "$3|${dft}|$4|$5||" >> "${file}"
-            ;;
-            featx)
-                "${ECHO}" "$3|${dft}|$4" >> "${file}"
-            ;;
-            *)
-                makl_err 2 "Invalid dependency type: $2"
-            ;;
-        esac
+        shift
     fi
 
-    makl_args_add "$2" $3 "" "<*>" ""
+    file="${makl_run_dir}"/deps_"$2"
+
+    # check if requirement is already defined
+    makl_tab_find "${file}" "$3"
+    [ $? -eq 0 ] && return
+
+    case "$2" in
+        lib)
+            "${ECHO}" "$3|${dft}|$4|$5||" >> "${file}"
+        ;;
+        featx)
+            "${ECHO}" "$3|${dft}|$4" >> "${file}"
+        ;;
+        *)
+            makl_err 2 "Invalid dependency type: $2"
+        ;;
+    esac
+
+    if [ ${req} -eq 1 ]; then
+        makl_args_add "$2" $3 "" "<*>" ""       #mark as required
+    else
+        makl_args_add "$2" $3 "" "<?>" ""       #mark as optional
+    fi
 }
 
 #/*! @function      makl_require

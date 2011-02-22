@@ -16,3 +16,6 @@ makl_set    "__C__" 1
 
 # installation directory
 makl_set            "__prefix__"    "/usr/local" 
+
+# default directory for configuration test files
+makl_set            "__test_dir__"  `pwd`/build
