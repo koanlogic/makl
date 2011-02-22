@@ -195,7 +195,7 @@ include priv/deps.mk
 	@echo "CLEANFILES       additional clean files (use +=)                    "
 	@echo "DISTCLEANFILES   additional files to be removed when 'distclean'ing "
 	@echo "CFLAGS           flags to be supplied to the C compiler             "
-	@echo "CXXFLAGS         flags supplied to be supplied to the C++ compiler  "
+	@echo "CXXFLAGS         flags to be supplied to the C++ compiler           "
 	@echo "EXTRA_OBJS       other file objects that build the library          "
 	@echo "LIBOWN           user ID of the installed executable                "
 	@echo "LIBGRP           group ID of the installed excutable                "
