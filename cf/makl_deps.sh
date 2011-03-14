@@ -219,13 +219,14 @@ _makl_search_featx ()
     path=`makl_tab_get ${f_args_x} $1 2`
 
     # get dependency values
-    var=`makl_tab_get ${f_deps_x} $1 3`
-    
+    varname=`makl_tab_get ${f_deps_x} $1 3`
+    [ -z ${varname} ] && varname=$1
+
     if [ "${path}" ]; then
         # check path given as argument
         if [ -x "${path}" ]; then
-            makl_set_var "HAVE_"`makl_upper $1`
-            [ -z "${var}" ] || makl_set_var "PATH_"`makl_upper $1` "${path}" 1
+            makl_set_var "HAVE_"`makl_upper ${varname}`
+            makl_set_var "PATH_"`makl_upper ${varname}` "${path}" 1
             return 0
         fi
     else
@@ -236,9 +237,8 @@ _makl_search_featx ()
         # search for executable file
         for dir in ${dirs}; do
             if [ -x "${dir}/$1" ]; then
-                makl_set_var "HAVE_"`makl_upper $1`
-                [ -z "${var}" ] || \
-                    makl_set_var "PATH_"`makl_upper $1` ${dir}/$1 1
+                makl_set_var "HAVE_"`makl_upper ${varname}`
+                makl_set_var "PATH_"`makl_upper ${varname}` ${dir}/$1 1
                 return 0
             fi
         done 
