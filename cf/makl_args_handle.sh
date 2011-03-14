@@ -378,8 +378,8 @@ _makl_arg_handle ()
     rval=`"${ECHO}" $1 | "${CUT}" -s -f2- -d"="`
 
     cmd=`"${ECHO}" ${lval} | "${CUT}" -f3 -d"-"`
-    id=`"${ECHO}" ${lval} | "${CUT}" -f4 -d"-"` 
-    
+    id=`"${ECHO}" ${lval} | "${CUT}" -f4- -d"-"`
+
     makl_dbg "running command '${cmd}' id '${id}'"
 
     if [ -z "${cmd}" ]; then
