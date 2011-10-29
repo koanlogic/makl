@@ -80,9 +80,15 @@ CC=${CC-"cc"}
 MKDEP_CPP=${MKDEP_CPP-"${CC} -E"}
 MKDEP_CPP_OPTS=${MKDEP_CPP_OPTS-"-M"};
 
-echo "# $@" > $TMP	# store arguments for debugging
+# recent versions of GCC don't like that -a argument
+MKDEP_CPP_ARGS=`echo "$@" | sed \
+               -e 's/^-a[ \t]/ /g' \
+               -e 's/[ \t]-a[ \t]/ /g' \
+               -e 's/[ \t]-a$/ /g'`
 
-if $MKDEP_CPP $MKDEP_CPP_OPTS "$@" >> $TMP; then :
+echo "# $MKDEP_CPP_ARGS" > $TMP	# store arguments for debugging
+
+if $MKDEP_CPP $MKDEP_CPP_OPTS $MKDEP_CPP_ARGS >> $TMP; then :
 else
 	echo 'mkdep: compile failed' >&2
 	exit 1
