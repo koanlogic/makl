@@ -14,7 +14,7 @@ maklsh_help ()
     fi
 
     ${MAKLSH_ECHO} "                                                         "
-    ${MAKLSH_ECHO} "MaKL version ${ver}, (c) 2005-2010 Koanlogic srl         "
+    ${MAKLSH_ECHO} "MaKL version ${ver}, (c) 2005-2012 Koanlogic srl         "
     ${MAKLSH_ECHO} "This is free software released under the BSD license.    "
     ${MAKLSH_ECHO} "                                                         "
     ${MAKLSH_ECHO} "Available tools are:                                     "
