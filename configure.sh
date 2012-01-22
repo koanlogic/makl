@@ -67,7 +67,7 @@ __makl_no_man ()
 }
 
 # tool deps
-makl_optional   1 "featx" "xml2man" "PATH_XML2MAN"
+makl_optional   1 "featx" "xml2man"  # => HAVE_XML2MAN, PATH_XML2MAN
 
 makl_args_handle "$@"
 
