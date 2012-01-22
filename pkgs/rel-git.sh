@@ -3,8 +3,8 @@
 # MaKL release script
 
 # set these !
-REL_TAG="MAKL_REL_1_8_3"
-REL_VERSION="1.8.3"
+REL_TAG="MAKL_REL_1_9_0"
+REL_VERSION="1.9.0"
 
 REL_ROOT="makl"
 
