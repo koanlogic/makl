@@ -381,8 +381,10 @@ _makl_file_sub ()
 
     for sub in ${subs}; do 
 
-        [ -r "${sub}.in" ] || \
-            makl_err 2 "makl_file_sub(): could not find ${sub}.in"
+        if [ ! -r "${sub}.in" ]; then
+            makl_warn "makl_file_sub(): could not find ${sub}.in - skipping"
+            continue
+        fi
 
         makl_info "applying substitutions to: ${sub}"
 
