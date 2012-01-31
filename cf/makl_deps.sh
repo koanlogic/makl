@@ -89,11 +89,11 @@ makl_require ()
 #                           optional).  By default the flags are determined 
 #                           by the library name.
 #                       </li>
-#                       <li>
-#                           'featx' $1 $2 $3 $4, where <tt>$4</tt> (optional) 
-#                           is the name of the variable to be defined containing
-#                           the path to the feature. If undefined, no variables
-#                           will be set.
+#                       <li> 'featx' $1 $2 $3 $4, where <tt>$4</tt> (optional)
+#                            is the name of the variables to be defined
+#                            containing feature availability and path (for
+#                            example "FOO" would yield variables "HAVE_FOO = 1"
+#                            and "PATH_FOO = /path/to/foo").
 #                       </li>
 #                   <ul>
 #
