@@ -57,7 +57,13 @@ ifndef BUNDLE
 endif
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) $(SHLIB_OBJS) $(LDADD) $(LDFLAGS)
 
-install-shared:
+$(SHLIBDIR):
+	$(MKINSTALLDIRS) "$(SHLIBDIR)"
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) "$(SHLIBDIR)"
+endif
+
+install-shared: $(SHLIBDIR)
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 ifndef BUNDLE
 	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SHLIB_LINK1)"

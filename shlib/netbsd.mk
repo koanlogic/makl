@@ -42,7 +42,13 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	    $(SHLIB_NAME) /usr/lib/crtbeginS.o --whole-archive \
 	    $(PICNAME) /usr/lib/crtendS.o
 
-install-shared:
+$(SHLIBDIR):
+	$(MKINSTALLDIRS) "$(SHLIBDIR)"
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) "$(SHLIBDIR)"
+endif
+
+install-shared: $(SHLIBDIR)
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SHLIB_LINK)"
 	ln -sf $(SHLIB_NAME) "$(SHLIBDIR)/$(SONAME)"

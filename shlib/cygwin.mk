@@ -32,9 +32,25 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	$(__CC) -o $(SHLIB_NAME) $(SHLIB_LDFLAGS) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS)
 
+# build arguments list for 'install-shared' operation
+__CHOWN_ARGS_BIN = $(call calc-chown-args, $(BINOWN), $(BINGRP))
+__INSTALL_ARGS_BIN = $(call calc-install-args, $(BINOWN), $(BINGRP))
+
+$(BINDIR):
+	$(MKINSTALLDIRS) "$(BINDIR)"
+ifneq ($(strip $(__CHOWN_ARGS_BIN)),)
+	chown $(__CHOWN_ARGS_BIN) "$(BINDIR)"
+endif
+
+$(SHLIBDIR):
+	$(MKINSTALLDIRS) "$(SHLIBDIR)"
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) "$(SHLIBDIR)"
+endif
+
 # cyg*.dll's go to /bin, while import library go to /lib
-install-shared:
-	$(INSTALL) $(__INSTALL_ARGS) -m $(BINMODE) $(SHLIB_NAME) "$(BINDIR)"
+install-shared: $(BINDIR) $(SHLIBDIR)
+	$(INSTALL) $(__INSTALL_ARGS_BIN) -m $(BINMODE) $(SHLIB_NAME) "$(BINDIR)"
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_IMP) "$(SHLIBDIR)"
 
 uninstall-shared:

@@ -33,7 +33,13 @@ $(SHLIB_NAME): $(SHLIB_OBJS)
 	$(__CC) $(SHLIB_LDFLAGS) -o $(SHLIB_NAME) \
 	    `$(LORDER) $(SHLIB_OBJS) | $(TSORT)` $(LDADD) $(LDFLAGS) 
 
-install-shared:
+$(SHLIBDIR):
+	$(MKINSTALLDIRS) "$(SHLIBDIR)"
+ifneq ($(strip $(__CHOWN_ARGS)),)
+	chown $(__CHOWN_ARGS) "$(SHLIBDIR)"
+endif
+
+install-shared: $(SHLIBDIR)
 	$(INSTALL) $(__INSTALL_ARGS) -m $(LIBMODE) $(SHLIB_NAME) "$(SHLIBDIR)"
 
 uninstall-shared:
