@@ -20,5 +20,5 @@ hint: ; @echo "groff -Wall -mtty-char -Tascii -mandoc -c <page>"
 include man.mk
 
 else    # NO_MAN
-% ::
+%: ;
 endif   # !NO_MAN

@@ -4,6 +4,7 @@ ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
 	- mk: force MKINSTALLDIRS + chown before installing shlibs
+	- build (from git): fix catch-all target for install
 
 MaKL 1.9.0
 	- mk: bug in mkdep.gcc.sh helper that was causing a compilation error on
