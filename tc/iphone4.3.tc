@@ -1,0 +1,23 @@
+# iphone 4.3 toolchain
+
+IOS_PLATFORM = iPhoneOS
+IOS_MIN_VERSION = 4.3
+IOS_MAX_VERSION = 4.3
+IOS_DEVROOT = /Developer/Platforms/${IOS_PLATFORM}.platform/Developer
+IOS_SDKROOT = ${IOS_DEVROOT}/SDKs/${IOS_PLATFORM}${IOS_MAX_VERSION}.sdk
+
+CC = ${IOS_DEVROOT}/usr/bin/llvm-gcc
+CXX = ${IOS_DEVROOT}/usr/bin/llvm-g++
+CPP = ${IOS_DEVROOT}/usr/bin/cpp
+LD = ${IOS_DEVROOT}/usr/bin/ld
+AR = ${IOS_DEVROOT}/usr/bin/ar
+NM = ${IOS_DEVROOT}/usr/bin/nm
+RANLIB = ${IOS_DEVROOT}/usr/bin/ranlib
+
+CFLAGS = -pipe -isysroot ${IOS_SDKROOT} -arch armv6 -marm -mthumb -fPIC -miphoneos-version-min=${IOS_MIN_VERSION}
+CXXFLAGS = ${CFLAGS}
+
+MKINSTALLDIRS = /bin/mkdir -p
+
+# darwin 9.0.0: avoid bash3 echo builtin
+ECHO = /bin/echo

@@ -1,0 +1,22 @@
+# iphone (4.3) simulator toolchain
+
+IOS_PLATFORM = iPhoneSimulator
+IOS_SIM_VERSION = 4.3
+IOS_DEVROOT = /Developer/Platforms/${IOS_PLATFORM}.platform/Developer
+IOS_SDKROOT = ${IOS_DEVROOT}/SDKs/${IOS_PLATFORM}${IOS_SIM_VERSION}.sdk
+
+CC = ${IOS_DEVROOT}/usr/bin/llvm-gcc
+CXX = ${IOS_DEVROOT}/usr/bin/llvm-g++
+CPP = ${IOS_DEVROOT}/usr/bin/cpp
+LD = ${IOS_DEVROOT}/usr/bin/ld
+AR = ${IOS_DEVROOT}/usr/bin/ar
+NM = ${IOS_DEVROOT}/usr/bin/nm
+RANLIB = ${IOS_DEVROOT}/usr/bin/ranlib
+
+CFLAGS = -arch i386 -pipe -fasm-blocks -isysroot ${IOS_SDKROOT} -fvisibility=hidden -gdwarf-2 
+CXXFLAGS = ${CFLAGS}
+
+MKINSTALLDIRS = /bin/mkdir -p
+
+# darwin 9.0.0: avoid bash3 echo builtin
+ECHO = /bin/echo

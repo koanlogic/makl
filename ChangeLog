@@ -3,6 +3,7 @@ $Id: ChangeLog,v 1.81 2010/06/07 19:50:04 stewy Exp $
 ChangeLog file of MaKL - http://www.koanlogic.com/makl/changelog.html
 
 MaKL X.Y.Z
+	- tc: added iPhone 4.3 (and simulator) toolchains
 	- mk: force MKINSTALLDIRS + chown before installing shlibs
 	- build (from git): fix catch-all target for install; fail compiling man pages
 	  if HAVE_XML2MAN is not defined
