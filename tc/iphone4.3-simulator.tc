@@ -13,7 +13,7 @@ AR = ${IOS_DEVROOT}/usr/bin/ar
 NM = ${IOS_DEVROOT}/usr/bin/nm
 RANLIB = ${IOS_DEVROOT}/usr/bin/ranlib
 
-CFLAGS = -arch i386 -pipe -fasm-blocks -isysroot ${IOS_SDKROOT} -fvisibility=hidden -gdwarf-2 
+CFLAGS = -arch i386 -pipe -fasm-blocks -isysroot ${IOS_SDKROOT} -fvisibility=hidden -gdwarf-2 -mmacosx-version-min=10.3
 CXXFLAGS = ${CFLAGS}
 
 MKINSTALLDIRS = /bin/mkdir -p
